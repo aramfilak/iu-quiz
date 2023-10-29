@@ -8,9 +8,9 @@
 
 - run project locally
 
-  ```ts
+  ```js
   npm run dev
   ```
 
-  - client-local-URL http://localhost:5173
-  - server-local-URL http://localhost:4000
+  - default client-local-URL http://localhost:3000
+  - default server-local-URL http://localhost:4000

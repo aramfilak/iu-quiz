@@ -10,7 +10,7 @@
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "strictPropertyInitialization": false,
-    "lib": ["es5", "es6"]
+    "lib": ["es5", "es6", "ESNext"],
+    "sourceMap": true
   }
 }

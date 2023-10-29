@@ -2,8 +2,10 @@ import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
 import cors from 'cors';
-dotenv.config();
+import { PrismaClient } from '@prisma/client';
 
+dotenv.config();
+const prisma = new PrismaClient();
 const app = express();
 
 /*
@@ -12,13 +14,30 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(morgan('dev'));
+
 /*
  * ROUTES
  */
 
-app.get('/users', async (req: Request, res: Response) => {});
+app.get('/users', async (req: Request, res: Response) => {
+  try {
+    const users = await prisma.user.findMany();
 
-app.post('/users', async (req: Request, res: Response) => {});
+    res.send(users);
+  } catch (e) {
+    console.error(e);
+  }
+});
+
+app.post('/users', async (req: Request, res: Response) => {
+  try {
+    const user = await prisma.user.create({ data: req.body });
+    console.log(user);
+    res.send(user);
+  } catch (e) {
+    console.log(e);
+  }
+});
 
 /*
  * ERROR HANDLER
@@ -29,15 +48,18 @@ app.post('/users', async (req: Request, res: Response) => {});
  */
 (async function main() {
   const port = 4000;
-  try {
-    console.log('  ➜  Data Source has been initialized ✅');
+  const serverLocal = `http://localhost:${port}`;
 
+  try {
+    await prisma.$connect();
+    console.log('  ➜  Data Source has been initialized ✅');
     app.listen(port, () => {
       console.log('  ➜  Server listening on port', port, '🛜');
-      console.log('  ➜  Local:', `http://localhost:${port}`);
+      console.log('\x1b[1m', ' ➜  Local:', '\x1b[36m', serverLocal);
     });
   } catch (e) {
-    console.error('Server Crashed 500 🛑');
+    await prisma.$disconnect();
+    console.error('\x1b[0;31m', ' ➜  Server error 500 🚨');
     console.error(e);
     process.exit(1);
   }
