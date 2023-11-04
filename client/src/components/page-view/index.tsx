@@ -1,8 +1,20 @@
-import { ReactNode } from 'react';
+import { HTMLAttributes, ReactNode } from 'react';
 import './style.scss';
+import classNames from 'classnames';
 
-function PageView({ children }: { children: ReactNode }) {
-  return <div className="page-view">{children}</div>;
+interface Props extends HTMLAttributes<HTMLDivElement> {
+  attributes?: HTMLAttributes<HTMLDivElement>;
+  children: ReactNode;
+  additionalClasses?: string[];
+}
+function PageView({ children, attributes, additionalClasses }: Props) {
+  const pageViewClassNames = classNames('page-view', additionalClasses);
+
+  return (
+    <div className={pageViewClassNames} {...attributes}>
+      {children}
+    </div>
+  );
 }
 
 export default PageView;

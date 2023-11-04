@@ -1,18 +1,18 @@
 import './style.scss';
-import PageNotFound404illustration from '../../assets/illustrations/undraw_page_not_found_re_e9o6.svg';
+import PageNotFound404illustration from '../../assets/illustrations/page-not-found-illustration.svg';
 import Container from '../../components/container';
 import { Button, Flex, Image, Text } from '@chakra-ui/react';
 import PageView from '../../components/page-view';
 import { useNavigate } from 'react-router-dom';
 
-function PageNotFound404() {
+function NotFound404() {
   const navigate = useNavigate();
 
   return (
     <PageView>
-      <Container>
+      <Container additionalClasses={['not-found-404-container']}>
         <Image
-          className="img-animation"
+          className="page-not-found-illustration"
           marginBlock={'20'}
           width={'lg'}
           src={PageNotFound404illustration}
@@ -37,4 +37,4 @@ function PageNotFound404() {
   );
 }
 
-export default PageNotFound404;
+export default NotFound404;

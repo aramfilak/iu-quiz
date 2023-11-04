@@ -1,6 +1,5 @@
 @use '../../sass/abstracts/' as abs;
+
 .page-view {
-  min-height: 100vh;
-  padding-block: abs.toRem(60);
   background-color: var(--light-peach);
 }

@@ -1,9 +1,6 @@
-@use '../../sass/abstracts/mixins' as abs;
+@use '../../sass/abstracts/' as abs;
 
 .container {
+  padding-block: abs.toRem(20);
   @include abs.container();
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
