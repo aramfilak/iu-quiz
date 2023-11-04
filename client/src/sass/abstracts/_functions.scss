@@ -1,0 +1,24 @@
+@use 'sass:math';
+/// Convert 'px' unit into 'rem' unit
+///
+/// @param {number} $pixel
+///
+/// @return {string} value in rem include 'rem' suffix
+@function toRem($pixel) {
+  @if math.is-unitless($pixel) {
+    @return math.div($pixel, 16) + rem;
+  }
+  @error "Invalid Input. Only numbers are allowed";
+}
+
+/// Convert 'px' unit into 'em' unit
+///
+/// @param {number} $pixel
+///
+/// @return {string} value in em include 'em' suffix
+@function toEm($pixel) {
+  @if math.is-unitless($pixel) {
+    @return math.div($pixel, 16) + em;
+  }
+  @error "Invalid Input. Only numbers are allowed";
+}

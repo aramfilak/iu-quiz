@@ -1,0 +1,18 @@
+.img-animation {
+  animation: up-and-down 5s ease infinite alternate;
+}
+@keyframes up-and-down {
+  0%,
+  100% {
+    transform: translateX(-10%);
+  }
+  40% {
+    transform: translateY(10%);
+  }
+  60% {
+    transform: translateX(10%);
+  }
+  80% {
+    transform: translateY(-10%);
+  }
+}

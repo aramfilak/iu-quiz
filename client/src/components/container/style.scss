@@ -1,0 +1,9 @@
+@use '../../sass/abstracts/mixins' as abs;
+
+.container {
+  @include abs.container();
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
