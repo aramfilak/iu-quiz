@@ -1,5 +1,5 @@
-import { HTMLAttributes, ReactNode } from 'react';
 import './style.scss';
+import { HTMLAttributes, ReactNode } from 'react';
 import classNames from 'classnames';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {

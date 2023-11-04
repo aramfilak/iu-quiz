@@ -4,12 +4,16 @@ import Container from '../../components/container';
 import { Image } from '@chakra-ui/react';
 import authenticationIllustration from '../../assets/illustrations/authentication-illustration.svg';
 import SignIn from '../../components/sign-in';
+import SignUp from '../../components/sign-up';
+import { useAuthStore } from '../../sotres';
 
 function Authentication() {
+  const { showSignForm } = useAuthStore();
   return (
     <PageView>
       <Container additionalClasses={['authentication-container']}>
-        <SignIn />
+        {showSignForm ? <SignIn /> : <SignUp />}
+
         <Image
           className="authentication-illustration"
           maxWidth="30rem"

@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { RiLockPasswordLine, RiMailLine } from 'react-icons/ri';
 import { BiShow, BiHide } from 'react-icons/bi';
+import { useAuthStore } from '../../sotres';
 
 const isRequiredMessage = 'Pflichtfeld *';
 const validationSchema = Yup.object({
@@ -37,6 +38,7 @@ const initialValues: FormValues = { email: '', password: '' };
 
 function Login() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const { toggleAuthForm } = useAuthStore();
 
   const handleSubmit = async (
     { email, password }: FormValues,
@@ -130,12 +132,18 @@ function Login() {
               isLoading={isSubmitting}
               disabled={isSubmitting}
             >
-              Login
+              Anmelden
             </Button>
 
             <Text>
               Noch keinen Account?{' '}
-              <Button type="button" variant="link" colorScheme="teal" fontWeight="extrabold">
+              <Button
+                type="button"
+                variant="link"
+                colorScheme="teal"
+                fontWeight="extrabold"
+                onClick={() => toggleAuthForm()}
+              >
                 Jetzt registrieren
               </Button>
             </Text>
