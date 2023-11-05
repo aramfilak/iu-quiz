@@ -4,14 +4,18 @@ function createErrorResponse(statusCode: number, message: string) {
   return { success: false, statusCode: statusCode, message: message };
 }
 
-function createApiResponse(statusCode: number, message: string) {
-  return { success: true, statusCode: statusCode, message: message };
+function createApiResponse(statusCode: number, data?: any) {
+  return { success: true, statusCode: statusCode, data };
 }
 
 function generateJWT(payload: Object) {
   return jwt.sign(payload, process.env.JWT_SECRET!, {
-    expiresIn: process.env.JWT_LIFETIME
+    expiresIn: '14d'
   });
 }
 
-export { createErrorResponse, createApiResponse, generateJWT };
+function isValidIUEmail(email: string) {
+  return email.match(/@[iI][uU][bB][hH]-fernstudium\.de$|@iu-study\.org$/i);
+}
+
+export { createErrorResponse, createApiResponse, generateJWT, isValidIUEmail };

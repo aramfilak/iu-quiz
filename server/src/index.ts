@@ -4,24 +4,31 @@ import dotenv from 'dotenv';
 import morgan from 'morgan';
 import cors from 'cors';
 import { database } from './config';
+import { authRouter } from './routes';
+import { errorHandler, pathNotFound } from './middlewares';
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 const app = express();
 
 /*
- * MIDDLEWARES
+ * REQUEST MIDDLEWARES
  */
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(cors());
-app.use(morgan('dev'));
+app.use(cookieParser());
 
 /*
  * ROUTES
  */
-
+app.use('/api/v1/auth', authRouter);
 /*
  * ERROR HANDLER
  */
+
+app.use(pathNotFound);
+app.use(errorHandler);
 
 /*
  * MAIN FUNCTION
