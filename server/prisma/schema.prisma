@@ -6,16 +6,15 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
-model User{
-  id Int @id @default(autoincrement())
-  firstName String 
-  lastName String
-   
+model User {
+  id       String @id @unique @default(uuid())
+  email    String @unique
+  password String
 }
 
 // to migrate changes : npx prisma migrate dev
