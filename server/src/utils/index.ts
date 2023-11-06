@@ -5,17 +5,14 @@ function createErrorResponse(statusCode: number, message: string) {
   return { success: false, statusCode: statusCode, message: message };
 }
 
-function createApiResponse(
-  statusCode: number,
-  message?: string,
-  accessToken?: string,
-  data?: Object
-) {
-  return { success: true, statusCode: statusCode, message, accessToken, data };
+function createApiResponse(statusCode: number, message?: string, data?: Object) {
+  return { success: true, statusCode: statusCode, message, data };
 }
 
 function generateJWT(payload: Object) {
-  return `Bearer ${jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: '14d' })}`;
+  return `Bearer ${jwt.sign(payload, process.env.JWT_SECRET!, {
+    expiresIn: process.env.JWT_LIFETIME
+  })}`;
 }
 
 function parseIuStudentName(email: string) {
@@ -28,8 +25,26 @@ function attachCookie(res: Response, cookieName: string, cookieValue: unknown) {
   if (process.env.NODE_ENV === 'development') {
     isSecure = false;
   }
-
   res.cookie(cookieName, cookieValue, { httpOnly: true, secure: isSecure });
 }
 
-export { createErrorResponse, createApiResponse, generateJWT, parseIuStudentName, attachCookie };
+function excludeObjectProperty(propertyName: string, obj: { [key: string]: any }) {
+  const cleanedObject: { [key: string]: any } = {};
+
+  for (const prop in obj) {
+    if (prop !== propertyName) {
+      cleanedObject[prop] = obj[prop];
+    }
+  }
+
+  return cleanedObject;
+}
+
+export {
+  createErrorResponse,
+  createApiResponse,
+  generateJWT,
+  parseIuStudentName,
+  attachCookie,
+  excludeObjectProperty
+};

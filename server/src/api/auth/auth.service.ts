@@ -6,7 +6,7 @@ import { StatusCodes } from 'http-status-codes';
 import { createApiResponse, generateJWT, parseIuStudentName, attachCookie } from '../../utils';
 
 /**
- * Handles user sign-up.
+ * Handles student sign-up.
  * @access public
  */
 
@@ -31,7 +31,7 @@ async function signUp(req: Request, res: Response) {
   const hashedPassword = await bcrypt.hash(password, salt);
 
   const student = await database.student.create({
-    data: { email: email, password: hashedPassword, usernames: parseIuStudentName(email) }
+    data: { email: email, password: hashedPassword, username: parseIuStudentName(email) }
   });
 
   const accessToken = generateJWT({ id: student.id });
@@ -49,7 +49,7 @@ async function signUp(req: Request, res: Response) {
 }
 
 /**
- * Handles user sign-in.
+ * Handles student sign-in.
  * @access public
  */
 
@@ -77,13 +77,12 @@ async function signIn(req: Request, res: Response) {
 
   res
     .status(StatusCodes.OK)
-    .json(createApiResponse(StatusCodes.OK, `Hey ${student.usernames} willkommen zurück 🤝`));
+    .json(createApiResponse(StatusCodes.OK, `Hey ${student.username} willkommen zurück 🤝`));
 }
 
-/** d
- * Handles user sign-out.
+/**
+ * Handles student sign-out.
  * @access public
-
  */
 
 async function signOut(req: Request, res: Response) {

@@ -7,6 +7,7 @@ import { database } from './config';
 import { authRouter } from './api/auth';
 import { errorHandler, pathNotFound } from './middlewares';
 import cookieParser from 'cookie-parser';
+import { studentRoute } from './api/student';
 
 dotenv.config();
 const app = express();
@@ -29,6 +30,7 @@ app.use(cookieParser());
  * ROUTES
  */
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/student', studentRoute);
 
 /*
  * ERROR HANDLERS

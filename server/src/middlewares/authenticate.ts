@@ -14,7 +14,7 @@ function authenticate(req: Request, res: Response, next: NextFunction) {
   let accessToken = req.cookies.access_token;
 
   if (!accessToken || !accessToken.startsWith('Bearer ')) {
-    throw new UnauthorizedError('Student nicht autorisiert');
+    throw new UnauthorizedError('Sie sind nicht autorisiert');
   }
 
   accessToken = accessToken.split(' ')[1];
@@ -26,7 +26,7 @@ function authenticate(req: Request, res: Response, next: NextFunction) {
 
     next();
   } catch (error) {
-    return next(new UnauthorizedError('Student nicht autorisiert'));
+    return next(new UnauthorizedError('Sie sind nicht autorisiert'));
   }
 }
 
