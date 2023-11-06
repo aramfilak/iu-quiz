@@ -42,15 +42,15 @@ interface FormValues {
 
 const initialValues: FormValues = { email: '', password: '', passwordConfirm: '' };
 
-function Login() {
+function singUpForm() {
+  const { toggleAuthForm, singUp } = useAuthStore();
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const { toggleAuthForm } = useAuthStore();
 
   const handleSubmit = async (
     { email, password }: FormValues,
     { setSubmitting }: FormikHelpers<FormValues>
   ) => {
-    console.log(email, password);
+    singUp(email, password);
     setSubmitting(false);
   };
 
@@ -58,9 +58,10 @@ function Login() {
     <>
       <Formik
         onSubmit={handleSubmit}
-        validateOnBlur={false}
         validationSchema={validationSchema}
         initialValues={initialValues}
+        validateOnBlur={false}
+        validateOnChange={false}
       >
         {({ isSubmitting }) => (
           <Form>
@@ -68,9 +69,7 @@ function Login() {
               Registrieren
             </Text>
 
-            {/***************************************************/}
             {/*------------------- Email --------------------*/}
-            {/***************************************************/}
 
             <Field name="email">
               {({ field, meta }: FieldProps) => (
@@ -94,9 +93,7 @@ function Login() {
               )}
             </Field>
 
-            {/***************************************************/}
             {/*------------------- Password --------------------*/}
-            {/***************************************************/}
 
             <Field name="password">
               {({ field, meta }: FieldProps) => (
@@ -129,9 +126,7 @@ function Login() {
               )}
             </Field>
 
-            {/***************************************************/}
             {/*---------------- Confirm Password ---------------*/}
-            {/***************************************************/}
 
             <Field name="passwordConfirm">
               {({ field, meta }: FieldProps) => (
@@ -163,9 +158,9 @@ function Login() {
                 </FormControl>
               )}
             </Field>
-            {/***************************************************/}
+
             {/*------------------- Form Submit -----------------*/}
-            {/***************************************************/}
+
             <Button
               colorScheme="teal"
               type="submit"
@@ -194,4 +189,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default singUpForm;

@@ -1,7 +1,7 @@
 import './style.scss';
 import { Form, Field, Formik, FieldProps, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   Text,
@@ -36,15 +36,15 @@ interface FormValues {
 
 const initialValues: FormValues = { email: '', password: '' };
 
-function Login() {
+function signInForm() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const { toggleAuthForm } = useAuthStore();
+  const { toggleAuthForm, signIn } = useAuthStore();
 
   const handleSubmit = async (
     { email, password }: FormValues,
     { setSubmitting }: FormikHelpers<FormValues>
   ) => {
-    console.log(email, password);
+    signIn(email, password);
     setSubmitting(false);
   };
 
@@ -53,6 +53,7 @@ function Login() {
       <Formik
         onSubmit={handleSubmit}
         validateOnBlur={false}
+        validateOnChange={false}
         validationSchema={validationSchema}
         initialValues={initialValues}
       >
@@ -62,9 +63,7 @@ function Login() {
               Anmelden
             </Text>
 
-            {/***************************************************/}
             {/*------------------- Email --------------------*/}
-            {/***************************************************/}
 
             <Field name="email">
               {({ field, meta }: FieldProps) => (
@@ -88,9 +87,7 @@ function Login() {
               )}
             </Field>
 
-            {/***************************************************/}
             {/*------------------- Password --------------------*/}
-            {/***************************************************/}
 
             <Field name="password">
               {({ field, meta }: FieldProps) => (
@@ -123,9 +120,8 @@ function Login() {
               )}
             </Field>
 
-            {/***************************************************/}
             {/*------------------- Form Submit -----------------*/}
-            {/***************************************************/}
+
             <Button
               colorScheme="teal"
               type="submit"
@@ -154,4 +150,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default signInForm;

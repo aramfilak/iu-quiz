@@ -1,10 +1,10 @@
 import 'express-async-errors';
-import express, { Request, Response } from 'express';
+import express from 'express';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
 import cors from 'cors';
 import { database } from './config';
-import { authRouter } from './routes';
+import { authRouter } from './api/auth';
 import { errorHandler, pathNotFound } from './middlewares';
 import cookieParser from 'cookie-parser';
 
@@ -14,17 +14,24 @@ const app = express();
 /*
  * REQUEST MIDDLEWARES
  */
+
+app.use(
+  cors({
+    origin: process.env.ORIGIN,
+    credentials: true
+  })
+);
 app.use(morgan('dev'));
 app.use(express.json());
-app.use(cors());
 app.use(cookieParser());
 
 /*
  * ROUTES
  */
 app.use('/api/v1/auth', authRouter);
+
 /*
- * ERROR HANDLER
+ * ERROR HANDLERS
  */
 
 app.use(pathNotFound);
@@ -39,10 +46,10 @@ app.use(errorHandler);
 
   try {
     await database.$connect();
-    console.log('  ➜  Data Source has been initialized ✅');
+    console.info('  ➜  Data Source has been initialized ✅');
     app.listen(port, () => {
-      console.log('  ➜  Server listening on port', port, '🛜');
-      console.log('\x1b[1m', ' ➜  Local:', '\x1b[36m', serverLocal);
+      console.info('  ➜  Server listening on port', port, '🛜');
+      console.info('\x1b[1m', ' ➜  Local:', '\x1b[36m', serverLocal);
     });
   } catch (e) {
     await database.$disconnect();

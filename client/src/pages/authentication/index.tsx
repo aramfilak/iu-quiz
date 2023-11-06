@@ -3,8 +3,8 @@ import PageView from '../../components/page-view';
 import Container from '../../components/container';
 import { Image } from '@chakra-ui/react';
 import authenticationIllustration from '../../assets/illustrations/authentication-illustration.svg';
-import SignIn from '../../components/sign-in';
-import SignUp from '../../components/sign-up';
+import SignInForm from '../../components/sign-in-form';
+import SignUpForm from '../../components/sign-up-form';
 import { useAuthStore } from '../../sotres';
 
 function Authentication() {
@@ -12,7 +12,7 @@ function Authentication() {
   return (
     <PageView>
       <Container additionalClasses={['authentication-container']}>
-        {showSignForm ? <SignIn /> : <SignUp />}
+        {showSignForm ? <SignInForm /> : <SignUpForm />}
 
         <Image
           className="authentication-illustration"

@@ -11,17 +11,17 @@ declare global {
 }
 
 function authenticate(req: Request, res: Response, next: NextFunction) {
-  const token = req.headers.authorization;
+  let accessToken = req.cookies.access_token;
 
-  if (!token) {
-    throw new UnauthorizedError('Authentication invalid');
+  if (!accessToken || !accessToken.startsWith('Bearer ')) {
+    throw new UnauthorizedError('Student nicht autorisiert');
   }
 
-  try {
-    // Verify and decode the token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
+  accessToken = accessToken.split(' ')[1];
 
-    // Attach user data to the request object
+  try {
+    const decoded = jwt.verify(accessToken, process.env.JWT_SECRET!) as JwtPayload;
+
     req.auth = { id: decoded.id };
 
     next();

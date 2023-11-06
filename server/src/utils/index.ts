@@ -1,21 +1,35 @@
 import jwt from 'jsonwebtoken';
+import { Response } from 'express';
 
 function createErrorResponse(statusCode: number, message: string) {
   return { success: false, statusCode: statusCode, message: message };
 }
 
-function createApiResponse(statusCode: number, data?: any) {
-  return { success: true, statusCode: statusCode, data };
+function createApiResponse(
+  statusCode: number,
+  message?: string,
+  accessToken?: string,
+  data?: Object
+) {
+  return { success: true, statusCode: statusCode, message, accessToken, data };
 }
 
 function generateJWT(payload: Object) {
-  return jwt.sign(payload, process.env.JWT_SECRET!, {
-    expiresIn: '14d'
-  });
+  return `Bearer ${jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: '14d' })}`;
 }
 
-function isValidIUEmail(email: string) {
-  return email.match(/@[iI][uU][bB][hH]-fernstudium\.de$|@iu-study\.org$/i);
+function parseIuStudentName(email: string) {
+  return `@${email.slice(0, email.lastIndexOf('@'))}`;
 }
 
-export { createErrorResponse, createApiResponse, generateJWT, isValidIUEmail };
+function attachCookie(res: Response, cookieName: string, cookieValue: unknown) {
+  let isSecure = true;
+
+  if (process.env.NODE_ENV === 'development') {
+    isSecure = false;
+  }
+
+  res.cookie(cookieName, cookieValue, { httpOnly: true, secure: isSecure });
+}
+
+export { createErrorResponse, createApiResponse, generateJWT, parseIuStudentName, attachCookie };
