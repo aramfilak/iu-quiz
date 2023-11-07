@@ -16,7 +16,7 @@ function generateJWT(payload: Object) {
 }
 
 function parseIuStudentName(email: string) {
-  return `@${email.slice(0, email.lastIndexOf('@'))}`;
+  return email.slice(0, email.lastIndexOf('@'));
 }
 
 function attachCookie(res: Response, cookieName: string, cookieValue: unknown) {
@@ -25,7 +25,11 @@ function attachCookie(res: Response, cookieName: string, cookieValue: unknown) {
   if (process.env.NODE_ENV === 'development') {
     isSecure = false;
   }
-  res.cookie(cookieName, cookieValue, { httpOnly: true, secure: isSecure });
+  res.cookie(cookieName, cookieValue, {
+    httpOnly: true,
+    secure: isSecure,
+    sameSite: 'none'
+  });
 }
 
 function excludeObjectProperty(propertyName: string, obj: { [key: string]: any }) {

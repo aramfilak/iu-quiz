@@ -1,4 +1,3 @@
-import './style.scss';
 import { HTMLAttributes, ReactNode } from 'react';
 import classNames from 'classnames';
 
@@ -17,4 +16,4 @@ function PageView({ children, attributes, additionalClasses }: Props) {
   );
 }
 
-export default PageView;
+export { PageView };

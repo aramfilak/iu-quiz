@@ -18,20 +18,20 @@ async function signUp(req: Request, res: Response) {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    throw new BadRequestError('E-Mail oder Passwort werden nicht angegeben');
+    throw new BadRequestError('E-Mail oder Passwort werden nicht angegeben 😅');
   }
 
   const emailIsRegistered = await database.student.findFirst({ where: { email: email } });
 
   if (emailIsRegistered) {
-    throw new BadRequestError('E-Mail ist bereits registriert');
+    throw new BadRequestError('E-Mail ist bereits registriert 🙂');
   }
 
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
   const student = await database.student.create({
-    data: { email: email, password: hashedPassword, username: parseIuStudentName(email) }
+    data: { email: email, password: hashedPassword, nickName: parseIuStudentName(email) }
   });
 
   const accessToken = generateJWT({ id: student.id });
@@ -57,18 +57,18 @@ async function signIn(req: Request, res: Response) {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    throw new BadRequestError('E-Mail oder Passwort werden nicht angegeben');
+    throw new BadRequestError('E-Mail oder Passwort werden nicht angegeben 😅');
   }
 
   const student = await database.student.findFirst({ where: { email: email } });
   if (!student) {
-    throw new UnauthorizedError('E-Mail ist nicht registriert');
+    throw new UnauthorizedError('E-Mail ist nicht registriert 😗');
   }
 
   const passwordMatch = await bcrypt.compare(password, student.password);
 
   if (!passwordMatch) {
-    throw new UnauthorizedError('Falsches Passwort');
+    throw new UnauthorizedError('Falsches Passwort 😬');
   }
 
   const accessToken = generateJWT({ id: student.id });
@@ -77,7 +77,7 @@ async function signIn(req: Request, res: Response) {
 
   res
     .status(StatusCodes.OK)
-    .json(createApiResponse(StatusCodes.OK, `Hey ${student.username} willkommen zurück 🤝`));
+    .json(createApiResponse(StatusCodes.OK, `Hey ${student.nickName} willkommen zurück 😎`));
 }
 
 /**

@@ -1,53 +1,59 @@
 import { create } from 'zustand';
-import { axiosAuthApi } from '../utils/axios';
-import { AxiosResponse } from 'axios';
+import { axiosAuthApi } from '../utils/';
+import axios from 'axios';
 
-interface RequestStatus {
+interface AuthResponse {
   success: boolean;
   message: string;
   statusCode: number;
-  data: unknown;
-}
-
-interface AuthResponse extends AxiosResponse {
-  data: RequestStatus;
 }
 
 interface useAuthStore {
-  showSignForm: boolean;
-  toggleAuthForm: () => void;
-  singUp: (email: string, password: string) => Promise<RequestStatus>;
-  signIn: (email: string, password: string) => Promise<RequestStatus>;
-  authenticate: (endpoint: string, email: string, password: string) => Promise<RequestStatus>;
+  isShowSingInForm: boolean;
+  showSignInForm: () => void;
+  showSignUpForm: () => void;
+  singUp: (email: string, password: string) => Promise<AuthResponse>;
+  signIn: (email: string, password: string) => Promise<AuthResponse>;
+  authenticate: (endpoint: string, email: string, password: string) => Promise<AuthResponse>;
 }
 
 const useAuthStore = create<useAuthStore>((set, get) => ({
-  showSignForm: true,
+  isShowSingInForm: true,
 
-  toggleAuthForm: () => set((state) => ({ showSignForm: !state.showSignForm })),
+  showSignInForm: () => set({ isShowSingInForm: true }),
+
+  showSignUpForm: () => set({ isShowSingInForm: false }),
 
   singUp: async (email: string, password: string) => {
     return await get().authenticate('/sign-up', email, password);
   },
+
   signIn: async (email: string, password: string) => {
     return await get().authenticate('/sign-in', email, password);
   },
+
   authenticate: async (
     endpoint: string,
     email: string,
     password: string
-  ): Promise<RequestStatus> => {
+  ): Promise<AuthResponse> => {
     try {
-      const response: AuthResponse = await axiosAuthApi.post(endpoint, {
+      const response = await axiosAuthApi.post<AuthResponse>(endpoint, {
         email: email,
         password: password
       });
 
-      console.log(response, document.cookie.split(';')[0]);
       return response.data;
     } catch (e) {
-      console.log(e);
-      throw e;
+      if (axios.isAxiosError(e) && e.response && e.response.data) {
+        return e.response.data;
+      } else {
+        return {
+          success: false,
+          message: 'Server Error 🚧',
+          statusCode: 500
+        };
+      }
     }
   }
 }));

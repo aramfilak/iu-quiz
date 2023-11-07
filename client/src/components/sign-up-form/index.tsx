@@ -11,7 +11,8 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  InputRightElement
+  InputRightElement,
+  useToast
 } from '@chakra-ui/react';
 import { RiLockPasswordLine, RiMailLine } from 'react-icons/ri';
 import { BiShow, BiHide } from 'react-icons/bi';
@@ -42,15 +43,24 @@ interface FormValues {
 
 const initialValues: FormValues = { email: '', password: '', passwordConfirm: '' };
 
-function singUpForm() {
-  const { toggleAuthForm, singUp } = useAuthStore();
+function SignUpForm() {
+  const { showSignInForm, singUp } = useAuthStore();
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const toast = useToast();
 
   const handleSubmit = async (
     { email, password }: FormValues,
     { setSubmitting }: FormikHelpers<FormValues>
   ) => {
-    singUp(email, password);
+    const { success, message } = await singUp(email, password);
+
+    const status = success ? 'success' : 'error';
+
+    toast({
+      description: message,
+      status: status
+    });
+
     setSubmitting(false);
   };
 
@@ -65,7 +75,7 @@ function singUpForm() {
       >
         {({ isSubmitting }) => (
           <Form>
-            <Text as="b" fontSize="4xl" color="deep-teal">
+            <Text as="b" fontSize="4xl" color="teal.500">
               Registrieren
             </Text>
 
@@ -78,7 +88,7 @@ function singUpForm() {
 
                   <InputGroup>
                     <Input
-                      borderColor={'light-gray'}
+                      borderColor="teal.500"
                       autoComplete="on"
                       {...field}
                       id="email"
@@ -101,7 +111,7 @@ function singUpForm() {
                   <FormLabel htmlFor="password">Passwort</FormLabel>
                   <InputGroup>
                     <Input
-                      borderColor={'light-gray'}
+                      borderColor="teal.500"
                       autoComplete="on"
                       id="password"
                       type={showPassword ? 'text' : 'password'}
@@ -134,7 +144,7 @@ function singUpForm() {
                   <FormLabel htmlFor="passwordConfirm">Passwort bestätigen</FormLabel>
                   <InputGroup>
                     <Input
-                      borderColor={'light-gray'}
+                      borderColor="teal.500"
                       id="passwordConfirm"
                       autoComplete="on"
                       type={showPassword ? 'text' : 'password'}
@@ -171,13 +181,13 @@ function singUpForm() {
             </Button>
 
             <Text>
-              Account vorhanden?
+              Account vorhanden?{' '}
               <Button
                 type="button"
                 variant="link"
                 colorScheme="teal"
                 fontWeight="extrabold"
-                onClick={() => toggleAuthForm()}
+                onClick={() => showSignInForm()}
               >
                 Jetzt anmelden
               </Button>
@@ -189,4 +199,4 @@ function singUpForm() {
   );
 }
 
-export default singUpForm;
+export { SignUpForm };

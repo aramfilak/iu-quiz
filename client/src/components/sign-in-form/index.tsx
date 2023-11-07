@@ -1,7 +1,10 @@
 import './style.scss';
 import { Form, Field, Formik, FieldProps, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { RiLockPasswordLine, RiMailLine } from 'react-icons/ri';
+import { BiShow, BiHide } from 'react-icons/bi';
+import { useAuthStore } from '../../sotres';
 import {
   Button,
   Text,
@@ -11,20 +14,21 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  InputRightElement
+  InputRightElement,
+  useToast
 } from '@chakra-ui/react';
-import { RiLockPasswordLine, RiMailLine } from 'react-icons/ri';
-import { BiShow, BiHide } from 'react-icons/bi';
-import { useAuthStore } from '../../sotres';
+import { useNavigate } from 'react-router-dom';
+import { routes } from '../../utils';
 
 const isRequiredMessage = 'Pflichtfeld *';
+
 const validationSchema = Yup.object({
   email: Yup.string()
     .required(isRequiredMessage)
     .email('Ungültige IU-E-Mail')
-    // email must end with @iubh-fernstudium.de or with @iu-study.org
+    //  @iubh-fernstudium.de || with @iu-study.org
     .matches(/@[iI][uU][bB][hH]-fernstudium\.de$|@iu-study\.org$/i, {
-      message: 'Ungültige IU-E-Mail'
+      message: 'Ungültige IU E-Mail'
     }),
   password: Yup.string().required(isRequiredMessage)
 });
@@ -36,15 +40,29 @@ interface FormValues {
 
 const initialValues: FormValues = { email: '', password: '' };
 
-function signInForm() {
+function SignInForm() {
+  const toast = useToast();
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const { toggleAuthForm, signIn } = useAuthStore();
+  const { showSignUpForm, signIn } = useAuthStore();
+  const navigate = useNavigate();
 
   const handleSubmit = async (
     { email, password }: FormValues,
     { setSubmitting }: FormikHelpers<FormValues>
   ) => {
-    signIn(email, password);
+    const { success, message } = await signIn(email, password);
+
+    const status = success ? 'success' : 'error';
+
+    toast({
+      description: message,
+      status: status
+    });
+
+    if (success) {
+      navigate(routes.Dashboard.path);
+    }
+
     setSubmitting(false);
   };
 
@@ -59,7 +77,7 @@ function signInForm() {
       >
         {({ isSubmitting }) => (
           <Form>
-            <Text as="b" fontSize="4xl" color="deep-teal">
+            <Text as="b" fontSize="4xl" color="teal.500">
               Anmelden
             </Text>
 
@@ -72,7 +90,7 @@ function signInForm() {
 
                   <InputGroup>
                     <Input
-                      borderColor={'light-gray'}
+                      borderColor="teal.500"
                       autoComplete="on"
                       {...field}
                       id="email"
@@ -95,7 +113,7 @@ function signInForm() {
                   <FormLabel htmlFor="password">Passwort</FormLabel>
                   <InputGroup>
                     <Input
-                      borderColor={'light-gray'}
+                      borderColor="teal.500"
                       autoComplete="on"
                       id="password"
                       type={showPassword ? 'text' : 'password'}
@@ -138,7 +156,7 @@ function signInForm() {
                 variant="link"
                 colorScheme="teal"
                 fontWeight="extrabold"
-                onClick={() => toggleAuthForm()}
+                onClick={() => showSignUpForm()}
               >
                 Jetzt registrieren
               </Button>
@@ -150,4 +168,4 @@ function signInForm() {
   );
 }
 
-export default signInForm;
+export { SignInForm };

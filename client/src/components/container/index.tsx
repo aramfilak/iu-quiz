@@ -17,4 +17,4 @@ function Container({ children, attributes, additionalClasses }: Props) {
   );
 }
 
-export default Container;
+export { Container };

@@ -4,20 +4,13 @@
 //********** VARIABLES **********
 //*******************************
 
-:root {
-  --light-peach: #fff7f0;
-  --dark-gray: #3f3d56;
-  --light-gray: #7a746e;
-  --deep-teal: ##319795;
-}
-
-body {
-  font-family: 'Open Sans', sans-serif;
-}
-
 html {
   font-size: 80%;
   @include mq(md) {
     font-size: 100%;
   }
+}
+
+body {
+  background-color: var(--chakra-colors-gray-100) !important;
 }

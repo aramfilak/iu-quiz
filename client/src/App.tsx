@@ -1,24 +1,27 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import NotFound404 from './pages/404';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
-import Authentication from './pages/authentication';
+import { routes } from './utils';
 
 const theme = extendTheme({
-  colors: {
-    'light-peach': '#fff7f0',
-    'dark-gray': '#3f3d56',
-    'light-gray': '#7a746e',
-    'deep-teal': '#319795'
-  }
+  fonts: { body: `'Open Sans', sans-serif` }
 });
+
+const { Authentication, NotFound404, Dashboard } = routes;
 
 function App() {
   return (
-    <ChakraProvider theme={theme}>
+    <ChakraProvider
+      theme={theme}
+      toastOptions={{ defaultOptions: { position: 'top', duration: 5000, isClosable: true } }}
+    >
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Authentication />} />
-          <Route path="*" element={<NotFound404 />} />
+          {/*------------public-------------------*/}
+          <Route path={Authentication.path} element={Authentication.element} />
+          <Route path={NotFound404.path} element={NotFound404.element} />
+
+          {/*------------protected-------------------*/}
+          <Route path={Dashboard.path} element={Dashboard.element} />
         </Routes>
       </BrowserRouter>
     </ChakraProvider>

@@ -3,34 +3,39 @@ import express from 'express';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
 import cors from 'cors';
+import helmet from 'helmet';
 import { database } from './config';
-import { authRouter } from './api/auth';
+import { authRouter } from './apis/auth';
 import { errorHandler, pathNotFound } from './middlewares';
 import cookieParser from 'cookie-parser';
-import { studentRoute } from './api/student';
-
+import { studentRoutes } from './apis/student';
+// import rateLimiter from 'rate-limit';
 dotenv.config();
 const app = express();
 
 /*
- * REQUEST MIDDLEWARES
+ * SECURITY
  */
-
+app.use(helmet());
 app.use(
   cors({
     origin: process.env.ORIGIN,
     credentials: true
   })
 );
+
+/*
+ * REQUEST MIDDLEWARES
+ */
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(cookieParser());
 
 /*
- * ROUTES
+ * MAIN ROUTES
  */
 app.use('/api/v1/auth', authRouter);
-app.use('/api/v1/student', studentRoute);
+app.use('/api/v1/student', studentRoutes);
 
 /*
  * ERROR HANDLERS

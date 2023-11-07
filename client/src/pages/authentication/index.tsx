@@ -1,22 +1,20 @@
 import './style.scss';
-import PageView from '../../components/page-view';
-import Container from '../../components/container';
+import { PageView, Container, SignInForm, SignUpForm } from '../../components';
 import { Image } from '@chakra-ui/react';
 import authenticationIllustration from '../../assets/illustrations/authentication-illustration.svg';
-import SignInForm from '../../components/sign-in-form';
-import SignUpForm from '../../components/sign-up-form';
+
 import { useAuthStore } from '../../sotres';
 
 function Authentication() {
-  const { showSignForm } = useAuthStore();
+  const { isShowSingInForm } = useAuthStore();
   return (
     <PageView>
       <Container additionalClasses={['authentication-container']}>
-        {showSignForm ? <SignInForm /> : <SignUpForm />}
+        {isShowSingInForm ? <SignInForm /> : <SignUpForm />}
 
         <Image
           className="authentication-illustration"
-          maxWidth="30rem"
+          maxWidth="29rem"
           src={authenticationIllustration}
           alt="authentication illustration"
         />
@@ -25,4 +23,4 @@ function Authentication() {
   );
 }
 
-export default Authentication;
+export { Authentication };
