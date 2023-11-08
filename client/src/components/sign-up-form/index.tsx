@@ -1,39 +1,26 @@
 import './style.scss';
 import { Form, Field, Formik, FieldProps, FormikHelpers } from 'formik';
-import * as Yup from 'yup';
 import { useState } from 'react';
 import {
   Button,
   Text,
   FormControl,
-  FormErrorMessage,
   FormLabel,
   Input,
   InputGroup,
   InputLeftElement,
   InputRightElement,
-  useToast
+  useToast,
+  Box,
+  List,
+  ListItem,
+  ListIcon
 } from '@chakra-ui/react';
 import { RiLockPasswordLine, RiMailLine } from 'react-icons/ri';
-import { BiShow, BiHide } from 'react-icons/bi';
+import { BiShow, BiHide, BiCheckShield } from 'react-icons/bi';
 import { useAuthStore } from '../../sotres';
-
-const isRequiredMessage = 'Pflichtfeld *';
-
-const validationSchema = Yup.object({
-  email: Yup.string()
-    .required(isRequiredMessage)
-    .trim()
-    .email('Ungültige IU-E-Mail')
-    .matches(/@[iI][uU][bB][hH]-fernstudium\.de$|@iu-study\.org$/i, {
-      message: 'Ungültige IU-E-Mail'
-    }),
-  password: Yup.string().required(isRequiredMessage).trim().min(8, 'Mindestens 8 Zeichen'),
-  passwordConfirm: Yup.string()
-    .required(isRequiredMessage)
-    .trim()
-    .oneOf([Yup.ref('password')], 'Passwörter müssen übereinstimmen')
-});
+import { useNavigate } from 'react-router-dom';
+import { routes } from '../../utils';
 
 interface FormValues {
   email: string;
@@ -47,11 +34,19 @@ function SignUpForm() {
   const { showSignInForm, singUp } = useAuthStore();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const toast = useToast();
+  const navigate = useNavigate();
 
   const handleSubmit = async (
-    { email, password }: FormValues,
+    { email, password, passwordConfirm }: FormValues,
     { setSubmitting }: FormikHelpers<FormValues>
   ) => {
+    if (password !== passwordConfirm) {
+      return toast({
+        description: 'Passwörter müssen identisch sein ‼️',
+        status: 'error'
+      });
+    }
+
     const { success, message } = await singUp(email, password);
 
     const status = success ? 'success' : 'error';
@@ -62,13 +57,16 @@ function SignUpForm() {
     });
 
     setSubmitting(false);
+
+    if (success) {
+      navigate(routes.Dashboard.path);
+    }
   };
 
   return (
     <>
       <Formik
         onSubmit={handleSubmit}
-        validationSchema={validationSchema}
         initialValues={initialValues}
         validateOnBlur={false}
         validateOnChange={false}
@@ -82,8 +80,8 @@ function SignUpForm() {
             {/*------------------- Email --------------------*/}
 
             <Field name="email">
-              {({ field, meta }: FieldProps) => (
-                <FormControl isInvalid={Boolean(meta.error && meta.touched)}>
+              {({ field }: FieldProps) => (
+                <FormControl>
                   <FormLabel htmlFor="email">Email</FormLabel>
 
                   <InputGroup>
@@ -98,7 +96,6 @@ function SignUpForm() {
                       <RiMailLine />
                     </InputLeftElement>
                   </InputGroup>
-                  <FormErrorMessage>{meta.error}</FormErrorMessage>
                 </FormControl>
               )}
             </Field>
@@ -106,8 +103,8 @@ function SignUpForm() {
             {/*------------------- Password --------------------*/}
 
             <Field name="password">
-              {({ field, meta }: FieldProps) => (
-                <FormControl isInvalid={Boolean(meta.error && meta.touched)}>
+              {({ field }: FieldProps) => (
+                <FormControl>
                   <FormLabel htmlFor="password">Passwort</FormLabel>
                   <InputGroup>
                     <Input
@@ -131,16 +128,32 @@ function SignUpForm() {
                       </Button>
                     </InputRightElement>
                   </InputGroup>
-                  <FormErrorMessage>{meta.error}</FormErrorMessage>
                 </FormControl>
               )}
             </Field>
-
+            <Box>
+              <Text fontSize="sm" fontWeight="bold"></Text>
+              <List spacing={3}>
+                <ListItem>
+                  <ListIcon as={BiCheckShield} color="teal.500" />
+                  Mindestens acht Zeichen{' '}
+                </ListItem>
+                <ListItem>
+                  <ListIcon as={BiCheckShield} color="teal.500" />
+                  Mindestens ein Buchstabe
+                </ListItem>
+                {/* You can also use custom icons from react-icons */}
+                <ListItem>
+                  <ListIcon as={BiCheckShield} color="teal.500" />
+                  Mindestens eine Zahl
+                </ListItem>
+              </List>
+            </Box>
             {/*---------------- Confirm Password ---------------*/}
 
             <Field name="passwordConfirm">
-              {({ field, meta }: FieldProps) => (
-                <FormControl isInvalid={Boolean(meta.error && meta.touched)}>
+              {({ field }: FieldProps) => (
+                <FormControl>
                   <FormLabel htmlFor="passwordConfirm">Passwort bestätigen</FormLabel>
                   <InputGroup>
                     <Input
@@ -164,7 +177,6 @@ function SignUpForm() {
                       </Button>
                     </InputRightElement>
                   </InputGroup>
-                  <FormErrorMessage>{meta.error}</FormErrorMessage>
                 </FormControl>
               )}
             </Field>

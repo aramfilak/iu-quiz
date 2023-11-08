@@ -14,13 +14,13 @@ async function findOne(req: Request, res: Response) {
   const studentId = req.auth?.id;
 
   if (!studentId) {
-    throw new UnauthorizedError('Sie sind nicht autorisiert ⛔️');
+    throw new UnauthorizedError('Sie sind nicht autorisiert');
   }
 
   const studentData = await database.student.findFirst({ where: { id: studentId } });
 
   if (!studentData) {
-    throw new NotFoundError('Sie sind nicht registriert  😗');
+    throw new NotFoundError('Sie sind nicht registriert');
   }
   const studentDataWithOutPassword = excludeObjectProperty('password', studentData);
 

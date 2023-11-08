@@ -50,7 +50,7 @@ const useAuthStore = create<useAuthStore>((set, get) => ({
       } else {
         return {
           success: false,
-          message: 'Server Error 🚧',
+          message: 'Server Error',
           statusCode: 500
         };
       }

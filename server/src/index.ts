@@ -41,7 +41,6 @@ app.use('/api/v1/student', studentRoutes);
 /*
  * ERROR HANDLERS
  */
-
 app.use(pathNotFound);
 app.use(errorHandler);
 

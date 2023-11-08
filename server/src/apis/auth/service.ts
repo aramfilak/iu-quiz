@@ -3,7 +3,15 @@ import { BadRequestError, UnauthorizedError } from '../../errors';
 import bcrypt from 'bcryptjs';
 import { database } from '../../configs';
 import { StatusCodes } from 'http-status-codes';
-import { createApiResponse, generateJWT, parseIuStudentName, attachCookie } from '../../utils';
+import {
+  createApiResponse,
+  generateJWT,
+  parseIuStudentDefaultNickName,
+  attachCookie,
+  isIuEmail,
+  isValidPassword,
+  isEmpty
+} from '../../utils';
 
 /**
  * Handles student sign-up.
@@ -17,21 +25,22 @@ enum constants {
 async function signUp(req: Request, res: Response) {
   const { email, password } = req.body;
 
-  if (!email || !password) {
-    throw new BadRequestError('E-Mail oder Passwort werden nicht angegeben 😅');
-  }
+  isIuEmail(email);
+  isValidPassword(password);
 
   const emailIsRegistered = await database.student.findFirst({ where: { email: email } });
 
   if (emailIsRegistered) {
-    throw new BadRequestError('E-Mail ist bereits registriert 🙂');
+    throw new BadRequestError('E-Mail ist bereits registriert');
   }
 
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
+  const nickName = parseIuStudentDefaultNickName(email);
+
   const student = await database.student.create({
-    data: { email: email, password: hashedPassword, nickName: parseIuStudentName(email) }
+    data: { email: email, password: hashedPassword, nickName: nickName }
   });
 
   const accessToken = generateJWT({ id: student.id });
@@ -43,7 +52,7 @@ async function signUp(req: Request, res: Response) {
     .json(
       createApiResponse(
         StatusCodes.OK,
-        `Willkommen ${parseIuStudentName(student.email)}, wir freuen uns, dass du dabei bist 🙌`
+        `Willkommen ${nickName}, wir freuen uns, dass du dabei bist`
       )
     );
 }
@@ -56,19 +65,18 @@ async function signUp(req: Request, res: Response) {
 async function signIn(req: Request, res: Response) {
   const { email, password } = req.body;
 
-  if (!email || !password) {
-    throw new BadRequestError('E-Mail oder Passwort werden nicht angegeben 😅');
-  }
+  isEmpty('email', email);
+  isEmpty('password', password);
 
   const student = await database.student.findFirst({ where: { email: email } });
   if (!student) {
-    throw new UnauthorizedError('E-Mail ist nicht registriert 😗');
+    throw new UnauthorizedError('E-Mail ist nicht registriert');
   }
 
   const passwordMatch = await bcrypt.compare(password, student.password);
 
   if (!passwordMatch) {
-    throw new UnauthorizedError('Falsches Passwort 😬');
+    throw new UnauthorizedError('Falsches Passwort');
   }
 
   const accessToken = generateJWT({ id: student.id });
@@ -77,7 +85,7 @@ async function signIn(req: Request, res: Response) {
 
   res
     .status(StatusCodes.OK)
-    .json(createApiResponse(StatusCodes.OK, `Hey ${student.nickName} willkommen zurück 🫶`));
+    .json(createApiResponse(StatusCodes.OK, `Hey ${student.nickName} willkommen zurück`));
 }
 
 /**
@@ -89,7 +97,7 @@ async function signOut(req: Request, res: Response) {
   res
     .status(StatusCodes.OK)
     .clearCookie(constants.access_token)
-    .json(createApiResponse(StatusCodes.OK, 'Bis zum nächsten Mal 👋'));
+    .json(createApiResponse(StatusCodes.OK, 'Bis zum nächsten Mal'));
 }
 
 export { signUp, signIn, signOut };

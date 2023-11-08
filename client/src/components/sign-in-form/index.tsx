@@ -1,6 +1,5 @@
 import './style.scss';
 import { Form, Field, Formik, FieldProps, FormikHelpers } from 'formik';
-import * as Yup from 'yup';
 import { useState } from 'react';
 import { RiLockPasswordLine, RiMailLine } from 'react-icons/ri';
 import { BiShow, BiHide } from 'react-icons/bi';
@@ -19,19 +18,6 @@ import {
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../../utils';
-
-const isRequiredMessage = 'Pflichtfeld *';
-
-const validationSchema = Yup.object({
-  email: Yup.string()
-    .required(isRequiredMessage)
-    .email('Ungültige IU-E-Mail')
-    //  @iubh-fernstudium.de || with @iu-study.org
-    .matches(/@[iI][uU][bB][hH]-fernstudium\.de$|@iu-study\.org$/i, {
-      message: 'Ungültige IU E-Mail'
-    }),
-  password: Yup.string().required(isRequiredMessage)
-});
 
 interface FormValues {
   email: string;
@@ -59,11 +45,11 @@ function SignInForm() {
       status: status
     });
 
+    setSubmitting(false);
+
     if (success) {
       navigate(routes.Dashboard.path);
     }
-
-    setSubmitting(false);
   };
 
   return (
@@ -72,7 +58,6 @@ function SignInForm() {
         onSubmit={handleSubmit}
         validateOnBlur={false}
         validateOnChange={false}
-        validationSchema={validationSchema}
         initialValues={initialValues}
       >
         {({ isSubmitting }) => (
@@ -108,8 +93,8 @@ function SignInForm() {
             {/*------------------- Password --------------------*/}
 
             <Field name="password">
-              {({ field, meta }: FieldProps) => (
-                <FormControl isInvalid={Boolean(meta.error && meta.touched)}>
+              {({ field }: FieldProps) => (
+                <FormControl >
                   <FormLabel htmlFor="password">Passwort</FormLabel>
                   <InputGroup>
                     <Input
@@ -133,7 +118,6 @@ function SignInForm() {
                       </Button>
                     </InputRightElement>
                   </InputGroup>
-                  <FormErrorMessage>{meta.error}</FormErrorMessage>
                 </FormControl>
               )}
             </Field>
