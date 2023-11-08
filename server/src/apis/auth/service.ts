@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { BadRequestError, UnauthorizedError } from '../../errors';
 import bcrypt from 'bcryptjs';
-import { database } from '../../config';
+import { database } from '../../configs';
 import { StatusCodes } from 'http-status-codes';
 import { createApiResponse, generateJWT, parseIuStudentName, attachCookie } from '../../utils';
 
@@ -77,7 +77,7 @@ async function signIn(req: Request, res: Response) {
 
   res
     .status(StatusCodes.OK)
-    .json(createApiResponse(StatusCodes.OK, `Hey ${student.nickName} willkommen zurück 😎`));
+    .json(createApiResponse(StatusCodes.OK, `Hey ${student.nickName} willkommen zurück 🫶`));
 }
 
 /**

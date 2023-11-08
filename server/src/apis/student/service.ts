@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { NotFoundError, UnauthorizedError } from '../../errors';
-import { database } from '../../config';
+import { database } from '../../configs';
 import { StatusCodes } from 'http-status-codes';
 import { createApiResponse } from '../../utils';
 import { excludeObjectProperty } from '../../utils';

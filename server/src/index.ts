@@ -4,12 +4,12 @@ import dotenv from 'dotenv';
 import morgan from 'morgan';
 import cors from 'cors';
 import helmet from 'helmet';
-import { database } from './config';
+import { database, rateLimiter } from './configs';
 import { authRouter } from './apis/auth';
 import { errorHandler, pathNotFound } from './middlewares';
 import cookieParser from 'cookie-parser';
 import { studentRoutes } from './apis/student';
-// import rateLimiter from 'rate-limit';
+
 dotenv.config();
 const app = express();
 
@@ -17,6 +17,7 @@ const app = express();
  * SECURITY
  */
 app.use(helmet());
+app.use(rateLimiter);
 app.use(
   cors({
     origin: process.env.ORIGIN,
