@@ -23,8 +23,10 @@ enum constants {
 }
 
 async function signUp(req: Request, res: Response) {
-  const { email, password } = req.body;
+  let { email, password } = req.body;
 
+  email = email.trim();
+  password = password.trim();
   isIuEmail(email);
   isValidPassword(password);
 
@@ -63,8 +65,10 @@ async function signUp(req: Request, res: Response) {
  */
 
 async function signIn(req: Request, res: Response) {
-  const { email, password } = req.body;
+  let { email, password } = req.body;
 
+  email = email.trim();
+  password = password.trim();
   isEmpty('email', email);
   isEmpty('password', password);
 

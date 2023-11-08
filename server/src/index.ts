@@ -4,9 +4,9 @@ import dotenv from 'dotenv';
 import morgan from 'morgan';
 import cors from 'cors';
 import helmet from 'helmet';
-import { database, rateLimiter } from './configs';
+import { database } from './configs';
 import { authRouter } from './apis/auth';
-import { errorHandler, pathNotFound } from './middlewares';
+import { authRateLimiter, errorHandler, pathNotFound } from './middlewares';
 import cookieParser from 'cookie-parser';
 import { studentRoutes } from './apis/student';
 
@@ -17,7 +17,6 @@ const app = express();
  * SECURITY
  */
 app.use(helmet());
-app.use(rateLimiter);
 app.use(
   cors({
     origin: process.env.ORIGIN,
@@ -35,7 +34,7 @@ app.use(cookieParser());
 /*
  * MAIN ROUTES
  */
-app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/auth', authRateLimiter, authRouter);
 app.use('/api/v1/student', studentRoutes);
 
 /*

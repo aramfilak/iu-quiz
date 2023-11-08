@@ -1,7 +1,7 @@
 import { BadRequestError } from '../errors';
 
 function isEmpty(key: string, value: string) {
-  const isEmpty = value === undefined || value === null || !value.trim().length;
+  const isEmpty = value === undefined || value === null || !value.length;
 
   if (isEmpty) {
     throw new BadRequestError(`${key} ist ein Pflichtfeld`);
