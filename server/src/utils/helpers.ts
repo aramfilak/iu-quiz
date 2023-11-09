@@ -13,6 +13,7 @@ function attachCookie(res: Response, cookieName: string, cookieValue: unknown) {
   if (process.env.NODE_ENV === 'development') {
     isSecure = false;
   }
+
   res.cookie(cookieName, cookieValue, {
     httpOnly: true,
     secure: isSecure,

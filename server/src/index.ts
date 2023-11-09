@@ -9,6 +9,7 @@ import { authRouter } from './apis/auth';
 import { authRateLimiter, errorHandler, pathNotFound } from './middlewares';
 import cookieParser from 'cookie-parser';
 import { studentRoutes } from './apis/student';
+import requestIp from 'request-ip';
 
 dotenv.config();
 const app = express();
@@ -16,6 +17,7 @@ const app = express();
 /*
  * SECURITY
  */
+app.use(requestIp.mw());
 app.use(helmet());
 app.use(
   cors({

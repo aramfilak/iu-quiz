@@ -2,8 +2,10 @@ import { Request, Response } from 'express';
 import { BadRequestError, UnauthorizedError } from '../../errors';
 import bcrypt from 'bcryptjs';
 import { database } from '../../configs';
+
 import { StatusCodes } from 'http-status-codes';
 import {
+  ACCESS_TOKEN,
   createApiResponse,
   generateJWT,
   parseIuStudentDefaultNickName,
@@ -17,11 +19,6 @@ import {
  * Handles student sign-up.
  * @access public
  */
-
-enum constants {
-  access_token = 'access_token'
-}
-
 async function signUp(req: Request, res: Response) {
   let { email, password } = req.body;
 
@@ -47,7 +44,7 @@ async function signUp(req: Request, res: Response) {
 
   const accessToken = generateJWT({ id: student.id });
 
-  attachCookie(res, constants.access_token, accessToken);
+  attachCookie(res, ACCESS_TOKEN, accessToken);
 
   res
     .status(StatusCodes.OK)
@@ -85,7 +82,7 @@ async function signIn(req: Request, res: Response) {
 
   const accessToken = generateJWT({ id: student.id });
 
-  attachCookie(res, constants.access_token, accessToken);
+  attachCookie(res, ACCESS_TOKEN, accessToken);
 
   res
     .status(StatusCodes.OK)
@@ -100,7 +97,7 @@ async function signIn(req: Request, res: Response) {
 async function signOut(req: Request, res: Response) {
   res
     .status(StatusCodes.OK)
-    .clearCookie(constants.access_token)
+    .clearCookie(ACCESS_TOKEN)
     .json(createApiResponse(StatusCodes.OK, 'Bis zum nächsten Mal'));
 }
 
