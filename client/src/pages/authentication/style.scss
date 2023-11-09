@@ -1,23 +1,42 @@
 @use '../../sass/abstracts/' as abs;
 
 .authentication-container {
-  display: flex;
-  flex-direction: column-reverse;
-  justify-content: center;
-  align-items: center;
-  gap: 4rem;
   min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2rem;
 
-  .authentication-illustration {
-    transition: all 0.3s;
-
-    &:hover {
-      filter: drop-shadow(0 0 3em #319795);
+  .auth-illustration-box {
+    animation: scale 0.3s ease-out forwards;
+    width: min(100%, 30rem);
+    height: 30rem;
+    img {
+      width: 100%;
     }
   }
 
-  @include abs.mq('lg') {
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    animation: scale 0.3s ease-out forwards;
+    width: min(100%, 22rem);
+  }
+
+  @include abs.mq('xl') {
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-around;
+  }
+}
+@keyframes scale {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
   }
 }

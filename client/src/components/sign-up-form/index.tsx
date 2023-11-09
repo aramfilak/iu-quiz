@@ -1,4 +1,3 @@
-import './style.scss';
 import { Form, Field, Formik, FieldProps, FormikHelpers } from 'formik';
 import { useState } from 'react';
 import {
@@ -64,150 +63,135 @@ function SignUpForm() {
   };
 
   return (
-    <>
-      <Formik
-        onSubmit={handleSubmit}
-        initialValues={initialValues}
-        validateOnBlur={false}
-        validateOnChange={false}
-      >
-        {({ isSubmitting }) => (
-          <Form>
-            <Text as="b" fontSize="4xl" color="teal.500">
-              Registrieren
-            </Text>
+    <Formik
+      onSubmit={handleSubmit}
+      initialValues={initialValues}
+      validateOnBlur={false}
+      validateOnChange={false}
+    >
+      {({ isSubmitting }) => (
+        <Form>
+          <Text as="b" fontSize="4xl" color="teal.500">
+            Registrieren
+          </Text>
 
-            {/*------------------- Email --------------------*/}
+          {/*------------------- Email --------------------*/}
 
-            <Field name="email">
-              {({ field }: FieldProps) => (
-                <FormControl>
-                  <FormLabel htmlFor="email">Email</FormLabel>
+          <Field name="email">
+            {({ field }: FieldProps) => (
+              <FormControl>
+                <FormLabel htmlFor="email">Email</FormLabel>
 
-                  <InputGroup>
-                    <Input
-                      borderColor="teal.500"
-                      autoComplete="on"
-                      {...field}
-                      id="email"
-                      placeholder="max.muster@iu-study.org"
-                    />
-                    <InputLeftElement>
-                      <RiMailLine />
-                    </InputLeftElement>
-                  </InputGroup>
-                </FormControl>
-              )}
-            </Field>
+                <InputGroup>
+                  <Input
+                    borderColor="teal.500"
+                    autoComplete="on"
+                    {...field}
+                    id="email"
+                    placeholder="max.muster@iu-study.org"
+                  />
+                  <InputLeftElement>
+                    <RiMailLine />
+                  </InputLeftElement>
+                </InputGroup>
+              </FormControl>
+            )}
+          </Field>
 
-            {/*------------------- Password --------------------*/}
+          {/*------------------- Password --------------------*/}
 
-            <Field name="password">
-              {({ field }: FieldProps) => (
-                <FormControl>
-                  <FormLabel htmlFor="password">Passwort</FormLabel>
-                  <InputGroup>
-                    <Input
-                      borderColor="teal.500"
-                      autoComplete="on"
-                      id="password"
-                      type={showPassword ? 'text' : 'password'}
-                      placeholder="Passwort eingeben"
-                      {...field}
-                    />
-                    <InputLeftElement>
-                      <RiLockPasswordLine />
-                    </InputLeftElement>
-                    <InputRightElement width="4.5rem">
-                      <Button
-                        size="xs"
-                        fontSize="1xl"
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
-                        {showPassword ? <BiShow /> : <BiHide />}
-                      </Button>
-                    </InputRightElement>
-                  </InputGroup>
-                </FormControl>
-              )}
-            </Field>
-            <Box>
-              <Text fontSize="sm" fontWeight="bold"></Text>
-              <List spacing={3}>
-                <ListItem>
-                  <ListIcon as={BiCheckShield} color="teal.500" />
-                  Mindestens acht Zeichen{' '}
-                </ListItem>
-                <ListItem>
-                  <ListIcon as={BiCheckShield} color="teal.500" />
-                  Mindestens ein Buchstabe
-                </ListItem>
-                {/* You can also use custom icons from react-icons */}
-                <ListItem>
-                  <ListIcon as={BiCheckShield} color="teal.500" />
-                  Mindestens eine Zahl
-                </ListItem>
-              </List>
-            </Box>
-            {/*---------------- Confirm Password ---------------*/}
+          <Field name="password">
+            {({ field }: FieldProps) => (
+              <FormControl>
+                <FormLabel htmlFor="password">Passwort</FormLabel>
+                <InputGroup>
+                  <Input
+                    borderColor="teal.500"
+                    autoComplete="on"
+                    id="password"
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="Passwort eingeben"
+                    {...field}
+                  />
+                  <InputLeftElement>
+                    <RiLockPasswordLine />
+                  </InputLeftElement>
+                  <InputRightElement width="4.5rem">
+                    <Button size="xs" fontSize="1xl" onClick={() => setShowPassword(!showPassword)}>
+                      {showPassword ? <BiShow /> : <BiHide />}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+              </FormControl>
+            )}
+          </Field>
+          <Box>
+            <Text fontSize="sm" fontWeight="bold"></Text>
+            <List spacing={3}>
+              <ListItem>
+                <ListIcon as={BiCheckShield} color="teal.500" />
+                Mindestens acht Zeichen{' '}
+              </ListItem>
+              <ListItem>
+                <ListIcon as={BiCheckShield} color="teal.500" />
+                Mindestens ein Buchstabe
+              </ListItem>
+              {/* You can also use custom icons from react-icons */}
+              <ListItem>
+                <ListIcon as={BiCheckShield} color="teal.500" />
+                Mindestens eine Zahl
+              </ListItem>
+            </List>
+          </Box>
+          {/*---------------- Confirm Password ---------------*/}
 
-            <Field name="passwordConfirm">
-              {({ field }: FieldProps) => (
-                <FormControl>
-                  <FormLabel htmlFor="passwordConfirm">Passwort bestätigen</FormLabel>
-                  <InputGroup>
-                    <Input
-                      borderColor="teal.500"
-                      id="passwordConfirm"
-                      autoComplete="on"
-                      type={showPassword ? 'text' : 'password'}
-                      placeholder="Passwort bestätigen"
-                      {...field}
-                    />
-                    <InputLeftElement>
-                      <RiLockPasswordLine />
-                    </InputLeftElement>
-                    <InputRightElement width="4.5rem">
-                      <Button
-                        size="xs"
-                        fontSize="1xl"
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
-                        {showPassword ? <BiShow /> : <BiHide />}
-                      </Button>
-                    </InputRightElement>
-                  </InputGroup>
-                </FormControl>
-              )}
-            </Field>
+          <Field name="passwordConfirm">
+            {({ field }: FieldProps) => (
+              <FormControl>
+                <FormLabel htmlFor="passwordConfirm">Passwort bestätigen</FormLabel>
+                <InputGroup>
+                  <Input
+                    borderColor="teal.500"
+                    id="passwordConfirm"
+                    autoComplete="on"
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="Passwort bestätigen"
+                    {...field}
+                  />
+                  <InputLeftElement>
+                    <RiLockPasswordLine />
+                  </InputLeftElement>
+                  <InputRightElement width="4.5rem">
+                    <Button size="xs" fontSize="1xl" onClick={() => setShowPassword(!showPassword)}>
+                      {showPassword ? <BiShow /> : <BiHide />}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+              </FormControl>
+            )}
+          </Field>
 
-            {/*------------------- Form Submit -----------------*/}
+          {/*------------------- Form Submit -----------------*/}
 
+          <Button colorScheme="teal" type="submit" isLoading={isSubmitting} disabled={isSubmitting}>
+            Registrieren
+          </Button>
+
+          <Text>
+            Account vorhanden?{' '}
             <Button
+              type="button"
+              variant="link"
               colorScheme="teal"
-              type="submit"
-              isLoading={isSubmitting}
-              disabled={isSubmitting}
+              fontWeight="extrabold"
+              onClick={() => showSignInForm()}
             >
-              Registrieren
+              Jetzt anmelden
             </Button>
-
-            <Text>
-              Account vorhanden?{' '}
-              <Button
-                type="button"
-                variant="link"
-                colorScheme="teal"
-                fontWeight="extrabold"
-                onClick={() => showSignInForm()}
-              >
-                Jetzt anmelden
-              </Button>
-            </Text>
-          </Form>
-        )}
-      </Formik>
-    </>
+          </Text>
+        </Form>
+      )}
+    </Formik>
   );
 }
 
