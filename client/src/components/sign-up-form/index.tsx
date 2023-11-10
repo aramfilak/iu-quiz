@@ -19,7 +19,7 @@ import { RiLockPasswordLine, RiMailLine } from 'react-icons/ri';
 import { BiShow, BiHide, BiCheckShield } from 'react-icons/bi';
 import { useAuthStore } from '../../sotres';
 import { useNavigate } from 'react-router-dom';
-import { routes } from '../../utils';
+import { routes } from '../../utils/routes';
 
 interface FormValues {
   email: string;
@@ -41,18 +41,16 @@ function SignUpForm() {
   ) => {
     if (password !== passwordConfirm) {
       return toast({
-        description: 'Passwörter müssen identisch sein ‼️',
+        description: 'Passwörter müssen identisch sein',
         status: 'error'
       });
     }
 
     const { success, message } = await singUp(email, password);
 
-    const status = success ? 'success' : 'error';
-
     toast({
       description: message,
-      status: status
+      status: success ? 'success' : 'error'
     });
 
     setSubmitting(false);

@@ -2,18 +2,11 @@ import { Request, Response } from 'express';
 import { BadRequestError, UnauthorizedError } from '../../errors';
 import bcrypt from 'bcryptjs';
 import { database } from '../../configs';
-
 import { StatusCodes } from 'http-status-codes';
-import {
-  ACCESS_TOKEN,
-  createApiResponse,
-  generateJWT,
-  parseIuStudentDefaultNickName,
-  attachCookie,
-  isIuEmail,
-  isValidPassword,
-  isEmpty
-} from '../../utils';
+import { ACCESS_TOKEN } from '../../utils/constants';
+import { createApiResponse, parseIuStudentDefaultNickName } from '../../utils/formatters';
+import { isIuEmail, isValidPassword, isEmpty } from '../../utils/validators';
+import { generateJWT, attachCookie } from '../../utils/helpers';
 
 /**
  * Handles student sign-up.
@@ -71,13 +64,13 @@ async function signIn(req: Request, res: Response) {
 
   const student = await database.student.findFirst({ where: { email: email } });
   if (!student) {
-    throw new UnauthorizedError('E-Mail ist nicht registriert');
+    throw new BadRequestError('E-Mail ist nicht registriert');
   }
 
   const passwordMatch = await bcrypt.compare(password, student.password);
 
   if (!passwordMatch) {
-    throw new UnauthorizedError('Falsches Passwort');
+    throw new BadRequestError('Falsches Passwort');
   }
 
   const accessToken = generateJWT({ id: student.id });

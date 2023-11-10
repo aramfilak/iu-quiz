@@ -1,7 +1,7 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { UnauthorizedError } from '../errors';
 import { Response, Request, NextFunction } from 'express';
-import { ACCESS_TOKEN } from '../utils';
+import { ACCESS_TOKEN } from '../utils/constants';
 
 declare global {
   namespace Express {

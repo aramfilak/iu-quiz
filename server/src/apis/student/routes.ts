@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { findOne, update } from './service';
+import { findOne, update } from './services';
 import { authenticate } from '../../middlewares';
 
 const studentRoutes = Router();

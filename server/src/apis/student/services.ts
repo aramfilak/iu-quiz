@@ -2,8 +2,8 @@ import { Request, Response } from 'express';
 import { NotFoundError, UnauthorizedError } from '../../errors';
 import { database } from '../../configs';
 import { StatusCodes } from 'http-status-codes';
-import { createApiResponse } from '../../utils';
-import { excludeObjectProperty } from '../../utils';
+import { createApiResponse } from '../../utils/formatters';
+import { excludeObjectProperty } from '../../utils/helpers';
 
 /**
  * Get Student data.

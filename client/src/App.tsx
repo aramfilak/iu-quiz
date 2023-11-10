@@ -1,17 +1,13 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { ChakraProvider, extendTheme } from '@chakra-ui/react';
-import { routes } from './utils';
-
-const theme = extendTheme({
-  fonts: { body: `'Open Sans', sans-serif` }
-});
+import { ChakraProvider } from '@chakra-ui/react';
+import { routes } from './utils/routes';
+import { ProtectedRoutes } from './components/protected-routes';
 
 const { Authentication, NotFound404, Dashboard } = routes;
 
 function App() {
   return (
     <ChakraProvider
-      theme={theme}
       toastOptions={{ defaultOptions: { position: 'top', duration: 5000, isClosable: true } }}
     >
       <BrowserRouter>
@@ -21,11 +17,13 @@ function App() {
           <Route path={NotFound404.path} element={NotFound404.element} />
 
           {/*------------protected-------------------*/}
-          <Route path={Dashboard.path} element={Dashboard.element} />
+          <Route element={<ProtectedRoutes />}>
+            <Route path={Dashboard.path} element={Dashboard.element} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </ChakraProvider>
   );
 }
 
-export default App;
+export { App };

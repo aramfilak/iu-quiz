@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import { signUp, signIn, signOut } from './service';
+import { signUp, signIn, signOut } from './services';
 
 const authRouter = Router();
 
 authRouter.post('/sign-up', signUp);
 authRouter.post('/sign-in', signIn);
-authRouter.get('/sign-out', signOut);
+authRouter.post('/sign-out', signOut);
 
 export { authRouter };

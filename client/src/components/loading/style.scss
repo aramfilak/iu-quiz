@@ -1,0 +1,66 @@
+@use '../../sass/abstracts/' as abs;
+
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-block: 2rem;
+
+  &.full-screen {
+    min-height: calc(100vh - 4rem);
+  }
+
+  h1 {
+    letter-spacing: 0.1rem;
+    transform: translateY(-20%);
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--chakra-colors-teal-500);
+  }
+
+  .circles {
+    display: flex;
+    gap: 0.5rem;
+
+    .circle-1,
+    .circle-2,
+    .circle-3 {
+      background-color: var(--chakra-colors-teal-500);
+      width: 1rem;
+      height: 1rem;
+      border-radius: 50%;
+      align-items: center;
+      animation: up-and-down 0.8s ease infinite alternate;
+    }
+
+    .circle-2 {
+      animation-delay: 0.2s;
+    }
+    .circle-3 {
+      animation-delay: 0.4s;
+    }
+  }
+
+  @include abs.mq('md') {
+    h1 {
+      font-size: 2rem;
+    }
+
+    .circles {
+      .circle-1,
+      .circle-2,
+      .circle-3 {
+        width: 1.2rem;
+        height: 1.2rem;
+      }
+    }
+  }
+
+  @keyframes up-and-down {
+    to {
+      opacity: 0.3;
+      transform: translateY(-15px);
+    }
+  }
+}

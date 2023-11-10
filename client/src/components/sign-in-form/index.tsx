@@ -16,7 +16,7 @@ import {
   useToast
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
-import { routes } from '../../utils';
+import { routes } from '../../utils/routes';
 
 interface FormValues {
   email: string;
@@ -37,11 +37,9 @@ function SignInForm() {
   ) => {
     const { success, message } = await signIn(email, password);
 
-    const status = success ? 'success' : 'error';
-
     toast({
       description: message,
-      status: status
+      status: success ? 'success' : 'error'
     });
 
     setSubmitting(false);

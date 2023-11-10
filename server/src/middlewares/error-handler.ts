@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { ApiError } from '../errors/api';
 import { StatusCodes } from 'http-status-codes';
-import { createErrorResponse } from '../utils';
+import { createErrorResponse } from '../utils/formatters';
 
 function errorHandler(e: Error, req: Request, res: Response, next: NextFunction) {
   if (e instanceof ApiError) {

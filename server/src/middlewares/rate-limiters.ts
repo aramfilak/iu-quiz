@@ -6,8 +6,8 @@ const message = (min: number) =>
   `Zu viele Anfragen. Bitte versuchen Sie es in ${min} Minuten noch einmal.`;
 
 const authRateLimiter = rateLimit({
-  windowMs: 10 * 60 * 1000, // 10 min
-  limit: 15,
+  windowMs: 60 * 60 * 1000, // 1h
+  limit: 50,
   standardHeaders: 'draft-7',
   skipSuccessfulRequests: true,
   keyGenerator: (req: Request, res: Response) => {

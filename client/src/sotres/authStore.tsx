@@ -1,23 +1,22 @@
 import { create } from 'zustand';
-import { axiosAuthApi } from '../utils/';
-import axios from 'axios';
+import { axiosAuthApi, asyncHandler } from '../utils/http';
+import { IuQuizServerResponse } from '../utils/types';
 
-interface AuthResponse {
-  success: boolean;
-  message: string;
-  statusCode: number;
-}
-
-interface useAuthStore {
+interface UseAuthStore {
   isShowSingInForm: boolean;
   showSignInForm: () => void;
   showSignUpForm: () => void;
-  singUp: (email: string, password: string) => Promise<AuthResponse>;
-  signIn: (email: string, password: string) => Promise<AuthResponse>;
-  authenticate: (endpoint: string, email: string, password: string) => Promise<AuthResponse>;
+  singUp: (email: string, password: string) => Promise<IuQuizServerResponse<unknown>>;
+  signIn: (email: string, password: string) => Promise<IuQuizServerResponse<unknown>>;
+  signOut: () => Promise<IuQuizServerResponse<unknown>>;
+  authenticate: (
+    endpoint: string,
+    email: string,
+    password: string
+  ) => Promise<IuQuizServerResponse<unknown>>;
 }
 
-const useAuthStore = create<useAuthStore>((set, get) => ({
+const useAuthStore = create<UseAuthStore>((set, get) => ({
   isShowSingInForm: true,
 
   showSignInForm: () => set({ isShowSingInForm: true }),
@@ -32,30 +31,21 @@ const useAuthStore = create<useAuthStore>((set, get) => ({
     return await get().authenticate('/sign-in', email, password);
   },
 
-  authenticate: async (
-    endpoint: string,
-    email: string,
-    password: string
-  ): Promise<AuthResponse> => {
-    try {
-      const response = await axiosAuthApi.post<AuthResponse>(endpoint, {
+  signOut: () =>
+    asyncHandler(async () => {
+      const response = await axiosAuthApi.post<IuQuizServerResponse<unknown>>('/sign-out');
+      localStorage.setItem('is_authenticated', 'false');
+      return response.data;
+    }),
+
+  authenticate: (endpoint: string, email: string, password: string) =>
+    asyncHandler(async () => {
+      const response = await axiosAuthApi.post<IuQuizServerResponse<unknown>>(endpoint, {
         email: email,
         password: password
       });
-
       return response.data;
-    } catch (e) {
-      if (axios.isAxiosError(e) && e.response && e.response.data) {
-        return e.response.data;
-      } else {
-        return {
-          success: false,
-          message: 'Server Error',
-          statusCode: 500
-        };
-      }
-    }
-  }
+    })
 }));
 
 export { useAuthStore };
