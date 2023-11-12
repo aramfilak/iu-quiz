@@ -1,16 +1,27 @@
 # IU-QUIZ APPLICATION - ISEF01
 
-- install project dependencies
+#### install project dependencies
 
-  ```js
-  npm run install-dep
-  ```
+```js
+npm run install-dep
+```
 
-- run project locally
+#### run project locally
 
-  ```js
-  npm run dev
-  ```
+```js
+npm run dev
+```
 
-  - default client-local-URL http://localhost:3000
-  - default server-local-URL http://localhost:4000
+#### run tests
+
+```js
+ npm test
+ or
+ npm run test
+```
+
+#### local
+
+> **default client-localhost http://localhost:3000**
+
+> **default server-localhost http://localhost:4000**
