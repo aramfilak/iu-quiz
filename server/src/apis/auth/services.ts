@@ -15,10 +15,8 @@ import { generateJWT, attachCookie } from '../../utils/helpers';
 async function signUp(req: Request, res: Response) {
   let { email, password } = req.body;
 
-  email = email.trim();
-  password = password.trim();
-  isIuEmail(email);
-  isValidPassword(password);
+  email = isIuEmail(email);
+  password = isValidPassword(password);
 
   const emailIsRegistered = await database.student.findFirst({ where: { email: email } });
 
@@ -57,10 +55,8 @@ async function signUp(req: Request, res: Response) {
 async function signIn(req: Request, res: Response) {
   let { email, password } = req.body;
 
-  email = email.trim();
-  password = password.trim();
-  isEmpty('email', email);
-  isEmpty('password', password);
+  email = isEmpty('email', email);
+  password = isEmpty('password', password);
 
   const student = await database.student.findFirst({ where: { email: email } });
   if (!student) {
