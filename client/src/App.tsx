@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 import { routes } from './utils/routes';
-import { ProtectedRoutes } from './components/protected-routes';
+import { ProtectedRoutes } from './components';
 
 const { Authentication, NotFound404, Dashboard } = routes;
 

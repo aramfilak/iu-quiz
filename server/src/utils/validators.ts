@@ -6,7 +6,7 @@ function isEmpty(valueName: string, value: string) {
   const isEmpty = value === undefined || value === null || !value.length;
 
   if (isEmpty) {
-    throw new BadRequestError(`${valueName} ist ein Pflichtfeld`);
+    throw new BadRequestError(`${valueName} fehlt. Bitte eingeben, um fortzufahren.`);
   }
 
   return value;

@@ -6,6 +6,8 @@ import { StatusCodes } from 'http-status-codes';
 import { createApiResponse, parseIuStudentDefaultNickName } from '../../utils/formatters';
 import { isIuEmail, isValidPassword, isEmpty } from '../../utils/validators';
 import { generateJWT } from '../../utils/helpers';
+import { sendVerificationEmail } from '../../utils/emails';
+import crypto from 'crypto';
 
 /**
  * Handles student sign-up.
@@ -17,9 +19,16 @@ async function signUp(req: Request, res: Response) {
   email = isIuEmail(email);
   password = isValidPassword(password);
 
-  const emailIsRegistered = await database.student.findFirst({ where: { email: email } });
+  const student = await database.student.findFirst({ where: { email: email } });
 
-  if (emailIsRegistered) {
+  if (student && !student.isVerified) {
+    throw new BadRequestError(
+      `Bitte verifizieren Sie Ihre E-Mail-Adresse.\n 
+       Wir haben Ihnen eine Bestätigungs-E-Mail gesendet.`
+    );
+  }
+
+  if (student) {
     throw new BadRequestError('E-Mail ist bereits registriert');
   }
 
@@ -28,21 +37,62 @@ async function signUp(req: Request, res: Response) {
 
   const nickName = parseIuStudentDefaultNickName(email);
 
-  const student = await database.student.create({
-    data: { email: email, password: hashedPassword, verified: false, nickName, quiz: [{}] }
+  const verificationToken = crypto.randomBytes(24).toString('hex');
+
+  await database.student.create({
+    data: {
+      email: email,
+      password: hashedPassword,
+      nickName,
+      emailVerificationToken: verificationToken
+    }
   });
 
-  const accessToken = generateJWT({ id: student.id });
+  await sendVerificationEmail({
+    name: nickName,
+    email: email,
+    verificationToken: verificationToken
+  });
 
-  res.status(StatusCodes.OK).json(
-    createApiResponse(
-      StatusCodes.OK,
-      `Willkommen ${nickName}, wir freuen uns, dass du dabei bist`,
-      {
-        accessToken: accessToken
-      }
-    )
-  );
+  res
+    .status(StatusCodes.OK)
+    .json(
+      createApiResponse(
+        StatusCodes.OK,
+        'Bitte bestätigen Sie Ihre E-Mail-Adresse, um sich anzumelden'
+      )
+    );
+}
+
+/**
+ * Handles email verification.
+ * @access public
+ */
+async function verifyEmail(req: Request, res: Response) {
+  let { email, emailVerificationToken } = req.body;
+
+  email = isEmpty('email', email);
+  emailVerificationToken = isEmpty('emailVerificationToken', email);
+
+  const student = await database.student.findFirst({
+    where: { email: email, emailVerificationToken: emailVerificationToken }
+  });
+
+  if (!student) {
+    throw new UnauthorizedError('Verifizierung fehlgeschlagen');
+  }
+
+  await database.student.update({
+    where: { email: email, emailVerificationToken: emailVerificationToken },
+    data: {
+      isVerified: true,
+      emailVerificationToken: ''
+    }
+  });
+
+  res
+    .status(StatusCodes.OK)
+    .json(createApiResponse(StatusCodes.OK, 'Verifizierung ist abgeschlossen'));
 }
 
 /**
@@ -57,6 +107,11 @@ async function signIn(req: Request, res: Response) {
   password = isEmpty('password', password);
 
   const student = await database.student.findFirst({ where: { email: email } });
+
+  if (student && !student.isVerified) {
+    throw new BadRequestError('Bitte bestätigen Sie Ihre E-Mail, um sich einzuloggen');
+  }
+
   if (!student) {
     throw new BadRequestError('E-Mail ist nicht registriert');
   }
@@ -76,9 +131,4 @@ async function signIn(req: Request, res: Response) {
   );
 }
 
-/**
- * Handles student sign-out.
- * @access public
- */
-
-export { signUp, signIn };
+export { signIn, signUp, verifyEmail };

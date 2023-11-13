@@ -14,10 +14,11 @@ datasource db {
 }
 
 model Student {
-  id       String  @id @unique @default(uuid())
-  email    String  @unique
-  password String
-  verified Boolean
-  image    String
-  nickName String
+  id                     String  @id @unique @default(uuid())
+  email                  String  @unique
+  password               String
+  image                  String  @default("")
+  nickName               String
+  isVerified             Boolean @default(false)
+  emailVerificationToken String
 }

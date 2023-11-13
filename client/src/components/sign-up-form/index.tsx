@@ -42,6 +42,7 @@ function SignUpForm() {
         description: 'Passwörter müssen identisch sein',
         status: 'error'
       });
+      return setIsSubmitting(false);
     }
 
     if (email && password && passwordMatch) {
@@ -61,7 +62,6 @@ function SignUpForm() {
         status: 'warning'
       });
     }
-
     setIsSubmitting(false);
   };
 

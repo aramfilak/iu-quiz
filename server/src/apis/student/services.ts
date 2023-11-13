@@ -20,6 +20,7 @@ async function findOne(req: Request, res: Response) {
   if (!studentData) {
     throw new NotFoundError('Sie sind nicht registriert');
   }
+
   const studentDataWithOutPassword = excludeObjectProperty('password', studentData);
 
   res
