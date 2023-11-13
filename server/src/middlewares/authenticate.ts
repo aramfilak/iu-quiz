@@ -21,7 +21,6 @@ function authenticate(req: Request, res: Response, next: NextFunction) {
 
   try {
     const decoded = jwt.verify(accessToken, process.env.JWT_SECRET!) as JwtPayload;
-    console.log(decoded);
     req.auth = { id: decoded.id };
 
     next();

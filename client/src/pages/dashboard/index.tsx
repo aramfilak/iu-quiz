@@ -19,7 +19,7 @@ function Dashboard() {
         onClick={async () => {
           signOut();
           toast({
-            description: 'Auf wiedersehen',
+            description: 'Auf Wiedersehen',
             status: 'success'
           });
 

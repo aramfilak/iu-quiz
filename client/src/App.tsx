@@ -1,9 +1,9 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 import { routes } from './utils/routes';
-import { ProtectedRoutes } from './components/protected-routes';
+import { ProtectedRoutes } from './components';
 
-const { Authentication, NotFound404, Dashboard } = routes;
+const { EmailVerification, Authentication, NotFound404, Dashboard } = routes;
 
 function App() {
   return (
@@ -14,6 +14,7 @@ function App() {
         <Routes>
           {/*------------public-------------------*/}
           <Route path={Authentication.path} element={Authentication.element} />
+          <Route path={EmailVerification.path} element={EmailVerification.element} />
           <Route path={NotFound404.path} element={NotFound404.element} />
 
           {/*------------protected-------------------*/}

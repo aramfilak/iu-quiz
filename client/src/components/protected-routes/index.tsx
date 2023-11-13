@@ -8,7 +8,7 @@ function ProtectedRoutes() {
   const { Authentication } = routes;
   const { getStudent } = useStudentStore();
   const { signOut } = useAuthStore();
-  const { setIsAuthenticated, isAuthenticated } = usePersistStore();
+  const { isAuthenticated } = usePersistStore();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -18,9 +18,7 @@ function ProtectedRoutes() {
         const { success } = await getStudent();
 
         if (success) {
-          setIsAuthenticated(true);
-          setIsLoading(false);
-          return;
+          return setIsLoading(false);
         }
       }
 

@@ -1,4 +1,4 @@
-import { Authentication, Dashboard, NotFound404 } from '../pages';
+import { Authentication, Dashboard, NotFound404, EmailVerification } from '../pages';
 
 const routes = {
   Authentication: {
@@ -15,6 +15,11 @@ const routes = {
     name: 'Dashboard',
     path: '/dashboard',
     element: <Dashboard />
+  },
+  EmailVerification: {
+    name: 'Email Verification',
+    path: '/email-verification',
+    element: <EmailVerification />
   }
 };
 

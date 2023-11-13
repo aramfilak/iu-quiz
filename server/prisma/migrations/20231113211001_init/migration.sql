@@ -3,9 +3,10 @@ CREATE TABLE "Student" (
     "id" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
-    "verified" BOOLEAN NOT NULL,
-    "image" TEXT NOT NULL,
+    "image" TEXT NOT NULL DEFAULT '',
     "nickName" TEXT NOT NULL,
+    "isVerified" BOOLEAN NOT NULL DEFAULT false,
+    "emailVerificationToken" TEXT NOT NULL,
 
     CONSTRAINT "Student_pkey" PRIMARY KEY ("id")
 );

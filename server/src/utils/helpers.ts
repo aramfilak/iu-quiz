@@ -6,16 +6,29 @@ function generateJWT(payload: Object) {
   })}`;
 }
 
-function excludeObjectProperty(propertyName: string, obj: { [key: string]: any }) {
-  const cleanedObject: { [key: string]: any } = {};
+function excludeSensitiveProperties(
+  propertiesToExclude: string[],
+  obj: { [key: string]: any }
+): { [key: string]: any } {
+  function cleanObject(object: { [key: string]: any }): { [key: string]: any } {
+    const cleanedObject: { [key: string]: any } = Array.isArray(object) ? [] : {};
 
-  for (const prop in obj) {
-    if (prop !== propertyName) {
-      cleanedObject[prop] = obj[prop];
+    for (const prop in object) {
+      if (object.hasOwnProperty(prop)) {
+        if (!propertiesToExclude.includes(prop)) {
+          if (typeof object[prop] === 'object' && object[prop] !== null) {
+            cleanedObject[prop] = cleanObject(object[prop]);
+          } else {
+            cleanedObject[prop] = object[prop];
+          }
+        }
+      }
     }
+
+    return cleanedObject;
   }
 
-  return cleanedObject;
+  return cleanObject(obj);
 }
 
-export { excludeObjectProperty, generateJWT };
+export { excludeSensitiveProperties, generateJWT };

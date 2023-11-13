@@ -10,16 +10,20 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightElement,
+  Alert,
+  AlertIcon,
   useToast
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../../utils/routes';
+import { CustomAlert } from '../../utils/types';
 
 function SignInForm() {
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [alert, setAlert] = useState<CustomAlert | null>(null);
   const { showSignUpForm, signIn } = useAuthStore();
   const navigate = useNavigate();
   const toast = useToast();
@@ -27,25 +31,20 @@ function SignInForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setAlert({ status: 'loading', message: 'Es Lädt...' });
     const email = emailInputRef.current?.value;
     const password = passwordInputRef.current?.value;
 
     if (email && password) {
       const { success, message } = await signIn(email, password);
-
-      toast({
-        description: message,
-        status: success ? 'success' : 'error'
-      });
-
       if (success) {
+        toast({ status: 'success', description: message });
         navigate(routes.Dashboard.path);
+      } else {
+        setAlert({ status: 'error', message });
       }
     } else {
-      toast({
-        description: 'Bitte alle Felder ausfüllen',
-        status: 'warning'
-      });
+      setAlert({ status: 'warning', message: 'Bitte alle Felder ausfüllen' });
     }
     setIsSubmitting(false);
   };
@@ -55,7 +54,13 @@ function SignInForm() {
       <Text as="b" fontSize="4xl" color="teal.500">
         Anmelden
       </Text>
-
+      {/*------------------- Response Alert --------------------*/}
+      {alert && (
+        <Alert borderRadius="md" variant="left-accent" status={alert.status}>
+          <AlertIcon />
+          {alert.message}
+        </Alert>
+      )}
       {/*------------------- Email --------------------*/}
 
       <FormLabel htmlFor="email">Email</FormLabel>
@@ -96,7 +101,7 @@ function SignInForm() {
 
       {/*------------------- Form Submit -----------------*/}
 
-      <Button isLoading={isSubmitting} disabled={isSubmitting} colorScheme="teal" type="submit">
+      <Button disabled={isSubmitting} colorScheme="teal" type="submit">
         Anmelden
       </Button>
 

@@ -3,10 +3,15 @@ import { NotFoundError, UnauthorizedError } from '../../errors';
 import { database } from '../../configs';
 import { StatusCodes } from 'http-status-codes';
 import { createApiResponse } from '../../utils/formatters';
-import { excludeObjectProperty } from '../../utils/helpers';
+import { excludeSensitiveProperties } from '../../utils/helpers';
+import { Student } from '@prisma/client';
+
+const excludeStudentSensitiveProperties = (student: Student) =>
+  excludeSensitiveProperties(['password', 'emailVerificationToken'], student);
 
 /**
- * Get Student data.
+ * @route api/v1/student
+ * @method GET
  * @access protected
  */
 
@@ -20,12 +25,17 @@ async function findOne(req: Request, res: Response) {
   if (!studentData) {
     throw new NotFoundError('Sie sind nicht registriert');
   }
-  const studentDataWithOutPassword = excludeObjectProperty('password', studentData);
 
   res
     .status(StatusCodes.OK)
-    .json(createApiResponse(StatusCodes.OK, '', studentDataWithOutPassword));
+    .json(createApiResponse(StatusCodes.OK, '', excludeStudentSensitiveProperties(studentData)));
 }
+
+/**
+ * @route api/v1/student
+ * @method PATCH
+ * @access protected
+ */
 
 async function update(req: Request, res: Response) {}
 

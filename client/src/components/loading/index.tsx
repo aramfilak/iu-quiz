@@ -14,7 +14,7 @@ function Loading({ fullScreen }: Props) {
 
   return (
     <Container additionalClasses={classNames}>
-      <h1>Loading</h1>
+      <h1>Es Lädt</h1>
       <div className="circles">
         <span className="circle-1"></span>
         <span className="circle-2"></span>

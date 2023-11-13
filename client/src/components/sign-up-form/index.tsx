@@ -7,17 +7,17 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightElement,
-  useToast,
   Box,
   List,
   ListItem,
-  ListIcon
+  ListIcon,
+  Alert,
+  AlertIcon
 } from '@chakra-ui/react';
 import { RiLockPasswordLine, RiMailLine } from 'react-icons/ri';
 import { BiShow, BiHide, BiCheckShield } from 'react-icons/bi';
 import { useAuthStore } from '../../sotres';
-import { useNavigate } from 'react-router-dom';
-import { routes } from '../../utils/routes';
+import { CustomAlert } from '../../utils/types';
 
 function SignUpForm() {
   const emailInputRef = useRef<HTMLInputElement>(null);
@@ -25,43 +25,29 @@ function SignUpForm() {
   const passwordConfirmInputRef = useRef<HTMLInputElement>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [alert, setAlert] = useState<CustomAlert | null>(null);
   const { showSignInForm, singUp } = useAuthStore();
-  const toast = useToast();
-  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setAlert({ status: 'loading', message: 'Es Lädt...' });
     const email = emailInputRef.current?.value;
     const password = passwordInputRef.current?.value;
     const passwordConfirm = passwordConfirmInputRef.current?.value;
     const passwordMatch = password === passwordConfirm;
 
     if (!passwordMatch) {
-      toast({
-        description: 'Passwörter müssen identisch sein',
-        status: 'error'
-      });
+      setAlert({ status: 'warning', message: 'Passwörter müssen identisch sein' });
+      return setIsSubmitting(false);
     }
 
     if (email && password && passwordMatch) {
       const { success, message } = await singUp(email, password);
-
-      toast({
-        description: message,
-        status: success ? 'success' : 'error'
-      });
-
-      if (success) {
-        navigate(routes.Dashboard.path);
-      }
+      setAlert({ status: success ? 'success' : 'error', message });
     } else {
-      toast({
-        description: 'Bitte alle Felder ausfüllen',
-        status: 'warning'
-      });
+      setAlert({ status: 'warning', message: 'Bitte alle Felder ausfüllen' });
     }
-
     setIsSubmitting(false);
   };
 
@@ -71,6 +57,13 @@ function SignUpForm() {
         Registrieren
       </Text>
 
+      {/*------------------- Response Alert --------------------*/}
+      {alert && (
+        <Alert borderRadius="md" variant="left-accent" status={alert.status}>
+          <AlertIcon />
+          {alert.message}
+        </Alert>
+      )}
       {/*------------------- Email --------------------*/}
 
       <FormLabel htmlFor="email">Email</FormLabel>
@@ -151,7 +144,7 @@ function SignUpForm() {
 
       {/*------------------- Form Submit -----------------*/}
 
-      <Button colorScheme="teal" type="submit" isLoading={isSubmitting} disabled={isSubmitting}>
+      <Button colorScheme="teal" type="submit" disabled={isSubmitting}>
         Registrieren
       </Button>
 
