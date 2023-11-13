@@ -13,7 +13,9 @@ import { excludeObjectProperty } from '../../utils/helpers';
 async function findOne(req: Request, res: Response) {
   const studentId = req.auth?.id;
 
-  const studentData = await database.student.findFirst({ where: { id: studentId } });
+  const studentData = await database.student.findFirst({
+    where: { id: studentId }
+  });
 
   if (!studentData) {
     throw new NotFoundError('Sie sind nicht registriert');

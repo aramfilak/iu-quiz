@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { axiosStudentApi, asyncHandler } from '../utils/http';
 import { IuQuizServerResponse } from '../utils/types';
+import { usePersistStore } from './';
 
 interface Student {
   nickName: string;
@@ -17,7 +18,9 @@ const useStudentStore = create<UseStudentStore>((set) => ({
 
   getStudent: () =>
     asyncHandler(async () => {
-      const response = await axiosStudentApi.get('/');
+      const response = await axiosStudentApi.get('/', {
+        headers: { Authorization: usePersistStore.getState().accessToken }
+      });
       set({ student: response.data.data });
       return response.data;
     })

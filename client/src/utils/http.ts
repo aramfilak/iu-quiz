@@ -9,13 +9,11 @@ if (isDevelopmentMode) {
 }
 
 const axiosAuthApi = axios.create({
-  baseURL: `${baseURL}/api/v1/auth`,
-  withCredentials: true
+  baseURL: `${baseURL}/api/v1/auth`
 });
 
 const axiosStudentApi = axios.create({
-  baseURL: `${baseURL}/api/v1/student`,
-  withCredentials: true
+  baseURL: `${baseURL}/api/v1/student`
 });
 
 /**

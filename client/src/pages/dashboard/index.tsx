@@ -17,11 +17,12 @@ function Dashboard() {
       <div> {student?.email}</div>
       <Button
         onClick={async () => {
-          const { success, message } = await signOut();
+          signOut();
           toast({
-            description: message,
-            status: success ? 'success' : 'error'
+            description: 'Auf wiedersehen',
+            status: 'success'
           });
+
           navigate(Authentication.path);
         }}
       >

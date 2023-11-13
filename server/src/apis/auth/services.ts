@@ -3,10 +3,9 @@ import { BadRequestError, UnauthorizedError } from '../../errors';
 import bcrypt from 'bcryptjs';
 import { database } from '../../configs';
 import { StatusCodes } from 'http-status-codes';
-import { ACCESS_TOKEN } from '../../utils/constants';
 import { createApiResponse, parseIuStudentDefaultNickName } from '../../utils/formatters';
 import { isIuEmail, isValidPassword, isEmpty } from '../../utils/validators';
-import { generateJWT, attachCookie } from '../../utils/helpers';
+import { generateJWT } from '../../utils/helpers';
 
 /**
  * Handles student sign-up.
@@ -30,21 +29,20 @@ async function signUp(req: Request, res: Response) {
   const nickName = parseIuStudentDefaultNickName(email);
 
   const student = await database.student.create({
-    data: { email: email, password: hashedPassword, nickName: nickName }
+    data: { email: email, password: hashedPassword, verified: false, nickName, quiz: [{}] }
   });
 
   const accessToken = generateJWT({ id: student.id });
 
-  attachCookie(res, ACCESS_TOKEN, accessToken);
-
-  res
-    .status(StatusCodes.OK)
-    .json(
-      createApiResponse(
-        StatusCodes.OK,
-        `Willkommen ${nickName}, wir freuen uns, dass du dabei bist`
-      )
-    );
+  res.status(StatusCodes.OK).json(
+    createApiResponse(
+      StatusCodes.OK,
+      `Willkommen ${nickName}, wir freuen uns, dass du dabei bist`,
+      {
+        accessToken: accessToken
+      }
+    )
+  );
 }
 
 /**
@@ -71,11 +69,11 @@ async function signIn(req: Request, res: Response) {
 
   const accessToken = generateJWT({ id: student.id });
 
-  attachCookie(res, ACCESS_TOKEN, accessToken);
-
-  res
-    .status(StatusCodes.OK)
-    .json(createApiResponse(StatusCodes.OK, `Hey ${student.nickName} willkommen zurück`));
+  res.status(StatusCodes.OK).json(
+    createApiResponse(StatusCodes.OK, `Willkommen zurück`, {
+      accessToken: accessToken
+    })
+  );
 }
 
 /**
@@ -83,11 +81,4 @@ async function signIn(req: Request, res: Response) {
  * @access public
  */
 
-async function signOut(req: Request, res: Response) {
-  res
-    .status(StatusCodes.OK)
-    .clearCookie(ACCESS_TOKEN)
-    .json(createApiResponse(StatusCodes.OK, 'Bis zum nächsten Mal'));
-}
-
-export { signUp, signIn, signOut };
+export { signUp, signIn };

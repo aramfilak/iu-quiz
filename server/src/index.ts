@@ -7,7 +7,6 @@ import helmet from 'helmet';
 import { database } from './configs';
 import { authRouter } from './apis/auth';
 import { authRateLimiter, errorHandler, pathNotFound } from './middlewares';
-import cookieParser from 'cookie-parser';
 import { studentRoutes } from './apis/student';
 import requestIp from 'request-ip';
 
@@ -21,8 +20,7 @@ app.use(requestIp.mw());
 app.use(helmet());
 app.use(
   cors({
-    origin: process.env.ORIGIN,
-    credentials: true
+    origin: process.env.ORIGIN
   })
 );
 
@@ -31,7 +29,6 @@ app.use(
  */
 app.use(morgan('dev'));
 app.use(express.json());
-app.use(cookieParser());
 
 /*
  * MAIN ROUTES

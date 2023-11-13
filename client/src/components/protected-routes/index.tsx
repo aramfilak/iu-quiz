@@ -8,30 +8,29 @@ function ProtectedRoutes() {
   const { Authentication } = routes;
   const { getStudent } = useStudentStore();
   const { signOut } = useAuthStore();
-  const { setIsAuthenticated } = usePersistStore();
+  const { setIsAuthenticated, isAuthenticated } = usePersistStore();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
-      const { success } = await getStudent();
-
-      if (success) {
-        setIsAuthenticated(true);
-        setIsLoading(false);
-      } else {
-        const { success } = await signOut();
+      if (isAuthenticated) {
+        const { success } = await getStudent();
 
         if (success) {
-          setIsAuthenticated(false);
-          navigate(Authentication.path);
+          setIsAuthenticated(true);
           setIsLoading(false);
+          return;
         }
       }
+
+      signOut();
+      navigate(Authentication.path);
+      setIsLoading(false);
     })();
 
     //eslint-disable-next-line
-  }, []);
+  }, [isAuthenticated]);
 
   return isLoading ? <Loading fullScreen /> : <Outlet />;
 }
