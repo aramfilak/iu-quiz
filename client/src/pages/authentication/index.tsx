@@ -2,20 +2,19 @@ import './style.scss';
 import { PageView, Container, SignInForm, SignUpForm } from '../../components';
 import authenticationIllustration01 from '../../assets/illustrations/authentication-illustration01.svg';
 import { Box, Image } from '@chakra-ui/react';
-import { useAuthStore } from '../../sotres';
+import { useAuthStore, usePersistStore } from '../../sotres';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../../utils/routes';
 
 function Authentication() {
   const { isShowSingInForm } = useAuthStore();
+  const { isAuthenticated } = usePersistStore();
   const navigate = useNavigate();
   const { Dashboard } = routes;
 
   useEffect(() => {
-    const isAuth = JSON.parse(localStorage.getItem('is_authenticated')!);
-
-    if (isAuth) {
+    if (isAuthenticated) {
       navigate(Dashboard.path);
     }
     //eslint-disable-next-line

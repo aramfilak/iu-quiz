@@ -31,7 +31,7 @@ function SignUpForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setIsSubmitting(true);
     const email = emailInputRef.current?.value;
     const password = passwordInputRef.current?.value;
     const passwordConfirm = passwordConfirmInputRef.current?.value;
@@ -55,9 +55,14 @@ function SignUpForm() {
       if (success) {
         navigate(routes.Dashboard.path);
       }
+    } else {
+      toast({
+        description: 'Bitte alle Felder ausfüllen',
+        status: 'warning'
+      });
     }
 
-    setIsSubmitting((prv) => !prv);
+    setIsSubmitting(false);
   };
 
   return (
@@ -146,13 +151,7 @@ function SignUpForm() {
 
       {/*------------------- Form Submit -----------------*/}
 
-      <Button
-        colorScheme="teal"
-        type="submit"
-        onClick={() => setIsSubmitting((prv) => !prv)}
-        isLoading={isSubmitting}
-        disabled={isSubmitting}
-      >
+      <Button colorScheme="teal" type="submit" isLoading={isSubmitting} disabled={isSubmitting}>
         Registrieren
       </Button>
 

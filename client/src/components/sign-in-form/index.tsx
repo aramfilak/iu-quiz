@@ -26,6 +26,7 @@ function SignInForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsSubmitting(true);
     const email = emailInputRef.current?.value;
     const password = passwordInputRef.current?.value;
 
@@ -40,8 +41,13 @@ function SignInForm() {
       if (success) {
         navigate(routes.Dashboard.path);
       }
+    } else {
+      toast({
+        description: 'Bitte alle Felder ausfüllen',
+        status: 'warning'
+      });
     }
-    setIsSubmitting((prv) => !prv);
+    setIsSubmitting(false);
   };
 
   return (
@@ -90,13 +96,7 @@ function SignInForm() {
 
       {/*------------------- Form Submit -----------------*/}
 
-      <Button
-        onClick={() => setIsSubmitting((prv) => !prv)}
-        isLoading={isSubmitting}
-        disabled={isSubmitting}
-        colorScheme="teal"
-        type="submit"
-      >
+      <Button isLoading={isSubmitting} disabled={isSubmitting} colorScheme="teal" type="submit">
         Anmelden
       </Button>
 

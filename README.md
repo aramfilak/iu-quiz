@@ -16,8 +16,6 @@ npm run dev
 
 ```js
  npm test
- or
- npm run test
 ```
 
 #### local

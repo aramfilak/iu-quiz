@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import { axiosAuthApi, asyncHandler } from '../utils/http';
 import { IuQuizServerResponse } from '../utils/types';
-
 interface UseAuthStore {
   isShowSingInForm: boolean;
   showSignInForm: () => void;
@@ -34,7 +33,6 @@ const useAuthStore = create<UseAuthStore>((set, get) => ({
   signOut: () =>
     asyncHandler(async () => {
       const response = await axiosAuthApi.post<IuQuizServerResponse<unknown>>('/sign-out');
-      localStorage.setItem('is_authenticated', 'false');
       return response.data;
     }),
 
@@ -47,5 +45,4 @@ const useAuthStore = create<UseAuthStore>((set, get) => ({
       return response.data;
     })
 }));
-
 export { useAuthStore };
