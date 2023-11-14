@@ -34,23 +34,33 @@ async function findOne(req: Request, res: Response) {
  */
 async function update(req: Request, res: Response) {
   const studentId = req.auth?.id;
-  const { newNickName } = req.body;
+  const { fieldToUpdate, newValue } = req.body;
 
-  if (!newNickName) {
+  if (!fieldToUpdate || !newValue) {
     return res.status(StatusCodes.BAD_REQUEST).json(
-      createApiResponse(StatusCodes.BAD_REQUEST, 'Die Angabe eines Nicknames ist erforderlich!')
+      createApiResponse(StatusCodes.BAD_REQUEST, 'Die Angabe eines Felds und eines neuen Werts ist erforderlich!')
     );
   }
 
+  const validFields = ['nickName', 'isVerified'];
+  if (!validFields.includes(fieldToUpdate)) {
+    return res.status(StatusCodes.BAD_REQUEST).json(
+      createApiResponse(StatusCodes.BAD_REQUEST, 'Ungültiges Feld zum Aktualisieren!')
+    );
+  }
+
+  const updateData: Record<string, any> = {};
+  updateData[fieldToUpdate] = newValue;
+
   const updatedStudent = await database.student.update({
     where: { id: studentId },
-    data: { nickName: newNickName }
+    data: updateData,
   });
 
   const updatedStudentWithoutPassword = excludeObjectProperty('password', updatedStudent);
 
   res.status(StatusCodes.OK).json(
-    createApiResponse(StatusCodes.OK, 'Die Aktualisierung ihres Nicknames wurde erfolgreich durchgeführt!', updatedStudentWithoutPassword)
+    createApiResponse(StatusCodes.OK, `Die Aktualisierung von '${fieldToUpdate}' wurde erfolgreich durchgeführt!`, updatedStudentWithoutPassword)
   );
 }
 
