@@ -19,6 +19,10 @@ interface UseAuthStore {
     email: string,
     password: string
   ) => Promise<IuQuizServerResponse<AuthResponse>>;
+  verifyEmail: (
+    email: string,
+    emailVerificationToken: string
+  ) => Promise<IuQuizServerResponse<unknown>>;
 }
 
 const useAuthStore = create<UseAuthStore>((set, get) => ({
@@ -53,6 +57,16 @@ const useAuthStore = create<UseAuthStore>((set, get) => ({
       usePersistStore.getState().setAccessToken(accessToken);
 
       usePersistStore.getState().setIsAuthenticated(Boolean(accessToken));
+
+      return response.data;
+    }),
+
+  verifyEmail: (email: string, emailVerificationToken: string) =>
+    asyncHandler(async () => {
+      const response = await axiosAuthApi.post<IuQuizServerResponse<unknown>>('/verify-email', {
+        email: email,
+        emailVerificationToken: emailVerificationToken
+      });
 
       return response.data;
     })

@@ -1,3 +1,4 @@
+import { Spinner } from '@chakra-ui/react';
 import { Container } from '../container';
 import './style.scss';
 
@@ -14,12 +15,8 @@ function Loading({ fullScreen }: Props) {
 
   return (
     <Container additionalClasses={classNames}>
-      <h1>Es Lädt</h1>
-      <div className="circles">
-        <span className="circle-1"></span>
-        <span className="circle-2"></span>
-        <span className="circle-3"></span>
-      </div>
+      <h1>Es lädt</h1>
+      <Spinner size="lg" color="teal.500" />
     </Container>
   );
 }

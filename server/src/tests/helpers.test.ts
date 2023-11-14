@@ -25,15 +25,18 @@ describe('exclude Sensitive Properties  ', () => {
   });
 
   /**___________________TEST______________________2 */
-  it('should exclude deep nested password', () => {
+  it('should exclude deep nested passwords', () => {
     const data = {
-      username: 'john_doe',
+      username: 'test',
       details: {
         email: 'test@test.test',
         phone: '123-456-7890',
         mail: {
           test: {
-            password: 'password '
+            password: 'password ',
+            test: {
+              password: 'password '
+            }
           }
         }
       }
@@ -44,12 +47,14 @@ describe('exclude Sensitive Properties  ', () => {
     const sanitizedData = excludeSensitiveProperties(propertiesToExclude, data);
 
     expect(sanitizedData).toEqual({
-      username: 'john_doe',
+      username: 'test',
       details: {
         email: 'test@test.test',
-        phone: '333333',
+        phone: '123-456-7890',
         mail: {
-          test: {}
+          test: {
+            test: {}
+          }
         }
       }
     });

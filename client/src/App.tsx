@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 import { routes } from './utils/routes';
 import { ProtectedRoutes } from './components';
+import { Analytics } from '@vercel/analytics/react';
 
 const { EmailVerification, Authentication, NotFound404, Dashboard } = routes;
 
@@ -10,6 +11,7 @@ function App() {
     <ChakraProvider
       toastOptions={{ defaultOptions: { position: 'top', duration: 5000, isClosable: true } }}
     >
+      <Analytics />
       <BrowserRouter>
         <Routes>
           {/*------------public-------------------*/}

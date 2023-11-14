@@ -14,7 +14,6 @@ const excludeStudentSensitiveProperties = (student: Student) =>
  * @method GET
  * @access protected
  */
-
 async function findOne(req: Request, res: Response) {
   const studentId = req.auth?.id;
 
@@ -36,7 +35,6 @@ async function findOne(req: Request, res: Response) {
  * @method PATCH
  * @access protected
  */
-
 async function update(req: Request, res: Response) {}
 
 export { findOne, update };

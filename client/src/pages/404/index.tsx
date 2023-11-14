@@ -3,6 +3,7 @@ import PageNotFound404illustration from '../../assets/illustrations/page-not-fou
 import { Container, PageView } from '../../components';
 import { Button, Flex, Image, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
+import { routes } from '../../utils/routes';
 
 function NotFound404() {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ function NotFound404() {
             Hoppla! Die von Ihnen gesuchte Website existiert nicht.
           </Text>
           <Button
-            onClick={() => navigate('/', { replace: true })}
+            onClick={() => navigate(routes.Authentication.path, { replace: true })}
             colorScheme="teal"
             size="sm"
             marginBlock="1.5"

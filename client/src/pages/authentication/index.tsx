@@ -1,6 +1,6 @@
 import './style.scss';
 import { PageView, Container, SignInForm, SignUpForm } from '../../components';
-import authenticationIllustration01 from '../../assets/illustrations/authentication-illustration01.svg';
+import authenticationIllustration01 from '../../assets/illustrations/authentication-illustration.svg';
 import { Box, Image } from '@chakra-ui/react';
 import { useAuthStore, usePersistStore } from '../../sotres';
 import { useEffect } from 'react';

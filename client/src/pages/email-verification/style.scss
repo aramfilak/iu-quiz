@@ -1,0 +1,14 @@
+@use '../../sass/abstracts/' as abs;
+
+.page-view.email-verification {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}

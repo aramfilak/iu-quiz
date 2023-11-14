@@ -31,7 +31,7 @@ function SignUpForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setAlert({ status: 'loading', message: 'Es Lädt...' });
+    setAlert({ status: 'loading', message: 'Es lädt...' });
     const email = emailInputRef.current?.value;
     const password = passwordInputRef.current?.value;
     const passwordConfirm = passwordConfirmInputRef.current?.value;
@@ -44,7 +44,8 @@ function SignUpForm() {
 
     if (email && password && passwordMatch) {
       const { success, message } = await singUp(email, password);
-      setAlert({ status: success ? 'success' : 'error', message });
+
+      setAlert({ status: success ? 'success' : 'error', message: message });
     } else {
       setAlert({ status: 'warning', message: 'Bitte alle Felder ausfüllen' });
     }
@@ -59,7 +60,7 @@ function SignUpForm() {
 
       {/*------------------- Response Alert --------------------*/}
       {alert && (
-        <Alert borderRadius="md" variant="left-accent" status={alert.status}>
+        <Alert borderRadius="md" status={alert.status}>
           <AlertIcon />
           {alert.message}
         </Alert>

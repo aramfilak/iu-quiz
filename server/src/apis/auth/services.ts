@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { BadRequestError, UnauthorizedError } from '../../errors';
+import { BadRequestError, NotFoundError, UnauthorizedError } from '../../errors';
 import bcrypt from 'bcryptjs';
 import { database } from '../../configs';
 import { StatusCodes } from 'http-status-codes';
@@ -12,7 +12,7 @@ import crypto from 'crypto';
 /**
  * @route api/v1/auth/sign-up
  * @method POST
- * @access protected
+ * @access public
  */
 async function signUp(req: Request, res: Response) {
   let { email, password } = req.body;
@@ -68,19 +68,30 @@ async function signUp(req: Request, res: Response) {
 /**
  * @route api/v1/auth/verify-email
  * @method POST
- * @access protected
+ * @access public
  */
 async function verifyEmail(req: Request, res: Response) {
-  let { email, emailVerificationToken } = req.body;
-
-  email = isEmpty('email', email);
-  emailVerificationToken = isEmpty('emailVerificationToken', email);
+  const { email, emailVerificationToken } = req.body;
 
   const student = await database.student.findFirst({
-    where: { email: email, emailVerificationToken: emailVerificationToken }
+    where: { email: email }
   });
 
   if (!student) {
+    throw new NotFoundError('Email ist nicht registriert');
+  }
+  if (student.isVerified) {
+    return res
+      .status(StatusCodes.OK)
+      .json(
+        createApiResponse(
+          StatusCodes.OK,
+          'Ihre E-Mail-Adresse ist bereits bestätigt. bitte anmelden'
+        )
+      );
+  }
+
+  if (student.emailVerificationToken !== emailVerificationToken) {
     throw new UnauthorizedError('Verifizierung fehlgeschlagen');
   }
 
@@ -100,7 +111,7 @@ async function verifyEmail(req: Request, res: Response) {
 /**
  * @route api/v1/auth/sign-in
  * @method POST
- * @access protected
+ * @access public
  */
 async function signIn(req: Request, res: Response) {
   let { email, password } = req.body;
