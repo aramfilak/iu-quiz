@@ -1,6 +1,7 @@
 export { SignUpForm } from './sign-up-form';
 export { SignInForm } from './sign-in-form';
-export { PageView } from './page-view';
-export { Container } from './container';
 export { Loading } from './loading';
+export { NavItem } from './nav-item';
 export { ProtectedRoutes } from './protected-routes';
+export { SidebarNav } from './sidebar-nav';
+export { HeaderMenuBar } from './header-menu-bar';

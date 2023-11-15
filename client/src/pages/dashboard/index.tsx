@@ -1,34 +1,31 @@
-import './style.scss';
-import { Button, useToast } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
-import { routes } from '../../utils/routes';
-import { useAuthStore, useStudentStore } from '../../sotres';
+import { Box, Drawer, DrawerContent, useDisclosure } from '@chakra-ui/react';
+import { HeaderMenuBar, SidebarNav } from '../../components';
+import { Outlet } from 'react-router-dom';
 
 function Dashboard() {
-  const { signOut } = useAuthStore();
-  const { student } = useStudentStore();
-  const navigate = useNavigate();
-  const { Authentication } = routes;
-  const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <div>
-      <div>{student?.nickName}</div>
-      <div> {student?.email}</div>
-      <Button
-        onClick={async () => {
-          signOut();
-          toast({
-            description: 'Auf Wiedersehen',
-            status: 'success'
-          });
-
-          navigate(Authentication.path);
-        }}
+    <Box minH="100vh">
+      <SidebarNav onClose={() => onClose} display={{ base: 'none', md: 'block' }} />
+      <Drawer
+        isOpen={isOpen}
+        placement="left"
+        onClose={onClose}
+        returnFocusOnClose={false}
+        onOverlayClick={onClose}
+        size="full"
       >
-        Abmelden
-      </Button>
-    </div>
+        <DrawerContent>
+          <SidebarNav onClose={onClose} />
+        </DrawerContent>
+      </Drawer>
+      <HeaderMenuBar onOpen={onOpen} />
+      <Box ml={{ base: 0, md: 60 }} p="4">
+        {/*-------------------- Content Page ------------------*/}
+        <Outlet />
+      </Box>
+    </Box>
   );
 }
 

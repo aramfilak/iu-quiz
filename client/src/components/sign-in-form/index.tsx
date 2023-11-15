@@ -50,8 +50,11 @@ function SignInForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Text as="b" fontSize="4xl" color="teal.500">
+    <form
+      onSubmit={handleSubmit}
+      style={{ maxWidth: '22rem', display: 'flex', flexDirection: 'column' }}
+    >
+      <Text as="b" fontSize="4xl" color="teal.500" mb="1rem">
         Anmelden
       </Text>
       {/*------------------- Response Alert --------------------*/}
@@ -63,7 +66,9 @@ function SignInForm() {
       )}
       {/*------------------- Email --------------------*/}
 
-      <FormLabel htmlFor="email">Email</FormLabel>
+      <FormLabel mt="2" htmlFor="email">
+        Email
+      </FormLabel>
       <InputGroup>
         <Input
           ref={emailInputRef}
@@ -79,7 +84,9 @@ function SignInForm() {
 
       {/*------------------- Password --------------------*/}
 
-      <FormLabel htmlFor="password">Passwort</FormLabel>
+      <FormLabel mt="2" htmlFor="password">
+        Passwort
+      </FormLabel>
       <InputGroup>
         <Input
           ref={passwordInputRef}
@@ -101,7 +108,7 @@ function SignInForm() {
 
       {/*------------------- Form Submit -----------------*/}
 
-      <Button disabled={isSubmitting} colorScheme="teal" type="submit">
+      <Button disabled={isSubmitting} colorScheme="teal" type="submit" mt="4" mb="2">
         Anmelden
       </Button>
 

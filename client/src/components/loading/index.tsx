@@ -1,23 +1,13 @@
-import { Spinner } from '@chakra-ui/react';
-import { Container } from '../container';
-import './style.scss';
+import { Box, Text, BoxProps, Spinner } from '@chakra-ui/react';
 
-interface Props {
-  fullScreen?: boolean;
-}
-
-function Loading({ fullScreen }: Props) {
-  const classNames = ['loader'];
-
-  if (fullScreen) {
-    classNames.push('full-screen');
-  }
-
+function Loading(rest: BoxProps) {
   return (
-    <Container additionalClasses={classNames}>
-      <h1>Es lädt</h1>
-      <Spinner size="lg" color="teal.500" />
-    </Container>
+    <Box {...rest}>
+      <Box display="flex" gap="1rem">
+        <Text fontSize={{ base: '1rem', md: '1.3rem', xl: '1.5rem' }}>Es lädt</Text>
+        <Spinner color="teal.500" size={{ base: 'md', md: 'lg' }} />
+      </Box>
+    </Box>
   );
 }
 

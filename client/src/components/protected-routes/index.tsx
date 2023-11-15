@@ -30,7 +30,11 @@ function ProtectedRoutes() {
     //eslint-disable-next-line
   }, [isAuthenticated]);
 
-  return isLoading ? <Loading fullScreen /> : <Outlet />;
+  return isLoading ? (
+    <Loading minH="100vh" display="flex" justifyContent="center" alignItems="center" />
+  ) : (
+    <Outlet />
+  );
 }
 
 export { ProtectedRoutes };

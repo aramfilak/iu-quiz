@@ -1,6 +1,0 @@
-@use '../../sass/abstracts/' as abs;
-
-.container {
-  padding-block: abs.toRem(20);
-  @include abs.container();
-}

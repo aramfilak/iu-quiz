@@ -1,7 +1,7 @@
-import './style.scss';
-import { PageView, Container, SignInForm, SignUpForm } from '../../components';
+import './style.css';
+import { SignInForm, SignUpForm } from '../../components';
 import authenticationIllustration01 from '../../assets/illustrations/authentication-illustration.svg';
-import { Box, Image } from '@chakra-ui/react';
+import { Box, Container, Image } from '@chakra-ui/react';
 import { useAuthStore, usePersistStore } from '../../sotres';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -21,14 +21,22 @@ function Authentication() {
   }, []);
 
   return (
-    <PageView>
-      <Container additionalClasses={['authentication-container']}>
+    <Box minH="100vh" display="flex" justifyContent="center" alignContent="center">
+      <Container
+        maxW="container.lg"
+        display={{ base: 'flex' }}
+        flexDirection={{ base: 'column', md: 'row' }}
+        alignItems="center"
+        justifyContent="space-evenly"
+      >
         {isShowSingInForm ? <SignInForm /> : <SignUpForm />}
-        <Box className="auth-illustration-box">
-          <Image src={authenticationIllustration01} alt="authentication illustration" />
-        </Box>
+        <Image
+          src={authenticationIllustration01}
+          alt="authentication illustration"
+          width={{ base: '20rem', md: '25rem', xl: '30rem' }}
+        />
       </Container>
-    </PageView>
+    </Box>
   );
 }
 

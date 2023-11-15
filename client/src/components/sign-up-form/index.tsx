@@ -53,7 +53,10 @@ function SignUpForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      onSubmit={handleSubmit}
+      style={{ maxWidth: '22rem', display: 'flex', flexDirection: 'column' }}
+    >
       <Text as="b" fontSize="4xl" color="teal.500">
         Registrieren
       </Text>
@@ -67,7 +70,9 @@ function SignUpForm() {
       )}
       {/*------------------- Email --------------------*/}
 
-      <FormLabel htmlFor="email">Email</FormLabel>
+      <FormLabel mt="2" htmlFor="email">
+        Email
+      </FormLabel>
       <InputGroup>
         <Input
           ref={emailInputRef}
@@ -83,7 +88,9 @@ function SignUpForm() {
 
       {/*------------------- Password --------------------*/}
 
-      <FormLabel htmlFor="password">Passwort</FormLabel>
+      <FormLabel mt="2" htmlFor="password">
+        Passwort
+      </FormLabel>
       <InputGroup>
         <Input
           ref={passwordInputRef}
@@ -103,7 +110,7 @@ function SignUpForm() {
         </InputRightElement>
       </InputGroup>
 
-      <Box>
+      <Box marginBlock="0.8rem">
         <Text fontSize="sm" fontWeight="bold"></Text>
         <List spacing={3}>
           <ListItem>
@@ -123,7 +130,9 @@ function SignUpForm() {
       </Box>
       {/*---------------- Confirm Password ---------------*/}
 
-      <FormLabel htmlFor="passwordConfirm">Passwort bestätigen</FormLabel>
+      <FormLabel mt="2" htmlFor="passwordConfirm">
+        Passwort bestätigen
+      </FormLabel>
       <InputGroup>
         <Input
           ref={passwordConfirmInputRef}
@@ -145,7 +154,7 @@ function SignUpForm() {
 
       {/*------------------- Form Submit -----------------*/}
 
-      <Button colorScheme="teal" type="submit" disabled={isSubmitting}>
+      <Button colorScheme="teal" type="submit" disabled={isSubmitting} mt="4" mb="2">
         Registrieren
       </Button>
 
