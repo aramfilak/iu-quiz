@@ -15,9 +15,9 @@ import {
   MenuList
 } from '@chakra-ui/react';
 import { FiMenu, FiChevronDown, FiLogOut, FiUser } from 'react-icons/fi';
-import { useAuthStore, useStudentStore } from '../../sotres';
+import { useAuthStore, useStudentStore } from '../sotres';
 import { useNavigate } from 'react-router-dom';
-import { routes } from '../../utils/routes';
+import { routes } from '../utils/routes';
 
 interface MobileProps extends FlexProps {
   onOpen: () => void;
@@ -62,6 +62,7 @@ function HeaderMenuBar({ onOpen, ...rest }: MobileProps) {
                 >
                   {/* ________________ Student Nick ____________________ */}
                   <Text fontSize="sm"> {student?.nickName}</Text>
+
                   {/*__________________ Student E-mail __________________________ */}
                   <Text fontSize="xs" color="gray.600">
                     {student?.email}

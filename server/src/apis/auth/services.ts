@@ -38,7 +38,7 @@ async function signUp(req: Request, res: Response) {
 
   const nickName = parseIuStudentDefaultNickName(email);
 
-  const verificationToken = crypto.randomBytes(24).toString('hex');
+  const verificationToken = crypto.randomBytes(30).toString('hex');
 
   await database.student.create({
     data: {

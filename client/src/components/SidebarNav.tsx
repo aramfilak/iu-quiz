@@ -1,6 +1,6 @@
 import { useColorModeValue, Flex, CloseButton, Box, Text, BoxProps } from '@chakra-ui/react';
-import { NavItem } from '..';
-import { routes } from '../../utils/routes';
+import { NavItem } from '.';
+import { routes } from '../utils/routes';
 import { useNavigate } from 'react-router-dom';
 
 interface SidebarProps extends BoxProps {
@@ -30,8 +30,8 @@ function SidebarNav({ onClose, ...rest }: SidebarProps) {
         </Text>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
-      {/* ________________ Nav Links ____________________ */}
 
+      {/* ________________ Nav Links ____________________ */}
       {LinkItems.map((link) => (
         <NavItem key={link.name} icon={link.icon} onClick={() => navigate(link.path)}>
           {link.name}

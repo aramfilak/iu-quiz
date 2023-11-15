@@ -16,10 +16,10 @@ import {
 } from '@chakra-ui/react';
 import { RiLockPasswordLine, RiMailLine } from 'react-icons/ri';
 import { BiShow, BiHide, BiCheckShield } from 'react-icons/bi';
-import { useAuthStore } from '../../sotres';
-import { CustomAlert } from '../../utils/types';
+import { useAuthStore } from '../sotres';
+import { CustomAlert } from '../utils/types';
 
-function SignUpForm() {
+function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
   const passwordConfirmInputRef = useRef<HTMLInputElement>(null);
@@ -56,6 +56,7 @@ function SignUpForm() {
     <form
       onSubmit={handleSubmit}
       style={{ maxWidth: '22rem', display: 'flex', flexDirection: 'column' }}
+      {...rest}
     >
       <Text as="b" fontSize="4xl" color="teal.500">
         Registrieren
@@ -68,8 +69,8 @@ function SignUpForm() {
           {alert.message}
         </Alert>
       )}
-      {/*------------------- Email --------------------*/}
 
+      {/*------------------- Email --------------------*/}
       <FormLabel mt="2" htmlFor="email">
         Email
       </FormLabel>
@@ -87,7 +88,6 @@ function SignUpForm() {
       </InputGroup>
 
       {/*------------------- Password --------------------*/}
-
       <FormLabel mt="2" htmlFor="password">
         Passwort
       </FormLabel>
@@ -110,6 +110,7 @@ function SignUpForm() {
         </InputRightElement>
       </InputGroup>
 
+      {/*---------------- Password Checklist---------------*/}
       <Box marginBlock="0.8rem">
         <Text fontSize="sm" fontWeight="bold"></Text>
         <List spacing={3}>
@@ -128,8 +129,8 @@ function SignUpForm() {
           </ListItem>
         </List>
       </Box>
-      {/*---------------- Confirm Password ---------------*/}
 
+      {/*---------------- Confirm Password ---------------*/}
       <FormLabel mt="2" htmlFor="passwordConfirm">
         Passwort bestätigen
       </FormLabel>
@@ -153,7 +154,6 @@ function SignUpForm() {
       </InputGroup>
 
       {/*------------------- Form Submit -----------------*/}
-
       <Button colorScheme="teal" type="submit" disabled={isSubmitting} mt="4" mb="2">
         Registrieren
       </Button>

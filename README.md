@@ -18,6 +18,10 @@ npm run dev
  npm test
 ```
 
+#### requirements
+
+- Node.js v20.6.0 or higher.
+
 #### local
 
 > **default client-localhost http://localhost:3000**

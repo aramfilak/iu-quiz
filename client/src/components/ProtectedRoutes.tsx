@@ -1,8 +1,8 @@
 import { Outlet, useNavigate } from 'react-router-dom';
-import { routes } from '../../utils/routes';
-import { useStudentStore, useAuthStore, usePersistStore } from '../../sotres';
+import { routes } from '../utils/routes';
+import { useStudentStore, useAuthStore, usePersistStore } from '../sotres';
 import { useEffect, useState } from 'react';
-import { Loading } from '../loading';
+import { Loading } from './Loading';
 
 function ProtectedRoutes() {
   const { Authentication } = routes;

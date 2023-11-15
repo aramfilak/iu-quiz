@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { RiLockPasswordLine, RiMailLine } from 'react-icons/ri';
 import { BiShow, BiHide } from 'react-icons/bi';
-import { useAuthStore } from '../../sotres';
+import { useAuthStore } from '../sotres';
 import {
   Button,
   Text,
@@ -15,10 +15,10 @@ import {
   useToast
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
-import { routes } from '../../utils/routes';
-import { CustomAlert } from '../../utils/types';
+import { routes } from '../utils/routes';
+import { CustomAlert } from '../utils/types';
 
-function SignInForm() {
+function SignInForm(rest: React.HTMLProps<HTMLFormElement>) {
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -53,10 +53,12 @@ function SignInForm() {
     <form
       onSubmit={handleSubmit}
       style={{ maxWidth: '22rem', display: 'flex', flexDirection: 'column' }}
+      {...rest}
     >
       <Text as="b" fontSize="4xl" color="teal.500" mb="1rem">
         Anmelden
       </Text>
+
       {/*------------------- Response Alert --------------------*/}
       {alert && (
         <Alert borderRadius="md" status={alert.status}>
@@ -64,8 +66,8 @@ function SignInForm() {
           {alert.message}
         </Alert>
       )}
-      {/*------------------- Email --------------------*/}
 
+      {/*------------------- Email --------------------*/}
       <FormLabel mt="2" htmlFor="email">
         Email
       </FormLabel>
@@ -83,7 +85,6 @@ function SignInForm() {
       </InputGroup>
 
       {/*------------------- Password --------------------*/}
-
       <FormLabel mt="2" htmlFor="password">
         Passwort
       </FormLabel>
@@ -107,7 +108,6 @@ function SignInForm() {
       </InputGroup>
 
       {/*------------------- Form Submit -----------------*/}
-
       <Button disabled={isSubmitting} colorScheme="teal" type="submit" mt="4" mb="2">
         Anmelden
       </Button>

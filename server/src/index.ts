@@ -1,6 +1,5 @@
 import 'express-async-errors';
 import express from 'express';
-import dotenv from 'dotenv';
 import morgan from 'morgan';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -10,7 +9,6 @@ import { authRateLimiter, errorHandler, pathNotFound } from './middlewares';
 import { studentRoutes } from './apis/student';
 import requestIp from 'request-ip';
 
-dotenv.config();
 const app = express();
 
 /*

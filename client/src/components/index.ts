@@ -1,7 +1,7 @@
-export { SignUpForm } from './sign-up-form';
-export { SignInForm } from './sign-in-form';
-export { Loading } from './loading';
-export { NavItem } from './nav-item';
-export { ProtectedRoutes } from './protected-routes';
-export { SidebarNav } from './sidebar-nav';
-export { HeaderMenuBar } from './header-menu-bar';
+export { SignUpForm } from './SignUpForm';
+export { SignInForm } from './SignInForm';
+export { Loading } from './Loading';
+export { NavItem } from './NavItem';
+export { ProtectedRoutes } from './ProtectedRoutes';
+export { SidebarNav } from './SidebarNav';
+export { HeaderMenuBar } from './MobileProps';
