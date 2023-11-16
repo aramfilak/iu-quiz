@@ -2,15 +2,15 @@ import { useColorModeValue, Flex, CloseButton, Box, Text, BoxProps } from '@chak
 import { NavItem } from '.';
 import { routes } from '../utils/routes';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 interface SidebarProps extends BoxProps {
   onClose: () => void;
 }
 
 function SidebarNav({ onClose, ...rest }: SidebarProps) {
-  const { QuizEditor, ActiveQuiz, Settings } = routes;
-  const LinkItems = [QuizEditor, ActiveQuiz, Settings];
   const navigate = useNavigate();
+  const [activeNavLink, setActiveNavLink] = useState(0);
 
   return (
     <Box
@@ -32,11 +32,24 @@ function SidebarNav({ onClose, ...rest }: SidebarProps) {
       </Flex>
 
       {/* ________________ Nav Links ____________________ */}
-      {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon} onClick={() => navigate(link.path)}>
-          {link.name}
-        </NavItem>
-      ))}
+      {Object.values(routes.Dashboard.children)
+        //skip first child (Profile)
+        .slice(1)
+        .map((link, index) => {
+          return (
+            <NavItem
+              isActive={index === activeNavLink}
+              key={link.name}
+              icon={link.icon}
+              onClick={() => {
+                setActiveNavLink(index);
+                navigate(link.path);
+              }}
+            >
+              {link.name}
+            </NavItem>
+          );
+        })}
     </Box>
   );
 }

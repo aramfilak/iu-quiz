@@ -28,7 +28,6 @@ import { useAuthStore, useStudentStore } from '../sotres';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../utils/routes';
 import { useRef } from 'react';
-
 interface MobileProps extends FlexProps {
   onOpen: () => void;
 }
@@ -127,7 +126,13 @@ function HeaderMenuBar({ onOpen: handleOpen, ...rest }: MobileProps) {
 
             {/*________________ Option Menu __________________________ */}
             <MenuList borderColor={useColorModeValue('gray.200', 'gray.700')}>
-              <MenuItem icon={<FiUser />}>Profile</MenuItem>
+              {/*________________ Profile Link __________________________ */}
+              <MenuItem
+                icon={<FiUser />}
+                onClick={() => navigate(routes.Dashboard.children.Profile.path)}
+              >
+                Profile
+              </MenuItem>
 
               {/* ________________ Theme Button ____________________ */}
               <MenuItem

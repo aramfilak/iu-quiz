@@ -1,5 +1,13 @@
-import { Authentication, Dashboard, NotFound404, EmailVerification } from '../pages';
-import { FiHome, FiSettings, FiStar, FiActivity } from 'react-icons/fi';
+import { Authentication, Dashboard, NotFound404, EmailVerification, Profile } from '../pages';
+import {
+  FiHome,
+  FiUser,
+  FiSettings,
+  FiHeart,
+  FiEdit,
+  FiSearch,
+  FiCheckSquare
+} from 'react-icons/fi';
 
 const routes = {
   Authentication: {
@@ -14,35 +22,55 @@ const routes = {
     path: '*',
     element: <NotFound404 />
   },
-  Dashboard: {
-    icon: FiHome,
-    name: 'Dashboard',
-    path: '/dashboard',
-    element: <Dashboard />
-  },
   EmailVerification: {
     icon: FiHome,
     name: 'Email Verification',
-    path: '/email-verification',
+    path: 'email-verification',
     element: <EmailVerification />
   },
-  Settings: {
-    icon: FiSettings,
-    name: 'Einstellungen',
-    path: '/settings',
-    element: <EmailVerification />
-  },
-  QuizEditor: {
-    icon: FiActivity,
-    name: 'Quiz Editor',
-    path: '/quiz-editor',
-    element: <div>Editor Quiz</div>
-  },
-  ActiveQuiz: {
-    icon: FiStar,
-    name: 'Aktive Quiz',
-    path: '/active-quiz',
-    element: <div>Aktive Quiz</div>
+  Dashboard: {
+    icon: FiHome,
+    name: 'Dashboard',
+    path: 'dashboard',
+    element: <Dashboard />,
+    children: {
+      Profile: {
+        icon: FiUser,
+        name: 'Profile',
+        path: 'profile',
+        element: <Profile />
+      },
+      SearchQuiz: {
+        icon: FiSearch,
+        name: 'Quiz Suchen',
+        path: 'quiz-search',
+        element: <div>Editor Quiz</div>
+      },
+      ActiveQuiz: {
+        icon: FiHeart,
+        name: 'Meine Quizze',
+        path: 'active-quiz',
+        element: <div>Meine Quiz</div>
+      },
+      QuizEditor: {
+        icon: FiEdit,
+        name: 'Quiz Editor',
+        path: 'quiz-editor',
+        element: <div>Editor Quiz</div>
+      },
+      Settings: {
+        icon: FiSettings,
+        name: 'Einstellungen',
+        path: 'settings',
+        element: <div>Einstellungen</div>
+      },
+      FAQs: {
+        icon: FiCheckSquare,
+        name: 'FAQs',
+        path: 'faqs',
+        element: <div>FAQs</div>
+      }
+    }
   }
 };
 
