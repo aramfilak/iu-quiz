@@ -12,7 +12,8 @@ import {
   InputRightElement,
   Alert,
   AlertIcon,
-  useToast
+  useToast,
+  useColorModeValue
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../utils/routes';
@@ -27,6 +28,7 @@ function SignInForm(rest: React.HTMLProps<HTMLFormElement>) {
   const { showSignUpForm, signIn } = useAuthStore();
   const navigate = useNavigate();
   const toast = useToast();
+  const placeHolderColor = useColorModeValue('gray.800', 'gray.200');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -73,10 +75,11 @@ function SignInForm(rest: React.HTMLProps<HTMLFormElement>) {
       </FormLabel>
       <InputGroup>
         <Input
+          borderColor="teal.700"
           ref={emailInputRef}
-          borderColor="teal.500"
           autoComplete="on"
           id="email"
+          _placeholder={{ color: placeHolderColor }}
           placeholder="max.muster@iu-study.org"
         />
         <InputLeftElement>
@@ -91,11 +94,12 @@ function SignInForm(rest: React.HTMLProps<HTMLFormElement>) {
       <InputGroup>
         <Input
           ref={passwordInputRef}
-          borderColor="teal.500"
           autoComplete="on"
           id="password"
           type={showPassword ? 'text' : 'password'}
+          borderColor="teal.700"
           placeholder="Passwort eingeben"
+          _placeholder={{ color: placeHolderColor }}
         />
         <InputLeftElement>
           <RiLockPasswordLine />

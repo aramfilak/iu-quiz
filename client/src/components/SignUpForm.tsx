@@ -12,7 +12,8 @@ import {
   ListItem,
   ListIcon,
   Alert,
-  AlertIcon
+  AlertIcon,
+  useColorModeValue
 } from '@chakra-ui/react';
 import { RiLockPasswordLine, RiMailLine } from 'react-icons/ri';
 import { BiShow, BiHide, BiCheckShield } from 'react-icons/bi';
@@ -27,6 +28,7 @@ function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [alert, setAlert] = useState<CustomAlert | null>(null);
   const { showSignInForm, singUp } = useAuthStore();
+  const placeHolderColor = useColorModeValue('gray.800', 'gray.200');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -77,10 +79,11 @@ function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
       <InputGroup>
         <Input
           ref={emailInputRef}
-          borderColor="teal.500"
           autoComplete="on"
           id="email"
           placeholder="max.muster@iu-study.org"
+          borderColor="teal.700"
+          _placeholder={{ color: placeHolderColor }}
         />
         <InputLeftElement>
           <RiMailLine />
@@ -94,11 +97,12 @@ function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
       <InputGroup>
         <Input
           ref={passwordInputRef}
-          borderColor="teal.500"
           autoComplete="on"
           id="password"
           type={showPassword ? 'text' : 'password'}
+          borderColor="teal.700"
           placeholder="Passwort eingeben"
+          _placeholder={{ color: placeHolderColor }}
         />
         <InputLeftElement>
           <RiLockPasswordLine />
@@ -137,11 +141,12 @@ function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
       <InputGroup>
         <Input
           ref={passwordConfirmInputRef}
-          borderColor="teal.500"
           id="passwordConfirm"
           autoComplete="on"
           type={showPassword ? 'text' : 'password'}
+          borderColor="teal.700"
           placeholder="Passwort bestätigen"
+          _placeholder={{ color: placeHolderColor }}
         />
         <InputLeftElement>
           <RiLockPasswordLine />

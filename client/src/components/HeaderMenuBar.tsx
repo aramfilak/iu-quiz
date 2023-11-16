@@ -20,9 +20,10 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
   Button,
-  useDisclosure
+  useDisclosure,
+  useColorMode
 } from '@chakra-ui/react';
-import { FiMenu, FiChevronDown, FiLogOut, FiUser } from 'react-icons/fi';
+import { FiMenu, FiChevronDown, FiLogOut, FiUser, FiSun, FiMoon } from 'react-icons/fi';
 import { useAuthStore, useStudentStore } from '../sotres';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../utils/routes';
@@ -38,6 +39,8 @@ function HeaderMenuBar({ onOpen: handleOpen, ...rest }: MobileProps) {
   const navigate = useNavigate();
   const cancelRef = useRef<HTMLButtonElement>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { colorMode, toggleColorMode } = useColorMode();
+
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -107,10 +110,12 @@ function HeaderMenuBar({ onOpen: handleOpen, ...rest }: MobileProps) {
                   ml="2"
                 >
                   {/* ________________ Student Nick ____________________ */}
-                  <Text fontSize="sm"> {student?.nickName}</Text>
+                  <Text fontWeight="bold" fontSize="sm">
+                    {student?.nickName}
+                  </Text>
 
                   {/*__________________ Student E-mail __________________________ */}
-                  <Text fontSize="xs" color="gray.600">
+                  <Text fontSize="xs" color={useColorModeValue('gray.600', 'gray.300')}>
                     {student?.email}
                   </Text>
                 </VStack>
@@ -121,12 +126,16 @@ function HeaderMenuBar({ onOpen: handleOpen, ...rest }: MobileProps) {
             </MenuButton>
 
             {/*________________ Option Menu __________________________ */}
-            <MenuList
-              bg={useColorModeValue('white', 'gray.900')}
-              borderColor={useColorModeValue('gray.200', 'gray.700')}
-            >
+            <MenuList borderColor={useColorModeValue('gray.200', 'gray.700')}>
               <MenuItem icon={<FiUser />}>Profile</MenuItem>
 
+              {/* ________________ Theme Button ____________________ */}
+              <MenuItem
+                icon={colorMode === 'light' ? <FiMoon /> : <FiSun />}
+                onClick={toggleColorMode}
+              >
+                {colorMode === 'light' ? 'Dunkelmodus' : 'Hellermodus'}
+              </MenuItem>
               <MenuDivider />
 
               {/*________________ Open Sign-out Dialog ______________________ */}
