@@ -45,6 +45,7 @@ async function update(req: Request, res: Response) {
     if (typeof value === 'string') {
       nonEmptyValues[key] = isEmpty(key, value);
     }
+    nonEmptyValues[key] = value;
   });
 
   const updatedStudent = await database.student.update({
