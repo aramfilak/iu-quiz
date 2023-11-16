@@ -1,12 +1,21 @@
 import { BadRequestError } from '../errors';
 
-function isEmpty(valueName: string, value: string) {
-  value = value.trim();
-
-  const isEmpty = value === undefined || value === null || !value.length;
-
-  if (isEmpty) {
+function isEmpty<T>(valueName: string, value: T): T {
+  if (value === undefined || value === null) {
     throw new BadRequestError(`${valueName} fehlt. Bitte eingeben, um fortzufahren.`);
+  }
+
+  if (typeof value === 'string') {
+    value = value.trim() as T;
+    if (!value) {
+      throw new BadRequestError(`${valueName} darf nicht leer sein.`);
+    }
+  }
+
+  if (Array.isArray(value)) {
+    if (value.length === 0) {
+      throw new BadRequestError(`${valueName} darf nicht leer sein.`);
+    }
   }
 
   return value;

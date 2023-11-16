@@ -1,6 +1,6 @@
 import { isEmpty, isIuEmail, isValidPassword } from '../utils/validators';
 
-const emptyValues = ['   ', ' ', undefined, null];
+const emptyValues = ['   ', ' ', undefined, null, []];
 const notEmptyValues = ['d', 'dd3d'];
 const validIUEmails = ['alex.smith@iu-study.org', 'alex.smith@iubh-fernstudium.de'];
 const invalidIUEmails = [
