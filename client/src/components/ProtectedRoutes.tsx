@@ -5,12 +5,12 @@ import { useEffect, useState } from 'react';
 import { Loading } from './Loading';
 
 function ProtectedRoutes() {
+  const [isLoading, setIsLoading] = useState(true);
   const { Authentication } = routes;
   const { getStudent } = useStudentStore();
   const { signOut } = useAuthStore();
   const { isAuthenticated } = usePersistStore();
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -28,7 +28,7 @@ function ProtectedRoutes() {
     })();
 
     //eslint-disable-next-line
-  }, [isAuthenticated]);
+  }, []);
 
   return isLoading ? (
     <Loading minH="100vh" display="flex" justifyContent="center" alignItems="center" />

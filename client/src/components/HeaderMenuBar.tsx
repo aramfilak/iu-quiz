@@ -12,22 +12,32 @@ import {
   MenuButton,
   MenuDivider,
   MenuItem,
-  MenuList
+  MenuList,
+  AlertDialog,
+  AlertDialogFooter,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+  Button,
+  useDisclosure
 } from '@chakra-ui/react';
 import { FiMenu, FiChevronDown, FiLogOut, FiUser } from 'react-icons/fi';
 import { useAuthStore, useStudentStore } from '../sotres';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../utils/routes';
+import { useRef } from 'react';
 
 interface MobileProps extends FlexProps {
   onOpen: () => void;
 }
 
-function HeaderMenuBar({ onOpen, ...rest }: MobileProps) {
+function HeaderMenuBar({ onOpen: handleOpen, ...rest }: MobileProps) {
   const { signOut } = useAuthStore();
   const { student } = useStudentStore();
   const navigate = useNavigate();
-
+  const cancelRef = useRef<HTMLButtonElement>(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -42,11 +52,47 @@ function HeaderMenuBar({ onOpen, ...rest }: MobileProps) {
     >
       <IconButton
         display={{ base: 'flex', md: 'none' }}
-        onClick={onOpen}
+        onClick={handleOpen}
         variant="outline"
         aria-label="open menu"
         icon={<FiMenu />}
       />
+
+      {/*______________________ Handle Sign-out Alert Dialog ________________________ */}
+      <AlertDialog
+        motionPreset="slideInBottom"
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+        isOpen={isOpen}
+        isCentered
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Abmelden
+            </AlertDialogHeader>
+
+            <AlertDialogBody>Sind Sie sicher, dass Sie sich abmelden möchten?</AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onClose}>
+                Abbrechen
+              </Button>
+              <Button
+                colorScheme="red"
+                onClick={() => {
+                  onClose();
+                  signOut();
+                  navigate(routes.Authentication.path);
+                }}
+                ml={3}
+              >
+                Abmelden
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
 
       <HStack spacing={{ base: '0', md: '6' }}>
         <Flex alignItems={'center'}>
@@ -82,14 +128,9 @@ function HeaderMenuBar({ onOpen, ...rest }: MobileProps) {
               <MenuItem icon={<FiUser />}>Profile</MenuItem>
 
               <MenuDivider />
-              <MenuItem
-                color="red.600"
-                icon={<FiLogOut />}
-                onClick={() => {
-                  signOut();
-                  navigate(routes.Authentication.path);
-                }}
-              >
+
+              {/*________________ Open Sign-out Dialog ______________________ */}
+              <MenuItem color="red.600" icon={<FiLogOut />} onClick={onOpen}>
                 Abmelden
               </MenuItem>
             </MenuList>
