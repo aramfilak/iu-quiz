@@ -1,4 +1,4 @@
-import { Authentication, Dashboard, NotFound404, EmailVerification, Profile } from '../pages';
+import { Authentication, Dashboard, NotFound404, EmailVerification, Profile, FAQs } from '../pages';
 import {
   FiHome,
   FiUser,
@@ -68,7 +68,7 @@ const routes = {
         icon: FiCheckSquare,
         name: 'FAQs',
         path: 'faqs',
-        element: <div>FAQs</div>
+        element: <FAQs />
       }
     }
   }

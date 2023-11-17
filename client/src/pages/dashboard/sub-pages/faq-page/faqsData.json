@@ -1,0 +1,62 @@
+[
+  {
+    "category": "Konto",
+    "question": "Wie kann ich mich abmelden?",
+    "answer": "Um sich abzumelden, klicken Sie auf Ihr Profilbild und wählen Sie die Option 'Abmelden'.",
+    "isOpen": false
+  },
+  {
+    "category": "Konto",
+    "question": "Wie kann ich meine Profildaten ändern?",
+    "answer": "Navigieren sie zu den Einstellungen, um ihre Daten zu ändern.",
+    "isOpen": false
+  },
+  {
+    "category": "Konto",
+    "question": "Wie kann ich den Dunkelmodus aktivieren?",
+    "answer": "Um das Theme zu wechseln, klicken Sie auf Ihr Profilbild und wählen Sie die Option 'Dunkelmodus'.",
+    "isOpen": false
+  },
+  {
+    "category": "Quiz",
+    "question": "Wie viele Fragen kann ich pro Quiz erstellen?",
+    "answer": "Sie können maximal 20 Fragen pro Quiz erstellen.",
+    "isOpen": false
+  },
+  {
+    "category": "Quiz",
+    "question": "Kann ich eine Frage nachträglich ändern?",
+    "answer": "Ja, Sie können Fragen nachträglich ändern. Gehe einfach zum Bearbeiten-Bereich des Quiz und aktualisiere die gewünschte Frage.",
+    "isOpen": false
+  },
+  {
+    "category": "Quiz",
+    "question": "Kann ich Begründungen für falsche Antworten hinzufügen?",
+    "answer": "Ja, Sie können Begründungen für falsche Antworten hinzufügen. Wenn ein Spieler eine falsche Antwort wählt, wird die Begründung angezeigt, um das Feedback zu erklären.",
+    "isOpen": false
+  },
+  {
+    "category": "Quiz",
+    "question": "Wie viele Antwortmöglichkeiten kann ich pro Frage haben?",
+    "answer": "Sie können zwischen 2 und 4 Antwortmöglichkeiten pro Frage haben.",
+    "isOpen": false
+  },
+  {
+    "category": "Quiz",
+    "question": "Kann ich den Quiz-Erstellungsprozess teilen?",
+    "answer": "Nein, der Quiz-Erstellungsprozess ist nur für den Ersteller zugänglich. Die Quizinhalte können jedoch geteilt werden, damit andere sie spielen können.",
+    "isOpen": false
+  },
+  {
+    "category": "Quiz",
+    "question": "Wie erfahre ich das Ergebnis meines Quiz?",
+    "answer": "Am Ende des Quiz wird das Ergebnis automatisch angezeigt. Du siehst, wie viele Fragen du richtig beantwortet hast und erhältst möglicherweise zusätzliche Informationen zu deiner Leistung.",
+    "isOpen": false
+  },
+  {
+    "category": "Quiz",
+    "question": "Kann ich die richtige Antwort für jede Frage festlegen?",
+    "answer": "Ja, Sie müssen für jede Frage eine richtige Antwort festlegen. Die Spieler erhalten Punkte nur für die Auswahl der richtigen Antwort.",
+    "isOpen": false
+  }
+]
