@@ -66,9 +66,9 @@ function Profile() {
         display="flex"
         flexDir={{ base: 'column', lg: 'row' }}
         alignItems="center"
-        justifyContent="space-evenly"
+        justifyContent="space-around"
       >
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} style={{ width: 'min(100%, 20rem)' }}>
           <Box
             display="flex"
             flexDir="column"
@@ -130,8 +130,8 @@ function Profile() {
             {/*------------------- Form Submit -----------------*/}
             <Divider />
             <Button
-              width={{ base: '100%' }}
-              alignSelf={{ md: 'end' }}
+              width={{ base: '100%', md: 'fit-content' }}
+              alignSelf={{ md: 'start' }}
               colorScheme="teal"
               type="submit"
               disabled={isSubmitting}

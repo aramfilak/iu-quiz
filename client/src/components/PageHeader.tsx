@@ -1,4 +1,4 @@
-import { Box, BoxProps, Text } from '@chakra-ui/react';
+import { Box, BoxProps, Heading, Text, useColorModeValue } from '@chakra-ui/react';
 
 interface PageHeaderProps extends BoxProps {
   title: string;
@@ -8,10 +8,10 @@ interface PageHeaderProps extends BoxProps {
 function PageHeader({ title, description, ...rest }: PageHeaderProps) {
   return (
     <Box {...rest} mb="2rem" textAlign="center">
-      <Text fontWeight="bold" fontSize="3xl" mb="0.2 rem">
+      <Heading fontWeight="bold" fontSize="3xl" mb="0.2 rem">
         {title}
-      </Text>
-      <Text color="gray.600">{description}</Text>
+      </Heading>
+      <Text color={useColorModeValue('gray.500', 'gray.300')}>{description}</Text>
     </Box>
   );
 }

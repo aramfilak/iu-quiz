@@ -1,5 +1,5 @@
 import React from 'react';
-import { FiEdit, FiXCircle, FiUpload } from 'react-icons/fi';
+import { FiList, FiXCircle, FiRefreshCw, FiPlusCircle } from 'react-icons/fi';
 import {
   Avatar,
   BoxProps,
@@ -21,7 +21,11 @@ function UploadProfileImage(rest: BoxProps) {
   const { student, uploadImage, deleteImage } = useStudentStore();
 
   const handleDeleteImage = async () => {
-    const loadingToast = toast({ status: 'loading', description: 'Es lädt...' });
+    const loadingToast = toast({
+      status: 'loading',
+      description: 'Es lädt...',
+      duration: 3.6e6
+    });
 
     const { success, message } = await deleteImage();
 
@@ -36,7 +40,7 @@ function UploadProfileImage(rest: BoxProps) {
     if (image) {
       const formData = new FormData();
       formData.append('image', image);
-      const loadingToast = toast({ status: 'loading', description: 'Es lädt...' });
+      const loadingToast = toast({ status: 'loading', description: 'Es lädt...', duration: 3.6e6 });
 
       const { success, message } = await uploadImage(formData);
 
@@ -55,33 +59,40 @@ function UploadProfileImage(rest: BoxProps) {
         src={student?.image}
         size={{ base: 'xl', md: '2xl' }}
         bg="teal.500"
+        borderRadius="md"
       />
 
       <Menu>
         {/*_____________________ Menu Items ____________________ */}
+
         <MenuButton
           p={2}
           color="white"
-          borderWidth="3px"
+          borderWidth="2px"
           borderColor="white"
-          borderRadius="50%"
+          borderRadius="md"
           position="absolute"
-          bottom="0"
-          left="70%"
+          bottom="-10%"
+          left="80%"
           type="button"
           transition="all 0.2s"
           bg="teal.500"
-          _hover={{ bg: 'teal.300', borderColor: 'teal.300' }}
+          _hover={{ bg: 'teal.400' }}
           _expanded={{ bg: 'teal.500' }}
         >
-          <FiEdit />
+          <FiList />
         </MenuButton>
 
         <MenuList>
           {/*_____________________ Upload Image ____________________ */}
 
           <MenuItem>
-            <Tooltip maxW="12rem" label="Bildformate png, jpg und jpeg. maximale Größe 5 MB">
+            <Tooltip
+              maxW="12rem"
+              label="Bildformate png, jpg und jpeg. maximale Größe 5 MB"
+              placement="right-start"
+              borderRadius="md"
+            >
               <FormLabel
                 fontSize="0.9em"
                 width="100%"
@@ -91,15 +102,29 @@ function UploadProfileImage(rest: BoxProps) {
                 alignItems="center"
                 gap="0.5rem"
               >
-                <FiUpload />
-                Bild hinzufügen
+                {student?.image ? (
+                  <>
+                    <FiRefreshCw />
+                    Bild updaten
+                  </>
+                ) : (
+                  <>
+                    <FiPlusCircle />
+                    Bild hinzufügen
+                  </>
+                )}
               </FormLabel>
             </Tooltip>
           </MenuItem>
           {/*_____________________ Delete Image ____________________ */}
 
           <MenuItem onClick={handleDeleteImage} fontSize="0.9em">
-            <Tooltip maxW="12rem" label="Das Bild wird sofort gelöscht">
+            <Tooltip
+              maxW="12rem"
+              label="Das Bild wird sofort gelöscht"
+              placement="right-start"
+              borderRadius="md"
+            >
               <Text
                 width="100%"
                 cursor="pointer"
