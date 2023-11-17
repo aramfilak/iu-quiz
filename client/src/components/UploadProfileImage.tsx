@@ -1,5 +1,5 @@
 import React from 'react';
-import { FiList, FiXCircle, FiUpload } from 'react-icons/fi';
+import { FiEdit, FiXCircle, FiUpload } from 'react-icons/fi';
 import {
   Avatar,
   BoxProps,
@@ -62,19 +62,19 @@ function UploadProfileImage(rest: BoxProps) {
         <MenuButton
           p={2}
           color="white"
-          borderColor="teal.500"
+          borderWidth="3px"
+          borderColor="white"
+          borderRadius="50%"
           position="absolute"
           bottom="0"
           left="70%"
           type="button"
-          borderRadius="50%"
           transition="all 0.2s"
-          borderWidth="1px"
           bg="teal.500"
-          _hover={{ bg: 'teal.500' }}
+          _hover={{ bg: 'teal.300', borderColor: 'teal.300' }}
           _expanded={{ bg: 'teal.500' }}
         >
-          <FiList />
+          <FiEdit />
         </MenuButton>
 
         <MenuList>

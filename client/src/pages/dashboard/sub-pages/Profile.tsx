@@ -1,27 +1,28 @@
 import {
   Box,
-  Text,
   Button,
   FormLabel,
   Input,
   InputGroup,
   InputLeftElement,
-  useToast,
   Image,
-  Divider
+  Divider,
+  Alert,
+  AlertIcon
 } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
 import { FiUserCheck, FiSave, FiMail } from 'react-icons/fi';
 import { useStudentStore } from '../../../sotres';
-import { UploadProfileImage } from '../../../components';
+import { PageHeader, UploadProfileImage } from '../../../components';
 import profileIllustration from '../../../assets/illustrations/profile-illustration.svg';
+import { CustomAlert } from '../../../utils/types';
 
 function Profile() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const nickNameInputRef = useRef<HTMLInputElement>(null);
   const [isChanged, setIsChanged] = useState<boolean>(false);
   const { student, updateStudent } = useStudentStore();
-  const toast = useToast();
+  const [alert, setAlert] = useState<CustomAlert | null>(null);
 
   const handelChange = () => {
     const nickNameCurrentValue = nickNameInputRef.current?.value;
@@ -39,16 +40,14 @@ function Profile() {
     const nickName = nickNameInputRef.current?.value;
 
     if (!nickName) {
-      toast({ status: 'warning', description: 'Bitte alle Felder ausfüllen' });
+      setAlert({ status: 'warning', message: 'Bitte alle Felder ausfüllen' });
     }
 
-    const isLoading = toast({ status: 'loading', description: 'Es lädt...' });
+    setAlert({ status: 'loading', message: 'Es lädt...' });
 
     const { success, message } = await updateStudent({ nickName });
 
-    toast.close(isLoading);
-
-    toast({ status: success ? 'success' : 'error', description: message });
+    setAlert({ status: success ? 'success' : 'error', message: message });
 
     if (success) {
       setIsChanged(false);
@@ -58,28 +57,32 @@ function Profile() {
 
   return (
     <Box>
-      <Text fontWeight="bold" fontSize="3xl" mb="0.2 rem">
-        {`${student?.nickName} Profil`.toUpperCase()}
-      </Text>
-      <Text color="gray.600">Dein Profil, deine Geschichte. Gestalte es einzigartig.</Text>
+      {/*------------------- Header --------------------*/}
+      <PageHeader
+        title={`${student?.nickName} Profil`.toUpperCase()}
+        description="Dein Profil, deine Geschichte. Gestalte es einzigartig."
+      />
       <Box
-        gap="1rem"
-        maxW="70rem"
         display="flex"
-        flexDirection={{ base: 'column', lg: 'row' }}
+        flexDir={{ base: 'column', lg: 'row' }}
         alignItems="center"
-        justifyContent="space-between"
-        mt="2rem"
+        justifyContent="space-evenly"
       >
         <form onSubmit={handleSubmit}>
           <Box
-            maxW="20rem"
             display="flex"
             flexDir="column"
             justifyContent="center"
             alignItems="center"
             gap="1rem"
           >
+            {/*------------------- Response Alert --------------------*/}
+            {alert && (
+              <Alert borderRadius="md" status={alert.status} mb="3">
+                <AlertIcon />
+                {alert.message}
+              </Alert>
+            )}
             {/*---------------- Upload Image -------------*/}
             <UploadProfileImage />
             {/*------------------- Email --------------------*/}
@@ -127,7 +130,8 @@ function Profile() {
             {/*------------------- Form Submit -----------------*/}
             <Divider />
             <Button
-              alignSelf="end"
+              width={{ base: '100%' }}
+              alignSelf={{ md: 'end' }}
               colorScheme="teal"
               type="submit"
               disabled={isSubmitting}

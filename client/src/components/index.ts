@@ -6,3 +6,4 @@ export { ProtectedRoutes } from './ProtectedRoutes';
 export { SidebarNav } from './SidebarNav';
 export { HeaderMenuBar } from './HeaderMenuBar';
 export { UploadProfileImage } from './UploadProfileImage';
+export { PageHeader } from './PageHeader';
