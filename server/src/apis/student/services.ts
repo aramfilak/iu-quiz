@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
-import { NotFoundError, UnauthorizedError } from '../../errors';
+import { BadRequestError, NotFoundError, UnauthorizedError } from '../../errors';
 import { database } from '../../configs';
 import { StatusCodes } from 'http-status-codes';
 import { createApiResponse } from '../../utils/formatters';
 import { excludeSensitiveProperties } from '../../utils/helpers';
-import { Student } from '@prisma/client';
 import { isEmpty } from '../../utils/validators';
+import { Student } from '@prisma/client';
 
-const excludeStudentSensitiveProperties = (student: Student) =>
-  excludeSensitiveProperties(['password', 'emailVerificationToken'], student);
+const excludeStudentSensitiveProperties = (data: Student) =>
+  excludeSensitiveProperties(['password', 'emailVerificationToken'], data);
 
 /**
  * @route api/v1/student
@@ -38,21 +38,25 @@ async function findOne(req: Request, res: Response) {
  */
 async function update(req: Request, res: Response) {
   const studentId = req.auth?.id;
-  const { email, password, isVerified, emailVerificationToken, ...updateData } = req.body;
-  const nonEmptyValues: Record<string, unknown> = {};
+  const { nickName } = req.body;
+  const updateData = { nickName };
+
+  if (!Object.keys(updateData).length) {
+    throw new BadRequestError('Es sind keine Einträge vorhanden, die aktualisiert werden können');
+  }
 
   Object.entries(updateData).forEach(([key, value]) => {
-    nonEmptyValues[key] = isEmpty(key, value);
+    isEmpty(key, value);
   });
 
   const updatedStudent = await database.student.update({
     where: { id: studentId },
-    data: nonEmptyValues
+    data: updateData
   });
 
   res
     .status(StatusCodes.OK)
-    .json(createApiResponse(StatusCodes.OK, ``, excludeStudentSensitiveProperties(updatedStudent)));
+    .json(createApiResponse(StatusCodes.OK, '', excludeStudentSensitiveProperties(updatedStudent)));
 }
 
 export { findOne, update };
