@@ -102,7 +102,7 @@ function HeaderMenuBar({ onOpen: handleOpen, ...rest }: MobileProps) {
             <MenuButton py={2} transition="all 0.3s" _focus={{ boxShadow: 'none' }}>
               <HStack>
                 {/* ________________ Student Image ____________________ */}
-                <Avatar bg="teal.500" src="" size={{ base: 'sm', xl: 'md' }} />
+                <Avatar bg="teal.500" src={student?.image} size={{ base: 'sm', xl: 'md' }} />
 
                 <VStack
                   display={{ base: 'none', md: 'flex' }}

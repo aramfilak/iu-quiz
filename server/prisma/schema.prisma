@@ -18,6 +18,7 @@ model Student {
   email                  String  @unique
   password               String
   image                  String  @default("")
+  imageId                String  @default("")
   nickName               String
   isVerified             Boolean @default(false)
   emailVerificationToken String

@@ -23,6 +23,7 @@ function Authentication() {
   return (
     <Box minH="100vh" display="flex" justifyContent="center" alignContent="center">
       <Container
+        className="auth-container"
         maxW="container.lg"
         display={{ base: 'flex' }}
         flexDirection={{ base: 'column', md: 'row' }}

@@ -15,8 +15,13 @@ function NavItem({ icon, isActive, children, ...rest }: NavItemProps) {
   const appliedHoverStyle = isActive ? {} : inactiveHover;
 
   const inactiveColor = useColorModeValue('gray.800', 'gray.100');
-  const activeColor = 'white';
+  const activeColor = useColorModeValue('white', 'gray.800');
   const appliedColor = isActive ? activeColor : inactiveColor;
+
+  const inactiveBhColor = useColorModeValue('teal.500', 'teal.200');
+  const activeBgColor = 'none';
+
+  const appliedBgColor = isActive ? inactiveBhColor : activeBgColor;
 
   return (
     <Box as="a" style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
@@ -30,7 +35,7 @@ function NavItem({ icon, isActive, children, ...rest }: NavItemProps) {
         borderRadius="lg"
         role="group"
         cursor="pointer"
-        bg={isActive ? 'teal.500' : 'none'}
+        bg={appliedBgColor}
         _hover={appliedHoverStyle}
         {...rest}
       >

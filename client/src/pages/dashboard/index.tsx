@@ -21,7 +21,7 @@ function Dashboard() {
         </DrawerContent>
       </Drawer>
       <HeaderMenuBar onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 60 }} p="4">
+      <Box ml={{ base: 0, md: 60 }} p="8">
         {/*-------------------- Sub Page ------------------*/}
         <Outlet />
       </Box>

@@ -38,11 +38,11 @@ async function findOne(req: Request, res: Response) {
  */
 async function update(req: Request, res: Response) {
   const studentId = req.auth?.id;
-  const { nickName } = req.body;
-  const updateData = { nickName };
+  const { id, email, password, isVerified, emailVerificationToken, image, imageId, ...updateData } =
+    req.body;
 
   if (!Object.keys(updateData).length) {
-    throw new BadRequestError('Es sind keine Einträge vorhanden, die aktualisiert werden können');
+    throw new BadRequestError('Keine Einträge zum Aktualiseren');
   }
 
   Object.entries(updateData).forEach(([key, value]) => {
@@ -56,11 +56,17 @@ async function update(req: Request, res: Response) {
 
   res
     .status(StatusCodes.OK)
-    .json(createApiResponse(StatusCodes.OK, '', excludeStudentSensitiveProperties(updatedStudent)));
+    .json(
+      createApiResponse(
+        StatusCodes.OK,
+        'Änderungen gespeichert',
+        excludeStudentSensitiveProperties(updatedStudent)
+      )
+    );
 }
 
 /**
- * @route api/v1/student/upload-profile-image
+ * @route api/v1/student/image
  * @method POST
  * @access protected
  */
@@ -72,7 +78,17 @@ async function uploadImage(req: Request, res: Response) {
     throw new BadRequestError('Kein Bild zum Hochladen');
   }
 
-  const { secure_url } = await cloudinary.uploader.upload(imageSource, {
+  const student = await database.student.findFirst({
+    where: { id: studentId }
+  });
+
+  const imageId = student?.imageId;
+
+  if (imageId) {
+    await cloudinary.uploader.destroy(imageId);
+  }
+
+  const { secure_url, public_id } = await cloudinary.uploader.upload(imageSource, {
     folder: 'iu-quiz-app',
     unique_filename: true,
     resource_type: 'auto',
@@ -81,7 +97,7 @@ async function uploadImage(req: Request, res: Response) {
 
   const updatedStudent = await database.student.update({
     where: { id: studentId },
-    data: { image: secure_url }
+    data: { image: secure_url, imageId: public_id }
   });
 
   res
@@ -95,4 +111,39 @@ async function uploadImage(req: Request, res: Response) {
     );
 }
 
-export { findOne, update, uploadImage };
+/**
+ * @route api/v1/student/image
+ * @method DELETE
+ * @access protected
+ */
+async function deleteImage(req: Request, res: Response) {
+  const studentId = req.auth?.id;
+
+  const student = await database.student.findFirst({
+    where: { id: studentId }
+  });
+  const imageId = student?.imageId;
+
+  if (!imageId) {
+    throw new BadRequestError('Kein Bild zum Löschen');
+  }
+
+  await cloudinary.uploader.destroy(imageId);
+
+  const updatedStudent = await database.student.update({
+    where: { id: studentId },
+    data: { image: '', imageId: '' }
+  });
+
+  res
+    .status(StatusCodes.OK)
+    .json(
+      createApiResponse(
+        StatusCodes.OK,
+        'Profilbild erfolgreich gelöscht',
+        excludeStudentSensitiveProperties(updatedStudent)
+      )
+    );
+}
+
+export { findOne, update, uploadImage, deleteImage };

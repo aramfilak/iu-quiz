@@ -10,7 +10,14 @@ function App() {
   return (
     <ChakraProvider
       theme={theme}
-      toastOptions={{ defaultOptions: { position: 'top', duration: 5000, isClosable: true } }}
+      toastOptions={{
+        defaultOptions: {
+          position: 'top',
+          duration: 5000,
+          isClosable: true,
+          variant: 'subtle'
+        }
+      }}
     >
       <Analytics />
       <BrowserRouter>
