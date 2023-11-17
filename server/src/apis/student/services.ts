@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { BadRequestError, NotFoundError, UnauthorizedError } from '../../errors';
-import { database } from '../../configs';
+import { cloudinary, database } from '../../configs';
 import { StatusCodes } from 'http-status-codes';
 import { createApiResponse } from '../../utils/formatters';
 import { excludeSensitiveProperties } from '../../utils/helpers';
@@ -59,4 +59,40 @@ async function update(req: Request, res: Response) {
     .json(createApiResponse(StatusCodes.OK, '', excludeStudentSensitiveProperties(updatedStudent)));
 }
 
-export { findOne, update };
+/**
+ * @route api/v1/student/upload-profile-image
+ * @method POST
+ * @access protected
+ */
+async function uploadImage(req: Request, res: Response) {
+  const studentId = req.auth?.id;
+  const imageSource = req.file?.path;
+
+  if (!imageSource) {
+    throw new BadRequestError('Kein Bild zum Hochladen');
+  }
+
+  const { secure_url } = await cloudinary.uploader.upload(imageSource, {
+    folder: 'iu-quiz-app',
+    unique_filename: true,
+    resource_type: 'auto',
+    allowed_formats: ['png', 'jpg']
+  });
+
+  const updatedStudent = await database.student.update({
+    where: { id: studentId },
+    data: { image: secure_url }
+  });
+
+  res
+    .status(StatusCodes.OK)
+    .json(
+      createApiResponse(
+        StatusCodes.OK,
+        'Profilbild erfolgreich hochgeladen',
+        excludeStudentSensitiveProperties(updatedStudent)
+      )
+    );
+}
+
+export { findOne, update, uploadImage };

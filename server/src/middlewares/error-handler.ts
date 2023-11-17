@@ -3,6 +3,7 @@ import { ApiError } from '../errors/api';
 import { StatusCodes } from 'http-status-codes';
 import { createErrorResponse } from '../utils/formatters';
 import { Prisma } from '@prisma/client';
+import { MulterError } from 'multer';
 
 function errorHandler(e: Error, req: Request, res: Response, next: NextFunction) {
   if (e instanceof ApiError) {
@@ -12,6 +13,12 @@ function errorHandler(e: Error, req: Request, res: Response, next: NextFunction)
     return res
       .status(StatusCodes.BAD_REQUEST)
       .json(createErrorResponse(StatusCodes.BAD_REQUEST, `Unbekanntes Argument ${argument}`));
+  } else if (e instanceof MulterError && e.code === 'LIMIT_FILE_SIZE') {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json(
+        createErrorResponse(StatusCodes.BAD_REQUEST, 'Bild zu groß, maximal zulässige Größe 5 MB')
+      );
   } else {
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)

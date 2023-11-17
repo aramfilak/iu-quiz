@@ -50,6 +50,7 @@ app.use(errorHandler);
   try {
     await database.$connect();
     console.info('  ➜  Data Source has been initialized ✅');
+
     app.listen(port, () => {
       console.info('  ➜  Server listening on port', port, '🛜');
       console.info('\x1b[1m', ' ➜  Local:', '\x1b[36m', serverLocal);

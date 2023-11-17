@@ -101,7 +101,9 @@ function HeaderMenuBar({ onOpen: handleOpen, ...rest }: MobileProps) {
           <Menu>
             <MenuButton py={2} transition="all 0.3s" _focus={{ boxShadow: 'none' }}>
               <HStack>
-                <Avatar bg="teal.500" src="" size="sm" />
+                {/* ________________ Student Image ____________________ */}
+                <Avatar bg="teal.500" src="" size={{ base: 'sm', xl: 'md' }} />
+
                 <VStack
                   display={{ base: 'none', md: 'flex' }}
                   alignItems="flex-start"
