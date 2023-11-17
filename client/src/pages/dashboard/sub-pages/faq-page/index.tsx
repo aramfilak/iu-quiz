@@ -129,11 +129,11 @@ function FAQs() {
                   border="none"
                   mb={2}
                 >
-                  <AccordionButton _hover={{ bg: 'teal.500', color: 'white' }}>
+                  <AccordionButton textAlign="left" _hover={{ bg: 'teal.500', color: 'white' }}>
                     {`${index + 1}. ${faq.question}`}
                   </AccordionButton>
-                  <AccordionPanel pb={4} pl={10} textAlign="left">
-                    <p>{`A: ${faq.answer}`}</p>
+                  <AccordionPanel pb={4} textAlign="left">
+                    <p>{`${faq.answer}`}</p>
                   </AccordionPanel>
                 </AccordionItem>
               ))}
