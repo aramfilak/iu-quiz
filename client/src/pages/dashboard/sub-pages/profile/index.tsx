@@ -11,17 +11,17 @@ import {
   AlertIcon
 } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
-import { FiUserCheck, FiSave, FiMail } from 'react-icons/fi';
-import { useStudentStore } from '../../../sotres';
-import { PageHeader, UploadProfileImage } from '../../../components';
-import profileIllustration from '../../../assets/illustrations/profile-illustration.svg';
-import { CustomAlert } from '../../../utils/types';
+import { FiUserCheck, FiSave, FiMail, FiUserX } from 'react-icons/fi';
+import { useStudentStore } from '../../../../sotres';
+import { PageHeader, UploadProfileImage } from '../../../../components';
+import profileIllustration from '../../../../assets/illustrations/profile-illustration.svg';
+import { CustomAlert } from '../../../../utils/types';
 
 function Profile() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const nickNameInputRef = useRef<HTMLInputElement>(null);
   const [isChanged, setIsChanged] = useState<boolean>(false);
-  const { student, updateStudent } = useStudentStore();
+  const { studentProfile, updateStudent } = useStudentStore();
   const [alert, setAlert] = useState<CustomAlert | null>(null);
 
   const handelChange = () => {
@@ -59,7 +59,7 @@ function Profile() {
     <Box>
       {/*------------------- Header --------------------*/}
       <PageHeader
-        title={`${student?.nickName} Profil`.toUpperCase()}
+        title={`${studentProfile?.nickName} Profil`.toUpperCase()}
         description="Dein Profil, deine Geschichte. Gestalte es einzigartig."
       />
       <Box
@@ -99,7 +99,7 @@ function Profile() {
                   id="nick-name"
                   placeholder="max muster"
                   disabled={true}
-                  defaultValue={student?.email}
+                  defaultValue={studentProfile?.studentAuth.email}
                 />
                 <InputLeftElement color="gray.500">
                   <FiMail />
@@ -119,7 +119,7 @@ function Profile() {
                   autoComplete="on"
                   id="nick-name"
                   placeholder="max muster"
-                  defaultValue={student?.nickName}
+                  defaultValue={studentProfile?.nickName}
                 />
                 <InputLeftElement>
                   <FiUserCheck />
@@ -127,11 +127,11 @@ function Profile() {
               </InputGroup>
             </Box>
 
-            {/*------------------- Form Submit -----------------*/}
             <Divider />
+
             <Button
-              width={{ base: '100%', md: 'fit-content' }}
-              alignSelf={{ md: 'start' }}
+              width="100%"
+              alignSelf={{ md: 'end' }}
               colorScheme="teal"
               type="submit"
               disabled={isSubmitting}
@@ -139,6 +139,20 @@ function Profile() {
               leftIcon={<FiSave />}
             >
               Speichern
+            </Button>
+            <Divider />
+
+            {/*------------------- Delete Profile -----------------*/}
+
+            <Button
+              width={{ base: '100%', md: 'fit-content' }}
+              alignSelf={{ md: 'end' }}
+              colorScheme="red"
+              type="button"
+              disabled={isSubmitting}
+              leftIcon={<FiUserX />}
+            >
+              Profile Löschen
             </Button>
           </Box>
         </form>

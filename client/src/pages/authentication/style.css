@@ -1,4 +1,4 @@
-auth-container > form {
+.auth-container > form {
   animation: scale 0.3s ease-out forwards;
   width: min(100%, 20rem);
 }

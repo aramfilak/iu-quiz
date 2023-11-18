@@ -18,7 +18,7 @@ import {
 import { FaSearch } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import { useState } from 'react';
-import faqsData from './faqsData.json';
+import faqsData from './data.json';
 import { PageHeader } from '../../../../components';
 
 interface FAQ {

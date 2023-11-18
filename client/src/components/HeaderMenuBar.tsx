@@ -34,7 +34,7 @@ interface MobileProps extends FlexProps {
 
 function HeaderMenuBar({ onOpen: handleOpen, ...rest }: MobileProps) {
   const { signOut } = useAuthStore();
-  const { student } = useStudentStore();
+  const { studentProfile } = useStudentStore();
   const navigate = useNavigate();
   const cancelRef = useRef<HTMLButtonElement>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -104,7 +104,7 @@ function HeaderMenuBar({ onOpen: handleOpen, ...rest }: MobileProps) {
                 {/* ________________ Student Image ____________________ */}
                 <Avatar
                   bg="teal.500"
-                  src={student?.image}
+                  src={studentProfile?.profileImage.url}
                   size={{ base: 'sm', xl: 'md' }}
                   borderRadius="md"
                 />
@@ -117,12 +117,12 @@ function HeaderMenuBar({ onOpen: handleOpen, ...rest }: MobileProps) {
                 >
                   {/* ________________ Student Nick ____________________ */}
                   <Text fontWeight="bold" fontSize="sm">
-                    {student?.nickName}
+                    {studentProfile?.nickName}
                   </Text>
 
                   {/*__________________ Student E-mail __________________________ */}
                   <Text fontSize="xs" color={useColorModeValue('gray.600', 'gray.300')}>
-                    {student?.email}
+                    {studentProfile?.studentAuth.email}
                   </Text>
                 </VStack>
                 <Box display={{ base: 'none', md: 'flex' }}>

@@ -18,7 +18,7 @@ import { useStudentStore } from '../sotres';
 
 function UploadProfileImage(rest: BoxProps) {
   const toast = useToast();
-  const { student, uploadImage, deleteImage } = useStudentStore();
+  const { studentProfile, uploadImage, deleteImage } = useStudentStore();
 
   const handleDeleteImage = async () => {
     const loadingToast = toast({
@@ -56,7 +56,7 @@ function UploadProfileImage(rest: BoxProps) {
         borderStyle="solid"
         borderColor="teal.500"
         _hover={{ filter: 'gray' }}
-        src={student?.image}
+        src={studentProfile?.profileImage.url}
         size={{ base: 'xl', md: '2xl' }}
         bg="teal.500"
         borderRadius="md"
@@ -102,7 +102,7 @@ function UploadProfileImage(rest: BoxProps) {
                 alignItems="center"
                 gap="0.5rem"
               >
-                {student?.image ? (
+                {studentProfile?.profileImage.url ? (
                   <>
                     <FiRefreshCw />
                     Bild updaten

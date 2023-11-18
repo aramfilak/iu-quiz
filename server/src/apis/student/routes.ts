@@ -6,7 +6,7 @@ const studentRoutes = Router();
 
 studentRoutes.get('/', authenticate, findOne);
 studentRoutes.patch('/', authenticate, update);
-studentRoutes.post('/image', authenticate, upload.single('image'), uploadImage);
-studentRoutes.delete('/image', authenticate, deleteImage);
+studentRoutes.post('/profile-image', authenticate, upload.single('image'), uploadImage);
+studentRoutes.delete('/profile-image', authenticate, deleteImage);
 
 export { studentRoutes };

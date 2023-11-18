@@ -33,23 +33,21 @@ function SidebarNav({ onClose, ...rest }: SidebarProps) {
 
       {/* ________________ Nav Links ____________________ */}
       {Object.values(routes.Dashboard.children)
-        //skip first child (Profile)
-        .slice(1)
-        .map((link, index) => {
-          return (
-            <NavItem
-              isActive={index === activeNavLink}
-              key={link.name}
-              icon={link.icon}
-              onClick={() => {
-                setActiveNavLink(index);
-                navigate(link.path);
-              }}
-            >
-              {link.name}
-            </NavItem>
-          );
-        })}
+      .map((link, index) => {
+        return (
+          <NavItem
+            isActive={index === activeNavLink}
+            key={link.name}
+            icon={link.icon}
+            onClick={() => {
+              setActiveNavLink(index);
+              navigate(link.path);
+            }}
+          >
+            {link.name}
+          </NavItem>
+        );
+      })}
     </Box>
   );
 }

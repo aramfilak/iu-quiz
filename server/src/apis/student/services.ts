@@ -3,12 +3,17 @@ import { BadRequestError, NotFoundError, UnauthorizedError } from '../../errors'
 import { cloudinary, database } from '../../configs';
 import { StatusCodes } from 'http-status-codes';
 import { createApiResponse } from '../../utils/formatters';
-import { excludeSensitiveProperties } from '../../utils/helpers';
 import { isEmpty } from '../../utils/validators';
-import { Student } from '@prisma/client';
 
-const excludeStudentSensitiveProperties = (data: Student) =>
-  excludeSensitiveProperties(['password', 'emailVerificationToken'], data);
+const studentProfileDataIncludeSchema = {
+  profileImage: true,
+  studentAuth: {
+    select: {
+      isVerified: true,
+      email: true
+    }
+  }
+};
 
 /**
  * @route api/v1/student
@@ -18,17 +23,16 @@ const excludeStudentSensitiveProperties = (data: Student) =>
 async function findOne(req: Request, res: Response) {
   const studentId = req.auth?.id;
 
-  const studentData = await database.student.findFirst({
-    where: { id: studentId }
+  const studentData = await database.studentProfile.findUnique({
+    where: { studentAuthId: studentId },
+    include: studentProfileDataIncludeSchema
   });
 
   if (!studentData) {
     throw new NotFoundError('Sie sind nicht registriert');
   }
 
-  res
-    .status(StatusCodes.OK)
-    .json(createApiResponse(StatusCodes.OK, '', excludeStudentSensitiveProperties(studentData)));
+  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, '', studentData));
 }
 
 /**
@@ -38,9 +42,7 @@ async function findOne(req: Request, res: Response) {
  */
 async function update(req: Request, res: Response) {
   const studentId = req.auth?.id;
-  const { id, email, password, isVerified, emailVerificationToken, image, imageId, ...updateData } =
-    req.body;
-
+  const { profileImage, ...updateData } = req.body;
   if (!Object.keys(updateData).length) {
     throw new BadRequestError('Keine Einträge zum Aktualiseren');
   }
@@ -49,20 +51,15 @@ async function update(req: Request, res: Response) {
     isEmpty(key, value);
   });
 
-  const updatedStudent = await database.student.update({
-    where: { id: studentId },
-    data: updateData
+  const updatedStudent = await database.studentProfile.update({
+    where: { studentAuthId: studentId },
+    data: updateData,
+    include: studentProfileDataIncludeSchema
   });
 
   res
     .status(StatusCodes.OK)
-    .json(
-      createApiResponse(
-        StatusCodes.OK,
-        'Änderungen gespeichert',
-        excludeStudentSensitiveProperties(updatedStudent)
-      )
-    );
+    .json(createApiResponse(StatusCodes.OK, 'Änderungen gespeichert', updatedStudent));
 }
 
 /**
@@ -78,11 +75,12 @@ async function uploadImage(req: Request, res: Response) {
     throw new BadRequestError('Kein Bild zum Hochladen');
   }
 
-  const student = await database.student.findFirst({
-    where: { id: studentId }
+  const studentProfile = await database.studentProfile.findUnique({
+    where: { studentAuthId: studentId },
+    include: studentProfileDataIncludeSchema
   });
 
-  const imageId = student?.imageId;
+  const imageId = studentProfile?.profileImage?.publicId;
 
   if (imageId) {
     await cloudinary.uploader.destroy(imageId);
@@ -95,20 +93,22 @@ async function uploadImage(req: Request, res: Response) {
     allowed_formats: ['png', 'jpg']
   });
 
-  const updatedStudent = await database.student.update({
-    where: { id: studentId },
-    data: { image: secure_url, imageId: public_id }
+  const updatedStudent = await database.studentProfile.update({
+    where: { studentAuthId: studentId },
+    data: {
+      profileImage: {
+        update: {
+          publicId: public_id,
+          url: secure_url
+        }
+      }
+    },
+    include: studentProfileDataIncludeSchema
   });
 
   res
     .status(StatusCodes.OK)
-    .json(
-      createApiResponse(
-        StatusCodes.OK,
-        'Profilbild erfolgreich hochgeladen',
-        excludeStudentSensitiveProperties(updatedStudent)
-      )
-    );
+    .json(createApiResponse(StatusCodes.OK, 'Profilbild erfolgreich hochgeladen', updatedStudent));
 }
 
 /**
@@ -119,31 +119,37 @@ async function uploadImage(req: Request, res: Response) {
 async function deleteImage(req: Request, res: Response) {
   const studentId = req.auth?.id;
 
-  const student = await database.student.findFirst({
-    where: { id: studentId }
+  const studentProfile = await database.studentProfile.findFirst({
+    where: { studentAuthId: studentId },
+    include: {
+      profileImage: true
+    }
   });
-  const imageId = student?.imageId;
 
-  if (!imageId) {
+  const publicId = studentProfile?.profileImage?.publicId;
+
+  if (!publicId) {
     throw new BadRequestError('Kein Bild zum Löschen');
   }
 
-  await cloudinary.uploader.destroy(imageId);
+  await cloudinary.uploader.destroy(publicId);
 
-  const updatedStudent = await database.student.update({
-    where: { id: studentId },
-    data: { image: '', imageId: '' }
+  const updatedStudent = await database.studentProfile.update({
+    where: { studentAuthId: studentId },
+    data: {
+      profileImage: {
+        update: {
+          publicId: '',
+          url: ''
+        }
+      }
+    },
+    include: studentProfileDataIncludeSchema
   });
 
   res
     .status(StatusCodes.OK)
-    .json(
-      createApiResponse(
-        StatusCodes.OK,
-        'Profilbild erfolgreich gelöscht',
-        excludeStudentSensitiveProperties(updatedStudent)
-      )
-    );
+    .json(createApiResponse(StatusCodes.OK, 'Profilbild erfolgreich gelöscht', updatedStudent));
 }
 
 export { findOne, update, uploadImage, deleteImage };

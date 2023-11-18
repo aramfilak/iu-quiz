@@ -1,2 +1,2 @@
-export { Profile } from './Profile';
-export { FAQs } from './faq-page';
+export { Profile } from './profile';
+export { FAQs } from './faqs';

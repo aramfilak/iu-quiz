@@ -52,11 +52,7 @@ function SignInForm(rest: React.HTMLProps<HTMLFormElement>) {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      style={{ maxWidth: '22rem', display: 'flex', flexDirection: 'column' }}
-      {...rest}
-    >
+    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }} {...rest}>
       <Text as="b" fontSize="4xl" color="teal.500" mb="1rem">
         Anmelden
       </Text>

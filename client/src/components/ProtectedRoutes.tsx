@@ -26,8 +26,6 @@ function ProtectedRoutes() {
       navigate(Authentication.path);
       setIsLoading(false);
     })();
-
-    //eslint-disable-next-line
   }, []);
 
   return isLoading ? (

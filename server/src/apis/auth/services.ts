@@ -20,7 +20,7 @@ async function signUp(req: Request, res: Response) {
   email = isIuEmail(email);
   password = isValidPassword(password);
 
-  const student = await database.student.findFirst({ where: { email: email } });
+  const student = await database.studentAuth.findFirst({ where: { email: email } });
 
   if (student && !student.isVerified) {
     throw new BadRequestError(
@@ -40,12 +40,22 @@ async function signUp(req: Request, res: Response) {
 
   const verificationToken = crypto.randomBytes(30).toString('hex');
 
-  await database.student.create({
+  await database.studentAuth.create({
     data: {
       email: email,
       password: hashedPassword,
-      nickName,
-      emailVerificationToken: verificationToken
+      emailVerificationToken: verificationToken,
+      studentProfile: {
+        create: {
+          nickName: nickName,
+          profileImage: {
+            create: {
+              publicId: '',
+              url: ''
+            }
+          }
+        }
+      }
     }
   });
 
@@ -73,7 +83,7 @@ async function signUp(req: Request, res: Response) {
 async function verifyEmail(req: Request, res: Response) {
   const { email, emailVerificationToken } = req.body;
 
-  const student = await database.student.findFirst({
+  const student = await database.studentAuth.findFirst({
     where: { email: email }
   });
 
@@ -95,7 +105,7 @@ async function verifyEmail(req: Request, res: Response) {
     throw new UnauthorizedError('Verifizierung fehlgeschlagen');
   }
 
-  await database.student.update({
+  await database.studentAuth.update({
     where: { email: email, emailVerificationToken: emailVerificationToken },
     data: {
       isVerified: true,
@@ -119,7 +129,7 @@ async function signIn(req: Request, res: Response) {
   email = isEmpty('email', email);
   password = isEmpty('password', password);
 
-  const student = await database.student.findFirst({ where: { email: email } });
+  const student = await database.studentAuth.findFirst({ where: { email: email } });
 
   if (student && !student.isVerified) {
     throw new BadRequestError('Bitte bestätigen Sie Ihre E-Mail, um sich einzuloggen');

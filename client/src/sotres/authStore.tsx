@@ -4,6 +4,8 @@ import { IuQuizServerResponse } from '../utils/types';
 import { usePersistStore } from './index';
 
 interface AuthResponse {
+  success: boolean;
+  statusCode: number;
   accessToken: string;
 }
 

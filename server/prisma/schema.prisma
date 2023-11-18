@@ -13,13 +13,26 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model Student {
-  id                     String  @id @unique @default(uuid())
-  email                  String  @unique
+model StudentAuth {
+  id                     String          @id @unique @default(nanoid(20))
+  email                  String          @unique
   password               String
-  image                  String  @default("")
-  imageId                String  @default("")
-  nickName               String
-  isVerified             Boolean @default(false)
+  isVerified             Boolean         @default(false)
   emailVerificationToken String
+  studentProfile         StudentProfile?
+}
+
+model StudentProfile {
+  id            String        @id @unique @default(nanoid(20))
+  nickName      String
+  studentAuth   StudentAuth   @relation(fields: [studentAuthId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  studentAuthId String        @unique
+  profileImage  ProfileImage?
+}
+
+model ProfileImage {
+  publicId         String         @default("")
+  url              String         @default("")
+  studentProfile   StudentProfile @relation(fields: [studentProfileId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  studentProfileId String         @unique
 }
