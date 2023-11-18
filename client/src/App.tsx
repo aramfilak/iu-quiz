@@ -29,7 +29,7 @@ function App() {
 
           {/*------------protected-------------------*/}
           <Route element={<ProtectedRoutes />}>
-            <Route path={Dashboard.path} element={Dashboard.element}>
+            <Route element={Dashboard.element}>
               {/*------------Dashboard Sub Pages-------------------*/}
 
               {Object.values(routes.Dashboard.children).map(({ name, path, element }) => {

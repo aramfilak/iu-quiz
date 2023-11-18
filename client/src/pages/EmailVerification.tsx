@@ -40,7 +40,6 @@ function EmailVerification() {
     >
       <Alert
         maxWidth="50rem"
-        borderRadius="md"
         status={alert?.status}
         flexDirection="column"
         alignItems="center"

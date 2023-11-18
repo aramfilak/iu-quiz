@@ -31,7 +31,6 @@ const routes = {
   Dashboard: {
     icon: FiHome,
     name: 'Dashboard',
-    path: 'dashboard',
     element: <Dashboard />,
     children: {
       Profile: {

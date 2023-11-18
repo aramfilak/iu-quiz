@@ -16,31 +16,35 @@ const studentProfileDataIncludeSchema = {
 };
 
 /**
+ * ________________________________________________________________
  * @route api/v1/student
  * @method GET
  * @access protected
+ * ________________________________________________________________
  */
-async function findOne(req: Request, res: Response) {
+async function findStudent(req: Request, res: Response) {
   const studentId = req.auth?.id;
 
-  const studentData = await database.studentProfile.findUnique({
+  const studentProfile = await database.studentProfile.findUnique({
     where: { studentAuthId: studentId },
     include: studentProfileDataIncludeSchema
   });
 
-  if (!studentData) {
+  if (!studentProfile) {
     throw new NotFoundError('Sie sind nicht registriert');
   }
 
-  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, '', studentData));
+  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, '', studentProfile));
 }
 
 /**
+ * ________________________________________________________________
  * @route api/v1/student
  * @method PATCH
  * @access protected
+ * ________________________________________________________________
  */
-async function update(req: Request, res: Response) {
+async function updateStudent(req: Request, res: Response) {
   const studentId = req.auth?.id;
   const { profileImage, ...updateData } = req.body;
   if (!Object.keys(updateData).length) {
@@ -48,7 +52,7 @@ async function update(req: Request, res: Response) {
   }
 
   Object.entries(updateData).forEach(([key, value]) => {
-    isEmpty(key, value);
+    updateData[key] = isEmpty(key, value);
   });
 
   const updatedStudent = await database.studentProfile.update({
@@ -63,11 +67,47 @@ async function update(req: Request, res: Response) {
 }
 
 /**
+ * ________________________________________________________________
+ * @route api/v1/student
+ * @method POST
+ * @access protected
+ * ________________________________________________________________
+ */
+async function deleteStudent(req: Request, res: Response) {
+  const studentId = req.auth?.id;
+
+  const studentProfile = await database.studentProfile.findUnique({
+    where: { studentAuthId: studentId },
+    include: studentProfileDataIncludeSchema
+  });
+
+  if (!studentProfile) {
+    throw new NotFoundError('Sie sind nicht registriert');
+  }
+
+  const profileImagePublicId = studentProfile?.profileImage?.publicId;
+
+  if (profileImagePublicId) {
+    await cloudinary.uploader.destroy(profileImagePublicId);
+  }
+
+  await database.studentAuth.delete({
+    where: { id: studentId }
+  });
+
+  res
+    .status(StatusCodes.OK)
+    .json(createApiResponse(StatusCodes.OK, 'Schade, dass Sie gehen! Wir vermissen Sie bereits'));
+}
+
+/**
+ * ________________________________________________________________
  * @route api/v1/student/image
  * @method POST
  * @access protected
+ * ________________________________________________________________
  */
-async function uploadImage(req: Request, res: Response) {
+async function uploadStudentProfileImage(req: Request, res: Response) {
   const studentId = req.auth?.id;
   const imageSource = req.file?.path;
 
@@ -112,11 +152,13 @@ async function uploadImage(req: Request, res: Response) {
 }
 
 /**
+ * ________________________________________________________________
  * @route api/v1/student/image
  * @method DELETE
  * @access protected
+ * ________________________________________________________________
  */
-async function deleteImage(req: Request, res: Response) {
+async function deleteStudentProfileImage(req: Request, res: Response) {
   const studentId = req.auth?.id;
 
   const studentProfile = await database.studentProfile.findFirst({
@@ -152,4 +194,10 @@ async function deleteImage(req: Request, res: Response) {
     .json(createApiResponse(StatusCodes.OK, 'Profilbild erfolgreich gelöscht', updatedStudent));
 }
 
-export { findOne, update, uploadImage, deleteImage };
+export {
+  findStudent,
+  updateStudent,
+  deleteStudent,
+  uploadStudentProfileImage,
+  deleteStudentProfileImage
+};

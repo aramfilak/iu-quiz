@@ -62,7 +62,7 @@ function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
 
       {/*------------------- Response Alert --------------------*/}
       {alert && (
-        <Alert borderRadius="md" status={alert.status}>
+        <Alert status={alert.status}>
           <AlertIcon />
           {alert.message}
         </Alert>
@@ -142,7 +142,6 @@ function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
           type={showPassword ? 'text' : 'password'}
           borderColor="teal.700"
           placeholder="Passwort bestätigen"
-          _placeholder={{ color: placeHolderColor }}
         />
         <InputLeftElement>
           <RiLockPasswordLine />

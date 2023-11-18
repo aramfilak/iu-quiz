@@ -14,7 +14,7 @@ datasource db {
 }
 
 model StudentAuth {
-  id                     String          @id @unique @default(nanoid(20))
+  id                     String          @id @unique @default(uuid())
   email                  String          @unique
   password               String
   isVerified             Boolean         @default(false)
@@ -23,7 +23,7 @@ model StudentAuth {
 }
 
 model StudentProfile {
-  id            String        @id @unique @default(nanoid(20))
+  id            String        @id @unique @default(uuid())
   nickName      String
   studentAuth   StudentAuth   @relation(fields: [studentAuthId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   studentAuthId String        @unique

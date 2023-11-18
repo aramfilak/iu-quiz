@@ -15,7 +15,7 @@ function Authentication() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate(Dashboard.path);
+      navigate(Dashboard.children.Profile.path);
     }
     //eslint-disable-next-line
   }, []);

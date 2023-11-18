@@ -1,22 +1,19 @@
 import React from 'react';
-import { FiList, FiXCircle, FiRefreshCw, FiPlusCircle } from 'react-icons/fi';
+import { FiXCircle, FiRefreshCw, FiPlusCircle } from 'react-icons/fi';
 import {
   Avatar,
-  BoxProps,
-  Box,
+  FlexProps,
   Tooltip,
   useToast,
   FormLabel,
   Input,
-  Menu,
-  MenuButton,
-  MenuItem,
-  Text,
-  MenuList
+  Button,
+  Flex,
+  useColorModeValue
 } from '@chakra-ui/react';
 import { useStudentStore } from '../sotres';
 
-function UploadProfileImage(rest: BoxProps) {
+function UploadProfileImage(rest: FlexProps) {
   const toast = useToast();
   const { studentProfile, uploadImage, deleteImage } = useStudentStore();
 
@@ -50,98 +47,67 @@ function UploadProfileImage(rest: BoxProps) {
   };
 
   return (
-    <Box {...rest} position="relative">
+    <Flex
+      {...rest}
+      position="relative"
+      flexDir="column"
+      alignItems="center"
+      justifyContent="center"
+    >
       <Avatar
-        borderWidth="2px"
-        borderStyle="solid"
-        borderColor="teal.500"
-        _hover={{ filter: 'gray' }}
         src={studentProfile?.profileImage.url}
         size={{ base: 'xl', md: '2xl' }}
-        bg="teal.500"
         borderRadius="md"
       />
+      <Flex marginBlock="2" justifyContent="space-between" gap="2">
+        {/*_____________________ Delete Image ____________________ */}
 
-      <Menu>
-        {/*_____________________ Menu Items ____________________ */}
+        <Tooltip label="Das Bild wird sofort gelöscht" borderRadius="md">
+          <Button
+            width="100%"
+            isDisabled={studentProfile?.profileImage.url ? false : true}
+            size="md"
+            cursor="pointer"
+            display="flex"
+            alignItems="center"
+            gap="0.5rem"
+            colorScheme="red"
+            onClick={handleDeleteImage}
+          >
+            <FiXCircle />
+          </Button>
+        </Tooltip>
+        {/*_____________________ Update or Add Image ____________________ */}
+        <Tooltip label="Bildformate png, jpg und jpeg. maximale Größe 5 MB" borderRadius="md">
+          <FormLabel
+            display="flex"
+            justifyContent="center"
+            width="100%"
+            m="0"
+            color={useColorModeValue('white', 'gray.800')}
+            bg={useColorModeValue('teal.500', 'teal.200')}
+            borderRadius="md"
+            paddingInline="4"
+            paddingBlock="3"
+            htmlFor="profileImage"
+            cursor="pointer"
+          >
+            {studentProfile?.profileImage.url ? (
+              <>
+                <FiRefreshCw />
+              </>
+            ) : (
+              <>
+                <FiPlusCircle />
+              </>
+            )}
+          </FormLabel>
+        </Tooltip>
+      </Flex>
 
-        <MenuButton
-          p={2}
-          color="white"
-          borderWidth="2px"
-          borderColor="white"
-          borderRadius="md"
-          position="absolute"
-          bottom="-10%"
-          left="80%"
-          type="button"
-          transition="all 0.2s"
-          bg="teal.500"
-          _hover={{ bg: 'teal.400' }}
-          _expanded={{ bg: 'teal.500' }}
-        >
-          <FiList />
-        </MenuButton>
-
-        <MenuList>
-          {/*_____________________ Upload Image ____________________ */}
-
-          <MenuItem>
-            <Tooltip
-              maxW="12rem"
-              label="Bildformate png, jpg und jpeg. maximale Größe 5 MB"
-              placement="right-start"
-              borderRadius="md"
-            >
-              <FormLabel
-                fontSize="0.9em"
-                width="100%"
-                htmlFor="profileImage"
-                cursor="pointer"
-                display="flex"
-                alignItems="center"
-                gap="0.5rem"
-              >
-                {studentProfile?.profileImage.url ? (
-                  <>
-                    <FiRefreshCw />
-                    Bild updaten
-                  </>
-                ) : (
-                  <>
-                    <FiPlusCircle />
-                    Bild hinzufügen
-                  </>
-                )}
-              </FormLabel>
-            </Tooltip>
-          </MenuItem>
-          {/*_____________________ Delete Image ____________________ */}
-
-          <MenuItem onClick={handleDeleteImage} fontSize="0.9em">
-            <Tooltip
-              maxW="12rem"
-              label="Das Bild wird sofort gelöscht"
-              placement="right-start"
-              borderRadius="md"
-            >
-              <Text
-                width="100%"
-                cursor="pointer"
-                display="flex"
-                alignItems="center"
-                gap="0.5rem"
-                color="red"
-              >
-                <FiXCircle /> Bild löschen
-              </Text>
-            </Tooltip>
-          </MenuItem>
-        </MenuList>
-      </Menu>
       {/*_____________________  Image Input ____________________ */}
       <Input id="profileImage" type="file" onChange={handleImageUpload} display="none" />
-    </Box>
+    </Flex>
   );
 }
 

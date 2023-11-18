@@ -63,8 +63,8 @@ function FAQs() {
   };
 
   return (
-    <Box p={4} textAlign="center">
-      <Box mx="auto" maxW="600px" mb={4}>
+    <Box p="4" textAlign="center">
+      <Box mx="auto" maxW="600px" mb="4">
         <PageHeader title={'FAQs'} description="Finde schnell deine Antwort" />
         <InputGroup>
           <Input
@@ -75,6 +75,7 @@ function FAQs() {
             onChange={handleSearchChange}
             bg={useColorModeValue('white', 'gray.800')}
             borderColor={useColorModeValue('gray.300', 'gray.600')}
+            focusBorderColor="teal.500"
           />
           {searchTerm && (
             <InputRightElement
@@ -109,47 +110,21 @@ function FAQs() {
       {Object.entries(groupByCategory).length === 0 ? (
         <Box>
           <Text>Keine Antwort gefunden? Kontaktiere uns!</Text>
-
-          <Link
-            href="mailto:iu.quiz.app@gmail.com"
-            fontWeight="bold"
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-            color={useColorModeValue('teal.500', 'teal.300')}
-          >
+          <Link href="mailto:iu.quiz.app@gmail.com" fontWeight="bold">
             iu.quiz.app@gmail.com
           </Link>
         </Box>
       ) : (
         <Accordion allowToggle index={openQuestionIndex} onChange={handleAccordionChange}>
           {Object.entries(groupByCategory).map(([category, faqs]) => (
-            <AccordionItem key={category} mb={2}>
+            <AccordionItem key={category}>
               <Heading as="h2" fontSize="xl" mb={2} textAlign="left" marginBlock="1rem">
                 {category}
               </Heading>
               {faqs.map((faq, index) => (
-                <AccordionItem
-                  borderRadius="md"
-                  key={index}
-                  bg={useColorModeValue('gray.200', 'gray.800')}
-                  mb={2}
-                  borderWidth="1px"
-                  borderStyle="solid"
-                  borderColor={useColorModeValue('gray.100', 'gray.700')}
-                >
-                  <AccordionButton
-                    textAlign="left"
-                    borderRadius="md"
-                    _hover={{ bg: useColorModeValue('gray.300', 'gray.700') }}
-                  >
-                    {`${index + 1}. ${faq.question}`}
-                  </AccordionButton>
-                  <AccordionPanel
-                    pb={4}
-                    textAlign="left"
-                    bg={useColorModeValue('gray.50', 'gray.600')}
-                    color={useColorModeValue('gray.800', 'gray.100')}
-                    borderRadius={'0 0 5px 5px '}
-                  >
+                <AccordionItem key={index}>
+                  <AccordionButton>{`${index + 1}. ${faq.question}`}</AccordionButton>
+                  <AccordionPanel>
                     <p>{`${faq.answer}`}</p>
                   </AccordionPanel>
                 </AccordionItem>

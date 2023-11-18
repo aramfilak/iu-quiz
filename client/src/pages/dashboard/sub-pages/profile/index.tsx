@@ -1,59 +1,14 @@
-import {
-  Box,
-  Button,
-  FormLabel,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Image,
-  Divider,
-  Alert,
-  AlertIcon
-} from '@chakra-ui/react';
-import { useRef, useState } from 'react';
-import { FiUserCheck, FiSave, FiMail, FiUserX } from 'react-icons/fi';
+import { Box, Tab, TabList, TabPanel, TabPanels, Tabs, useMediaQuery } from '@chakra-ui/react';
+import { FiEye, FiEdit3 } from 'react-icons/fi';
 import { useStudentStore } from '../../../../sotres';
-import { PageHeader, UploadProfileImage } from '../../../../components';
-import profileIllustration from '../../../../assets/illustrations/profile-illustration.svg';
-import { CustomAlert } from '../../../../utils/types';
+import { PageHeader } from '../../../../components';
+import { Edit } from './Edit';
+import { View } from './View';
 
 function Profile() {
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const nickNameInputRef = useRef<HTMLInputElement>(null);
-  const [isChanged, setIsChanged] = useState<boolean>(false);
-  const { studentProfile, updateStudent } = useStudentStore();
-  const [alert, setAlert] = useState<CustomAlert | null>(null);
+  const { studentProfile } = useStudentStore();
 
-  const handelChange = () => {
-    const nickNameCurrentValue = nickNameInputRef.current?.value;
-    const nickNameDefaultValue = nickNameInputRef.current?.defaultValue;
-
-    if (nickNameCurrentValue !== nickNameDefaultValue) {
-      setIsChanged(true);
-    } else {
-      setIsChanged(false);
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const nickName = nickNameInputRef.current?.value;
-
-    if (!nickName) {
-      setAlert({ status: 'warning', message: 'Bitte alle Felder ausfüllen' });
-    }
-
-    setAlert({ status: 'loading', message: 'Es lädt...' });
-
-    const { success, message } = await updateStudent({ nickName });
-
-    setAlert({ status: success ? 'success' : 'error', message: message });
-
-    if (success) {
-      setIsChanged(false);
-    }
-    setIsSubmitting(false);
-  };
+  const [isMobileView] = useMediaQuery('(max-width: 480px)');
 
   return (
     <Box>
@@ -62,105 +17,43 @@ function Profile() {
         title={`${studentProfile?.nickName} Profil`.toUpperCase()}
         description="Dein Profil, deine Geschichte. Gestalte es einzigartig."
       />
-      <Box
-        display="flex"
-        flexDir={{ base: 'column', lg: 'row' }}
-        alignItems="center"
-        justifyContent="space-around"
-      >
-        <form onSubmit={handleSubmit} style={{ width: 'min(100%, 20rem)' }}>
-          <Box
-            display="flex"
-            flexDir="column"
-            justifyContent="center"
-            alignItems="center"
-            gap="1rem"
-          >
-            {/*------------------- Response Alert --------------------*/}
-            {alert && (
-              <Alert borderRadius="md" status={alert.status} mb="3">
-                <AlertIcon />
-                {alert.message}
-              </Alert>
+      <Tabs>
+        <TabList gap="5" mb="2" pb="2">
+          <Tab>
+            <FiEye />
+            {!isMobileView && (
+              <Box as="span" ml="2">
+                Vorschau
+              </Box>
             )}
-            {/*---------------- Upload Image -------------*/}
-            <UploadProfileImage />
-            {/*------------------- Email --------------------*/}
-            <Box width="100%">
-              <FormLabel mt="2" htmlFor="email" m="0" color="gray.500">
-                Email
-              </FormLabel>
-              <InputGroup>
-                <Input
-                  onChange={() => setIsChanged(true)}
-                  ref={nickNameInputRef}
-                  borderColor="teal.700"
-                  autoComplete="on"
-                  id="nick-name"
-                  placeholder="max muster"
-                  disabled={true}
-                  defaultValue={studentProfile?.studentAuth.email}
-                />
-                <InputLeftElement color="gray.500">
-                  <FiMail />
-                </InputLeftElement>
-              </InputGroup>
-            </Box>
-            {/*------------------- Nick Name --------------------*/}
-            <Box width="100%">
-              <FormLabel mt="2" htmlFor="nick-name" m="0">
-                Nickname
-              </FormLabel>
-              <InputGroup>
-                <Input
-                  onChange={handelChange}
-                  ref={nickNameInputRef}
-                  borderColor="teal.700"
-                  autoComplete="on"
-                  id="nick-name"
-                  placeholder="max muster"
-                  defaultValue={studentProfile?.nickName}
-                />
-                <InputLeftElement>
-                  <FiUserCheck />
-                </InputLeftElement>
-              </InputGroup>
-            </Box>
+          </Tab>
 
-            <Divider />
-
-            <Button
-              width="100%"
-              alignSelf={{ md: 'end' }}
-              colorScheme="teal"
-              type="submit"
-              disabled={isSubmitting}
-              isDisabled={!isChanged}
-              leftIcon={<FiSave />}
-            >
-              Speichern
-            </Button>
-            <Divider />
-
-            {/*------------------- Delete Profile -----------------*/}
-
-            <Button
-              width={{ base: '100%', md: 'fit-content' }}
-              alignSelf={{ md: 'end' }}
-              colorScheme="red"
-              type="button"
-              disabled={isSubmitting}
-              leftIcon={<FiUserX />}
-            >
-              Profile Löschen
-            </Button>
-          </Box>
-        </form>
-
-        <Image maxW="27rem" src={profileIllustration} alt={'profile Illustration'} />
-      </Box>
+          <Tab>
+            <FiEdit3 />
+            {!isMobileView && (
+              <Box as="span" ml="2">
+                Bearbeiten
+              </Box>
+            )}
+          </Tab>
+        </TabList>
+        <TabPanels>
+          {/*------------------- Preview Panel --------------------*/}
+          <TabPanel>
+            <View
+              nickName={studentProfile?.nickName}
+              email={studentProfile?.studentAuth.email}
+              profileImageUrl={studentProfile?.profileImage.url}
+            />
+          </TabPanel>
+          {/*------------------- Edit Panel --------------------*/}
+          <TabPanel>
+            <Edit />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
     </Box>
   );
 }
 
-export { Profile };
+export { Profile, View };

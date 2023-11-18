@@ -12,8 +12,7 @@ import {
   InputRightElement,
   Alert,
   AlertIcon,
-  useToast,
-  useColorModeValue
+  useToast
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../utils/routes';
@@ -28,7 +27,6 @@ function SignInForm(rest: React.HTMLProps<HTMLFormElement>) {
   const { showSignUpForm, signIn } = useAuthStore();
   const navigate = useNavigate();
   const toast = useToast();
-  const placeHolderColor = useColorModeValue('gray.800', 'gray.200');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -41,7 +39,7 @@ function SignInForm(rest: React.HTMLProps<HTMLFormElement>) {
       const { success, message } = await signIn(email, password);
       if (success) {
         toast({ status: 'success', description: message });
-        navigate(routes.Dashboard.path);
+        navigate(routes.Dashboard.children.Profile.path);
       } else {
         setAlert({ status: 'error', message: message });
       }
@@ -59,7 +57,7 @@ function SignInForm(rest: React.HTMLProps<HTMLFormElement>) {
 
       {/*------------------- Response Alert --------------------*/}
       {alert && (
-        <Alert borderRadius="md" status={alert.status}>
+        <Alert status={alert.status}>
           <AlertIcon />
           {alert.message}
         </Alert>
@@ -75,7 +73,6 @@ function SignInForm(rest: React.HTMLProps<HTMLFormElement>) {
           ref={emailInputRef}
           autoComplete="on"
           id="email"
-          _placeholder={{ color: placeHolderColor }}
           placeholder="max.muster@iu-study.org"
         />
         <InputLeftElement>
@@ -89,13 +86,12 @@ function SignInForm(rest: React.HTMLProps<HTMLFormElement>) {
       </FormLabel>
       <InputGroup>
         <Input
+          borderColor="teal.700"
           ref={passwordInputRef}
           autoComplete="on"
           id="password"
           type={showPassword ? 'text' : 'password'}
-          borderColor="teal.700"
           placeholder="Passwort eingeben"
-          _placeholder={{ color: placeHolderColor }}
         />
         <InputLeftElement>
           <RiLockPasswordLine />

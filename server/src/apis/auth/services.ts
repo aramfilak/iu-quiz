@@ -10,9 +10,11 @@ import { sendVerificationEmail } from '../../utils/emails';
 import crypto from 'crypto';
 
 /**
+ * ________________________________________________________________
  * @route api/v1/auth/sign-up
  * @method POST
  * @access public
+ * ________________________________________________________________
  */
 async function signUp(req: Request, res: Response) {
   let { email, password } = req.body;
@@ -76,9 +78,11 @@ async function signUp(req: Request, res: Response) {
 }
 
 /**
+ * ________________________________________________________________
  * @route api/v1/auth/verify-email
  * @method POST
  * @access public
+ * ________________________________________________________________
  */
 async function verifyEmail(req: Request, res: Response) {
   const { email, emailVerificationToken } = req.body;
@@ -119,9 +123,11 @@ async function verifyEmail(req: Request, res: Response) {
 }
 
 /**
+ * ________________________________________________________________
  * @route api/v1/auth/sign-in
  * @method POST
  * @access public
+ * ________________________________________________________________
  */
 async function signIn(req: Request, res: Response) {
   let { email, password } = req.body;

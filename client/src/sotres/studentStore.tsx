@@ -8,6 +8,7 @@ interface UseStudentStore {
   studentProfile: StudentProfile | null;
   getStudent: () => Promise<IuQuizServerResponse<StudentProfile>>;
   updateStudent: (data: Partial<StudentProfile>) => Promise<IuQuizServerResponse<StudentProfile>>;
+  deleteStudent: () => Promise<IuQuizServerResponse<StudentProfile>>;
   uploadImage: (image: FormData) => Promise<IuQuizServerResponse<StudentProfile>>;
   deleteImage: () => Promise<IuQuizServerResponse<StudentProfile>>;
 }
@@ -29,6 +30,15 @@ const useStudentStore = create<UseStudentStore>((set) => ({
         headers: { Authorization: usePersistStore.getState().accessToken }
       });
       set({ studentProfile: response.data.data });
+      return response.data;
+    }),
+  deleteStudent: () =>
+    asyncHandler(async () => {
+      const response = await axiosStudentApi.delete('/', {
+        headers: { Authorization: usePersistStore.getState().accessToken }
+      });
+      set({ studentProfile: response.data.data });
+
       return response.data;
     }),
   uploadImage: (image: FormData) =>
