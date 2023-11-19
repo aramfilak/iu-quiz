@@ -1,4 +1,4 @@
-import { isEmpty, isIuEmail, isValidPassword } from '../utils/validators';
+import { validator } from '../utils/validate';
 
 const emptyValues = ['   ', ' ', undefined, null, []];
 const notEmptyValues = ['d', 'dd3d'];
@@ -19,26 +19,26 @@ const inValidPasswords = ['1', ' ', '1111', '123456789', 'qweasdrf', 'aaa'];
 
 test.each(emptyValues)('is Empty String', (emptyValue) => {
   // @ts-ignore
-  expect(() => isEmpty('value', emptyValue)).toThrow();
+  expect(() => validator.isEmpty('value', emptyValue)).toThrow();
 });
 
 test.each(notEmptyValues)('is Empty String', (emptyValue) => {
   // @ts-ignore
-  expect(() => isEmpty('value', emptyValue)).not.toThrow();
+  expect(() => validator.isEmpty('value', emptyValue)).not.toThrow();
 });
 
 test.each(validIUEmails)('Valid IU Email', (email) => {
-  expect(() => isIuEmail(email)).not.toThrow();
+  expect(() => validator.isIuEmail(email)).not.toThrow();
 });
 
 test.each(invalidIUEmails)('Invalid IU Email', (email) => {
-  expect(() => isIuEmail(email)).toThrow();
+  expect(() => validator.isIuEmail(email)).toThrow();
 });
 
 test.each(validPasswords)('Valid Password', (password) => {
-  expect(() => isValidPassword(password)).not.toThrow();
+  expect(() => validator.isValidPassword(password)).not.toThrow();
 });
 
 test.each(inValidPasswords)('Invalid Password', (password) => {
-  expect(() => isValidPassword(password)).toThrow();
+  expect(() => validator.isValidPassword(password)).toThrow();
 });

@@ -6,9 +6,7 @@ import {
   Input,
   InputLeftElement,
   Button,
-  Divider,
   Box,
-  Image,
   AlertDialog,
   AlertDialogBody,
   AlertDialogCloseButton,
@@ -17,7 +15,8 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
   useDisclosure,
-  useToast
+  useToast,
+  Flex
 } from '@chakra-ui/react';
 import { FiMail, FiUserCheck, FiSave, FiUserX, FiAlertTriangle } from 'react-icons/fi';
 import { UploadProfileImage } from '../../../../components';
@@ -26,7 +25,6 @@ import { useStudentStore, usePersistStore } from '../../../../sotres';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../../../../utils/routes';
 import { CustomAlert } from '../../../../utils/types';
-import profileEditIllustration from '../../../../assets/illustrations/profile-edit-illustration.svg';
 
 function Edit() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -95,7 +93,6 @@ function Edit() {
         isCentered
       >
         <AlertDialogOverlay />
-
         <AlertDialogContent>
           <AlertDialogHeader
             color="red.500"
@@ -106,7 +103,6 @@ function Edit() {
             <FiAlertTriangle />
           </AlertDialogHeader>
           <AlertDialogCloseButton />
-
           <AlertDialogBody>
             Möchten Sie Ihr Profil wirklich löschen? Diese Aktion kann nicht rückgängig gemacht
             werden und führt zum Verlust aller Ihrer gespeicherten Daten und Einstellungen.
@@ -121,99 +117,85 @@ function Edit() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      <Box
-        display="flex"
-        flexDir={{ base: 'column', lg: 'row' }}
-        alignItems="center"
-        justifyContent="space-between"
-      >
-        <form onSubmit={handleSubmit} style={{ width: 'min(100%, 20rem)' }}>
-          <Box
-            display="flex"
-            flexDir="column"
-            justifyContent="center"
-            alignItems="center"
-            gap="1rem"
-          >
-            {/*------------------- Response Alert --------------------*/}
-            {alert && (
-              <Alert status={alert.status} mb="3">
-                <AlertIcon />
-                {alert.message}
-              </Alert>
-            )}
-            {/*---------------- Upload Image -------------*/}
-            <UploadProfileImage />
-            {/*------------------- Email --------------------*/}
-            <Box width="100%">
-              <FormLabel mt="2" htmlFor="email" m="0" color="gray.500">
-                Email
-              </FormLabel>
-              <InputGroup>
-                <Input
-                  onChange={() => setIsChanged(true)}
-                  ref={nickNameInputRef}
-                  borderColor="teal.700"
-                  autoComplete="on"
-                  id="nick-name"
-                  placeholder="max muster"
-                  disabled={true}
-                  defaultValue={studentProfile?.studentAuth.email}
-                />
-                <InputLeftElement color="gray.500">
-                  <FiMail />
-                </InputLeftElement>
-              </InputGroup>
-            </Box>
-            {/*------------------- Nick Name --------------------*/}
-            <Box width="100%">
-              <FormLabel mt="2" htmlFor="nick-name" m="0">
-                Nickname
-              </FormLabel>
-              <InputGroup>
-                <Input
-                  onChange={handelChange}
-                  ref={nickNameInputRef}
-                  borderColor="teal.700"
-                  autoComplete="on"
-                  id="nick-name"
-                  placeholder="max muster"
-                  defaultValue={studentProfile?.nickName}
-                />
-                <InputLeftElement>
-                  <FiUserCheck />
-                </InputLeftElement>
-              </InputGroup>
-            </Box>
 
-            <Button
-              width="100%"
-              colorScheme="teal"
-              type="submit"
-              disabled={isSubmitting}
-              isDisabled={!isChanged}
-              leftIcon={<FiSave />}
-            >
-              Speichern
-            </Button>
-            <Divider mb="3rem" />
-
-            {/*------------------- Delete Profile -----------------*/}
-
-            <Button
-              width="100%"
-              colorScheme="red"
-              type="button"
-              disabled={isSubmitting}
-              onClick={onOpen}
-              leftIcon={<FiUserX />}
-            >
-              Profile Löschen
-            </Button>
+      <form onSubmit={handleSubmit} style={{ width: 'min(100%, 20rem)' }}>
+        <Flex flexDir="column" gap="1rem">
+          {/*------------------- Response Alert --------------------*/}
+          {alert && (
+            <Alert status={alert.status} mb="3">
+              <AlertIcon />
+              {alert.message}
+            </Alert>
+          )}
+          {/*---------------- Upload Image -------------*/}
+          <UploadProfileImage />
+          {/*------------------- Email --------------------*/}
+          <Box width="100%">
+            <FormLabel mt="2" htmlFor="email" m="0" color="gray.500">
+              Email
+            </FormLabel>
+            <InputGroup>
+              <Input
+                onChange={() => setIsChanged(true)}
+                ref={nickNameInputRef}
+                borderColor="teal.700"
+                autoComplete="on"
+                id="nick-name"
+                placeholder="max muster"
+                disabled={true}
+                defaultValue={studentProfile?.studentAuth.email}
+              />
+              <InputLeftElement color="gray.500">
+                <FiMail />
+              </InputLeftElement>
+            </InputGroup>
           </Box>
-        </form>
-        <Image maxW="27rem" src={profileEditIllustration} alt={'profile edit Illustration'} />
-      </Box>
+          {/*------------------- Nick Name --------------------*/}
+          <Box width="100%">
+            <FormLabel mt="2" htmlFor="nick-name" m="0">
+              Nickname
+            </FormLabel>
+            <InputGroup>
+              <Input
+                onChange={handelChange}
+                ref={nickNameInputRef}
+                borderColor="teal.700"
+                autoComplete="on"
+                id="nick-name"
+                placeholder="max muster"
+                defaultValue={studentProfile?.nickName}
+              />
+              <InputLeftElement>
+                <FiUserCheck />
+              </InputLeftElement>
+            </InputGroup>
+          </Box>
+
+          <Button
+            width="100%"
+            colorScheme="teal"
+            type="submit"
+            disabled={isSubmitting}
+            isDisabled={!isChanged}
+            leftIcon={<FiSave />}
+          >
+            Speichern
+          </Button>
+
+          {/*------------------- Delete Profile -----------------*/}
+          <Button
+            width="100%"
+            alignSelf="start"
+            colorScheme="red"
+            type="button"
+            disabled={isSubmitting}
+            onClick={onOpen}
+            leftIcon={<FiUserX />}
+          >
+            Profile Löschen
+          </Button>
+        </Flex>
+      </form>
     </>
   );
 }

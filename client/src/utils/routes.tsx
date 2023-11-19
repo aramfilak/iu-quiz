@@ -1,13 +1,5 @@
 import { Authentication, Dashboard, NotFound404, EmailVerification, Profile, FAQs } from '../pages';
-import {
-  FiHome,
-  FiUser,
-  FiSettings,
-  FiHeart,
-  FiEdit,
-  FiSearch,
-  FiCheckSquare
-} from 'react-icons/fi';
+import { FiHome, FiUser, FiHeart, FiEdit, FiSearch, FiCheckSquare } from 'react-icons/fi';
 
 const routes = {
   Authentication: {
@@ -41,27 +33,21 @@ const routes = {
       },
       SearchQuiz: {
         icon: FiSearch,
-        name: 'Quiz Suchen',
-        path: 'quiz-search',
+        name: 'Quiz Finden',
+        path: 'find-quiz',
         element: <div>Editor Quiz</div>
       },
       ActiveQuiz: {
         icon: FiHeart,
-        name: 'Meine Quizze',
-        path: 'active-quiz',
+        name: 'Meine Quiz',
+        path: 'my-quizzes',
         element: <div>Meine Quiz</div>
       },
       QuizEditor: {
         icon: FiEdit,
         name: 'Quiz Editor',
         path: 'quiz-editor',
-        element: <div>Editor Quiz</div>
-      },
-      Settings: {
-        icon: FiSettings,
-        name: 'Einstellungen',
-        path: 'settings',
-        element: <div>Einstellungen</div>
+        element: <div>Quiz Editor</div>
       },
       FAQs: {
         icon: FiCheckSquare,

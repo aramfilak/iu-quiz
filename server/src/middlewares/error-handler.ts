@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { ApiError } from '../errors/api';
 import { StatusCodes } from 'http-status-codes';
-import { createErrorResponse } from '../utils/formatters';
+import { createErrorResponse } from '../utils/response';
 import { Prisma } from '@prisma/client';
 import { MulterError } from 'multer';
 

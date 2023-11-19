@@ -1,3 +1,5 @@
+import jwt from 'jsonwebtoken';
+
 function createErrorResponse(statusCode: number, message: string) {
   return { success: false, statusCode: statusCode, message: message };
 }
@@ -10,4 +12,10 @@ function parseIuStudentDefaultNickName(email: string) {
   return email.slice(0, email.lastIndexOf('@'));
 }
 
-export { createErrorResponse, createApiResponse, parseIuStudentDefaultNickName };
+function generateJWT(payload: Object) {
+  return `Bearer ${jwt.sign(payload, process.env.JWT_SECRET!, {
+    expiresIn: process.env.JWT_LIFETIME
+  })}`;
+}
+
+export { createErrorResponse, createApiResponse, parseIuStudentDefaultNickName, generateJWT };

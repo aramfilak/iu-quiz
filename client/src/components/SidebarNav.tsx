@@ -2,7 +2,7 @@ import { useColorModeValue, Flex, CloseButton, Box, Text, BoxProps } from '@chak
 import { NavItem } from '.';
 import { routes } from '../utils/routes';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { usePersistStore } from '../sotres';
 
 interface SidebarProps extends BoxProps {
   onClose: () => void;
@@ -10,7 +10,7 @@ interface SidebarProps extends BoxProps {
 
 function SidebarNav({ onClose, ...rest }: SidebarProps) {
   const navigate = useNavigate();
-  const [activeNavLink, setActiveNavLink] = useState(0);
+  const { activeNaveLinkIndex, setActiveNaveLinkIndex } = usePersistStore();
 
   return (
     <Box
@@ -32,16 +32,16 @@ function SidebarNav({ onClose, ...rest }: SidebarProps) {
       </Flex>
 
       {/* ________________ Nav Links ____________________ */}
-      {Object.values(routes.Dashboard.children)
-      .map((link, index) => {
+      {Object.values(routes.Dashboard.children).map((link, index) => {
         return (
           <NavItem
-            isActive={index === activeNavLink}
+            isActive={index === activeNaveLinkIndex}
             key={link.name}
             icon={link.icon}
             onClick={() => {
-              setActiveNavLink(index);
+              setActiveNaveLinkIndex(index);
               navigate(link.path);
+              onClose();
             }}
           >
             {link.name}

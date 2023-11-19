@@ -44,7 +44,10 @@ const useAuthStore = create<UseAuthStore>((set, get) => ({
 
   signOut: () => {
     usePersistStore.getState().setAccessToken(null);
+
     usePersistStore.getState().setIsAuthenticated(false);
+
+    usePersistStore.getState().setActiveNaveLinkIndex(0);
   },
 
   authenticate: (endpoint: string, email: string, password: string) =>

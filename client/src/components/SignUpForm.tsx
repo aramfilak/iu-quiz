@@ -19,6 +19,7 @@ import { RiLockPasswordLine, RiMailLine } from 'react-icons/ri';
 import { BiShow, BiHide, BiCheckShield } from 'react-icons/bi';
 import { useAuthStore } from '../sotres';
 import { CustomAlert } from '../utils/types';
+import { LabelHeading } from '.';
 
 function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
   const emailInputRef = useRef<HTMLInputElement>(null);
@@ -56,10 +57,7 @@ function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
 
   return (
     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }} {...rest}>
-      <Text as="b" fontSize="4xl" color="teal.500">
-        Registrieren
-      </Text>
-
+      <LabelHeading description="Registrieren" />
       {/*------------------- Response Alert --------------------*/}
       {alert && (
         <Alert status={alert.status}>
@@ -67,7 +65,6 @@ function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
           {alert.message}
         </Alert>
       )}
-
       {/*------------------- Email --------------------*/}
       <FormLabel mt="2" htmlFor="email">
         Email
@@ -85,7 +82,6 @@ function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
           <RiMailLine />
         </InputLeftElement>
       </InputGroup>
-
       {/*------------------- Password --------------------*/}
       <FormLabel mt="2" htmlFor="password">
         Passwort
@@ -109,7 +105,6 @@ function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
           </Button>
         </InputRightElement>
       </InputGroup>
-
       {/*---------------- Password Checklist---------------*/}
       <Box marginBlock="0.8rem">
         <Text fontSize="sm" fontWeight="bold"></Text>
@@ -129,7 +124,6 @@ function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
           </ListItem>
         </List>
       </Box>
-
       {/*---------------- Confirm Password ---------------*/}
       <FormLabel mt="2" htmlFor="passwordConfirm">
         Passwort bestätigen
@@ -152,12 +146,10 @@ function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
           </Button>
         </InputRightElement>
       </InputGroup>
-
       {/*------------------- Form Submit -----------------*/}
       <Button colorScheme="teal" type="submit" disabled={isSubmitting} mt="4" mb="2">
         Registrieren
       </Button>
-
       <Text>
         Account vorhanden?{' '}
         <Button

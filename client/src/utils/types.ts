@@ -22,6 +22,7 @@ export interface ProfileImage {
 
 export interface StudentProfile {
   nickName: string;
+  registrationDate: string;
   studentAuth: StudentAuth;
   profileImage: ProfileImage;
 }

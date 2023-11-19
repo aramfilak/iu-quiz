@@ -17,6 +17,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../utils/routes';
 import { CustomAlert } from '../utils/types';
+import { LabelHeading } from '.';
 
 function SignInForm(rest: React.HTMLProps<HTMLFormElement>) {
   const emailInputRef = useRef<HTMLInputElement>(null);
@@ -51,10 +52,7 @@ function SignInForm(rest: React.HTMLProps<HTMLFormElement>) {
 
   return (
     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }} {...rest}>
-      <Text as="b" fontSize="4xl" color="teal.500" mb="1rem">
-        Anmelden
-      </Text>
-
+      <LabelHeading description="Anmelden" />
       {/*------------------- Response Alert --------------------*/}
       {alert && (
         <Alert status={alert.status}>

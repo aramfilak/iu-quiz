@@ -2,20 +2,25 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 interface PersistStore {
+  activeNaveLinkIndex: number;
   accessToken: string | null;
   isAuthenticated: boolean;
-  setIsAuthenticated: (val: boolean) => void;
-  setAccessToken: (val: string | null) => void;
+  setActiveNaveLinkIndex: (index: number) => void;
+  setAccessToken: (toke: string | null) => void;
+  setIsAuthenticated: (isAuth: boolean) => void;
 }
 const usePersistStore = create(
   persist<PersistStore>(
     (set) => ({
       accessToken: null,
       isAuthenticated: false,
+      activeNaveLinkIndex: 0,
 
-      setAccessToken: (val: string | null) => set({ accessToken: val }),
+      setActiveNaveLinkIndex: (index: number) => set({ activeNaveLinkIndex: index }),
 
-      setIsAuthenticated: (val: boolean) => set({ isAuthenticated: val })
+      setAccessToken: (token: string | null) => set({ accessToken: token }),
+
+      setIsAuthenticated: (isAuth: boolean) => set({ isAuthenticated: isAuth })
     }),
     {
       name: 'persist-storage'

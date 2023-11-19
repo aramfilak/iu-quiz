@@ -11,10 +11,10 @@ function Profile() {
   const [isMobileView] = useMediaQuery('(max-width: 480px)');
 
   return (
-    <Box>
+    <>
       {/*------------------- Header --------------------*/}
       <PageHeader
-        title={`${studentProfile?.nickName} Profil`.toUpperCase()}
+        title={`${studentProfile?.nickName} Profil`}
         description="Dein Profil, deine Geschichte. Gestalte es einzigartig."
       />
       <Tabs>
@@ -44,6 +44,7 @@ function Profile() {
               nickName={studentProfile?.nickName}
               email={studentProfile?.studentAuth.email}
               profileImageUrl={studentProfile?.profileImage.url}
+              registrationDate={studentProfile?.registrationDate}
             />
           </TabPanel>
           {/*------------------- Edit Panel --------------------*/}
@@ -52,7 +53,7 @@ function Profile() {
           </TabPanel>
         </TabPanels>
       </Tabs>
-    </Box>
+    </>
   );
 }
 

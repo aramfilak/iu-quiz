@@ -23,11 +23,12 @@ model StudentAuth {
 }
 
 model StudentProfile {
-  id            String        @id @unique @default(uuid())
-  nickName      String
-  studentAuth   StudentAuth   @relation(fields: [studentAuthId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  studentAuthId String        @unique
-  profileImage  ProfileImage?
+  id               String        @id @unique @default(uuid())
+  nickName         String
+  studentAuth      StudentAuth   @relation(fields: [studentAuthId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  studentAuthId    String        @unique
+  profileImage     ProfileImage?
+  registrationDate DateTime      @default(now())
 }
 
 model ProfileImage {

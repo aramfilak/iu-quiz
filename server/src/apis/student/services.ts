@@ -2,8 +2,8 @@ import { Request, Response } from 'express';
 import { BadRequestError, NotFoundError, UnauthorizedError } from '../../errors';
 import { cloudinary, database } from '../../configs';
 import { StatusCodes } from 'http-status-codes';
-import { createApiResponse } from '../../utils/formatters';
-import { isEmpty } from '../../utils/validators';
+import { createApiResponse } from '../../utils/response';
+import { validator } from '../../utils/validate';
 
 const studentProfileDataIncludeSchema = {
   profileImage: true,
@@ -46,18 +46,13 @@ async function findStudent(req: Request, res: Response) {
  */
 async function updateStudent(req: Request, res: Response) {
   const studentId = req.auth?.id;
-  const { profileImage, ...updateData } = req.body;
-  if (!Object.keys(updateData).length) {
-    throw new BadRequestError('Keine Einträge zum Aktualiseren');
-  }
+  let { nickName } = req.body;
 
-  Object.entries(updateData).forEach(([key, value]) => {
-    updateData[key] = isEmpty(key, value);
-  });
+  nickName = validator.max('Nickname', nickName, 15);
 
   const updatedStudent = await database.studentProfile.update({
     where: { studentAuthId: studentId },
-    data: updateData,
+    data: { nickName },
     include: studentProfileDataIncludeSchema
   });
 

@@ -47,23 +47,18 @@ function UploadProfileImage(rest: FlexProps) {
   };
 
   return (
-    <Flex
-      {...rest}
-      position="relative"
-      flexDir="column"
-      alignItems="center"
-      justifyContent="center"
-    >
+    <Flex {...rest} gap="0.5rem">
       <Avatar
         src={studentProfile?.profileImage.url}
         size={{ base: 'xl', md: '2xl' }}
         borderRadius="md"
       />
-      <Flex marginBlock="2" justifyContent="space-between" gap="2">
+      <Flex flexDir="column" justifyContent="end" gap="2" flex="1">
         {/*_____________________ Delete Image ____________________ */}
 
         <Tooltip label="Das Bild wird sofort gelöscht" borderRadius="md">
           <Button
+            p="0"
             width="100%"
             isDisabled={studentProfile?.profileImage.url ? false : true}
             size="md"
@@ -74,31 +69,39 @@ function UploadProfileImage(rest: FlexProps) {
             colorScheme="red"
             onClick={handleDeleteImage}
           >
-            <FiXCircle />
+            <Flex gap="0.5rem" alignItems="center">
+              <FiXCircle />
+              Löschen
+            </Flex>
           </Button>
         </Tooltip>
         {/*_____________________ Update or Add Image ____________________ */}
         <Tooltip label="Bildformate png, jpg und jpeg. maximale Größe 5 MB" borderRadius="md">
           <FormLabel
+            _hover={{ bg: 'teal.600' }}
             display="flex"
             justifyContent="center"
             width="100%"
-            m="0"
             color={useColorModeValue('white', 'gray.800')}
             bg={useColorModeValue('teal.500', 'teal.200')}
             borderRadius="md"
-            paddingInline="4"
-            paddingBlock="3"
             htmlFor="profileImage"
             cursor="pointer"
+            p="2"
           >
             {studentProfile?.profileImage.url ? (
               <>
-                <FiRefreshCw />
+                <Flex gap="0.5rem" alignItems="center">
+                  <FiRefreshCw />
+                  Aktualisieren
+                </Flex>
               </>
             ) : (
               <>
-                <FiPlusCircle />
+                <Flex gap="0.5rem" alignItems="center">
+                  <FiPlusCircle />
+                  Hinzufügen
+                </Flex>
               </>
             )}
           </FormLabel>

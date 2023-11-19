@@ -63,7 +63,7 @@ function FAQs() {
   };
 
   return (
-    <Box p="4" textAlign="center">
+    <>
       <Box mx="auto" maxW="600px" mb="4">
         <PageHeader title={'FAQs'} description="Finde schnell deine Antwort" />
         <InputGroup>
@@ -133,7 +133,7 @@ function FAQs() {
           ))}
         </Accordion>
       )}
-    </Box>
+    </>
   );
 }
 

@@ -41,7 +41,8 @@ function accordionTheme() {
     button: {
       borderRadius: ' 5px 5px  0 0',
       p: '2',
-      bg: 'gray.200',
+      fontWeight: '600',
+      bg: 'gray.50',
       textAlign: 'left',
       _dark: {
         bg: 'gray.800',
@@ -49,7 +50,7 @@ function accordionTheme() {
       },
 
       _hover: {
-        bg: 'gray.300',
+        bg: 'gray.200',
         _dark: {
           bg: 'gray.700'
         }
@@ -57,13 +58,13 @@ function accordionTheme() {
     },
     panel: {
       pb: '4',
-      bg: 'gray.50',
-      color: 'gray.800',
+      bg: 'teal.500',
+      color: 'gray.50',
       textAlign: 'left',
       borderRadius: '0 0 5px 5px ',
       _dark: {
-        bg: 'gray.900',
-        color: 'gray.100'
+        bg: 'teal.200',
+        color: 'gray.800'
       }
     }
   });
@@ -74,7 +75,7 @@ function accordionTheme() {
 }
 
 //________________________________________________________________
-// Accordion
+// Avatar
 //________________________________________________________________
 function avatarTheme() {
   const { definePartsStyle, defineMultiStyleConfig } = createMultiStyleConfigHelpers(
@@ -118,6 +119,9 @@ function tabsTheme() {
           bg: 'teal.200'
         }
       }
+    },
+    tabpanel: {
+      padding: '0'
     }
   });
 
@@ -175,6 +179,27 @@ const Link = defineStyleConfig({
     }
   }
 });
+//________________________________________________________________
+// Text
+//________________________________________________________________
+const Text = defineStyleConfig({
+  baseStyle: {
+    color: 'gray.600',
+    _dark: {
+      color: 'gray.300'
+    }
+  }
+});
+//________________________________________________________________
+// Text
+//________________________________________________________________
+const FormLabel = defineStyleConfig({
+  baseStyle: {
+    margin: '0',
+    padding: '0',
+    fontSize: '0.9rem'
+  }
+});
 
 //________________________________________________________________
 // Color Mode
@@ -202,6 +227,8 @@ const theme = extendTheme({
   components: {
     Button,
     Link,
+    FormLabel,
+    Text,
     Alert: alertTheme(),
     Input: inputTheme(),
     Avatar: avatarTheme(),

@@ -105,7 +105,7 @@ function HeaderMenuBar({ onOpen: handleOpen, ...rest }: MobileProps) {
                 <Avatar
                   bg="teal.500"
                   src={studentProfile?.profileImage.url}
-                  size={{ base: 'sm', xl: 'md' }}
+                  size="md"
                   borderRadius="md"
                 />
 
