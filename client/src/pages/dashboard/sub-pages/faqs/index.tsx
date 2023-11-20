@@ -108,7 +108,7 @@ function FAQs() {
       </Box>
 
       {Object.entries(groupByCategory).length === 0 ? (
-        <Box>
+        <Box textAlign="center">
           <Text>Keine Antwort gefunden? Kontaktiere uns!</Text>
           <Link href="mailto:iu.quiz.app@gmail.com" fontWeight="bold">
             iu.quiz.app@gmail.com

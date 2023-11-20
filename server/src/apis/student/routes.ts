@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import {
   findStudent,
+  findStudentById,
   updateStudent,
   deleteStudent,
   uploadStudentProfileImage,
@@ -11,6 +12,7 @@ import { authenticate, upload } from '../../middlewares';
 const studentRoutes = Router();
 
 studentRoutes.get('/', authenticate, findStudent);
+studentRoutes.get('/:studentId', authenticate, findStudentById);
 studentRoutes.patch('/', authenticate, updateStudent);
 studentRoutes.delete('/', authenticate, deleteStudent);
 studentRoutes.post(

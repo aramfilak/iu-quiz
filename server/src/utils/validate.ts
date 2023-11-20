@@ -74,6 +74,6 @@ class Validate {
   }
 }
 
-const validator = new Validate();
+const validate = new Validate();
 
-export { validator };
+export { validate };

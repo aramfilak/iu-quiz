@@ -13,7 +13,8 @@ CREATE TABLE "StudentAuth" (
 CREATE TABLE "StudentProfile" (
     "id" TEXT NOT NULL,
     "nickName" TEXT NOT NULL,
-    "studentAuthId" TEXT NOT NULL,
+    "studentId" TEXT NOT NULL,
+    "registrationDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "StudentProfile_pkey" PRIMARY KEY ("id")
 );
@@ -22,7 +23,7 @@ CREATE TABLE "StudentProfile" (
 CREATE TABLE "ProfileImage" (
     "publicId" TEXT NOT NULL DEFAULT '',
     "url" TEXT NOT NULL DEFAULT '',
-    "studentProfileId" TEXT NOT NULL
+    "profileId" TEXT NOT NULL
 );
 
 -- CreateIndex
@@ -35,13 +36,13 @@ CREATE UNIQUE INDEX "StudentAuth_email_key" ON "StudentAuth"("email");
 CREATE UNIQUE INDEX "StudentProfile_id_key" ON "StudentProfile"("id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "StudentProfile_studentAuthId_key" ON "StudentProfile"("studentAuthId");
+CREATE UNIQUE INDEX "StudentProfile_studentId_key" ON "StudentProfile"("studentId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "ProfileImage_studentProfileId_key" ON "ProfileImage"("studentProfileId");
+CREATE UNIQUE INDEX "ProfileImage_profileId_key" ON "ProfileImage"("profileId");
 
 -- AddForeignKey
-ALTER TABLE "StudentProfile" ADD CONSTRAINT "StudentProfile_studentAuthId_fkey" FOREIGN KEY ("studentAuthId") REFERENCES "StudentAuth"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "StudentProfile" ADD CONSTRAINT "StudentProfile_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "StudentAuth"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ProfileImage" ADD CONSTRAINT "ProfileImage_studentProfileId_fkey" FOREIGN KEY ("studentProfileId") REFERENCES "StudentProfile"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "ProfileImage" ADD CONSTRAINT "ProfileImage_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "StudentProfile"("id") ON DELETE CASCADE ON UPDATE CASCADE;

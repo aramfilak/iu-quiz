@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 import { database } from '../../configs';
 import { StatusCodes } from 'http-status-codes';
 import { createApiResponse, parseIuStudentDefaultNickName } from '../../utils/response';
-import { validator } from '../../utils/validate';
+import { validate } from '../../utils/validate';
 import { generateJWT } from '../../utils/response';
 import { sendVerificationEmail } from '../../utils/emails';
 import crypto from 'crypto';
@@ -19,8 +19,8 @@ import crypto from 'crypto';
 async function signUp(req: Request, res: Response) {
   let { email, password } = req.body;
 
-  email = validator.isIuEmail(email);
-  password = validator.isValidPassword(password);
+  email = validate.isIuEmail(email);
+  password = validate.isValidPassword(password);
 
   const student = await database.studentAuth.findFirst({ where: { email: email } });
 
@@ -132,8 +132,8 @@ async function verifyEmail(req: Request, res: Response) {
 async function signIn(req: Request, res: Response) {
   let { email, password } = req.body;
 
-  email = validator.isEmpty('Email', email);
-  password = validator.isEmpty('Password', password);
+  email = validate.isEmpty('Email', email);
+  password = validate.isEmpty('Password', password);
 
   const student = await database.studentAuth.findFirst({ where: { email: email } });
 

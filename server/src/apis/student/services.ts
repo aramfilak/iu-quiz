@@ -3,18 +3,38 @@ import { BadRequestError, NotFoundError, UnauthorizedError } from '../../errors'
 import { cloudinary, database } from '../../configs';
 import { StatusCodes } from 'http-status-codes';
 import { createApiResponse } from '../../utils/response';
-import { validator } from '../../utils/validate';
+import { validate } from '../../utils/validate';
 
 const studentProfileDataIncludeSchema = {
   profileImage: true,
   studentAuth: {
     select: {
-      isVerified: true,
       email: true
     }
   }
 };
 
+/**
+ * ________________________________________________________________
+ * @route api/v1/student/:id
+ * @method GET
+ * @access protected
+ * ________________________________________________________________
+ */
+async function findStudentById(req: Request, res: Response) {
+  const studentId = req.params.studentId;
+
+  const studentProfile = await database.studentProfile.findUnique({
+    where: { studentId: studentId },
+    include: studentProfileDataIncludeSchema
+  });
+
+  if (!studentProfile) {
+    throw new NotFoundError('Student nicht gefunden');
+  }
+
+  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, '', studentProfile));
+}
 /**
  * ________________________________________________________________
  * @route api/v1/student
@@ -26,12 +46,12 @@ async function findStudent(req: Request, res: Response) {
   const studentId = req.auth?.id;
 
   const studentProfile = await database.studentProfile.findUnique({
-    where: { studentAuthId: studentId },
+    where: { studentId: studentId },
     include: studentProfileDataIncludeSchema
   });
 
   if (!studentProfile) {
-    throw new NotFoundError('Sie sind nicht registriert');
+    throw new NotFoundError('Student nicht gefunden');
   }
 
   res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, '', studentProfile));
@@ -48,13 +68,17 @@ async function updateStudent(req: Request, res: Response) {
   const studentId = req.auth?.id;
   let { nickName } = req.body;
 
-  nickName = validator.max('Nickname', nickName, 15);
+  nickName = validate.max('Nickname', nickName, 15);
 
   const updatedStudent = await database.studentProfile.update({
-    where: { studentAuthId: studentId },
+    where: { studentId: studentId },
     data: { nickName },
     include: studentProfileDataIncludeSchema
   });
+
+  if (!updatedStudent) {
+    throw new NotFoundError('Student nicht gefunden');
+  }
 
   res
     .status(StatusCodes.OK)
@@ -72,12 +96,12 @@ async function deleteStudent(req: Request, res: Response) {
   const studentId = req.auth?.id;
 
   const studentProfile = await database.studentProfile.findUnique({
-    where: { studentAuthId: studentId },
+    where: { studentId: studentId },
     include: studentProfileDataIncludeSchema
   });
 
   if (!studentProfile) {
-    throw new NotFoundError('Sie sind nicht registriert');
+    throw new NotFoundError('Student nicht gefunden');
   }
 
   const profileImagePublicId = studentProfile?.profileImage?.publicId;
@@ -111,9 +135,13 @@ async function uploadStudentProfileImage(req: Request, res: Response) {
   }
 
   const studentProfile = await database.studentProfile.findUnique({
-    where: { studentAuthId: studentId },
+    where: { studentId: studentId },
     include: studentProfileDataIncludeSchema
   });
+
+  if (!studentProfile) {
+    throw new NotFoundError('Student nicht gefunden');
+  }
 
   const imageId = studentProfile?.profileImage?.publicId;
 
@@ -129,7 +157,7 @@ async function uploadStudentProfileImage(req: Request, res: Response) {
   });
 
   const updatedStudent = await database.studentProfile.update({
-    where: { studentAuthId: studentId },
+    where: { studentId: studentId },
     data: {
       profileImage: {
         update: {
@@ -157,7 +185,7 @@ async function deleteStudentProfileImage(req: Request, res: Response) {
   const studentId = req.auth?.id;
 
   const studentProfile = await database.studentProfile.findFirst({
-    where: { studentAuthId: studentId },
+    where: { studentId: studentId },
     include: {
       profileImage: true
     }
@@ -172,7 +200,7 @@ async function deleteStudentProfileImage(req: Request, res: Response) {
   await cloudinary.uploader.destroy(publicId);
 
   const updatedStudent = await database.studentProfile.update({
-    where: { studentAuthId: studentId },
+    where: { studentId: studentId },
     data: {
       profileImage: {
         update: {
@@ -191,6 +219,7 @@ async function deleteStudentProfileImage(req: Request, res: Response) {
 
 export {
   findStudent,
+  findStudentById,
   updateStudent,
   deleteStudent,
   uploadStudentProfileImage,

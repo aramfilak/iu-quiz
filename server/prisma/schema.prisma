@@ -25,15 +25,15 @@ model StudentAuth {
 model StudentProfile {
   id               String        @id @unique @default(uuid())
   nickName         String
-  studentAuth      StudentAuth   @relation(fields: [studentAuthId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  studentAuthId    String        @unique
+  studentAuth      StudentAuth   @relation(fields: [studentId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  studentId        String        @unique
   profileImage     ProfileImage?
   registrationDate DateTime      @default(now())
 }
 
 model ProfileImage {
-  publicId         String         @default("")
-  url              String         @default("")
-  studentProfile   StudentProfile @relation(fields: [studentProfileId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  studentProfileId String         @unique
+  publicId       String         @default("")
+  url            String         @default("")
+  studentProfile StudentProfile @relation(fields: [profileId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  profileId      String         @unique
 }
