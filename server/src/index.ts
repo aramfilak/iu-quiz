@@ -5,9 +5,12 @@ import cors from 'cors';
 import helmet from 'helmet';
 import { database } from './configs';
 import { authRouter } from './apis/auth';
-import { authRateLimiter, errorHandler, pathNotFound } from './middlewares';
 import { studentRoutes } from './apis/student';
 import requestIp from 'request-ip';
+import { authRateLimiter, standardRateLimiter } from './middlewares/rate-limiters';
+import { pathNotFound } from './middlewares/path-not-found';
+import { errorHandler } from './middlewares/error-handler';
+import { authenticate } from './middlewares/authenticate';
 
 const app = express();
 
@@ -32,7 +35,7 @@ app.use(express.json());
  * MAIN ROUTES
  */
 app.use('/api/v1/auth', authRateLimiter, authRouter);
-app.use('/api/v1/student', studentRoutes);
+app.use('/api/v1/student', standardRateLimiter, authenticate, studentRoutes);
 
 /*
  * ERROR HANDLERS

@@ -7,20 +7,15 @@ import {
   uploadStudentProfileImage,
   deleteStudentProfileImage
 } from './services';
-import { authenticate, upload } from '../../middlewares';
+import { upload } from '../../middlewares/multer';
 
 const studentRoutes = Router();
 
-studentRoutes.get('/', authenticate, findStudent);
-studentRoutes.get('/:studentId', authenticate, findStudentById);
-studentRoutes.patch('/', authenticate, updateStudent);
-studentRoutes.delete('/', authenticate, deleteStudent);
-studentRoutes.post(
-  '/profile-image',
-  authenticate,
-  upload.single('image'),
-  uploadStudentProfileImage
-);
-studentRoutes.delete('/profile-image', authenticate, deleteStudentProfileImage);
+studentRoutes.get('/', findStudent);
+studentRoutes.get('/:studentId', findStudentById);
+studentRoutes.patch('/', updateStudent);
+studentRoutes.delete('/', deleteStudent);
+studentRoutes.post('/profile-image', upload.single('image'), uploadStudentProfileImage);
+studentRoutes.delete('/profile-image', deleteStudentProfileImage);
 
 export { studentRoutes };

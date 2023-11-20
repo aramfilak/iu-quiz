@@ -12,6 +12,15 @@ const convertMsToMin = (min: number) => min * 60 * 1000;
 
 const userIP = (req: Request, res: Response) => req.clientIp!;
 
+const standardRateLimiter = rateLimit({
+  windowMs: convertMsToMin(15),
+  limit: 150,
+  standardHeaders: 'draft-7',
+  skipSuccessfulRequests: true,
+  keyGenerator: userIP,
+  handler: () => LimiterErrorMessage(15)
+});
+
 const authRateLimiter = rateLimit({
   windowMs: convertMsToMin(30),
   limit: 15,
@@ -21,4 +30,4 @@ const authRateLimiter = rateLimit({
   handler: () => LimiterErrorMessage(30)
 });
 
-export { authRateLimiter };
+export { authRateLimiter, standardRateLimiter };
