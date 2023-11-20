@@ -8,7 +8,7 @@ function createApiResponse(statusCode: number, message?: string, data?: Object) 
   return { success: true, statusCode: statusCode, message, data };
 }
 
-function parseIuStudentDefaultNickName(email: string) {
+function parseIuStudentDefaultName(email: string) {
   return email.slice(0, email.lastIndexOf('@'));
 }
 
@@ -18,4 +18,4 @@ function generateJWT(payload: Object) {
   })}`;
 }
 
-export { createErrorResponse, createApiResponse, parseIuStudentDefaultNickName, generateJWT };
+export { createErrorResponse, createApiResponse, parseIuStudentDefaultName, generateJWT };

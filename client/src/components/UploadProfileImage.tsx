@@ -49,7 +49,7 @@ function UploadProfileImage(rest: FlexProps) {
   return (
     <Flex {...rest} gap="0.5rem">
       <Avatar
-        src={studentProfile?.profileImage.url}
+        src={studentProfile?.profileImage?.url}
         size={{ base: 'xl', md: '2xl' }}
         borderRadius="md"
       />
@@ -60,7 +60,7 @@ function UploadProfileImage(rest: FlexProps) {
           <Button
             p="0"
             width="100%"
-            isDisabled={studentProfile?.profileImage.url ? false : true}
+            isDisabled={studentProfile?.profileImage?.url ? false : true}
             size="md"
             cursor="pointer"
             display="flex"
@@ -89,7 +89,7 @@ function UploadProfileImage(rest: FlexProps) {
             cursor="pointer"
             p="2"
           >
-            {studentProfile?.profileImage.url ? (
+            {studentProfile?.profileImage?.url ? (
               <>
                 <Flex gap="0.5rem" alignItems="center">
                   <FiRefreshCw />

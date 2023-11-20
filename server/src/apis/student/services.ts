@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { BadRequestError, NotFoundError, UnauthorizedError } from '../../errors';
+import { BadRequestError, NotFoundError } from '../../errors';
 import { cloudinary, database } from '../../configs';
 import { StatusCodes } from 'http-status-codes';
 import { createApiResponse } from '../../utils/response';
@@ -7,7 +7,7 @@ import { validate } from '../../utils/validate';
 
 const studentProfileDataIncludeSchema = {
   profileImage: true,
-  studentAuth: {
+  student: {
     select: {
       email: true
     }
@@ -43,7 +43,7 @@ async function findStudentById(req: Request, res: Response) {
  * ________________________________________________________________
  */
 async function findStudent(req: Request, res: Response) {
-  const studentId = req.auth?.id;
+  const studentId = req.auth?.studentId;
 
   const studentProfile = await database.studentProfile.findUnique({
     where: { studentId: studentId },
@@ -65,14 +65,14 @@ async function findStudent(req: Request, res: Response) {
  * ________________________________________________________________
  */
 async function updateStudent(req: Request, res: Response) {
-  const studentId = req.auth?.id;
-  let { nickName } = req.body;
+  const studentId = req.auth?.studentId;
+  let { name } = req.body;
 
-  nickName = validate.max('Nickname', nickName, 15);
+  name = validate.max('name', name, 15);
 
   const updatedStudent = await database.studentProfile.update({
     where: { studentId: studentId },
-    data: { nickName },
+    data: { name },
     include: studentProfileDataIncludeSchema
   });
 
@@ -93,7 +93,7 @@ async function updateStudent(req: Request, res: Response) {
  * ________________________________________________________________
  */
 async function deleteStudent(req: Request, res: Response) {
-  const studentId = req.auth?.id;
+  const studentId = req.auth?.studentId;
 
   const studentProfile = await database.studentProfile.findUnique({
     where: { studentId: studentId },
@@ -110,7 +110,7 @@ async function deleteStudent(req: Request, res: Response) {
     await cloudinary.uploader.destroy(profileImagePublicId);
   }
 
-  await database.studentAuth.delete({
+  await database.student.delete({
     where: { id: studentId }
   });
 
@@ -127,7 +127,7 @@ async function deleteStudent(req: Request, res: Response) {
  * ________________________________________________________________
  */
 async function uploadStudentProfileImage(req: Request, res: Response) {
-  const studentId = req.auth?.id;
+  const studentId = req.auth?.studentId;
   const imageSource = req.file?.path;
 
   if (!imageSource) {
@@ -156,6 +156,16 @@ async function uploadStudentProfileImage(req: Request, res: Response) {
     allowed_formats: ['png', 'jpg']
   });
 
+  if (!studentProfile.profileImage) {
+    await database.profileImage.create({
+      data: {
+        profileId: studentProfile.id,
+        url: '',
+        publicId: ''
+      }
+    });
+  }
+
   const updatedStudent = await database.studentProfile.update({
     where: { studentId: studentId },
     data: {
@@ -182,7 +192,7 @@ async function uploadStudentProfileImage(req: Request, res: Response) {
  * ________________________________________________________________
  */
 async function deleteStudentProfileImage(req: Request, res: Response) {
-  const studentId = req.auth?.id;
+  const studentId = req.auth?.studentId;
 
   const studentProfile = await database.studentProfile.findFirst({
     where: { studentId: studentId },

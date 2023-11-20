@@ -14,7 +14,7 @@ function Profile() {
     <>
       {/*------------------- Header --------------------*/}
       <PageHeader
-        title={`${studentProfile?.nickName} Profil`}
+        title={`${studentProfile?.name} Profil`}
         description="Dein Profil, deine Geschichte. Gestalte es einzigartig."
       />
       <Tabs>
@@ -40,12 +40,7 @@ function Profile() {
         <TabPanels>
           {/*------------------- Preview Panel --------------------*/}
           <TabPanel>
-            <View
-              nickName={studentProfile?.nickName}
-              email={studentProfile?.studentAuth.email}
-              profileImageUrl={studentProfile?.profileImage.url}
-              registrationDate={studentProfile?.registrationDate}
-            />
+            <View />
           </TabPanel>
           {/*------------------- Edit Panel --------------------*/}
           <TabPanel>

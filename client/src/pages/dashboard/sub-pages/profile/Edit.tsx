@@ -51,15 +51,15 @@ function Edit() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const nickName = nickNameInputRef.current?.value;
+    const name = nickNameInputRef.current?.value;
 
-    if (!nickName) {
+    if (!name) {
       setAlert({ status: 'warning', message: 'Bitte alle Felder ausfüllen' });
     }
 
     setAlert({ status: 'loading', message: 'Es lädt...' });
 
-    const { success, message } = await updateStudent({ nickName });
+    const { success, message } = await updateStudent({ name });
 
     setAlert({ status: success ? 'success' : 'error', message: message });
 
@@ -143,7 +143,7 @@ function Edit() {
                 id="nick-name"
                 placeholder="max muster"
                 disabled={true}
-                defaultValue={studentProfile?.studentAuth.email}
+                defaultValue={studentProfile?.student.email}
               />
               <InputLeftElement color="gray.500">
                 <FiMail />
@@ -153,7 +153,7 @@ function Edit() {
           {/*------------------- Nick Name --------------------*/}
           <Box width="100%">
             <FormLabel mt="2" htmlFor="nick-name" m="0">
-              Nickname
+              Name
             </FormLabel>
             <InputGroup>
               <Input
@@ -163,7 +163,7 @@ function Edit() {
                 autoComplete="on"
                 id="nick-name"
                 placeholder="max muster"
-                defaultValue={studentProfile?.nickName}
+                defaultValue={studentProfile?.name}
               />
               <InputLeftElement>
                 <FiUserCheck />

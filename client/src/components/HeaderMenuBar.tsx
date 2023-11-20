@@ -104,7 +104,7 @@ function HeaderMenuBar({ onOpen: handleOpen, ...rest }: MobileProps) {
                 {/* ________________ Student Image ____________________ */}
                 <Avatar
                   bg="teal.500"
-                  src={studentProfile?.profileImage.url}
+                  src={studentProfile?.profileImage?.url}
                   size="md"
                   borderRadius="md"
                 />
@@ -115,14 +115,14 @@ function HeaderMenuBar({ onOpen: handleOpen, ...rest }: MobileProps) {
                   spacing="1px"
                   ml="2"
                 >
-                  {/* ________________ Student Nick ____________________ */}
+                  {/* ________________ Student Name ____________________ */}
                   <Text fontWeight="bold" fontSize="sm">
-                    {studentProfile?.nickName}
+                    {studentProfile?.name}
                   </Text>
 
                   {/*__________________ Student E-mail __________________________ */}
                   <Text fontSize="xs" color={useColorModeValue('gray.600', 'gray.300')}>
-                    {studentProfile?.studentAuth.email}
+                    {studentProfile?.student.email}
                   </Text>
                 </VStack>
                 <Box display={{ base: 'none', md: 'flex' }}>

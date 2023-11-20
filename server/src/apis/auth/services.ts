@@ -3,7 +3,7 @@ import { BadRequestError, NotFoundError, UnauthorizedError } from '../../errors'
 import bcrypt from 'bcryptjs';
 import { database } from '../../configs';
 import { StatusCodes } from 'http-status-codes';
-import { createApiResponse, parseIuStudentDefaultNickName } from '../../utils/response';
+import { createApiResponse, parseIuStudentDefaultName } from '../../utils/response';
 import { validate } from '../../utils/validate';
 import { generateJWT } from '../../utils/response';
 import { sendVerificationEmail } from '../../utils/emails';
@@ -22,7 +22,7 @@ async function signUp(req: Request, res: Response) {
   email = validate.isIuEmail(email);
   password = validate.isValidPassword(password);
 
-  const student = await database.studentAuth.findFirst({ where: { email: email } });
+  const student = await database.student.findFirst({ where: { email: email } });
 
   if (student && !student.isVerified) {
     throw new BadRequestError(
@@ -38,31 +38,25 @@ async function signUp(req: Request, res: Response) {
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
-  const nickName = parseIuStudentDefaultNickName(email);
+  const name = parseIuStudentDefaultName(email);
 
   const verificationToken = crypto.randomBytes(30).toString('hex');
 
-  await database.studentAuth.create({
+  await database.student.create({
     data: {
       email: email,
       password: hashedPassword,
       emailVerificationToken: verificationToken,
       studentProfile: {
         create: {
-          nickName: nickName,
-          profileImage: {
-            create: {
-              publicId: '',
-              url: ''
-            }
-          }
+          name: name
         }
       }
     }
   });
 
   await sendVerificationEmail({
-    name: nickName,
+    name: name,
     email: email,
     verificationToken: verificationToken
   });
@@ -87,7 +81,7 @@ async function signUp(req: Request, res: Response) {
 async function verifyEmail(req: Request, res: Response) {
   const { email, emailVerificationToken } = req.body;
 
-  const student = await database.studentAuth.findFirst({
+  const student = await database.student.findFirst({
     where: { email: email }
   });
 
@@ -109,7 +103,7 @@ async function verifyEmail(req: Request, res: Response) {
     throw new UnauthorizedError('Verifizierung fehlgeschlagen');
   }
 
-  await database.studentAuth.update({
+  await database.student.update({
     where: { email: email, emailVerificationToken: emailVerificationToken },
     data: {
       isVerified: true,
@@ -135,7 +129,7 @@ async function signIn(req: Request, res: Response) {
   email = validate.isEmpty('Email', email);
   password = validate.isEmpty('Password', password);
 
-  const student = await database.studentAuth.findFirst({ where: { email: email } });
+  const student = await database.student.findFirst({ where: { email: email } });
 
   if (student && !student.isVerified) {
     throw new BadRequestError('Bitte bestätigen Sie Ihre E-Mail, um sich einzuloggen');

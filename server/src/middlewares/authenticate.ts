@@ -5,7 +5,7 @@ import { Response, Request, NextFunction } from 'express';
 declare global {
   namespace Express {
     interface Request {
-      auth?: { id: string };
+      auth?: { studentId: string };
     }
   }
 }
@@ -21,7 +21,7 @@ function authenticate(req: Request, res: Response, next: NextFunction) {
 
   try {
     const decoded = jwt.verify(accessToken, process.env.JWT_SECRET!) as JwtPayload;
-    req.auth = { id: decoded.id };
+    req.auth = { studentId: decoded.id };
 
     next();
   } catch (e) {

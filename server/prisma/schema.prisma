@@ -13,27 +13,62 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model StudentAuth {
-  id                     String          @id @unique @default(uuid())
-  email                  String          @unique
-  password               String
+model Student {
+  id                     String          @id @unique @default(cuid())
+  email                  String          @unique @db.VarChar(100)
+  password               String          @unique @db.VarChar(100)
   isVerified             Boolean         @default(false)
-  emailVerificationToken String
+  emailVerificationToken String          @unique @db.Text
   studentProfile         StudentProfile?
+  Quiz                   Quiz[]
+  registrationDate       DateTime        @default(now())
 }
 
 model StudentProfile {
-  id               String        @id @unique @default(uuid())
-  nickName         String
-  studentAuth      StudentAuth   @relation(fields: [studentId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  studentId        String        @unique
-  profileImage     ProfileImage?
-  registrationDate DateTime      @default(now())
+  id            String        @id @unique @default(cuid())
+  name          String        @db.VarChar(20)
+  courseOfStudy String?       @db.VarChar(20)
+  studyFormats  String?       @db.VarChar(20)
+  location      String?       @db.VarChar(20)
+  xingUrl       String?       @db.VarChar(255)
+  linkedinUrl   String?       @db.VarChar(255)
+  student       Student       @relation(fields: [studentId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  studentId     String        @unique
+  profileImage  ProfileImage?
 }
 
 model ProfileImage {
-  publicId       String         @default("")
-  url            String         @default("")
+  publicId       String         @db.Text
+  url            String         @db.Text
   studentProfile StudentProfile @relation(fields: [profileId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   profileId      String         @unique
+}
+
+model Quiz {
+  id            String         @id @default(cuid())
+  student       Student        @relation(fields: [studentId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  studentId     String         @unique
+  title         String         @db.Text
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  size          Int            @default(0)
+  popularity    Int            @default(0)
+  courseOfStudy String?        @db.VarChar(20)
+  quizQuestions QuizQuestion[]
+}
+
+model QuizQuestion {
+  id          String       @id @default(uuid())
+  quiz        Quiz         @relation(fields: [quizId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  quizId      String       @unique
+  question    String       @db.Text
+  quizAnswers QuizAnswer[]
+}
+
+model QuizAnswer {
+  answer            String       @db.Text
+  answerDescription String?      @db.Text
+  isRightAnswer     Boolean
+  quizQuestion      QuizQuestion @relation(fields: [quizQuestionId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  quizQuestionId    String       @unique
 }

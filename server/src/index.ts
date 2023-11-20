@@ -4,13 +4,14 @@ import morgan from 'morgan';
 import cors from 'cors';
 import helmet from 'helmet';
 import { database } from './configs';
-import { authRouter } from './apis/auth';
-import { studentRoutes } from './apis/student';
 import requestIp from 'request-ip';
 import { authRateLimiter, standardRateLimiter } from './middlewares/rate-limiters';
 import { pathNotFound } from './middlewares/path-not-found';
 import { errorHandler } from './middlewares/error-handler';
 import { authenticate } from './middlewares/authenticate';
+import { studentRoutes } from './apis/student';
+import { authRoutes } from './apis/auth';
+import { quizRoutes } from './apis/quiz';
 
 const app = express();
 
@@ -34,8 +35,9 @@ app.use(express.json());
 /*
  * MAIN ROUTES
  */
-app.use('/api/v1/auth', authRateLimiter, authRouter);
+app.use('/api/v1/auth', authRateLimiter, authRoutes);
 app.use('/api/v1/student', standardRateLimiter, authenticate, studentRoutes);
+app.use('/api/v1/quiz', standardRateLimiter, quizRoutes);
 
 /*
  * ERROR HANDLERS

@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { signUp, signIn, verifyEmail } from './services';
 
-const authRouter = Router();
+const authRoutes = Router();
 
-authRouter.post('/sign-up', signUp);
-authRouter.post('/sign-in', signIn);
-authRouter.post('/verify-email', verifyEmail);
+authRoutes.post('/sign-up', signUp);
+authRoutes.post('/sign-in', signIn);
+authRoutes.post('/verify-email', verifyEmail);
 
-export { authRouter };
+export { authRoutes };
