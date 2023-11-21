@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "Student" (
-    "id" TEXT NOT NULL,
+    "id" SERIAL NOT NULL,
     "email" VARCHAR(100) NOT NULL,
     "password" VARCHAR(100) NOT NULL,
     "isVerified" BOOLEAN NOT NULL DEFAULT false,
@@ -12,14 +12,14 @@ CREATE TABLE "Student" (
 
 -- CreateTable
 CREATE TABLE "StudentProfile" (
-    "id" TEXT NOT NULL,
+    "id" SERIAL NOT NULL,
     "name" VARCHAR(20) NOT NULL,
     "courseOfStudy" VARCHAR(20),
     "studyFormats" VARCHAR(20),
     "location" VARCHAR(20),
     "xingUrl" VARCHAR(255),
     "linkedinUrl" VARCHAR(255),
-    "studentId" TEXT NOT NULL,
+    "studentId" INTEGER NOT NULL,
 
     CONSTRAINT "StudentProfile_pkey" PRIMARY KEY ("id")
 );
@@ -28,26 +28,27 @@ CREATE TABLE "StudentProfile" (
 CREATE TABLE "ProfileImage" (
     "publicId" TEXT NOT NULL,
     "url" TEXT NOT NULL,
-    "profileId" TEXT NOT NULL
+    "profileId" INTEGER NOT NULL
 );
 
 -- CreateTable
 CREATE TABLE "Quiz" (
-    "id" TEXT NOT NULL,
-    "studentId" TEXT NOT NULL,
+    "id" SERIAL NOT NULL,
+    "studentId" INTEGER NOT NULL,
     "title" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "size" INTEGER NOT NULL DEFAULT 0,
     "popularity" INTEGER NOT NULL DEFAULT 0,
+    "courseOfStudy" VARCHAR(20) NOT NULL,
 
     CONSTRAINT "Quiz_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "QuizQuestion" (
-    "id" TEXT NOT NULL,
-    "quizId" TEXT NOT NULL,
+    "id" SERIAL NOT NULL,
+    "quizId" INTEGER NOT NULL,
     "question" TEXT NOT NULL,
 
     CONSTRAINT "QuizQuestion_pkey" PRIMARY KEY ("id")
@@ -55,10 +56,13 @@ CREATE TABLE "QuizQuestion" (
 
 -- CreateTable
 CREATE TABLE "QuizAnswer" (
+    "id" SERIAL NOT NULL,
     "answer" TEXT NOT NULL,
     "answerDescription" TEXT,
     "isRightAnswer" BOOLEAN NOT NULL,
-    "quizQuestionId" TEXT NOT NULL
+    "quizQuestionId" INTEGER NOT NULL,
+
+    CONSTRAINT "QuizAnswer_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -83,13 +87,13 @@ CREATE UNIQUE INDEX "StudentProfile_studentId_key" ON "StudentProfile"("studentI
 CREATE UNIQUE INDEX "ProfileImage_profileId_key" ON "ProfileImage"("profileId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Quiz_studentId_key" ON "Quiz"("studentId");
+CREATE UNIQUE INDEX "Quiz_id_key" ON "Quiz"("id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "QuizQuestion_quizId_key" ON "QuizQuestion"("quizId");
+CREATE UNIQUE INDEX "QuizQuestion_id_key" ON "QuizQuestion"("id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "QuizAnswer_quizQuestionId_key" ON "QuizAnswer"("quizQuestionId");
+CREATE UNIQUE INDEX "QuizAnswer_id_key" ON "QuizAnswer"("id");
 
 -- AddForeignKey
 ALTER TABLE "StudentProfile" ADD CONSTRAINT "StudentProfile_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student"("id") ON DELETE CASCADE ON UPDATE CASCADE;

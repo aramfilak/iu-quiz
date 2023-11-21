@@ -2,22 +2,9 @@ import { Request, Response } from 'express';
 import { database } from '../../configs';
 import { StatusCodes } from 'http-status-codes';
 import { createApiResponse } from '../../utils/response';
-interface Answer {
-  answer: string;
-  answerDescription?: string;
-  isRightAnswer: boolean;
-}
+import { BadRequestError } from '../../errors';
+import { QuizAnswer } from '@prisma/client';
 
-interface Question {
-  question: string;
-  answers: Answer[];
-}
-
-interface NewQuizData {
-  studentId: string;
-  title: string;
-  questions: Question[];
-}
 /**
  * ________________________________________________________________
  * @route api/v1/quiz
@@ -34,7 +21,26 @@ async function findAllQuizzes(req: Request, res: Response) {}
  * @access public
  * ________________________________________________________________
  */
-async function findQuizById(req: Request, res: Response) {}
+async function findQuizById(req: Request, res: Response) {
+  const quizId = req.params.quizId;
+
+  const quiz = await database.quiz.findUnique({
+    where: { id: parseInt(quizId) },
+    include: {
+      quizQuestions: {
+        include: {
+          quizAnswers: true
+        }
+      }
+    }
+  });
+
+  if (!quiz) {
+    throw new BadRequestError('Quiz nicht gefunden');
+  }
+
+  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, 'Quiz erstellt', quiz));
+}
 
 /**
  * ________________________________________________________________
@@ -44,16 +50,68 @@ async function findQuizById(req: Request, res: Response) {}
  * ________________________________________________________________
  */
 async function createQuiz(req: Request, res: Response) {
-  const { title, studentId } = req.body;
+  const studentId = req.auth?.studentId;
+  const { title, courseOfStudy } = req.body;
 
   const quiz = await database.quiz.create({
     data: {
-      studentId,
-      title
+      student: {
+        connect: {
+          id: studentId
+        }
+      },
+      title,
+      courseOfStudy
     }
   });
 
   res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, '', quiz));
+}
+/**
+ * ________________________________________________________________
+ * @route api/v1/quiz/question
+ * @method POST
+ * @access protected
+ * ________________________________________________________________
+ */
+async function createQuizQuestion(req: Request, res: Response) {
+  const { quizId, question, answers } = req.body;
+
+  const existingQuiz = await database.quiz.findUnique({
+    where: {
+      id: quizId
+    }
+  });
+
+  if (!existingQuiz) {
+    throw new BadRequestError('Quiz nicht gefunden');
+  }
+
+  const createdQuestion = await database.quizQuestion.create({
+    data: {
+      quiz: { connect: { id: quizId } },
+      question,
+      quizAnswers: {
+        createMany: {
+          data: answers
+        }
+      }
+    },
+    include: {
+      quizAnswers: true
+    }
+  });
+
+  await database.quiz.update({
+    where: {
+      id: quizId
+    },
+    data: { size: existingQuiz.size + 1 }
+  });
+
+  res
+    .status(StatusCodes.OK)
+    .json(createApiResponse(StatusCodes.OK, 'Quiz erstellt', createdQuestion));
 }
 
 /**
@@ -74,4 +132,4 @@ async function updateQuiz(req: Request, res: Response) {}
  */
 async function deleteQuiz(req: Request, res: Response) {}
 
-export { findAllQuizzes, findQuizById, createQuiz, updateQuiz, deleteQuiz };
+export { findAllQuizzes, findQuizById, createQuiz, createQuizQuestion, updateQuiz, deleteQuiz };

@@ -14,7 +14,7 @@ datasource db {
 }
 
 model Student {
-  id                     String          @id @unique @default(cuid())
+  id                     String          @id @unique @default(uuid())
   email                  String          @unique @db.VarChar(100)
   password               String          @unique @db.VarChar(100)
   isVerified             Boolean         @default(false)
@@ -25,7 +25,7 @@ model Student {
 }
 
 model StudentProfile {
-  id            String        @id @unique @default(cuid())
+  id            Int           @id @unique @default(autoincrement())
   name          String        @db.VarChar(20)
   courseOfStudy String?       @db.VarChar(20)
   studyFormats  String?       @db.VarChar(20)
@@ -41,34 +41,35 @@ model ProfileImage {
   publicId       String         @db.Text
   url            String         @db.Text
   studentProfile StudentProfile @relation(fields: [profileId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  profileId      String         @unique
+  profileId      Int            @unique
 }
 
 model Quiz {
-  id            String         @id @default(cuid())
+  id            Int            @id @unique @default(autoincrement())
   student       Student        @relation(fields: [studentId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  studentId     String         @unique
+  studentId     String
   title         String         @db.Text
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
   size          Int            @default(0)
   popularity    Int            @default(0)
-  courseOfStudy String?        @db.VarChar(20)
+  courseOfStudy String         @db.VarChar(20)
   quizQuestions QuizQuestion[]
 }
 
 model QuizQuestion {
-  id          String       @id @default(uuid())
+  id          Int          @id @unique @default(autoincrement())
   quiz        Quiz         @relation(fields: [quizId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  quizId      String       @unique
+  quizId      Int
   question    String       @db.Text
   quizAnswers QuizAnswer[]
 }
 
 model QuizAnswer {
+  id                Int          @id @unique @default(autoincrement())
   answer            String       @db.Text
   answerDescription String?      @db.Text
   isRightAnswer     Boolean
   quizQuestion      QuizQuestion @relation(fields: [quizQuestionId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  quizQuestionId    String       @unique
+  quizQuestionId    Int
 }
