@@ -12,19 +12,47 @@ import { routes } from '../utils/routes';
 import { useNavigate } from 'react-router-dom';
 import { usePersistStore } from '../sotres';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { useEffect, useRef } from 'react';
 
 interface SidebarProps extends BoxProps {
   onClose: () => void;
   isCollapsed: boolean;
   toggleSidebar?: () => void;
+  setCollapsedTrue: () => void;
 }
 
-function SidebarNav({ onClose, isCollapsed, toggleSidebar, ...rest }: SidebarProps) {
+function SidebarNav({
+  onClose,
+  isCollapsed,
+  toggleSidebar,
+  setCollapsedTrue,
+  ...rest
+}: SidebarProps) {
   const navigate = useNavigate();
   const { activeNaveLinkIndex, setActiveNaveLinkIndex } = usePersistStore();
+  const sidebarRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleDocumentClick = (event: MouseEvent) => {
+      if (
+        !window.matchMedia('(max-width: 768px)').matches &&
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target as Node)
+      ) {
+        setCollapsedTrue();
+      }
+    };
+
+    document.addEventListener('click', handleDocumentClick);
+
+    return () => {
+      document.removeEventListener('click', handleDocumentClick);
+    };
+  }, []);
 
   return (
     <Box
+      ref={sidebarRef}
       transition="0.1s ease"
       bg={useColorModeValue('white', 'gray.900')}
       borderRight="1px"
