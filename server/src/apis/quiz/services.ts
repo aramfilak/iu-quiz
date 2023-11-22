@@ -13,10 +13,39 @@ import { validate } from '../../utils/validate';
  * ________________________________________________________________
  */
 async function findAllQuizzes(req: Request, res: Response) {
-  const { page, limit, createdAt, updatedAt, popularity, size, courseOfStudy, sort } = req.query;
+  const { page, limit, createdAt, updatedAt, popularity, size, courseOfStudy, sortField, sort } =
+    req.query;
+
+  const where: any = {};
+  const sortOrder = sort ? sort : 'asc';
+
+  if (courseOfStudy) {
+    where.courseOfStudy = courseOfStudy;
+  }
+
+  const orderBy: any = [];
+
+  if (createdAt) {
+    orderBy.push({ createdAt: sortOrder });
+  }
+
+  if (updatedAt) {
+    orderBy.push({ updatedAt: sortOrder });
+  }
+
+  if (size) {
+    orderBy.push({ size: sortOrder });
+  }
+
+  if (popularity) {
+    orderBy.push({ popularity: sortOrder });
+  }
+
+  const skip = (Number(page) - 1 || 0) * (Number(limit) || 10);
+  const take = Number(limit) || 10;
 
   const quizzes = await database.quiz.findMany({
-    where: {},
+    where: where,
     include: {
       quizQuestions: {
         include: {
@@ -24,17 +53,10 @@ async function findAllQuizzes(req: Request, res: Response) {
         }
       }
     },
-    // orderBy: {
-    //   size: size ? sort : undefined,
-    //   popularity: popularity ? 'desc' : undefined,
-    //   courseOfStudy: courseOfStudy ? 'desc' : undefined,
-    //   createdAt: createdAt ? 'desc' : undefined,
-    //   updatedAt: updatedAt ? 'desc' : undefined
-    // },
-    skip: (Number(page) - 1 || 0) * (Number(limit) || 10),
-    take: Number(limit) || 10
+    orderBy,
+    skip,
+    take
   });
-
   res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, 'Quiz erstellt', quizzes));
 }
 
