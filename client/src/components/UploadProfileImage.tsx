@@ -50,7 +50,7 @@ function UploadProfileImage(rest: FlexProps) {
     <Flex {...rest} gap="0.5rem">
       <Avatar
         src={studentProfile?.profileImage?.url}
-        size={{ base: 'xl', md: '2xl' }}
+        size={{ base: 'lg', md: 'xl' }}
         borderRadius="md"
       />
       <Flex flexDir="column" justifyContent="end" gap="2" flex="1">
@@ -90,19 +90,15 @@ function UploadProfileImage(rest: FlexProps) {
             p="2"
           >
             {studentProfile?.profileImage?.url ? (
-              <>
-                <Flex gap="0.5rem" alignItems="center">
-                  <FiRefreshCw />
-                  Aktualisieren
-                </Flex>
-              </>
+              <Flex gap="0.5rem" alignItems="center">
+                <FiRefreshCw />
+                Aktualisieren
+              </Flex>
             ) : (
-              <>
-                <Flex gap="0.5rem" alignItems="center">
-                  <FiPlusCircle />
-                  Hinzufügen
-                </Flex>
-              </>
+              <Flex gap="0.5rem" alignItems="center">
+                <FiPlusCircle />
+                Hinzufügen
+              </Flex>
             )}
           </FormLabel>
         </Tooltip>

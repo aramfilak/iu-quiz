@@ -187,17 +187,17 @@ const Text = defineStyleConfig({
     color: 'gray.600',
     _dark: {
       color: 'gray.300'
-    }
+    },
+    fontSize: { base: 'sm', md: 'md' }
   }
 });
 //________________________________________________________________
-// Text
+// From Label
 //________________________________________________________________
 const FormLabel = defineStyleConfig({
   baseStyle: {
     margin: '0',
-    padding: '0',
-    fontSize: '0.9rem'
+    padding: '0'
   }
 });
 
@@ -217,7 +217,7 @@ const theme = extendTheme({
   styles: {
     global: (props: Dict) => ({
       html: {
-        fontSize: { base: '90%', md: '100%' }
+        fontSize: { base: '88%', md: '93%', xl: '100%' }
       },
       body: {
         backgroundColor: mode('gray.100', 'gray.800')(props)

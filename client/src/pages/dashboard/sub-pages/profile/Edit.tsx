@@ -131,7 +131,7 @@ function Edit() {
           <UploadProfileImage />
           {/*------------------- Email --------------------*/}
           <Box width="100%">
-            <FormLabel mt="2" htmlFor="email" m="0" color="gray.500">
+            <FormLabel htmlFor="email" m="0" color="gray.500">
               Email
             </FormLabel>
             <InputGroup>
@@ -152,7 +152,7 @@ function Edit() {
           </Box>
           {/*------------------- Nick Name --------------------*/}
           <Box width="100%">
-            <FormLabel mt="2" htmlFor="nick-name" m="0">
+            <FormLabel htmlFor="nick-name" m="0">
               Name
             </FormLabel>
             <InputGroup>

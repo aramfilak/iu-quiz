@@ -6,14 +6,14 @@ function View() {
   const { studentProfile } = useStudentStore();
 
   return (
-    <Flex gap={{ base: '1rem', md: '1rem' }} alignItems="end">
+    <Flex gap={{ base: '1rem', md: '1rem' }} alignItems={{ base: 'center', md: 'end' }}>
       <Avatar
         src={studentProfile?.profileImage?.url}
-        size={{ base: 'lg', md: '2xl' }}
+        size={{ base: 'lg', md: 'xl' }}
         borderRadius="md"
       />
       <Flex flexDir="column" gap="0.2rem">
-        <Heading size="lg">{studentProfile?.name}</Heading>
+        <Heading size={{ base: 'sm', md: 'lg' }}>{studentProfile?.name}</Heading>
         <Text>
           Mitglied seit{' '}
           {typeof studentProfile?.registrationDate === 'string' &&
