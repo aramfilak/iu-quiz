@@ -30,9 +30,10 @@ import { routes } from '../utils/routes';
 import { useRef } from 'react';
 interface MobileProps extends FlexProps {
   onOpen: () => void;
+  setCollapsedFalse: () => void;
 }
 
-function HeaderMenuBar({ onOpen: handleOpen, ...rest }: MobileProps) {
+function HeaderMenuBar({ onOpen: handleOpen, setCollapsedFalse, ...rest }: MobileProps) {
   const { signOut } = useAuthStore();
   const { studentProfile } = useStudentStore();
   const navigate = useNavigate();
@@ -54,7 +55,10 @@ function HeaderMenuBar({ onOpen: handleOpen, ...rest }: MobileProps) {
     >
       <IconButton
         display={{ base: 'flex', md: 'none' }}
-        onClick={handleOpen}
+        onClick={() => {
+          setCollapsedFalse();
+          handleOpen();
+        }}
         variant="outline"
         aria-label="open menu"
         icon={<FiMenu />}
