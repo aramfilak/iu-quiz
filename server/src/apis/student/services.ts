@@ -84,12 +84,12 @@ async function updateStudent(req: Request, res: Response) {
     updateData.location = validate.max('Ort', location, 20);
   }
 
-  if (xingUrl) {
-    updateData.xingUrl = validate.url('xing', xingUrl);
+  if (linkedinUrl) {
+    updateData.linkedinUrl = validate.url('linkedin', linkedinUrl);
   }
 
-  if (linkedinUrl) {
-    updateData.xingUrl = validate.url('linkedin', linkedinUrl);
+  if (xingUrl) {
+    updateData.xingUrl = validate.url('xing', xingUrl);
   }
 
   if (!Object.keys(updateData).length) {

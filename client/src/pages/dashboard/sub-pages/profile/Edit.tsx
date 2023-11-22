@@ -1,12 +1,9 @@
 import {
   Alert,
   AlertIcon,
-  FormLabel,
   InputGroup,
   Input,
-  InputLeftElement,
   Button,
-  Box,
   AlertDialog,
   AlertDialogBody,
   AlertDialogCloseButton,
@@ -16,19 +13,29 @@ import {
   AlertDialogOverlay,
   useDisclosure,
   useToast,
-  Flex
+  Flex,
+  Select,
+  InputLeftAddon,
+  Heading,
+  Tooltip
 } from '@chakra-ui/react';
-import { FiMail, FiUserCheck, FiSave, FiUserX, FiAlertTriangle } from 'react-icons/fi';
-import { UploadProfileImage } from '../../../../components';
+import { UploadProfileImage, WrapperBox } from '../../../../components';
 import { useState, useRef } from 'react';
 import { useStudentStore, usePersistStore } from '../../../../sotres';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../../../../utils/routes';
 import { CustomAlert } from '../../../../utils/types';
+import courseOfStudy from '../../../../data/courseOfStudy.json';
+import { FiAlertTriangle, FiMapPin, FiSave, FiUser, FiUserX } from 'react-icons/fi';
+import { FaLinkedin, FaXing, FaGraduationCap } from 'react-icons/fa';
 
 function Edit() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const nickNameInputRef = useRef<HTMLInputElement>(null);
+  const nameInputRef = useRef<HTMLInputElement>(null);
+  const locationInputRef = useRef<HTMLInputElement>(null);
+  const linkedInInputRef = useRef<HTMLInputElement>(null);
+  const xingInputRef = useRef<HTMLInputElement>(null);
+  const courseOfStudySelectRef = useRef<HTMLSelectElement>(null);
   const [isChanged, setIsChanged] = useState<boolean>(false);
   const { studentProfile, updateStudent, deleteStudent } = useStudentStore();
   const { setAccessToken, setIsAuthenticated } = usePersistStore();
@@ -39,10 +46,25 @@ function Edit() {
   const navigate = useNavigate();
 
   const handelChange = () => {
-    const nickNameCurrentValue = nickNameInputRef.current?.value.trim();
-    const nickNameDefaultValue = nickNameInputRef.current?.defaultValue;
+    const nameIsChanged = nameInputRef.current?.value.trim() !== studentProfile?.name;
 
-    if (nickNameCurrentValue !== nickNameDefaultValue) {
+    const locationIsChanged = locationInputRef.current?.value.trim() !== studentProfile?.location;
+
+    const linkedInUrlIsChanged =
+      linkedInInputRef.current?.value.trim() !== studentProfile?.linkedinUrl;
+
+    const xingUrlIsChanged = xingInputRef.current?.value.trim() !== studentProfile?.xingUrl;
+
+    const courseOfStudyIsChanged =
+      courseOfStudySelectRef.current?.value.trim() !== studentProfile?.courseOfStudy;
+
+    if (
+      nameIsChanged ||
+      locationIsChanged ||
+      xingUrlIsChanged ||
+      courseOfStudyIsChanged ||
+      linkedInUrlIsChanged
+    ) {
       setIsChanged(true);
     } else {
       setIsChanged(false);
@@ -51,15 +73,26 @@ function Edit() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const name = nickNameInputRef.current?.value;
+    const name = nameInputRef.current?.value;
+    const location = locationInputRef.current?.value;
+    const linkedinUrl = linkedInInputRef.current?.value;
+    const xingUrl = xingInputRef.current?.value;
+    const courseOfStudy = courseOfStudySelectRef.current?.value;
 
+    console.log(linkedinUrl);
     if (!name) {
-      setAlert({ status: 'warning', message: 'Bitte alle Felder ausfüllen' });
+      setAlert({ status: 'warning', message: 'Name ist ein Pflichtfeld' });
     }
 
     setAlert({ status: 'loading', message: 'Es lädt...' });
 
-    const { success, message } = await updateStudent({ name });
+    const { success, message } = await updateStudent({
+      name,
+      location,
+      linkedinUrl,
+      xingUrl,
+      courseOfStudy
+    });
 
     setAlert({ status: success ? 'success' : 'error', message: message });
 
@@ -75,7 +108,9 @@ function Edit() {
     const { success, message } = await deleteStudent();
 
     toast.close(loading);
+
     toast({ status: success ? 'success' : 'error', description: message });
+
     setAccessToken(null);
     setIsAuthenticated(false);
     navigate(routes.Authentication.path);
@@ -118,8 +153,8 @@ function Edit() {
         </AlertDialogContent>
       </AlertDialog>
 
-      <form onSubmit={handleSubmit} style={{ width: 'min(100%, 20rem)' }}>
-        <Flex flexDir="column" gap="1rem">
+      <form onSubmit={handleSubmit}>
+        <Flex flexDir="column" gap="1rem" maxW="22rem">
           {/*------------------- Response Alert --------------------*/}
           {alert && (
             <Alert status={alert.status} mb="3">
@@ -128,49 +163,121 @@ function Edit() {
             </Alert>
           )}
           {/*---------------- Upload Image -------------*/}
-          <UploadProfileImage />
-          {/*------------------- Email --------------------*/}
-          <Box width="100%">
-            <FormLabel htmlFor="email" m="0" color="gray.500">
-              Email
-            </FormLabel>
+          <WrapperBox>
+            <UploadProfileImage />
+          </WrapperBox>
+
+          {/*------------------- General Data --------------------*/}
+
+          <WrapperBox display="flex" flexDir="column" gap="1rem">
+            <Heading as="h3" fontSize="sm">
+              Allgemein
+            </Heading>
+            {/*------------------- Nick Name --------------------*/}
             <InputGroup>
-              <Input
-                onChange={() => setIsChanged(true)}
-                ref={nickNameInputRef}
-                borderColor="teal.700"
-                autoComplete="on"
-                id="nick-name"
-                placeholder="max muster"
-                disabled={true}
-                defaultValue={studentProfile?.student.email}
-              />
-              <InputLeftElement color="gray.500">
-                <FiMail />
-              </InputLeftElement>
-            </InputGroup>
-          </Box>
-          {/*------------------- Nick Name --------------------*/}
-          <Box width="100%">
-            <FormLabel htmlFor="nick-name" m="0">
-              Name
-            </FormLabel>
-            <InputGroup>
+              <Tooltip label="Name">
+                <InputLeftAddon>
+                  <FiUser />
+                </InputLeftAddon>
+              </Tooltip>
               <Input
                 onChange={handelChange}
-                ref={nickNameInputRef}
+                ref={nameInputRef}
                 borderColor="teal.700"
                 autoComplete="on"
                 id="nick-name"
-                placeholder="max muster"
+                placeholder="Name"
                 defaultValue={studentProfile?.name}
               />
-              <InputLeftElement>
-                <FiUserCheck />
-              </InputLeftElement>
             </InputGroup>
-          </Box>
 
+            {/*------------------- Location --------------------*/}
+
+            <InputGroup>
+              <Tooltip label="Ort">
+                <InputLeftAddon>
+                  <FiMapPin />
+                </InputLeftAddon>
+              </Tooltip>
+              <Input
+                onChange={handelChange}
+                ref={locationInputRef}
+                borderColor="teal.700"
+                autoComplete="on"
+                id="location"
+                placeholder="Wohnort"
+                defaultValue={studentProfile?.location || ''}
+              />
+            </InputGroup>
+
+            {/*------------------- Course Of Study --------------------*/}
+            <InputGroup>
+              <Tooltip label="Ort">
+                <InputLeftAddon>
+                  <FaGraduationCap />
+                </InputLeftAddon>
+              </Tooltip>
+              <Select
+                borderTopLeftRadius="0"
+                borderBottomLeftRadius="0"
+                ref={courseOfStudySelectRef}
+                placeholder="Studiengang"
+                defaultValue={studentProfile?.courseOfStudy || ''}
+              >
+                {courseOfStudy.map(({ name, careId }) => (
+                  <option key={careId} value={name}>
+                    {name}
+                  </option>
+                ))}
+              </Select>{' '}
+            </InputGroup>
+          </WrapperBox>
+
+          {/*------------------- Connection Links --------------------*/}
+
+          <WrapperBox display="flex" flexDir="column" gap="1rem">
+            <Heading as="h3" fontSize="sm">
+              Verbindungslinks
+            </Heading>
+            {/*------------------- Linkedin --------------------*/}
+            <InputGroup>
+              <Tooltip label="Linkedin">
+                <InputLeftAddon>
+                  <FaLinkedin />
+                </InputLeftAddon>
+              </Tooltip>
+              <Input
+                borderColor="teal.700"
+                onChange={handelChange}
+                ref={linkedInInputRef}
+                autoComplete="on"
+                id="linkedin"
+                placeholder="https://www.linkedin.com/profil"
+                defaultValue={studentProfile?.linkedinUrl || ''}
+              />
+            </InputGroup>
+
+            {/*------------------- Xing --------------------*/}
+
+            <InputGroup>
+              <Tooltip label="Xing">
+                <InputLeftAddon>
+                  <FaXing />
+                </InputLeftAddon>
+              </Tooltip>
+              <Input
+                borderColor="teal.700"
+                onChange={handelChange}
+                ref={xingInputRef}
+                autoComplete="on"
+                id="linkedin"
+                placeholder="https://www.xing.com/profile"
+                defaultValue={studentProfile?.xingUrl || ''}
+              />
+            </InputGroup>
+          </WrapperBox>
+
+          {/*------------------- Save Button -----------------*/}
           <Button
             width="100%"
             colorScheme="teal"

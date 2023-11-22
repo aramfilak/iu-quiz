@@ -7,7 +7,8 @@ import {
   accordionAnatomy,
   avatarAnatomy,
   inputAnatomy,
-  alertAnatomy
+  alertAnatomy,
+  selectAnatomy
 } from '@chakra-ui/anatomy';
 import { createMultiStyleConfigHelpers } from '@chakra-ui/react';
 
@@ -148,6 +149,12 @@ function inputTheme() {
       _placeholder: {
         color: 'gray.500'
       }
+    },
+    addon: {
+      color: 'teal.500',
+      _dark: {
+        color: 'teal.200'
+      }
     }
   });
 
@@ -169,6 +176,37 @@ const Button = defineStyleConfig({
   }
 });
 //________________________________________________________________
+// Select
+//________________________________________________________________
+function selectTheme() {
+  const { definePartsStyle, defineMultiStyleConfig } = createMultiStyleConfigHelpers(
+    selectAnatomy.keys
+  );
+
+  const baseStyle = definePartsStyle({
+    field: {
+      background: 'teal.500',
+      borderRadius: 'md',
+      color: 'white',
+      _dark: {
+        color: 'gray.800',
+        bg: 'teal.200'
+      }
+    },
+    icon: {
+      color: 'gray.100',
+      _dark: {
+        color: 'gray.800'
+      }
+    }
+  });
+
+  return defineMultiStyleConfig({
+    baseStyle
+  });
+}
+
+//________________________________________________________________
 // Link
 //________________________________________________________________
 const Link = defineStyleConfig({
@@ -176,6 +214,12 @@ const Link = defineStyleConfig({
     color: 'teal.500',
     _dark: {
       color: 'teal.300'
+    },
+    _hover: {
+      color: 'teal.700',
+      _dark: {
+        color: 'teal.100'
+      }
     }
   }
 });
@@ -229,6 +273,7 @@ const theme = extendTheme({
     Link,
     FormLabel,
     Text,
+    Select: selectTheme(),
     Alert: alertTheme(),
     Input: inputTheme(),
     Avatar: avatarTheme(),

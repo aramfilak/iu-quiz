@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useAuthStore } from '../sotres';
+import { useAuthStore } from '../../sotres';
 import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Button } from '@chakra-ui/react';
-import { CustomAlert } from '../utils/types';
+import { CustomAlert } from '../../utils/types';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { routes } from '../utils/routes';
+import { routes } from '../../utils/routes';
 
 function EmailVerification() {
   const { verifyEmail } = useAuthStore();

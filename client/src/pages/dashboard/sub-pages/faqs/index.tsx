@@ -18,18 +18,11 @@ import {
 import { FaSearch } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import { useState } from 'react';
-import faqsData from './data.json';
+import faqs from './../../../../data/faqs.json';
 import { PageHeader } from '../../../../components';
-
-interface FAQ {
-  category: string;
-  question: string;
-  answer: string;
-}
 
 function FAQs() {
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const [faqs] = useState<FAQ[]>(faqsData);
   const [openQuestionIndex, setOpenQuestionIndex] = useState<number | number[] | undefined>(
     undefined
   );
@@ -46,7 +39,7 @@ function FAQs() {
     }
     acc[faq.category].push(faq);
     return acc;
-  }, {} as Record<string, FAQ[]>);
+  }, {} as Record<string, typeof faqs>);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -110,7 +103,7 @@ function FAQs() {
       {Object.entries(groupByCategory).length === 0 ? (
         <Box textAlign="center">
           <Text>Keine Antwort gefunden? Kontaktiere uns!</Text>
-          <Link href="mailto:iu.quiz.app@gmail.com" fontWeight="bold">
+          <Link target="_blank" href="mailto:iu.quiz.app@gmail.com" fontWeight="bold">
             iu.quiz.app@gmail.com
           </Link>
         </Box>

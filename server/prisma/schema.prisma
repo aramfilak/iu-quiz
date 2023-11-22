@@ -27,8 +27,8 @@ model Student {
 model StudentProfile {
   id            Int           @id @unique @default(autoincrement())
   name          String        @db.VarChar(20)
-  courseOfStudy String?       @db.VarChar(20)
   location      String?       @db.VarChar(20)
+  courseOfStudy String?       @db.VarChar(255)
   xingUrl       String?       @db.VarChar(255)
   linkedinUrl   String?       @db.VarChar(255)
   student       Student       @relation(fields: [studentId], references: [id], onUpdate: Cascade, onDelete: Cascade)

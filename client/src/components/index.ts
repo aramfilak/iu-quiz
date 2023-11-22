@@ -8,3 +8,4 @@ export { HeaderMenuBar } from './HeaderMenuBar';
 export { UploadProfileImage } from './UploadProfileImage';
 export { PageHeader } from './PageHeader';
 export { LabelHeading } from './LabelHeading';
+export { WrapperBox } from './WrapperBox';
