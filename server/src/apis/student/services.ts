@@ -9,7 +9,8 @@ const studentProfileDataIncludeSchema = {
   profileImage: true,
   student: {
     select: {
-      email: true
+      email: true,
+      registrationDate: true
     }
   }
 };

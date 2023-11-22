@@ -15,9 +15,9 @@ function View() {
       <Flex flexDir="column" gap="0.2rem">
         <Heading size={{ base: 'sm', md: 'lg' }}>{studentProfile?.name}</Heading>
         <Text>
-          Mitglied seit{' '}
-          {typeof studentProfile?.registrationDate === 'string' &&
-            convertToGermanDate(studentProfile?.registrationDate)}
+          Mitglied seit
+          {typeof studentProfile?.student.registrationDate === 'string' &&
+            convertToGermanDate(studentProfile?.student.registrationDate)}
         </Text>
         <Text>{studentProfile?.student.email}</Text>
       </Flex>

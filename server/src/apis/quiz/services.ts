@@ -3,7 +3,7 @@ import { database } from '../../configs';
 import { StatusCodes } from 'http-status-codes';
 import { createApiResponse } from '../../utils/response';
 import { BadRequestError } from '../../errors';
-import { QuizAnswer } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
 /**
  * ________________________________________________________________
@@ -12,7 +12,31 @@ import { QuizAnswer } from '@prisma/client';
  * @access public
  * ________________________________________________________________
  */
-async function findAllQuizzes(req: Request, res: Response) {}
+async function findAllQuizzes(req: Request, res: Response) {
+  const { page, limit, createdAt, updatedAt, popularity, size, courseOfStudy, sort } = req.query;
+
+  const quizzes = await database.quiz.findMany({
+    where: {},
+    include: {
+      quizQuestions: {
+        include: {
+          quizAnswers: true
+        }
+      }
+    },
+    // orderBy: {
+    //   size: size ? sort : undefined,
+    //   popularity: popularity ? 'desc' : undefined,
+    //   courseOfStudy: courseOfStudy ? 'desc' : undefined,
+    //   createdAt: createdAt ? 'desc' : undefined,
+    //   updatedAt: updatedAt ? 'desc' : undefined
+    // },
+    skip: (Number(page) - 1 || 0) * (Number(limit) || 10),
+    take: Number(limit) || 10
+  });
+
+  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, 'Quiz erstellt', quizzes));
+}
 
 /**
  * ________________________________________________________________

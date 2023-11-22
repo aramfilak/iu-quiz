@@ -13,34 +13,36 @@ export interface CustomAlert {
 export interface Student {
   id: string;
   email: string;
+  password: string;
   isVerified: boolean;
+  emailVerificationToken: string;
   studentProfile?: StudentProfile;
   Quiz: Quiz[];
+  registrationDate: Date;
 }
 
 export interface StudentProfile {
-  id: string;
+  id: number;
   name: string;
-  courseOfStudy?: string;
-  studyFormats?: string;
-  location?: string;
-  xingUrl?: string;
-  linkedinUrl?: string;
+  courseOfStudy?: string | null;
+  studyFormats?: string | null;
+  location?: string | null;
+  xingUrl?: string | null;
+  linkedinUrl?: string | null;
   student: Student;
   studentId: string;
   profileImage?: ProfileImage;
-  registrationDate: Date;
 }
 
 export interface ProfileImage {
   publicId: string;
   url: string;
   studentProfile: StudentProfile;
-  profileId: string;
+  profileId: number;
 }
 
 export interface Quiz {
-  id: string;
+  id: number;
   student: Student;
   studentId: string;
   title: string;
@@ -48,21 +50,23 @@ export interface Quiz {
   updatedAt: Date;
   size: number;
   popularity: number;
+  courseOfStudy: string;
   quizQuestions: QuizQuestion[];
 }
 
 export interface QuizQuestion {
-  id: string;
+  id: number;
   quiz: Quiz;
-  quizId: string;
+  quizId: number;
   question: string;
   quizAnswers: QuizAnswer[];
 }
 
 export interface QuizAnswer {
+  id: number;
   answer: string;
-  answerDescription?: string;
+  answerDescription?: string | null;
   isRightAnswer: boolean;
   quizQuestion: QuizQuestion;
-  quizQuestionId: string;
+  quizQuestionId: number;
 }
