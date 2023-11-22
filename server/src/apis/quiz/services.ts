@@ -3,7 +3,7 @@ import { database } from '../../configs';
 import { StatusCodes } from 'http-status-codes';
 import { createApiResponse } from '../../utils/response';
 import { BadRequestError } from '../../errors';
-import { Prisma } from '@prisma/client';
+import { validate } from '../../utils/validate';
 
 /**
  * ________________________________________________________________
@@ -77,6 +77,9 @@ async function createQuiz(req: Request, res: Response) {
   const studentId = req.auth?.studentId;
   const { title, courseOfStudy } = req.body;
 
+  validate.isEmpty('Title', title);
+  validate.isEmpty('Course of study', courseOfStudy);
+
   const quiz = await database.quiz.create({
     data: {
       student: {
@@ -100,6 +103,10 @@ async function createQuiz(req: Request, res: Response) {
  */
 async function createQuizQuestion(req: Request, res: Response) {
   const { quizId, question, answers } = req.body;
+
+  validate.isEmpty('Quiz Id', quizId);
+  validate.isEmpty('Question', question);
+  validate.isEmpty('Answers', answers);
 
   const existingQuiz = await database.quiz.findUnique({
     where: {
@@ -154,6 +161,18 @@ async function updateQuiz(req: Request, res: Response) {}
  * @access protected
  * ________________________________________________________________
  */
-async function deleteQuiz(req: Request, res: Response) {}
+async function deleteQuizById(req: Request, res: Response) {
+  const quizId = req.params.quizId;
+  const studentId = req.auth?.studentId;
 
-export { findAllQuizzes, findQuizById, createQuiz, createQuizQuestion, updateQuiz, deleteQuiz };
+  await database.quiz.delete({
+    where: {
+      id: Number(quizId),
+      studentId: studentId
+    }
+  });
+
+  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, 'Quiz gelöscht'));
+}
+
+export { findAllQuizzes, findQuizById, createQuiz, createQuizQuestion, updateQuiz, deleteQuizById };
