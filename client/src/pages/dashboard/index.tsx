@@ -24,7 +24,7 @@ function Dashboard() {
           <SidebarNav onClose={onClose} isCollapsed={isSidebarCollapsed} />
         </DrawerContent>
       </Drawer>
-      <HeaderMenuBar onOpen={onOpen} />
+      <HeaderMenuBar onOpen={onOpen} setCollapsedFalse={() => setSidebarCollapsed(false)} />
       <Box ml={{ base: 0, md: isSidebarCollapsed ? 16 : 60 }} padding="1rem">
         <Outlet />
       </Box>

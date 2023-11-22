@@ -37,7 +37,7 @@ function NavItem({ icon, isActive, children, onClick, tooltip, ...rest }: NavIte
           p="2"
           m="4"
           mx="4"
-          height="40px"
+          height="2.1rem"
           transition="all 0.1s"
           color={textColor}
           borderRadius="lg"

@@ -29,7 +29,7 @@ function SidebarNav({ onClose, isCollapsed, toggleSidebar, ...rest }: SidebarPro
       bg={useColorModeValue('white', 'gray.900')}
       borderRight="1px"
       borderRightColor={useColorModeValue('gray.200', 'gray.700')}
-      w={{ base: 'full', md: isCollapsed ? '65px' : 60 }}
+      w={{ base: 'full', md: isCollapsed ? '4.1rem' : 60 }}
       pos="fixed"
       h="full"
       {...rest}
@@ -37,7 +37,7 @@ function SidebarNav({ onClose, isCollapsed, toggleSidebar, ...rest }: SidebarPro
       <Flex h="20" alignItems="center" justifyContent="space-between">
         {/* ________________ Logo ____________________ */}
         <Text
-          ml={isCollapsed ? '5px' : '25px'}
+          ml={isCollapsed ? '0.3rem' : '1.5rem'}
           fontSize="2xl"
           fontFamily="monospace"
           fontWeight="bold"
@@ -50,38 +50,40 @@ function SidebarNav({ onClose, isCollapsed, toggleSidebar, ...rest }: SidebarPro
           fontFamily="monospace"
           fontWeight="bold"
           ml={{ base: 'auto', md: 'auto' }}
-          mr={{ base: 'none', md: '25px' }}
+          mr={{ base: 'none', md: '1.6rem' }}
         >
           IU~QUIZ
         </Text>
         <CloseButton
-          style={{ marginLeft: 'auto', marginRight: '25px' }}
+          style={{ marginLeft: 'auto', marginRight: '1.6rem' }}
           display={{ base: 'flex', md: 'none' }}
           onClick={onClose}
         />
       </Flex>
 
-      {/* ________________ Nav Links ____________________ */}
-      {Object.values(routes.Dashboard.children).map((link, index) => (
-        <NavItem
-          isActive={index === activeNaveLinkIndex}
-          key={link.name}
-          icon={link.icon}
-          height="10px"
-          onClick={() => {
-            setActiveNaveLinkIndex(index);
-            navigate(link.path);
-            onClose();
-          }}
-          tooltip={isCollapsed ? link.name : undefined}
-        >
-          {isCollapsed ? null : link.name}
-        </NavItem>
-      ))}
+      <Box mt="2.2rem">
+        {/* ________________ Nav Links ____________________ */}
+        {Object.values(routes.Dashboard.children).map((link, index) => (
+          <NavItem
+            isActive={index === activeNaveLinkIndex}
+            key={link.name}
+            icon={link.icon}
+            onClick={() => {
+              setActiveNaveLinkIndex(index);
+              navigate(link.path);
+              onClose();
+            }}
+            tooltip={isCollapsed ? link.name : undefined}
+          >
+            {isCollapsed ? null : link.name}
+          </NavItem>
+        ))}
+      </Box>
 
       {/* ________________ Collapse Button ____________________ */}
       <Button
-        bottom="4"
+        top="4rem"
+        height="2.1rem"
         position="absolute"
         width="full"
         display={{ base: 'none', md: 'flex' }}
@@ -89,6 +91,8 @@ function SidebarNav({ onClose, isCollapsed, toggleSidebar, ...rest }: SidebarPro
         variant="ghost"
         leftIcon={isCollapsed ? <FiChevronRight /> : <FiChevronLeft />}
         right={isCollapsed ? 'initial' : '0'}
+        alignItems="center"
+        pl="1.5rem"
       ></Button>
     </Box>
   );
