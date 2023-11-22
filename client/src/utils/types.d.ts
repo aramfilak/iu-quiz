@@ -25,7 +25,7 @@ export interface StudentProfile {
   id: number;
   name: string;
   courseOfStudy?: string | null;
-  studyFormats?: string | null;
+  studyFormat?: string | null;
   location?: string | null;
   xingUrl?: string | null;
   linkedinUrl?: string | null;

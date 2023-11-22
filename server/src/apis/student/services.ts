@@ -4,6 +4,7 @@ import { cloudinary, database } from '../../configs';
 import { StatusCodes } from 'http-status-codes';
 import { createApiResponse } from '../../utils/response';
 import { validate } from '../../utils/validate';
+import { StudentProfile } from '@prisma/client';
 
 const studentProfileDataIncludeSchema = {
   profileImage: true,
@@ -67,13 +68,37 @@ async function findStudent(req: Request, res: Response) {
  */
 async function updateStudent(req: Request, res: Response) {
   const studentId = req.auth?.studentId;
-  let { name } = req.body;
+  const { name, courseOfStudy, studyFormat, location, xingUrl, linkedinUrl } = req.body;
 
-  name = validate.max('name', name, 15);
+  const updateData: Partial<StudentProfile> = {};
+
+  if (name) {
+    updateData.name = validate.max('Name', name, 20);
+  }
+
+  if (courseOfStudy) {
+    updateData.courseOfStudy = validate.isEmpty('Studiengang', courseOfStudy);
+  }
+
+  if (location) {
+    updateData.location = validate.max('Ort', location, 20);
+  }
+
+  if (xingUrl) {
+    updateData.xingUrl = validate.url('xing', xingUrl);
+  }
+
+  if (linkedinUrl) {
+    updateData.xingUrl = validate.url('linkedin', linkedinUrl);
+  }
+
+  if (!Object.keys(updateData).length) {
+    throw new BadRequestError('Keine Änderungen vorhanden');
+  }
 
   const updatedStudent = await database.studentProfile.update({
     where: { studentId: studentId },
-    data: { name },
+    data: updateData,
     include: studentProfileDataIncludeSchema
   });
 

@@ -28,7 +28,6 @@ model StudentProfile {
   id            Int           @id @unique @default(autoincrement())
   name          String        @db.VarChar(20)
   courseOfStudy String?       @db.VarChar(20)
-  studyFormats  String?       @db.VarChar(20)
   location      String?       @db.VarChar(20)
   xingUrl       String?       @db.VarChar(255)
   linkedinUrl   String?       @db.VarChar(255)

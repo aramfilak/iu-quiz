@@ -72,6 +72,28 @@ class Validate {
 
     return value;
   }
+
+  public url(urlType: 'linkedin' | 'xing', url: string) {
+    url = this.isEmpty('URL', url);
+
+    if (urlType === 'linkedin') {
+      const validLinkInUrl = url.startsWith('https://www.linkedin.com/');
+      if (!validLinkInUrl) {
+        throw new BadRequestError('Ungültige LinkedIn URL');
+      } else {
+        return url;
+      }
+    }
+
+    if (urlType === 'xing') {
+      const validXingUrl = url.startsWith('https://www.xing.com');
+      if (!validXingUrl) {
+        throw new BadRequestError('Ungültige Xing URL');
+      } else {
+        return url;
+      }
+    }
+  }
 }
 
 const validate = new Validate();
