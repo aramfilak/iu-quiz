@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Drawer, DrawerContent, useDisclosure } from '@chakra-ui/react';
+import { Box, Container, Drawer, DrawerContent, useDisclosure } from '@chakra-ui/react';
 import { HeaderMenuBar, SidebarNav } from '../../components';
 import { Outlet } from 'react-router-dom';
 
@@ -30,8 +30,11 @@ function Dashboard() {
         </DrawerContent>
       </Drawer>
       <HeaderMenuBar onOpen={onOpen} setCollapsedFalse={() => setSidebarCollapsed(false)} />
+
       <Box ml={{ base: 0, md: isSidebarCollapsed ? 16 : 60 }} padding="1rem">
-        <Outlet />
+        <Container maxWidth="container.xl">
+          <Outlet />
+        </Container>
       </Box>
     </Box>
   );

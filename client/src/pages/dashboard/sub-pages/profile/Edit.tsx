@@ -17,12 +17,9 @@ import {
   InputLeftAddon,
   Heading,
   Tooltip,
-  Grid,
-  GridItem,
-  Container,
-  Divider
+  Flex
 } from '@chakra-ui/react';
-import { UploadProfileImage, WrapperBox } from '../../../../components';
+import { UploadProfileImage, BoxWrapper } from '../../../../components';
 import { useState, useRef } from 'react';
 import { useStudentStore, usePersistStore } from '../../../../sotres';
 import { useNavigate } from 'react-router-dom';
@@ -120,7 +117,7 @@ function Edit() {
   };
 
   return (
-    <Container maxW="container.xl">
+    <>
       {/*------------------- Alert Dialog --------------------*/}
       <AlertDialog
         motionPreset="slideInBottom"
@@ -154,6 +151,7 @@ function Edit() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+      {/*------------------- Alert  --------------------*/}
       {alert && (
         <Alert status={alert.status} mb="4">
           <AlertIcon />
@@ -162,24 +160,19 @@ function Edit() {
       )}
       <form onSubmit={handleSubmit}>
         {/*------------------- Response Alert --------------------*/}
-        <Grid templateColumns={{ base: 'repeat(10, 1fr)' }} gap="1rem">
+        <Flex flexDir={{ base: 'column', sm: 'row' }} flexWrap="wrap" gap="1rem">
           {/*---------------- Upload Image -------------*/}
-          <GridItem
-            colSpan={{ base: 10, md: 4 }}
-            bg="gray.50"
-            _dark={{ bg: 'gray.700' }}
-            borderRadius="md"
-          >
-            <WrapperBox>
-              <Heading as="h3" fontSize="sm" mb="2">
-                Profile Bild
-              </Heading>
-              <UploadProfileImage />
-            </WrapperBox>
-          </GridItem>
+
+          <BoxWrapper w="100%">
+            <Heading as="h3" fontSize="sm" mb="2">
+              Profile Bild
+            </Heading>
+            <UploadProfileImage />
+          </BoxWrapper>
+
           {/*------------------- General Data --------------------*/}
-          <GridItem colSpan={{ base: 10, md: 6 }}>
-            <WrapperBox display="flex" flexDir="column" gap="1rem">
+          <Flex flexDir={{ base: 'column', md: 'row' }} gap="1rem" width="100%">
+            <BoxWrapper flex="1">
               <Heading as="h3" fontSize="sm">
                 Allgemein
               </Heading>
@@ -246,11 +239,11 @@ function Edit() {
                   ))}
                 </Select>{' '}
               </InputGroup>
-            </WrapperBox>
-          </GridItem>
-          {/*------------------- Connection Links --------------------*/}
-          <GridItem colSpan={{ base: 10, md: 6 }}>
-            <WrapperBox display="flex" flexDir="column" gap="1rem">
+            </BoxWrapper>
+
+            {/*------------------- Connection Links --------------------*/}
+
+            <BoxWrapper flex="1">
               <Heading as="h3" fontSize="sm">
                 Verbindungslinks
               </Heading>
@@ -293,42 +286,44 @@ function Edit() {
                   defaultValue={studentProfile?.xingUrl || ''}
                 />
               </InputGroup>
-            </WrapperBox>
-          </GridItem>
+            </BoxWrapper>
+          </Flex>
 
-          <GridItem colSpan={{ base: 10, md: 4 }} bg="gray.50" borderRadius="md">
-            <WrapperBox display="flex" flexDir="column" gap="1rem">
-              {/*------------------- Save Button -----------------*/}
-              <Button
-                width="100%"
-                colorScheme="teal"
-                type="submit"
-                disabled={isSubmitting}
-                isDisabled={!isChanged}
-                leftIcon={<FiSave />}
-                mb="4"
-              >
-                Speichern
-              </Button>
-              <Divider />
+          <BoxWrapper width="100%">
+            {/*------------------- Save Button -----------------*/}
 
-              {/*------------------- Delete Profile -----------------*/}
-              <Button
-                width="100%"
-                alignSelf="start"
-                colorScheme="red"
-                type="button"
-                disabled={isSubmitting}
-                onClick={onOpen}
-                leftIcon={<FiUserX />}
-              >
-                Profile Löschen
-              </Button>
-            </WrapperBox>
-          </GridItem>
-        </Grid>
+            <Button
+              alignSelf="end"
+              width={{ base: '100%', sm: 'fit-content' }}
+              colorScheme="teal"
+              type="submit"
+              disabled={isSubmitting}
+              isDisabled={!isChanged}
+              leftIcon={<FiSave />}
+            >
+              Speichern
+            </Button>
+          </BoxWrapper>
+
+          {/*------------------- Delete Profile -----------------*/}
+          <BoxWrapper width="100%" border="2px dashed" borderColor="red.600">
+            <Heading as="h3" fontSize="sm">
+              Gefahrenzone
+            </Heading>
+            <Button
+              width={{ base: '100%', sm: 'fit-content' }}
+              colorScheme="red"
+              type="button"
+              disabled={isSubmitting}
+              onClick={onOpen}
+              leftIcon={<FiUserX />}
+            >
+              Profile Löschen
+            </Button>
+          </BoxWrapper>
+        </Flex>
       </form>
-    </Container>
+    </>
   );
 }
 
