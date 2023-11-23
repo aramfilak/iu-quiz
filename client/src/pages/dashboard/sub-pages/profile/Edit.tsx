@@ -13,11 +13,14 @@ import {
   AlertDialogOverlay,
   useDisclosure,
   useToast,
-  Flex,
   Select,
   InputLeftAddon,
   Heading,
-  Tooltip
+  Tooltip,
+  Grid,
+  GridItem,
+  Container,
+  Divider
 } from '@chakra-ui/react';
 import { UploadProfileImage, WrapperBox } from '../../../../components';
 import { useState, useRef } from 'react';
@@ -26,8 +29,8 @@ import { useNavigate } from 'react-router-dom';
 import { routes } from '../../../../utils/routes';
 import { CustomAlert } from '../../../../utils/types';
 import courseOfStudy from '../../../../data/courseOfStudy.json';
-import { FiAlertTriangle, FiMapPin, FiSave, FiUser, FiUserX } from 'react-icons/fi';
-import { FaLinkedin, FaXing, FaGraduationCap } from 'react-icons/fa';
+import { FiAlertTriangle, FiSave, FiUserX } from 'react-icons/fi';
+import { FaLinkedin, FaXing, FaGraduationCap, FaMapMarkerAlt, FaUser } from 'react-icons/fa';
 
 function Edit() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -79,7 +82,6 @@ function Edit() {
     const xingUrl = xingInputRef.current?.value;
     const courseOfStudy = courseOfStudySelectRef.current?.value;
 
-    console.log(linkedinUrl);
     if (!name) {
       setAlert({ status: 'warning', message: 'Name ist ein Pflichtfeld' });
     }
@@ -118,7 +120,7 @@ function Edit() {
   };
 
   return (
-    <>
+    <Container maxW="container.xl">
       {/*------------------- Alert Dialog --------------------*/}
       <AlertDialog
         motionPreset="slideInBottom"
@@ -152,158 +154,181 @@ function Edit() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-
+      {alert && (
+        <Alert status={alert.status} mb="4">
+          <AlertIcon />
+          {alert.message}
+        </Alert>
+      )}
       <form onSubmit={handleSubmit}>
-        <Flex flexDir="column" gap="1rem" maxW="22rem">
-          {/*------------------- Response Alert --------------------*/}
-          {alert && (
-            <Alert status={alert.status} mb="3">
-              <AlertIcon />
-              {alert.message}
-            </Alert>
-          )}
+        {/*------------------- Response Alert --------------------*/}
+        <Grid templateColumns={{ base: 'repeat(10, 1fr)' }} gap="1rem">
           {/*---------------- Upload Image -------------*/}
-          <WrapperBox>
-            <UploadProfileImage />
-          </WrapperBox>
-
+          <GridItem
+            colSpan={{ base: 10, md: 4 }}
+            bg="gray.50"
+            _dark={{ bg: 'gray.700' }}
+            borderRadius="md"
+          >
+            <WrapperBox>
+              <Heading as="h3" fontSize="sm" mb="2">
+                Profile Bild
+              </Heading>
+              <UploadProfileImage />
+            </WrapperBox>
+          </GridItem>
           {/*------------------- General Data --------------------*/}
+          <GridItem colSpan={{ base: 10, md: 6 }}>
+            <WrapperBox display="flex" flexDir="column" gap="1rem">
+              <Heading as="h3" fontSize="sm">
+                Allgemein
+              </Heading>
+              {/*------------------- Nick Name --------------------*/}
+              <InputGroup>
+                <Tooltip label="Name">
+                  <InputLeftAddon>
+                    <FaUser />
+                  </InputLeftAddon>
+                </Tooltip>
+                <Input
+                  borderTopLeftRadius="0"
+                  borderBottomLeftRadius="0"
+                  onChange={handelChange}
+                  ref={nameInputRef}
+                  borderColor="teal.700"
+                  autoComplete="on"
+                  id="nick-name"
+                  placeholder="Name"
+                  defaultValue={studentProfile?.name}
+                />
+              </InputGroup>
 
-          <WrapperBox display="flex" flexDir="column" gap="1rem">
-            <Heading as="h3" fontSize="sm">
-              Allgemein
-            </Heading>
-            {/*------------------- Nick Name --------------------*/}
-            <InputGroup>
-              <Tooltip label="Name">
-                <InputLeftAddon>
-                  <FiUser />
-                </InputLeftAddon>
-              </Tooltip>
-              <Input
-                onChange={handelChange}
-                ref={nameInputRef}
-                borderColor="teal.700"
-                autoComplete="on"
-                id="nick-name"
-                placeholder="Name"
-                defaultValue={studentProfile?.name}
-              />
-            </InputGroup>
+              {/*------------------- Location --------------------*/}
 
-            {/*------------------- Location --------------------*/}
+              <InputGroup>
+                <Tooltip label="Ort">
+                  <InputLeftAddon>
+                    <FaMapMarkerAlt />
+                  </InputLeftAddon>
+                </Tooltip>
+                <Input
+                  borderTopLeftRadius="0"
+                  borderBottomLeftRadius="0"
+                  onChange={handelChange}
+                  ref={locationInputRef}
+                  borderColor="teal.700"
+                  autoComplete="on"
+                  id="location"
+                  placeholder="Wohnort"
+                  defaultValue={studentProfile?.location || ''}
+                />
+              </InputGroup>
 
-            <InputGroup>
-              <Tooltip label="Ort">
-                <InputLeftAddon>
-                  <FiMapPin />
-                </InputLeftAddon>
-              </Tooltip>
-              <Input
-                onChange={handelChange}
-                ref={locationInputRef}
-                borderColor="teal.700"
-                autoComplete="on"
-                id="location"
-                placeholder="Wohnort"
-                defaultValue={studentProfile?.location || ''}
-              />
-            </InputGroup>
-
-            {/*------------------- Course Of Study --------------------*/}
-            <InputGroup>
-              <Tooltip label="Ort">
-                <InputLeftAddon>
-                  <FaGraduationCap />
-                </InputLeftAddon>
-              </Tooltip>
-              <Select
-                borderTopLeftRadius="0"
-                borderBottomLeftRadius="0"
-                ref={courseOfStudySelectRef}
-                placeholder="Studiengang"
-                defaultValue={studentProfile?.courseOfStudy || ''}
-              >
-                {courseOfStudy.map(({ name, careId }) => (
-                  <option key={careId} value={name}>
-                    {name}
-                  </option>
-                ))}
-              </Select>{' '}
-            </InputGroup>
-          </WrapperBox>
-
+              {/*------------------- Course Of Study --------------------*/}
+              <InputGroup>
+                <Tooltip label="Studiengang">
+                  <InputLeftAddon>
+                    <FaGraduationCap />
+                  </InputLeftAddon>
+                </Tooltip>
+                <Select
+                  onChange={handelChange}
+                  borderTopLeftRadius="0"
+                  borderBottomLeftRadius="0"
+                  ref={courseOfStudySelectRef}
+                  placeholder="Studiengang"
+                  defaultValue={studentProfile?.courseOfStudy || ''}
+                >
+                  {courseOfStudy.map(({ name, careId }) => (
+                    <option key={careId} value={name}>
+                      {name}
+                    </option>
+                  ))}
+                </Select>{' '}
+              </InputGroup>
+            </WrapperBox>
+          </GridItem>
           {/*------------------- Connection Links --------------------*/}
+          <GridItem colSpan={{ base: 10, md: 6 }}>
+            <WrapperBox display="flex" flexDir="column" gap="1rem">
+              <Heading as="h3" fontSize="sm">
+                Verbindungslinks
+              </Heading>
+              {/*------------------- Linkedin --------------------*/}
+              <InputGroup>
+                <Tooltip label="Linkedin">
+                  <InputLeftAddon>
+                    <FaLinkedin />
+                  </InputLeftAddon>
+                </Tooltip>
+                <Input
+                  borderTopLeftRadius="0"
+                  borderBottomLeftRadius="0"
+                  borderColor="teal.700"
+                  onChange={handelChange}
+                  ref={linkedInInputRef}
+                  autoComplete="on"
+                  id="linkedin"
+                  placeholder="https://www.linkedin.com/profil"
+                  defaultValue={studentProfile?.linkedinUrl || ''}
+                />
+              </InputGroup>
 
-          <WrapperBox display="flex" flexDir="column" gap="1rem">
-            <Heading as="h3" fontSize="sm">
-              Verbindungslinks
-            </Heading>
-            {/*------------------- Linkedin --------------------*/}
-            <InputGroup>
-              <Tooltip label="Linkedin">
-                <InputLeftAddon>
-                  <FaLinkedin />
-                </InputLeftAddon>
-              </Tooltip>
-              <Input
-                borderColor="teal.700"
-                onChange={handelChange}
-                ref={linkedInInputRef}
-                autoComplete="on"
-                id="linkedin"
-                placeholder="https://www.linkedin.com/profil"
-                defaultValue={studentProfile?.linkedinUrl || ''}
-              />
-            </InputGroup>
+              {/*------------------- Xing --------------------*/}
+              <InputGroup>
+                <Tooltip label="Xing">
+                  <InputLeftAddon>
+                    <FaXing />
+                  </InputLeftAddon>
+                </Tooltip>
+                <Input
+                  borderTopLeftRadius="0"
+                  borderBottomLeftRadius="0"
+                  borderColor="teal.700"
+                  onChange={handelChange}
+                  ref={xingInputRef}
+                  autoComplete="on"
+                  id="linkedin"
+                  placeholder="https://www.xing.com/profile"
+                  defaultValue={studentProfile?.xingUrl || ''}
+                />
+              </InputGroup>
+            </WrapperBox>
+          </GridItem>
 
-            {/*------------------- Xing --------------------*/}
+          <GridItem colSpan={{ base: 10, md: 4 }} bg="gray.50" borderRadius="md">
+            <WrapperBox display="flex" flexDir="column" gap="1rem">
+              {/*------------------- Save Button -----------------*/}
+              <Button
+                width="100%"
+                colorScheme="teal"
+                type="submit"
+                disabled={isSubmitting}
+                isDisabled={!isChanged}
+                leftIcon={<FiSave />}
+                mb="4"
+              >
+                Speichern
+              </Button>
+              <Divider />
 
-            <InputGroup>
-              <Tooltip label="Xing">
-                <InputLeftAddon>
-                  <FaXing />
-                </InputLeftAddon>
-              </Tooltip>
-              <Input
-                borderColor="teal.700"
-                onChange={handelChange}
-                ref={xingInputRef}
-                autoComplete="on"
-                id="linkedin"
-                placeholder="https://www.xing.com/profile"
-                defaultValue={studentProfile?.xingUrl || ''}
-              />
-            </InputGroup>
-          </WrapperBox>
-
-          {/*------------------- Save Button -----------------*/}
-          <Button
-            width="100%"
-            colorScheme="teal"
-            type="submit"
-            disabled={isSubmitting}
-            isDisabled={!isChanged}
-            leftIcon={<FiSave />}
-          >
-            Speichern
-          </Button>
-
-          {/*------------------- Delete Profile -----------------*/}
-          <Button
-            width="100%"
-            alignSelf="start"
-            colorScheme="red"
-            type="button"
-            disabled={isSubmitting}
-            onClick={onOpen}
-            leftIcon={<FiUserX />}
-          >
-            Profile Löschen
-          </Button>
-        </Flex>
+              {/*------------------- Delete Profile -----------------*/}
+              <Button
+                width="100%"
+                alignSelf="start"
+                colorScheme="red"
+                type="button"
+                disabled={isSubmitting}
+                onClick={onOpen}
+                leftIcon={<FiUserX />}
+              >
+                Profile Löschen
+              </Button>
+            </WrapperBox>
+          </GridItem>
+        </Grid>
       </form>
-    </>
+    </Container>
   );
 }
 

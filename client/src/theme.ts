@@ -185,23 +185,36 @@ function selectTheme() {
 
   const baseStyle = definePartsStyle({
     field: {
-      background: 'teal.500',
+      background: 'gray.200',
       borderRadius: 'md',
-      color: 'white',
+      color: 'gray.800',
       _dark: {
-        color: 'gray.800',
-        bg: 'teal.200'
+        color: 'white',
+        bg: 'gray.500',
+        borderColor: 'teal.700'
+      },
+      borderColor: 'teal.700',
+      _focusWithin: {
+        ringColor: 'teal.500',
+        ring: '1px',
+        borderColor: 'gray.800',
+        _dark: {
+          borderColor: 'teal.500'
+        }
       }
     },
     icon: {
-      color: 'gray.100',
+      color: 'gray.800',
       _dark: {
-        color: 'gray.800'
+        color: 'white'
       }
     }
   });
 
   return defineMultiStyleConfig({
+    defaultProps: {
+      variant: 'teal'
+    },
     baseStyle
   });
 }

@@ -68,29 +68,15 @@ async function findStudent(req: Request, res: Response) {
  */
 async function updateStudent(req: Request, res: Response) {
   const studentId = req.auth?.studentId;
-  const { name, courseOfStudy, studyFormat, location, xingUrl, linkedinUrl } = req.body;
+  const { name, courseOfStudy, location, xingUrl, linkedinUrl } = req.body;
 
   const updateData: Partial<StudentProfile> = {};
 
-  if (name) {
-    updateData.name = validate.max('Name', name, 20);
-  }
-
-  if (courseOfStudy) {
-    updateData.courseOfStudy = validate.isEmpty('Studiengang', courseOfStudy);
-  }
-
-  if (location) {
-    updateData.location = validate.max('Ort', location, 20);
-  }
-
-  if (linkedinUrl) {
-    updateData.linkedinUrl = validate.url('linkedin', linkedinUrl);
-  }
-
-  if (xingUrl) {
-    updateData.xingUrl = validate.url('xing', xingUrl);
-  }
+  updateData.name = validate.max('Name', name, 20);
+  updateData.courseOfStudy = courseOfStudy;
+  updateData.location = validate.max('Ort', location, 20, false);
+  updateData.linkedinUrl = validate.url('linkedin', linkedinUrl);
+  updateData.xingUrl = validate.url('xing', xingUrl);
 
   if (!Object.keys(updateData).length) {
     throw new BadRequestError('Keine Änderungen vorhanden');

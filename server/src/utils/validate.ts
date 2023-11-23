@@ -53,8 +53,10 @@ class Validate {
     return email;
   }
 
-  public min(valueName: string, value: string, minLength: number): string {
-    value = this.isEmpty(valueName, value);
+  public min(valueName: string, value: string, minLength: number, isEmpty = true): string {
+    if (isEmpty) {
+      value = this.isEmpty(valueName, value);
+    }
 
     if (value.length < minLength) {
       throw new BadRequestError(`${valueName} muss mindestens ${minLength} Zeichen lang sein.`);
@@ -63,8 +65,10 @@ class Validate {
     return value;
   }
 
-  public max(valueName: string, value: string, maxLength: number): string {
-    value = this.isEmpty(valueName, value);
+  public max(valueName: string, value: string, maxLength: number, isEmpty = true): string {
+    if (isEmpty) {
+      value = this.isEmpty(valueName, value);
+    }
 
     if (value.length > maxLength) {
       throw new BadRequestError(`${valueName} darf maximal ${maxLength} Zeichen lang sein.`);
@@ -74,7 +78,7 @@ class Validate {
   }
 
   public url(urlType: 'linkedin' | 'xing', url: string) {
-    url = this.isEmpty('URL', url);
+    if (!url) return url;
 
     if (urlType === 'linkedin') {
       const validLinkInUrl = url.startsWith('https://www.linkedin.com/');
