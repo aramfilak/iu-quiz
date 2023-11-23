@@ -21,22 +21,25 @@ function Authentication() {
   }, []);
 
   return (
-    <Box minH="100vh" display="flex" justifyContent="center" alignContent="center">
+    <Box
+      position="relative"
+      minHeight="100vh"
+      display="flex"
+      justifyContent="center"
+      alignContent="center"
+      overflowX="hidden"
+    >
       <Container
         className="auth-container"
         maxW="container.lg"
         display={{ base: 'flex' }}
         flexDirection={{ base: 'column', md: 'row' }}
         alignItems="center"
+        justifyContent="center"
         gap="4rem"
       >
         {isShowSingInForm ? <SignInForm /> : <SignUpForm />}
         <Image
-          _hover={{
-            filter: 'drop-shadow(0 0 2em #319795)',
-            willChange: 'filter',
-            transition: 'filter 300ms'
-          }}
           src={authenticationIllustration01}
           alt="authentication illustration"
           width={{ base: '20rem', md: '25rem', xl: '27rem' }}

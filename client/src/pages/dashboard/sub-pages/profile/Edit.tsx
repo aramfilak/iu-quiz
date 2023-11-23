@@ -229,7 +229,7 @@ function Edit() {
                   borderTopLeftRadius="0"
                   borderBottomLeftRadius="0"
                   ref={courseOfStudySelectRef}
-                  placeholder="Studiengang"
+                  placeholder="Studiengang nicht anzeigen"
                   defaultValue={studentProfile?.courseOfStudy || ''}
                 >
                   {courseOfStudy.map(({ name, careId }) => (
