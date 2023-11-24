@@ -42,7 +42,7 @@ function accordionTheme() {
     button: {
       borderRadius: ' 5px 5px  0 0',
       p: '2',
-      fontWeight: '600',
+      fontWeight: '500',
       bg: 'gray.50',
       textAlign: 'left',
       _dark: {
@@ -59,13 +59,13 @@ function accordionTheme() {
     },
     panel: {
       pb: '4',
-      bg: 'teal.500',
-      color: 'gray.50',
+      bg: 'gray.300',
+      color: 'gray.80',
       textAlign: 'left',
       borderRadius: '0 0 5px 5px ',
       _dark: {
-        bg: 'teal.200',
-        color: 'gray.800'
+        bg: 'gray.600',
+        color: 'white'
       }
     }
   });

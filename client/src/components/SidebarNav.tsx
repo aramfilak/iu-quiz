@@ -1,12 +1,4 @@
-import {
-  useColorModeValue,
-  Flex,
-  CloseButton,
-  Box,
-  Text,
-  BoxProps,
-  Button
-} from '@chakra-ui/react';
+import { Flex, CloseButton, Box, Text, BoxProps, Button } from '@chakra-ui/react';
 import { NavItem } from '.';
 import { routes } from '../utils/routes';
 import { useNavigate } from 'react-router-dom';
@@ -26,9 +18,10 @@ function SidebarNav({ onClose, isCollapsed, toggleSidebar, ...rest }: SidebarPro
   return (
     <Box
       transition="0.1s ease"
-      bg={useColorModeValue('white', 'gray.900')}
+      bg="white"
       borderRight="1px"
-      borderRightColor={useColorModeValue('gray.200', 'gray.700')}
+      borderRightColor="gray.200"
+      _dark={{ bg: 'gray.900', borderRightColor: 'gray.700' }}
       w={{ base: 'full', md: isCollapsed ? '4.1rem' : 60 }}
       pos="fixed"
       h="full"
@@ -82,15 +75,16 @@ function SidebarNav({ onClose, isCollapsed, toggleSidebar, ...rest }: SidebarPro
 
       {/* ________________ Collapse Button ____________________ */}
       <Button
-        top="4rem"
-        height="2.1rem"
-        position="absolute"
         width="full"
+        position="absolute"
+        top="4rem"
+        right={isCollapsed ? 'initial' : '0'}
+        height="2.1rem"
+        colorScheme="gray"
         display={{ base: 'none', md: 'flex' }}
         onClick={toggleSidebar}
         variant="ghost"
         leftIcon={isCollapsed ? <FiChevronRight /> : <FiChevronLeft />}
-        right={isCollapsed ? 'initial' : '0'}
         alignItems="center"
         pl="1.5rem"
       ></Button>

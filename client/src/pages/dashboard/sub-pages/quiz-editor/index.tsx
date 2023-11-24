@@ -1,13 +1,4 @@
-import {
-  InputGroup,
-  Input,
-  Select,
-  InputLeftAddon,
-  Tooltip,
-  Box,
-  VStack,
-  useColorModeValue
-} from '@chakra-ui/react';
+import { InputGroup, Input, Select, InputLeftAddon, Tooltip, Box, VStack } from '@chakra-ui/react';
 import { useState, useRef } from 'react';
 import { useStudentStore } from '../../../../sotres';
 import courseOfStudy from '../../../../data/courseOfStudy.json';
@@ -31,9 +22,9 @@ function QuizEditor() {
       <PageHeader title={'Quiz - Editor'} description="Erstelle dein eigenes Quiz" />
       <VStack spacing="1rem" align="center" mx={{ base: '1rem', lg: '0' }}>
         {/*------------------- Quiz title --------------------*/}
-        <InputGroup w="100%" bg={useColorModeValue('white', 'gray.800')}>
+        <InputGroup w="100%" bg="white" _dark={{ bg: 'gray.800' }}>
           <Tooltip label="Quiz Titel">
-            <InputLeftAddon borderColor="teal.700" bg={useColorModeValue('white', 'gray.800')}>
+            <InputLeftAddon borderColor="teal.700" bg="white" _dark={{ bg: 'gray.800' }}>
               <FaEdit />
             </InputLeftAddon>
           </Tooltip>
@@ -48,9 +39,9 @@ function QuizEditor() {
         </InputGroup>
 
         {/*------------------- Course Of Study --------------------*/}
-        <InputGroup w="100%" bg={useColorModeValue('white', 'gray.800')}>
+        <InputGroup w="100%" bg="white" _dark={{ bg: 'gray.800' }}>
           <Tooltip label="Studiengang">
-            <InputLeftAddon borderColor="teal.700" bg={useColorModeValue('white', 'gray.800')}>
+            <InputLeftAddon borderColor="teal.700" bg="white" _dark={{ bg: 'gray.800' }}>
               <FaGraduationCap />
             </InputLeftAddon>
           </Tooltip>
@@ -60,7 +51,8 @@ function QuizEditor() {
             borderBottomLeftRadius="0"
             ref={courseOfStudySelectRef}
             defaultValue={studentProfile?.courseOfStudy || ''}
-            bg={useColorModeValue('white', 'gray.800')}
+            bg="white"
+            _dark={{ bg: 'gray.800' }}
             borderColor="teal.700"
             borderWidth="1px"
           >
@@ -76,9 +68,9 @@ function QuizEditor() {
         </InputGroup>
 
         {/*------------------- Course --------------------*/}
-        <InputGroup w="100%" bg={useColorModeValue('white', 'gray.800')}>
+        <InputGroup w="100%" bg="white" _dark={{ bg: 'gray.800' }}>
           <Tooltip label="Modul">
-            <InputLeftAddon borderColor="teal.700" bg={useColorModeValue('white', 'gray.800')}>
+            <InputLeftAddon borderColor="teal.700" bg="white" _dark={{ bg: 'gray.800' }}>
               <FaBook />
             </InputLeftAddon>
           </Tooltip>
@@ -87,7 +79,8 @@ function QuizEditor() {
             borderBottomLeftRadius="0"
             ref={moduleSelectRef}
             defaultValue={''}
-            bg={useColorModeValue('white', 'gray.800')}
+            bg="white"
+            _dark={{ bg: 'gray.800' }}
             borderColor="teal.700"
             borderWidth="1px"
           >
