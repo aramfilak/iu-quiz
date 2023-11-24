@@ -14,7 +14,7 @@ function BoxWrapper({ children, ...rest }: WrapperBoxProps) {
       p="1rem"
       borderRadius="md"
       display="flex"
-      justifyContent="center"
+      justifyContent="start"
       alignItems="start"
       flexDir="column"
       gap="1rem"

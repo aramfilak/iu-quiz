@@ -31,7 +31,7 @@ function QuizEditor() {
           <Input
             borderTopLeftRadius="0"
             borderBottomLeftRadius="0"
-            borderColor="teal.700"
+            borderColor="teal.500"
             autoComplete="on"
             id="nick-name"
             placeholder="Quiz - Titel"
@@ -53,7 +53,7 @@ function QuizEditor() {
             defaultValue={studentProfile?.courseOfStudy || ''}
             bg="white"
             _dark={{ bg: 'gray.800' }}
-            borderColor="teal.700"
+            borderColor="teal.500"
             borderWidth="1px"
           >
             <option value="" disabled hidden>
@@ -81,8 +81,9 @@ function QuizEditor() {
             defaultValue={''}
             bg="white"
             _dark={{ bg: 'gray.800' }}
-            borderColor="teal.700"
-            borderWidth="1px"
+            borderColor="teal.500"
+            borderWidth="2px"
+            borderLeft="none"
           >
             <option value="" disabled hidden>
               Modul auswählen

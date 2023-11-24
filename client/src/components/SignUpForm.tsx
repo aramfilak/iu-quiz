@@ -75,7 +75,7 @@ function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
           autoComplete="on"
           id="email"
           placeholder="max.muster@iu-study.org"
-          borderColor="teal.700"
+          borderColor="teal.500"
           _placeholder={{ color: placeHolderColor }}
         />
         <InputLeftElement>
@@ -92,7 +92,7 @@ function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
           autoComplete="on"
           id="password"
           type={showPassword ? 'text' : 'password'}
-          borderColor="teal.700"
+          borderColor="teal.500"
           placeholder="Passwort eingeben"
           _placeholder={{ color: placeHolderColor }}
         />
@@ -134,7 +134,7 @@ function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
           id="passwordConfirm"
           autoComplete="on"
           type={showPassword ? 'text' : 'password'}
-          borderColor="teal.700"
+          borderColor="teal.500"
           placeholder="Passwort bestätigen"
         />
         <InputLeftElement>

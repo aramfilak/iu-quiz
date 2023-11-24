@@ -188,7 +188,7 @@ function Edit() {
                   borderBottomLeftRadius="0"
                   onChange={handelChange}
                   ref={nameInputRef}
-                  borderColor="teal.700"
+                  borderColor="teal.500"
                   autoComplete="on"
                   id="nick-name"
                   placeholder="Name"
@@ -209,7 +209,7 @@ function Edit() {
                   borderBottomLeftRadius="0"
                   onChange={handelChange}
                   ref={locationInputRef}
-                  borderColor="teal.700"
+                  borderColor="teal.500"
                   autoComplete="on"
                   id="location"
                   placeholder="Wohnort"
@@ -226,8 +226,6 @@ function Edit() {
                 </Tooltip>
                 <Select
                   onChange={handelChange}
-                  borderTopLeftRadius="0"
-                  borderBottomLeftRadius="0"
                   ref={courseOfStudySelectRef}
                   placeholder="Studiengang nicht anzeigen"
                   defaultValue={studentProfile?.courseOfStudy || ''}
@@ -255,7 +253,7 @@ function Edit() {
                 <Input
                   borderTopLeftRadius="0"
                   borderBottomLeftRadius="0"
-                  borderColor="teal.700"
+                  borderColor="teal.500"
                   onChange={handelChange}
                   ref={linkedInInputRef}
                   autoComplete="on"
@@ -275,7 +273,7 @@ function Edit() {
                 <Input
                   borderTopLeftRadius="0"
                   borderBottomLeftRadius="0"
-                  borderColor="teal.700"
+                  borderColor="teal.500"
                   onChange={handelChange}
                   ref={xingInputRef}
                   autoComplete="on"

@@ -160,6 +160,7 @@ function inputTheme() {
 
   return defineMultiStyleConfig({
     defaultProps: {
+      variant: 'filled',
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
       focusBorderColor: 'teal.500'
@@ -185,22 +186,16 @@ function selectTheme() {
 
   const baseStyle = definePartsStyle({
     field: {
+      borderColor: 'teal.500',
+      borderWidth: '2px',
+      borderTopLeftRadius: '0',
+      borderBottomLeftRadius: '0',
       background: 'gray.200',
       borderRadius: 'md',
       color: 'gray.800',
       _dark: {
         color: 'white',
-        bg: 'gray.500',
-        borderColor: 'teal.700'
-      },
-      borderColor: 'teal.700',
-      _focusWithin: {
-        ringColor: 'teal.500',
-        ring: '1px',
-        borderColor: 'gray.800',
-        _dark: {
-          borderColor: 'teal.500'
-        }
+        bg: 'gray.700'
       }
     },
     icon: {

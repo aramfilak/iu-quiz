@@ -67,7 +67,7 @@ function SignInForm(rest: React.HTMLProps<HTMLFormElement>) {
       </FormLabel>
       <InputGroup>
         <Input
-          borderColor="teal.700"
+          borderColor="teal.500"
           ref={emailInputRef}
           autoComplete="on"
           id="email"
@@ -84,7 +84,7 @@ function SignInForm(rest: React.HTMLProps<HTMLFormElement>) {
       </FormLabel>
       <InputGroup>
         <Input
-          borderColor="teal.700"
+          borderColor="teal.500"
           ref={passwordInputRef}
           autoComplete="on"
           id="password"
