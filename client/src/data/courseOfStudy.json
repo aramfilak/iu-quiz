@@ -1,656 +1,494 @@
 [
   {
-    "name": "Soziale Arbeit",
-    "ects": 180,
-    "language": "de",
-    "careId": "104"
-  },
-  {
-    "name": "Psychologie",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007883"
-  },
-  {
-    "name": "Wirtschafts­recht",
-    "ects": 180,
-    "language": "de",
-    "careId": "59"
-  },
-  {
-    "name": "Kindheitspädagogik",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007868"
-  },
-  {
-    "name": "Physician Assistant",
-    "ects": 180,
-    "language": "de",
-    "careId": "10008788"
-  },
-  {
-    "name": "Betriebswirtschaftslehre",
-    "ects": 180,
-    "language": "de",
-    "careId": "23"
-  },
-  {
-    "name": "Ernährungswissen­schaften",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007818"
-  },
-  {
-    "name": "Gesundheits­management",
-    "ects": 180,
-    "language": "de",
-    "careId": "56"
-  },
-  {
-    "name": "Mediendesign",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007836"
-  },
-  {
-    "name": "Gesundheits­psychologie",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007884"
-  },
-  {
-    "name": "Wirtschaftspsychologie",
-    "ects": 180,
-    "language": "de",
-    "careId": "130"
-  },
-  {
-    "name": "Bauingenieurwesen",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007873"
-  },
-  {
-    "name": "Personal­management",
-    "ects": 180,
-    "language": "de",
-    "careId": "58"
-  },
-  {
-    "name": "Heilpädagogik",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007826"
-  },
-  {
-    "name": "Kommunikations­psychologie",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007885"
-  },
-  {
     "name": "Informatik",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007828"
-  },
-  {
-    "name": "Pädagogik",
-    "ects": 180,
-    "language": "de",
-    "careId": "10008069"
-  },
-  {
-    "name": "Immobilien­management",
-    "ects": 180,
-    "language": "de",
-    "careId": "114"
-  },
-  {
-    "name": "Architektur",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007886"
+    "courses": [
+      {
+        "title": "Mathematik Grundlagen I",
+        "shortcode": "IMT101"
+      },
+      {
+        "title": "Einführung in das wissenschaftliche Arbeiten für IT und Technik",
+        "shortcode": "DLBWIRITT"
+      },
+      {
+        "title": "Betriebswirtschaftslehre",
+        "shortcode": "BBWL01-01"
+      },
+      {
+        "title": "Betriebswirtschaftslehre",
+        "shortcode": "BBWL02-01"
+      },
+      {
+        "title": "Grundlagen der industriellen Softwaretechnik",
+        "shortcode": "IGIS01"
+      },
+      {
+        "title": "Digital Skills",
+        "shortcode": "DLBDS01-01"
+      },
+      {
+        "title": "Objektorientierte Programmierung",
+        "shortcode": "IOBP01"
+      },
+      {
+        "title": "Objektorientierte Programmierung",
+        "shortcode": "DLBCSDSJCL02_D"
+      },
+      {
+        "title": "Einführung in das Internet of Things",
+        "shortcode": "DLBINGEIT01"
+      },
+      {
+        "title": "Mathematik Grundlagen II",
+        "shortcode": "IMT102-01"
+      },
+      {
+        "title": "Programmierung von Webanwendungen",
+        "shortcode": "IPWA01-01"
+      },
+      {
+        "title": "Programmierung von Webanwendungen",
+        "shortcode": "IPWA02-01"
+      },
+      {
+        "title": "Requirements Engineering",
+        "shortcode": "IREN01"
+      },
+      {
+        "title": "Statistik",
+        "shortcode": "BSTA01-02"
+      },
+      {
+        "title": "Betriebssysteme, Rechnernetze und verteilte Systeme",
+        "shortcode": "DLBIBRVS01"
+      },
+      {
+        "title": "Algorithmen, Datenstrukturen und Programmiersprachen",
+        "shortcode": "DLBIADPS01"
+      },
+      {
+        "title": "Datenmodellierung und Datenbanksysteme",
+        "shortcode": "IDBS01"
+      },
+      {
+        "title": "Spezifikation",
+        "shortcode": "ISPE01"
+      },
+      {
+        "title": "IT-Projektmanagement",
+        "shortcode": "IPMG01-01"
+      },
+      {
+        "title": "IT-Servicemanagement",
+        "shortcode": "IWSM01"
+      },
+      {
+        "title": "Projekt: IT-Servicemanagement",
+        "shortcode": "IWSM02"
+      },
+      {
+        "title": "Qualitätssicherung im Softwareprozess",
+        "shortcode": "IQSS01"
+      },
+      {
+        "title": "Theoretische Informatik und Mathematische Logik",
+        "shortcode": "DLBITIML01"
+      },
+      {
+        "title": "Projekt: Software Engineering",
+        "shortcode": "ISEF01"
+      },
+      {
+        "title": "IT-Recht",
+        "shortcode": "DLBIITR01"
+      },
+      {
+        "title": "IT-Sicherheit",
+        "shortcode": "DLBISIC01"
+      },
+      {
+        "title": "IT-Sicherheit",
+        "shortcode": "DLBISIC02-01"
+      },
+      {
+        "title": "Künstliche Intelligenz",
+        "shortcode": "DLBIKI01"
+      },
+      {
+        "title": "Data Analytics und Big Data",
+        "shortcode": "DLBINGDADB01"
+      },
+      {
+        "title": "Seminar Software Engineering",
+        "shortcode": "ISSE01"
+      },
+      {
+        "title": "Informatik und Gesellschaft",
+        "shortcode": "DLBIIUG01"
+      }
+    ]
   },
   {
     "name": "Wirtschaftsinformatik",
-    "ects": 180,
-    "language": "de",
-    "careId": "33"
-  },
-  {
-    "name": "Kommunikations­design",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007845"
-  },
-  {
-    "name": "Pflege",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007950"
-  },
-  {
-    "name": "Marketing",
-    "ects": 180,
-    "language": "de",
-    "careId": "57"
-  },
-  {
-    "name": "Public Management",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007936"
-  },
-  {
-    "name": "Innenarchitektur",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007978"
-  },
-  {
-    "name": "Finanzmanagement",
-    "ects": 180,
-    "language": "de",
-    "careId": "55"
-  },
-  {
-    "name": "Pflegepädagogik",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007869"
-  },
-  {
-    "name": "Angewandte Psychologie",
-    "ects": 180,
-    "language": "de",
-    "careId": "10008048"
-  },
-  {
-    "name": "Pflege­management",
-    "ects": 180,
-    "language": "de",
-    "careId": "103"
-  },
-  {
-    "name": "Physiotherapie",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007870"
-  },
-  {
-    "name": "Elektrotechnik",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007969"
-  },
-  {
-    "name": "Wirtschaftsingenieurwesen Industrie 4.0",
-    "ects": 180,
-    "language": "de",
-    "careId": "116"
-  },
-  {
-    "name": "Betriebswirtschaftslehre und Führung",
-    "ects": 180,
-    "language": "de",
-    "careId": "10008976"
-  },
-  {
-    "name": "Event­management",
-    "ects": 180,
-    "language": "de",
-    "careId": "112"
-  },
-  {
-    "name": "Umweltingenieurwesen",
-    "ects": 180,
-    "language": "de",
-    "careId": "10008621"
-  },
-  {
-    "name": "Social Media",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007960"
-  },
-  {
-    "name": "Sozialmanagement",
-    "ects": 180,
-    "language": "de",
-    "careId": "127"
-  },
-  {
-    "name": "International Management",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007874"
-  },
-  {
-    "name": "Bauprojekt­management",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007938"
-  },
-  {
-    "name": "Sportmanagement",
-    "ects": 180,
-    "language": "de",
-    "careId": "129"
-  },
-  {
-    "name": "Gesundheitspädagogik",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007949"
-  },
-  {
-    "name": "Pädagogik für Bildung, Beratung und Personalentwicklung",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007827"
-  },
-  {
-    "name": "Online Marketing",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007848"
-  },
-  {
-    "name": "Projektmanagement",
-    "ects": 180,
-    "language": "de",
-    "careId": "10008056"
-  },
-  {
-    "name": "Medienmanagement",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007846"
-  },
-  {
-    "name": "Game Design",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007954"
-  },
-  {
-    "name": "Logistik­management",
-    "ects": 180,
-    "language": "de",
-    "careId": "102"
-  },
-  {
-    "name": "Journalismus",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007961"
-  },
-  {
-    "name": "UX (User Experience Design)",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007888"
-  },
-  {
-    "name": "Data Science",
-    "ects": 180,
-    "language": "en",
-    "careId": "10007851_DS"
-  },
-  {
-    "name": "New Work",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007940"
-  },
-  {
-    "name": "Cyber Security",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007998"
+    "courses": [
+      {
+        "title": "Einführung in die Wirtschaftsinformatik",
+        "shortcode": "DLBWIEWI01"
+      },
+      {
+        "title": "Betriebswirtschaftslehre",
+        "shortcode": "BBWL01-01"
+      },
+      {
+        "title": "Betriebswirtschaftslehre",
+        "shortcode": "BBWL02-01"
+      },
+      {
+        "title": "Einführung in das wissenschaftliche Arbeiten für IT und Technik",
+        "shortcode": "BWIRITT"
+      },
+      {
+        "title": "Mathematik Grundlagen I",
+        "shortcode": "IMT101"
+      },
+      {
+        "title": "Requirements Engineering",
+        "shortcode": "IREN01"
+      },
+      {
+        "title": "Grundlagen der objektorientierten Programmierung mit Java",
+        "shortcode": "IOBP01"
+      },
+      {
+        "title": "Kollaboratives Arbeiten",
+        "shortcode": "DLBKA01"
+      },
+      {
+        "title": "Investition und Finanzierung",
+        "shortcode": "DLBLOFUI01-01"
+      },
+      {
+        "title": "Datenstruktur und Java-Klassenbibliothek",
+        "shortcode": "DLBCSDSJCL02_D"
+      },
+      {
+        "title": "Statistik",
+        "shortcode": "BSTA01-02"
+      },
+      {
+        "title": "Datenmodellierung und Datenbanksysteme",
+        "shortcode": "IDBS01"
+      },
+      {
+        "title": "Einführung in das Prozessmanagement",
+        "shortcode": "DLBWIEPM01"
+      },
+      {
+        "title": "Grundlagen der IT- und ERP-Systeme",
+        "shortcode": "DLBFMGSYS01"
+      },
+      {
+        "title": "Programmierung von Web-Anwendungsoberflächen",
+        "shortcode": "IPWA01"
+      },
+      {
+        "title": "Programmierung von industriellen Informationssytemen mit Java EE",
+        "shortcode": "IPWA02"
+      },
+      {
+        "title": "Kosten- und Leistungsrechnung",
+        "shortcode": "BKLR01-01"
+      },
+      {
+        "title": "Kosten- und Leistungsrechnung",
+        "shortcode": "BKLR02-01"
+      },
+      {
+        "title": "Interkulturelle und ethische Handlungskompetenzen",
+        "shortcode": "DLBIHK01"
+      },
+      {
+        "title": "Qualitätssicherung im Softwareprozess",
+        "shortcode": "IQSS01"
+      },
+      {
+        "title": "Data Analytics und Big Data",
+        "shortcode": "DLBINGDABD01"
+      },
+      {
+        "title": "Einkauf, Beschaffung und Distribution",
+        "shortcode": "DLBLOISCM102"
+      },
+      {
+        "title": "IT-Recht",
+        "shortcode": "DLBIITR01"
+      },
+      {
+        "title": "IT-Projektmanagement",
+        "shortcode": "IPMG01-01"
+      },
+      {
+        "title": "Projekt Software Engineering",
+        "shortcode": "ISEF01 Projekt Software Engineering"
+      },
+      {
+        "title": "Marketing",
+        "shortcode": "BMAR01-01"
+      },
+      {
+        "title": "Marketing",
+        "shortcode": "BMAR02-01"
+      },
+      {
+        "title": "Personal und Unternehmensführung",
+        "shortcode": "DLBBWPU01"
+      },
+      {
+        "title": "Seminar: Software Engineering",
+        "shortcode": "ISSE01"
+      },
+      {
+        "title": "Digitale Business-Modelle",
+        "shortcode": "DLBLODB01"
+      },
+      {
+        "title": "Organizational Behavior",
+        "shortcode": "DLBBWOB01"
+      }
+    ]
   },
   {
     "name": "Softwareentwicklung",
-    "ects": 180,
-    "language": "de",
-    "careId": "10008072"
-  },
-  {
-    "name": "Agrarmanagement",
-    "ects": 180,
-    "language": "de",
-    "careId": "10008308"
-  },
-  {
-    "name": "Digital Health",
-    "ects": 180,
-    "language": "de",
-    "careId": "10008777"
-  },
-  {
-    "name": "Angewandte Künstliche Intelligenz",
-    "ects": 180,
-    "language": "de",
-    "careId": "10008555"
-  },
-  {
-    "name": "Erwachsenenbildung, Beratung und Personalentwicklung",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007827_EBP"
-  },
-  {
-    "name": "Tourismusmanagement",
-    "ects": 180,
-    "language": "de",
-    "careId": "119"
-  },
-  {
-    "name": "Digital Business",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007819"
-  },
-  {
-    "name": "Modemanagement",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007937"
-  },
-  {
-    "name": "Medizintechnik",
-    "ects": 180,
-    "language": "de",
-    "careId": "10008084"
-  },
-  {
-    "name": "E-Commerce",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007847"
-  },
-  {
-    "name": "Digitale Betriebswirtschaftslehre",
-    "ects": 180,
-    "language": "de",
-    "careId": "10008977"
-  },
-  {
-    "name": "Produktdesign",
-    "ects": 180,
-    "language": "de",
-    "careId": "10008154"
-  },
-  {
-    "name": "Internationales Marketing",
-    "ects": 180,
-    "language": "de",
-    "careId": "10008053"
+    "courses": [
+      {
+        "title": "Grundlagen der industriellen Softwaretechnik",
+        "shortcode": "IGIS01"
+      },
+      {
+        "title": "Einführung in das wissenschaftliche Arbeiten für IT und Technik",
+        "shortcode": "DLBWIRITT01"
+      },
+      {
+        "title": "Requirements Engineering",
+        "shortcode": "IREN01"
+      },
+      {
+        "title": "Spezifikation",
+        "shortcode": "ISPE01"
+      },
+      {
+        "title": "Grundlagen der objektorientierten Programmierung mit Java",
+        "shortcode": "IOBP01"
+      },
+      {
+        "title": "Datenmodellierung und Datenbanksysteme",
+        "shortcode": "IDBS01"
+      },
+      {
+        "title": "Datenstruktur und Java-Klassenbibliothek",
+        "shortcode": "DLBCSDSJCL02_D"
+      },
+      {
+        "title": "Kollaboratives Arbeiten",
+        "shortcode": "DLBKA01"
+      },
+      {
+        "title": "Programmierung von Web-Anwendungsoberflächen",
+        "shortcode": "IPWA01-01"
+      },
+      {
+        "title": "Algorithmen, Datenstrukturen und Programmiersprachen",
+        "shortcode": "DLBIADPS01"
+      },
+      {
+        "title": "Qualitätssicherung im Softwareprozess",
+        "shortcode": "IQSS01"
+      },
+      {
+        "title": "IT-Architekturmanagement",
+        "shortcode": "IAMG01"
+      },
+      {
+        "title": "Programmierung von industriellen Informationssytemen mit Java EE",
+        "shortcode": "IPWA02-01"
+      },
+      {
+        "title": "Ethik und Nachhaltigkeit in der IT",
+        "shortcode": "DLBSEPENIT01_D"
+      },
+      {
+        "title": "IT-Projektmanagement",
+        "shortcode": "IPMG01-01"
+      },
+      {
+        "title": "Techniken und Methoden der agilen Softwareentwicklung",
+        "shortcode": "DLBWIWTMAS01"
+      },
+      {
+        "title": "Mobile Software Engineering am Beispiel der Android-Plattform",
+        "shortcode": "DLBCSEMSE01_D"
+      },
+      {
+        "title": "Seminar \"Software Engineering\"",
+        "shortcode": "ISSE01"
+      },
+      {
+        "title": "Projekt Agiles Software Engineering",
+        "shortcode": "IWNF02"
+      },
+      {
+        "title": "IT-Infrastruktur",
+        "shortcode": "DLBSEPITI01_D"
+      },
+      {
+        "title": "IT-Service Management",
+        "shortcode": "IWSM01"
+      },
+      {
+        "title": "Projekt: Mobile Software Engineering II",
+        "shortcode": "DLBCSEMSE02_D"
+      },
+      {
+        "title": "Cloud Programming",
+        "shortcode": "DLBSEPCP01_D"
+      },
+      {
+        "title": "Einführung in Datenschutz und IT-Sicherheit",
+        "shortcode": "DLBISIC01"
+      },
+      {
+        "title": "DevOps und Continuous Delivery",
+        "shortcode": "DLBSEPDOCD01_D"
+      },
+      {
+        "title": "Gestaltung und Ergonomie von User Interfaces",
+        "shortcode": "DLBMIUID01"
+      },
+      {
+        "title": "Einführung in die Programmierung mit Python",
+        "shortcode": "DLBDSIPWP01_D"
+      },
+      {
+        "title": "Projekt: Software Development",
+        "shortcode": "DLBSEPPSD01_D"
+      }
+    ]
   },
   {
     "name": "Medieninformatik",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007829"
-  },
-  {
-    "name": "Business Administration",
-    "ects": 180,
-    "language": "en",
-    "careId": "10007953"
-  },
-  {
-    "name": "Engineering",
-    "ects": 180,
-    "language": "en",
-    "careId": "10008091"
-  },
-  {
-    "name": "Gesundheitsökonomie",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007935"
-  },
-  {
-    "name": "Public Relations",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007844"
-  },
-  {
-    "name": "Kultur- und Medienpädagogik",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007962"
-  },
-  {
-    "name": "Computer Science",
-    "ects": 180,
-    "language": "en",
-    "careId": "10007944"
-  },
-  {
-    "name": "Ergotherapie",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007946"
-  },
-  {
-    "name": "Logopädie",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007947"
-  },
-  {
-    "name": "Diätetik",
-    "ects": 180,
-    "language": "de",
-    "careId": "10008147"
-  },
-  {
-    "name": "Aviation Management",
-    "ects": 180,
-    "language": "en",
-    "careId": "10008295"
-  },
-  {
-    "name": "International Healthcare Management",
-    "ects": 180,
-    "language": "en",
-    "careId": "10008144"
-  },
-  {
-    "name": "International Management",
-    "ects": 180,
-    "language": "en",
-    "careId": "10008002"
-  },
-  {
-    "name": "Management",
-    "ects": 240,
-    "language": "en",
-    "careId": "10008630"
-  },
-  {
-    "name": "Gerontologie",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007948"
-  },
-  {
-    "name": "Fitnessökonomie",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007867"
-  },
-  {
-    "name": "Business Intelligence",
-    "ects": 180,
-    "language": "de",
-    "careId": "10008562"
-  },
-  {
-    "name": "Entrepreneurship",
-    "ects": 180,
-    "language": "de",
-    "careId": "10008057"
-  },
-  {
-    "name": "Facility Management",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007939"
-  },
-  {
-    "name": "Applied Psychology",
-    "ects": 180,
-    "language": "en",
-    "careId": "10008623"
-  },
-  {
-    "name": "Hotel­management",
-    "ects": 180,
-    "language": "de",
-    "careId": "113"
-  },
-  {
-    "name": "Produktmanagement",
-    "ects": 180,
-    "language": "de",
-    "careId": "10008055"
-  },
-  {
-    "name": "Robotics",
-    "ects": 180,
-    "language": "de",
-    "careId": "10007955"
-  },
-  {
-    "name": "Cyber Security",
-    "ects": 180,
-    "language": "en",
-    "careId": "10007999"
-  },
-  {
-    "name": "Betriebswirtschaftslehre und Customer Experience Management",
-    "ects": 180,
-    "language": "de",
-    "careId": "10008975"
-  },
-  {
-    "name": "FinTech",
-    "ects": 180,
-    "language": "de",
-    "careId": "10008737"
-  },
-  {
-    "name": "AR/VR/XR Development & Design",
-    "ects": 180,
-    "language": "de",
-    "careId": "10008760"
-  },
-  {
-    "name": "Business and IT",
-    "ects": 180,
-    "language": "en",
-    "careId": "10008001"
-  },
-  {
-    "name": "Software Development",
-    "ects": 180,
-    "language": "en",
-    "careId": "10008074"
-  },
-  {
-    "name": "Applied Artificial Intelligence",
-    "ects": 180,
-    "language": "en",
-    "careId": "10008073"
-  },
-  {
-    "name": "Industrial and Organizational Psychology",
-    "ects": 180,
-    "language": "en",
-    "careId": "10008626"
-  },
-  {
-    "name": "Growth Hacking",
-    "ects": 180,
-    "language": "de",
-    "careId": "10008728"
-  },
-  {
-    "name": "Industrial Engineering and Management",
-    "ects": 180,
-    "language": "en",
-    "careId": "10008000"
-  },
-  {
-    "name": "Hospitality Management",
-    "ects": 180,
-    "language": "en",
-    "careId": "10008294"
-  },
-  {
-    "name": "Customer Centricity",
-    "ects": 180,
-    "language": "de",
-    "careId": "10008640"
-  },
-  {
-    "name": "Digital Business",
-    "ects": 180,
-    "language": "en",
-    "careId": "10008068"
-  },
-  {
-    "name": "Entrepreneurship",
-    "ects": 180,
-    "language": "en",
-    "careId": "10008062"
-  },
-  {
-    "name": "Robotics",
-    "ects": 180,
-    "language": "en",
-    "careId": "10007964"
-  },
-  {
-    "name": "Mechatronik",
-    "ects": 180,
-    "language": "de",
-    "careId": "10008610"
-  },
-  {
-    "name": "Soziale Arbeit Schwerpunkt Kinder und Jugendliche",
-    "ects": 180,
-    "language": "de",
-    "careId": "10009222"
-  },
-  {
-    "name": "Maschinenbau",
-    "ects": 180,
-    "language": "de",
-    "careId": "10008622"
-  },
-  {
-    "name": "Wirtschaftsingenieurwesen Medizintechnik",
-    "ects": 180,
-    "language": "de",
-    "careId": "10008638"
-  },
-  {
-    "name": "Wirtschaftsingenieurwesen Maschinenbau",
-    "ects": 180,
-    "language": "de",
-    "careId": "10008636"
-  },
-  {
-    "name": "Wirtschaftsingenieurwesen Elektrotechnik",
-    "ects": 180,
-    "language": "de",
-    "careId": "10008637"
+    "courses": [
+      {
+        "title": "Grundlagen der industriellen Softwaretechnik",
+        "shortcode": "IGIS01"
+      },
+      {
+        "title": "Digitale Medienformate",
+        "shortcode": "DLBMIDMF01"
+      },
+      {
+        "title": "Einführung in das wissenschaftliche Arbeiten",
+        "shortcode": "BWIR01-01"
+      },
+      {
+        "title": "Mathematik Grundlagen I",
+        "shortcode": "IMT101"
+      },
+      {
+        "title": "Grundlagen der objektorientierten Programmierung mit Java",
+        "shortcode": "IOBP01"
+      },
+      {
+        "title": "Datenstrukturen und JAVA Klassenbibliothek",
+        "shortcode": "IOBP02"
+      },
+      {
+        "title": "Designgrundlagen: sehen und verstehen",
+        "shortcode": "DLBKDDSV01-02"
+      },
+      {
+        "title": "Kollaboratives Arbeiten",
+        "shortcode": "DLBKA01"
+      },
+      {
+        "title": "Medienplattformen und -systeme",
+        "shortcode": "DLBMIMPFS01"
+      },
+      {
+        "title": "Gestaltung und Ergonomie von User Interfaces",
+        "shortcode": "DLBMIUID01"
+      },
+      {
+        "title": "Betriebssysteme, Rechnernetze und verteilte Systeme",
+        "shortcode": "DLBIBRVS01"
+      },
+      {
+        "title": "Projekt User Interface Design",
+        "shortcode": "DLBMIUID02"
+      },
+      {
+        "title": "Programmierung von industriellen Informationssystemen mit Java EE",
+        "shortcode": "IPWA02-01"
+      },
+      {
+        "title": "Datenmodellierung und Datenbanksysteme",
+        "shortcode": "IDBS01"
+      },
+      {
+        "title": "Programmierung von Web-Anwendungsoberflächen",
+        "shortcode": "IPWA01-01"
+      },
+      {
+        "title": "Interkulturelle und ethische Handlungskompetenzen",
+        "shortcode": "DLBIHK01"
+      },
+      {
+        "title": "Informatik und Gesellschaft",
+        "shortcode": "DLBIIUG01"
+      },
+      {
+        "title": "Projekt: Web-Programmierung",
+        "shortcode": "DLBUXPWP01"
+      },
+      {
+        "title": "Einführung in Computer Graphics",
+        "shortcode": "DLBAVRECC01"
+      },
+      {
+        "title": "Augmented, Mixed und Virtual Reality",
+        "shortcode": "DLBMIAMVR01"
+      },
+      {
+        "title": "Medienrecht",
+        "shortcode": "DLBMIMR01"
+      },
+      {
+        "title": "Digitale Medienproduktion",
+        "shortcode": "DLBMDWDMP01-01"
+      },
+      {
+        "title": "Gestaltung interaktiver Medien",
+        "shortcode": "DLBMIGIM01"
+      },
+      {
+        "title": "Darstellen: Fotografie und Video",
+        "shortcode": "DLBIADFV01"
+      },
+      {
+        "title": "Digital Publishing",
+        "shortcode": "DLBMDDP01"
+      },
+      {
+        "title": "Grundlagen der Animation",
+        "shortcode": "DLBMIGA01"
+      },
+      {
+        "title": "Seminar: Gesellschaft und Digitale Medien",
+        "shortcode": "DLBMISGDM01"
+      },
+      {
+        "title": "Projekt Medieninformatik",
+        "shortcode": "DLBMIPMI01"
+      }
+    ]
   }
 ]

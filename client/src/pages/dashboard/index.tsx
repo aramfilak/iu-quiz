@@ -17,16 +17,11 @@ function Dashboard() {
         onClose={onClose}
         isCollapsed={isSidebarCollapsed}
         toggleSidebar={toggleSidebar}
-        setCollapsedTrue={() => setSidebarCollapsed(true)}
         display={{ base: 'none', md: 'block' }}
       />
       <Drawer isOpen={isOpen} onClose={onClose} placement="left" size="full">
         <DrawerContent>
-          <SidebarNav
-            onClose={onClose}
-            isCollapsed={isSidebarCollapsed}
-            setCollapsedTrue={() => setSidebarCollapsed(true)}
-          />
+          <SidebarNav onClose={onClose} isCollapsed={isSidebarCollapsed} />
         </DrawerContent>
       </Drawer>
       <HeaderMenuBar onOpen={onOpen} setCollapsedFalse={() => setSidebarCollapsed(false)} />

@@ -1,4 +1,12 @@
-import { Authentication, Dashboard, NotFound404, EmailVerification, Profile, FAQs } from '../pages';
+import {
+  Authentication,
+  Dashboard,
+  NotFound404,
+  EmailVerification,
+  Profile,
+  FAQs,
+  QuizEditor
+} from '../pages';
 import { FiHome, FiUser, FiHeart, FiEdit, FiSearch, FiCheckSquare } from 'react-icons/fi';
 
 const routes = {
@@ -47,7 +55,7 @@ const routes = {
         icon: FiEdit,
         name: 'Quiz Editor',
         path: 'quiz-editor',
-        element: <div>Quiz Editor</div>
+        element: <QuizEditor />
       },
       FAQs: {
         icon: FiCheckSquare,

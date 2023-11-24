@@ -232,10 +232,8 @@ function Edit() {
                   placeholder="Studiengang nicht anzeigen"
                   defaultValue={studentProfile?.courseOfStudy || ''}
                 >
-                  {courseOfStudy.map(({ name, careId }) => (
-                    <option key={careId} value={name}>
-                      {name}
-                    </option>
+                  {courseOfStudy.map(({ name }) => (
+                    <option value={name}>{name}</option>
                   ))}
                 </Select>{' '}
               </InputGroup>
