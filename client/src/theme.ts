@@ -1,16 +1,14 @@
-import { extendTheme, type ThemeConfig } from '@chakra-ui/react';
-import { mode } from '@chakra-ui/theme-tools';
-import { Dict } from '@chakra-ui/utils';
-import { defineStyleConfig } from '@chakra-ui/react';
+import {createMultiStyleConfigHelpers, defineStyleConfig, extendTheme, type ThemeConfig} from '@chakra-ui/react';
+import {mode} from '@chakra-ui/theme-tools';
+import {Dict} from '@chakra-ui/utils';
 import {
-  tabsAnatomy,
   accordionAnatomy,
+  alertAnatomy,
   avatarAnatomy,
   inputAnatomy,
-  alertAnatomy,
-  selectAnatomy
+  selectAnatomy,
+  tabsAnatomy
 } from '@chakra-ui/anatomy';
-import { createMultiStyleConfigHelpers } from '@chakra-ui/react';
 
 //________________________________________________________________
 // Accordion
@@ -30,6 +28,7 @@ function alertTheme() {
     baseStyle
   });
 }
+
 //________________________________________________________________
 // Accordion
 //________________________________________________________________
@@ -89,7 +88,7 @@ function avatarTheme() {
       borderRadius: 'md',
       borderWidth: '2px',
       borderStyle: 'solid',
-      borderColor: 'teal.500',
+      borderColor: 'linear-gradient(90deg,#1896b0 ,#9671eb)',
       _dark: {
         borderColor: 'teal.200'
       }
@@ -100,6 +99,7 @@ function avatarTheme() {
     baseStyle
   });
 }
+
 //________________________________________________________________
 // Tabs
 //________________________________________________________________
@@ -137,6 +137,7 @@ function tabsTheme() {
     }
   });
 }
+
 //________________________________________________________________
 //  Input
 //________________________________________________________________
@@ -168,6 +169,7 @@ function inputTheme() {
     baseStyle
   });
 }
+
 //________________________________________________________________
 // Button
 //________________________________________________________________

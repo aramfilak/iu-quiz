@@ -1,4 +1,4 @@
-import { Avatar, Text, Flex, Link } from '@chakra-ui/react';
+import { Avatar, Flex, Link, Text } from '@chakra-ui/react';
 import { convertToGermanDate } from '../../../../utils/helpers';
 import { useStudentStore } from '../../../../sotres';
 import { FiCalendar, FiMail } from 'react-icons/fi';
@@ -10,7 +10,19 @@ function View() {
   const { studentProfile } = useStudentStore();
 
   return (
-    <BoxWrapper borderBottom="5px solid" borderColor="teal.500">
+    <BoxWrapper
+      pos="relative"
+      overflow="hidden"
+      _before={{
+        content: '""',
+        bg: 'linear-gradient(90deg,#1896b0 ,#9671eb)',
+        position: 'absolute',
+        bottom: '0',
+        left: '0',
+        width: 'full',
+        height: '5px'
+      }}
+    >
       <Flex
         gap="1rem"
         flexDir={{ base: 'column', lg: 'row' }}

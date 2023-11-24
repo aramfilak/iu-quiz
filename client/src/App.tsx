@@ -4,6 +4,7 @@ import { routes } from './utils/routes';
 import { ProtectedRoutes } from './components';
 import { Analytics } from '@vercel/analytics/react';
 import { theme } from './theme';
+
 const { EmailVerification, Authentication, NotFound404, Dashboard } = routes;
 
 function App() {
@@ -26,12 +27,10 @@ function App() {
           <Route path={Authentication.path} element={Authentication.element} />
           <Route path={EmailVerification.path} element={EmailVerification.element} />
           <Route path={NotFound404.path} element={NotFound404.element} />
-
           {/*------------protected-------------------*/}
           <Route element={<ProtectedRoutes />}>
             <Route element={Dashboard.element}>
               {/*------------Dashboard Sub Pages-------------------*/}
-
               {Object.values(routes.Dashboard.children).map(({ name, path, element }) => {
                 return <Route key={name} path={path} element={element} />;
               })}

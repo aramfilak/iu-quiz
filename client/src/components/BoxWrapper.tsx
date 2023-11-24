@@ -1,13 +1,13 @@
-import { GridItem, GridItemProps } from '@chakra-ui/react';
+import { Box, BoxProps } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
-interface WrapperBoxProps extends GridItemProps {
+interface WrapperBoxProps extends BoxProps {
   children: ReactNode;
 }
 
 function BoxWrapper({ children, ...rest }: WrapperBoxProps) {
   return (
-    <GridItem
+    <Box
       {...rest}
       bg="gray.50"
       _dark={{ bg: 'gray.700' }}
@@ -20,7 +20,7 @@ function BoxWrapper({ children, ...rest }: WrapperBoxProps) {
       gap="1rem"
     >
       {children}
-    </GridItem>
+    </Box>
   );
 }
 
