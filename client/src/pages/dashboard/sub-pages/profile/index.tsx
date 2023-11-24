@@ -1,14 +1,14 @@
-import { Box, Tab, TabList, TabPanel, TabPanels, Tabs, useMediaQuery } from '@chakra-ui/react';
+import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { FiEye, FiEdit3 } from 'react-icons/fi';
 import { useStudentStore } from '../../../../sotres';
 import { PageHeader } from '../../../../components';
 import { Edit } from './Edit';
 import { View } from './View';
+import { useScreenSize } from '../../../../hooks';
 
 function Profile() {
   const { studentProfile } = useStudentStore();
-
-  const [isMobileView] = useMediaQuery('(max-width: 480px)');
+  const { isMobileScreen } = useScreenSize();
 
   return (
     <>
@@ -21,7 +21,7 @@ function Profile() {
         <TabList gap="5" mb="8" pb="2">
           <Tab>
             <FiEye />
-            {!isMobileView && (
+            {!isMobileScreen && (
               <Box as="span" ml="2">
                 Vorschau
               </Box>
@@ -30,7 +30,7 @@ function Profile() {
 
           <Tab>
             <FiEdit3 />
-            {!isMobileView && (
+            {!isMobileScreen && (
               <Box as="span" ml="2">
                 Bearbeiten
               </Box>

@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { Box, Container, Drawer, DrawerContent, useDisclosure } from '@chakra-ui/react';
 import { HeaderMenuBar, SidebarNav } from '../../components';
 import { Outlet } from 'react-router-dom';
+import { useScreenSize } from '../../hooks';
 
 function Dashboard() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
-
+  const { isMobileScreen } = useScreenSize();
   const toggleSidebar = () => {
     setSidebarCollapsed(!isSidebarCollapsed);
   };
@@ -19,11 +20,13 @@ function Dashboard() {
         toggleSidebar={toggleSidebar}
         display={{ base: 'none', md: 'block' }}
       />
-      <Drawer isOpen={isOpen} onClose={onClose} placement="left" size="full">
-        <DrawerContent>
-          <SidebarNav onClose={onClose} isCollapsed={isSidebarCollapsed} />
-        </DrawerContent>
-      </Drawer>
+      {isMobileScreen && (
+        <Drawer isOpen={isOpen} onClose={onClose} placement="left" size="full">
+          <DrawerContent>
+            <SidebarNav onClose={onClose} isCollapsed={isSidebarCollapsed} />
+          </DrawerContent>
+        </Drawer>
+      )}
       <HeaderMenuBar onOpen={onOpen} setCollapsedFalse={() => setSidebarCollapsed(false)} />
 
       <Box ml={{ base: 0, md: isSidebarCollapsed ? 16 : 60 }} padding="1rem">

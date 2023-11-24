@@ -82,7 +82,7 @@ function QuizEditor() {
                 )) || []}
             </Select>
           </InputGroup>
-        </Flex>{' '}
+        </Flex>
       </BoxWrapper>
     </>
   );
