@@ -1,6 +1,11 @@
-import {createMultiStyleConfigHelpers, defineStyleConfig, extendTheme, type ThemeConfig} from '@chakra-ui/react';
-import {mode} from '@chakra-ui/theme-tools';
-import {Dict} from '@chakra-ui/utils';
+import {
+  createMultiStyleConfigHelpers,
+  defineStyleConfig,
+  extendTheme,
+  type ThemeConfig
+} from '@chakra-ui/react';
+import { mode } from '@chakra-ui/theme-tools';
+import { Dict } from '@chakra-ui/utils';
 import {
   accordionAnatomy,
   alertAnatomy,
@@ -88,7 +93,7 @@ function avatarTheme() {
       borderRadius: 'md',
       borderWidth: '2px',
       borderStyle: 'solid',
-      borderColor: 'linear-gradient(90deg,#1896b0 ,#9671eb)',
+      borderColor: 'teal.500',
       _dark: {
         borderColor: 'teal.200'
       }

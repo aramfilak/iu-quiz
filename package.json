@@ -7,7 +7,7 @@
     "server": "cd server && npm run dev",
     "prisma": "cd server && npx prisma studio",
     "client": "cd client && npm run dev",
-    "open": "ts-node open.ts",
+    "open": "node open.js",
     "dev": "concurrently \"npm run server\" \"npm run prisma\" \"npm run client\" \"npm run open\""
   },
   "devDependencies": {
