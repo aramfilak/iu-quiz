@@ -233,7 +233,7 @@ function Edit() {
                   {courseOfStudy.map(({ name }) => (
                     <option value={name}>{name}</option>
                   ))}
-                </Select>{' '}
+                </Select>
               </InputGroup>
             </BoxWrapper>
 

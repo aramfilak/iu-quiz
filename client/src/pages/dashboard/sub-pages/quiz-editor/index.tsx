@@ -1,9 +1,9 @@
-import { InputGroup, Input, Select, InputLeftAddon, Tooltip, Box, VStack } from '@chakra-ui/react';
+import { InputGroup, Input, Select, InputLeftAddon, Tooltip, Flex } from '@chakra-ui/react';
 import { useState, useRef } from 'react';
 import { useStudentStore } from '../../../../sotres';
 import courseOfStudy from '../../../../data/courseOfStudy.json';
 import { FaEdit, FaBook, FaGraduationCap } from 'react-icons/fa';
-import { PageHeader } from '../../../../components';
+import { BoxWrapper, PageHeader } from '../../../../components';
 
 function QuizEditor() {
   const courseOfStudySelectRef = useRef<HTMLSelectElement>(null);
@@ -18,87 +18,73 @@ function QuizEditor() {
   };
 
   return (
-    <Box>
-      <PageHeader title={'Quiz - Editor'} description="Erstelle dein eigenes Quiz" />
-      <VStack spacing="1rem" align="center" mx={{ base: '1rem', lg: '0' }}>
-        {/*------------------- Quiz title --------------------*/}
-        <InputGroup w="100%" bg="white" _dark={{ bg: 'gray.800' }}>
-          <Tooltip label="Quiz Titel">
-            <InputLeftAddon borderColor="teal.700" bg="white" _dark={{ bg: 'gray.800' }}>
-              <FaEdit />
-            </InputLeftAddon>
-          </Tooltip>
-          <Input
-            borderTopLeftRadius="0"
-            borderBottomLeftRadius="0"
-            borderColor="teal.500"
-            autoComplete="on"
-            id="nick-name"
-            placeholder="Quiz - Titel"
-          />
-        </InputGroup>
+    <>
+      <PageHeader title={'Editor'} description="Erstelle dein eigenes Quiz" />
+      <BoxWrapper>
+        <Flex flexDir={{ base: 'column', md: 'row' }} gap="1rem" align="center">
+          {/*------------------- Quiz title --------------------*/}
+          <InputGroup>
+            <Tooltip label="Quiz Titel">
+              <InputLeftAddon>
+                <FaEdit />
+              </InputLeftAddon>
+            </Tooltip>
+            <Input
+              borderTopLeftRadius="0"
+              borderBottomLeftRadius="0"
+              borderColor="teal.500"
+              autoComplete="on"
+              id="nick-name"
+              placeholder="Titel"
+            />
+          </InputGroup>
 
-        {/*------------------- Course Of Study --------------------*/}
-        <InputGroup w="100%" bg="white" _dark={{ bg: 'gray.800' }}>
-          <Tooltip label="Studiengang">
-            <InputLeftAddon borderColor="teal.700" bg="white" _dark={{ bg: 'gray.800' }}>
-              <FaGraduationCap />
-            </InputLeftAddon>
-          </Tooltip>
-          <Select
-            onChange={handelChange}
-            borderTopLeftRadius="0"
-            borderBottomLeftRadius="0"
-            ref={courseOfStudySelectRef}
-            defaultValue={studentProfile?.courseOfStudy || ''}
-            bg="white"
-            _dark={{ bg: 'gray.800' }}
-            borderColor="teal.500"
-            borderWidth="1px"
-          >
-            <option value="" disabled hidden>
-              Studiengang auswählen
-            </option>
-            {courseOfStudy.map(({ name }) => (
-              <option value={name} key={name}>
-                {name}
+          {/*------------------- Course Of Study --------------------*/}
+          <InputGroup>
+            <Tooltip label="Studiengang">
+              <InputLeftAddon>
+                <FaGraduationCap />
+              </InputLeftAddon>
+            </Tooltip>
+            <Select
+              onChange={handelChange}
+              ref={courseOfStudySelectRef}
+              defaultValue={studentProfile?.courseOfStudy || ''}
+            >
+              <option value="" disabled hidden>
+                Studiengang auswählen
               </option>
-            ))}
-          </Select>
-        </InputGroup>
-
-        {/*------------------- Course --------------------*/}
-        <InputGroup w="100%" bg="white" _dark={{ bg: 'gray.800' }}>
-          <Tooltip label="Modul">
-            <InputLeftAddon borderColor="teal.700" bg="white" _dark={{ bg: 'gray.800' }}>
-              <FaBook />
-            </InputLeftAddon>
-          </Tooltip>
-          <Select
-            borderTopLeftRadius="0"
-            borderBottomLeftRadius="0"
-            ref={moduleSelectRef}
-            defaultValue={''}
-            bg="white"
-            _dark={{ bg: 'gray.800' }}
-            borderColor="teal.500"
-            borderWidth="2px"
-            borderLeft="none"
-          >
-            <option value="" disabled hidden>
-              Modul auswählen
-            </option>
-            {courseOfStudy
-              ?.find(({ name }) => name === selectedCourseOfStudy)
-              ?.courses?.map(({ title, shortcode }) => (
-                <option key={shortcode} value={title}>
-                  {title}
+              {courseOfStudy.map(({ name }) => (
+                <option value={name} key={name}>
+                  {name}
                 </option>
-              )) || []}
-          </Select>
-        </InputGroup>
-      </VStack>
-    </Box>
+              ))}
+            </Select>
+          </InputGroup>
+
+          {/*------------------- Course --------------------*/}
+          <InputGroup>
+            <Tooltip label="Modul">
+              <InputLeftAddon>
+                <FaBook />
+              </InputLeftAddon>
+            </Tooltip>
+            <Select ref={moduleSelectRef}>
+              <option value="" disabled hidden>
+                Modul auswählen
+              </option>
+              {courseOfStudy
+                ?.find(({ name }) => name === selectedCourseOfStudy)
+                ?.courses?.map(({ title, shortcode }) => (
+                  <option key={shortcode} value={title}>
+                    {title}
+                  </option>
+                )) || []}
+            </Select>
+          </InputGroup>
+        </Flex>{' '}
+      </BoxWrapper>
+    </>
   );
 }
 
