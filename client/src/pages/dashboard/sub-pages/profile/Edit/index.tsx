@@ -4,30 +4,21 @@ import {
   InputGroup,
   Input,
   Button,
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogCloseButton,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   useDisclosure,
-  useToast,
   Select,
   InputLeftAddon,
   Heading,
   Tooltip,
   Flex
 } from '@chakra-ui/react';
-import { UploadProfileImage, BoxWrapper } from '../../../../components';
+import { UploadProfileImage, BoxWrapper } from '../../../../../components';
 import { useState, useRef } from 'react';
-import { useStudentStore, usePersistStore } from '../../../../sotres';
-import { useNavigate } from 'react-router-dom';
-import { routes } from '../../../../utils/routes';
-import { CustomAlert } from '../../../../utils/types';
-import courseOfStudy from '../../../../data/courseOfStudy.json';
-import { FiAlertTriangle, FiSave, FiUserX } from 'react-icons/fi';
+import { useStudentStore } from '../../../../../sotres';
+import { CustomAlert } from '../../../../../utils/types';
+import courseOfStudy from '../../../../../data/courseOfStudy.json';
+import { FiSave, FiUserX } from 'react-icons/fi';
 import { FaLinkedin, FaXing, FaGraduationCap, FaMapMarkerAlt, FaUser } from 'react-icons/fa';
+import { DeleteStudentAlert } from './DeleteStudentAlert';
 
 function Edit() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -37,13 +28,10 @@ function Edit() {
   const xingInputRef = useRef<HTMLInputElement>(null);
   const courseOfStudySelectRef = useRef<HTMLSelectElement>(null);
   const [isChanged, setIsChanged] = useState<boolean>(false);
-  const { studentProfile, updateStudent, deleteStudent } = useStudentStore();
-  const { setAccessToken, setIsAuthenticated } = usePersistStore();
+  const { studentProfile, updateStudent } = useStudentStore();
+
   const [alert, setAlert] = useState<CustomAlert | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = useRef<HTMLButtonElement>(null);
-  const toast = useToast();
-  const navigate = useNavigate();
 
   const handelChange = () => {
     const nameIsChanged = nameInputRef.current?.value.trim() !== studentProfile?.name;
@@ -101,56 +89,11 @@ function Edit() {
     setIsSubmitting(false);
   };
 
-  const handleDeleteStudentProfile = async () => {
-    const loading = toast({ status: 'loading', description: 'Es lädt...', duration: 60 * 1000 });
-
-    const { success, message } = await deleteStudent();
-
-    toast.close(loading);
-
-    toast({ status: success ? 'success' : 'error', description: message });
-
-    setAccessToken(null);
-    setIsAuthenticated(false);
-    navigate(routes.Authentication.path);
-    setIsSubmitting(false);
-  };
-
   return (
     <>
       {/*------------------- Alert Dialog --------------------*/}
-      <AlertDialog
-        motionPreset="slideInBottom"
-        leastDestructiveRef={cancelRef}
-        onClose={onClose}
-        isOpen={isOpen}
-        isCentered
-      >
-        <AlertDialogOverlay />
-        <AlertDialogContent>
-          <AlertDialogHeader
-            color="red.500"
-            fontSize="3.5rem"
-            display="flex"
-            justifyContent="center"
-          >
-            <FiAlertTriangle />
-          </AlertDialogHeader>
-          <AlertDialogCloseButton />
-          <AlertDialogBody>
-            Möchten Sie Ihr Profil wirklich löschen? Diese Aktion kann nicht rückgängig gemacht
-            werden und führt zum Verlust aller Ihrer gespeicherten Daten und Einstellungen.
-          </AlertDialogBody>
-          <AlertDialogFooter>
-            <Button ref={cancelRef} onClick={onClose}>
-              Abbrechen
-            </Button>
-            <Button colorScheme="red" ml={3} onClick={handleDeleteStudentProfile}>
-              Löschen
-            </Button>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <DeleteStudentAlert isOpen={isOpen} onClose={onClose} />
+
       {/*------------------- Alert  --------------------*/}
       {alert && (
         <Alert status={alert.status} mb="4">
@@ -165,7 +108,7 @@ function Edit() {
 
           <BoxWrapper w="100%">
             <Heading as="h3" fontSize="sm" mb="2">
-              Profile Bild
+              Profil Bild
             </Heading>
             <UploadProfileImage />
           </BoxWrapper>
@@ -231,7 +174,9 @@ function Edit() {
                   defaultValue={studentProfile?.courseOfStudy || ''}
                 >
                   {courseOfStudy.map(({ name }) => (
-                    <option value={name}>{name}</option>
+                    <option key={name} value={name}>
+                      {name}
+                    </option>
                   ))}
                 </Select>
               </InputGroup>

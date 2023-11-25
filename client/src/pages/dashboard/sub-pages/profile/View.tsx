@@ -1,10 +1,15 @@
 import { Avatar, Flex, Link, Text } from '@chakra-ui/react';
 import { convertToGermanDate } from '../../../../utils/helpers';
 import { useStudentStore } from '../../../../sotres';
-import { FiCalendar, FiMail } from 'react-icons/fi';
-import { FaLinkedin, FaXingSquare } from 'react-icons/fa';
-import { PiStudent } from 'react-icons/pi';
 import { BoxWrapper } from '../../../../components';
+import { MdEmail } from 'react-icons/md';
+import {
+  FaCalendarAlt,
+  FaGraduationCap,
+  FaLinkedin,
+  FaMapMarkerAlt,
+  FaXingSquare
+} from 'react-icons/fa';
 
 function View() {
   const { studentProfile } = useStudentStore();
@@ -24,10 +29,12 @@ function View() {
       }}
     >
       <Flex
-        gap="1rem"
-        flexDir={{ base: 'column', lg: 'row' }}
+        color="teal.500"
+        _dark={{ color: 'teal.300' }}
+        gap={{ base: '1rem', md: '2rem' }}
+        flexWrap="wrap"
         justifyContent="start"
-        alignItems="start"
+        alignItems="end"
       >
         {/*---------------- Profile Image -------------*/}
         <Avatar
@@ -36,12 +43,7 @@ function View() {
           borderRadius="md"
         />
 
-        <Flex
-          flexDir="column"
-          justify={{ base: 'center', md: 'start' }}
-          alignItems={{ base: 'start' }}
-          gap="0.2rem"
-        >
+        <Flex flexDir="column" alignItems="start" gap="0.2rem" flexWrap="wrap">
           {/*---------------- Student Name --------------*/}
           <Text fontWeight="extrabold" fontSize="2xl" color="gray.800">
             {studentProfile?.name}
@@ -49,45 +51,46 @@ function View() {
 
           {/*---------------- Registration Date --------------*/}
           <Flex alignItems="center" gap="2">
-            <FiCalendar />
+            <FaCalendarAlt />
             {typeof studentProfile?.student.registrationDate === 'string' &&
               convertToGermanDate(studentProfile?.student.registrationDate)}
           </Flex>
 
           {/*---------------- Registration Date --------------*/}
           <Flex alignItems="center" gap="2">
-            {studentProfile?.courseOfStudy && (
-              <>
-                <PiStudent /> {studentProfile?.courseOfStudy}
-              </>
-            )}
+            <FaGraduationCap />
+            {studentProfile?.courseOfStudy ? studentProfile?.courseOfStudy : '-'}
           </Flex>
 
           {/*---------------- Email --------------*/}
           <Flex alignItems="center" gap="2">
-            <FiMail />
-            <Link
-              target="_blank"
-              href={`mailto:${studentProfile?.student.email}`}
-              color="gray.800"
-              _dark={{ color: 'white' }}
-            >
-              {studentProfile?.student.email}
-            </Link>
+            <FaMapMarkerAlt />
+            {studentProfile?.location ? studentProfile?.location : '-'}
           </Flex>
         </Flex>
         {/*---------------- LinkedIn & Xing Business Links--------------*/}
 
-        <Flex gap="0.8rem" fontWeight="500" alignItems="start" flexDir={{ md: 'column' }}>
+        <Flex flexDir="column" gap="0.2rem" flexWrap="wrap">
+          {/*---------------- Email --------------*/}
+          <Link
+            display="flex"
+            alignItems="center"
+            gap="2"
+            target="_blank"
+            href={`mailto:${studentProfile?.student.email}`}
+          >
+            <MdEmail /> {studentProfile?.student.email}
+          </Link>
+
           {studentProfile?.linkedinUrl && (
             <Link
               display="flex"
               alignItems="center"
-              gap="0.2rem"
+              gap="2"
               target="_blank"
               href={studentProfile?.linkedinUrl}
             >
-              Linkedin <FaLinkedin />
+              <FaLinkedin /> Linkedin
             </Link>
           )}
 
@@ -95,11 +98,11 @@ function View() {
             <Link
               display="flex"
               alignItems="center"
-              gap="0.2rem"
+              gap="2"
               target="_blank"
               href={studentProfile?.xingUrl}
             >
-              Xing <FaXingSquare />
+              <FaXingSquare /> Xing
             </Link>
           )}
         </Flex>
