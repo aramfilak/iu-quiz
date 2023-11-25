@@ -19,6 +19,8 @@ import { RiLockPasswordLine, RiMailLine } from 'react-icons/ri';
 import { BiShow, BiHide, BiCheckShield } from 'react-icons/bi';
 import { useAuthStore } from '../sotres';
 import { CustomAlert } from '../utils/types';
+import { useNavigate } from 'react-router-dom';
+import { routes } from '../utils/routes';
 import { LabelHeading } from '.';
 
 function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
@@ -28,8 +30,9 @@ function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [alert, setAlert] = useState<CustomAlert | null>(null);
-  const { showSignInForm, singUp } = useAuthStore();
+  const { singUp } = useAuthStore();
   const placeHolderColor = useColorModeValue('gray.800', 'gray.200');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -57,7 +60,6 @@ function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
 
   return (
     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }} {...rest}>
-      <LabelHeading description="Registrieren" />
       {/*------------------- Response Alert --------------------*/}
       {alert && (
         <Alert status={alert.status}>
@@ -65,6 +67,12 @@ function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
           {alert.message}
         </Alert>
       )}
+
+      <LabelHeading
+        fontSize={{ base: '4xl', lg: '5xl' }}
+        variant="solid"
+        description="Registrieren"
+      />
       {/*------------------- Email --------------------*/}
       <FormLabel mt="2" htmlFor="email">
         Email
@@ -147,7 +155,8 @@ function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
         </InputRightElement>
       </InputGroup>
       {/*------------------- Form Submit -----------------*/}
-      <Button colorScheme="teal" type="submit" disabled={isSubmitting} mt="4" mb="2">
+
+      <Button colorScheme="teal" type="submit" disabled={isSubmitting} mt="4" mb="2" width="full">
         Registrieren
       </Button>
       <Text>
@@ -157,7 +166,7 @@ function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
           variant="link"
           colorScheme="teal"
           fontWeight="extrabold"
-          onClick={() => showSignInForm()}
+          onClick={() => navigate(routes.Authentication.children.SignIn.path)}
         >
           Jetzt anmelden
         </Button>

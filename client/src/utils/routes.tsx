@@ -8,13 +8,26 @@ import {
   QuizEditor
 } from '../pages';
 import { FiHome, FiUser, FiHeart, FiEdit, FiSearch, FiCheckSquare } from 'react-icons/fi';
+import { SignIn, SignUp } from '../pages/authentication';
 
 const routes = {
   Authentication: {
     icon: FiHome,
     name: 'Authentication',
-    path: '/',
-    element: <Authentication />
+
+    element: <Authentication />,
+    children: {
+      SignIn: {
+        name: 'Sign-In',
+        path: '/',
+        element: <SignIn />
+      },
+      SignUp: {
+        name: 'Sign-Up',
+        path: 'sign-up',
+        element: <SignUp />
+      }
+    }
   },
   NotFound404: {
     icon: FiHome,

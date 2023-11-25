@@ -1,5 +1,5 @@
 import './style.css';
-import PageNotFound404illustration from '../../assets/illustrations/page-not-found-illustration.svg';
+import PageNotFound404illustration from '../../assets/page-not-found-illustration.svg';
 import { Box, Button, Container, Image, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../../utils/routes';
@@ -24,7 +24,7 @@ function NotFound404() {
           Die von Ihnen gesuchte Website existiert nicht.
         </Text>
         <Button
-          onClick={() => navigate(routes.Authentication.path, { replace: true })}
+          onClick={() => navigate(routes.Authentication.children.SignIn.path, { replace: true })}
           colorScheme="teal"
           size={{ base: 'xs', md: 'sm' }}
           marginBlock="1.5"

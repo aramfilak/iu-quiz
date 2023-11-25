@@ -56,7 +56,7 @@ function EmailVerification() {
       </Alert>
       {alert?.status === 'success' && (
         <Button
-          onClick={() => navigate(routes.Authentication.path, { replace: true })}
+          onClick={() => navigate(routes.Authentication.children.SignIn.path, { replace: true })}
           colorScheme="teal"
           size="md"
           marginBlock="1.5"

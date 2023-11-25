@@ -23,7 +23,7 @@ function ProtectedRoutes() {
       }
 
       signOut();
-      navigate(Authentication.path);
+      navigate(Authentication.children.SignIn.path);
       setIsLoading(false);
     })();
   }, []);

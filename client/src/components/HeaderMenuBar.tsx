@@ -89,7 +89,7 @@ function HeaderMenuBar({ onOpen: handleOpen, setCollapsedFalse, ...rest }: Mobil
                 onClick={() => {
                   onClose();
                   signOut();
-                  navigate(routes.Authentication.path);
+                  navigate(routes.Authentication.children.SignIn.path);
                 }}
                 ml={3}
               >

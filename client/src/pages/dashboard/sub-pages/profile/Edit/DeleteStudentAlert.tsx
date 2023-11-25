@@ -50,7 +50,7 @@ function DeleteStudentAlert({ isOpen, onClose }: DeleteStudentAlertProps) {
 
       setAccessToken(null);
       setIsAuthenticated(false);
-      navigate(routes.Authentication.path);
+      navigate(routes.Authentication.children.SignUp.path);
     } else {
       toast({ status: 'error', description: 'Falsche Eingabe', variant: 'solid' });
     }

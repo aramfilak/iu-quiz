@@ -10,9 +10,6 @@ interface AuthResponse {
 }
 
 interface UseAuthStore {
-  isShowSingInForm: boolean;
-  showSignInForm: () => void;
-  showSignUpForm: () => void;
   singUp: (email: string, password: string) => Promise<IuQuizServerResponse<AuthResponse>>;
   signIn: (email: string, password: string) => Promise<IuQuizServerResponse<AuthResponse>>;
   signOut: () => void;
@@ -27,13 +24,7 @@ interface UseAuthStore {
   ) => Promise<IuQuizServerResponse<unknown>>;
 }
 
-const useAuthStore = create<UseAuthStore>((set, get) => ({
-  isShowSingInForm: true,
-
-  showSignInForm: () => set({ isShowSingInForm: true }),
-
-  showSignUpForm: () => set({ isShowSingInForm: false }),
-
+const useAuthStore = create<UseAuthStore>((_, get) => ({
   singUp: async (email: string, password: string) => {
     return await get().authenticate('/sign-up', email, password);
   },
