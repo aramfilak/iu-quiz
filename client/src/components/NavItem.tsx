@@ -24,7 +24,7 @@ function NavItem({ icon, isActive, children, onClick, tooltip, ...rest }: NavIte
   const hoverStyles = isActive ? {} : hoverActiveStyle;
 
   return (
-    <Tooltip label={tooltip} placement="right" hasArrow>
+    <Tooltip label={tooltip} placement="right">
       <Box
         as="a"
         style={{ textDecoration: 'none' }}

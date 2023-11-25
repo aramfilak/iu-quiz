@@ -184,6 +184,14 @@ const Button = defineStyleConfig({
   }
 });
 //________________________________________________________________
+// Tooltip
+//________________________________________________________________
+const Tooltip = defineStyleConfig({
+  baseStyle: {
+    borderRadius: 'md'
+  }
+});
+//________________________________________________________________
 // Select
 //________________________________________________________________
 function selectTheme() {
@@ -288,6 +296,7 @@ const theme = extendTheme({
     Link,
     FormLabel,
     Text,
+    Tooltip,
     Select: selectTheme(),
     Alert: alertTheme(),
     Input: inputTheme(),

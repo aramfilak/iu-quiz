@@ -6,6 +6,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { routes } from '../../utils/routes';
 import { SignIn } from './SignIn';
 import { SignUp } from './SignUp';
+import authBg from '../../assets/auth-page-bg.svg';
 
 function Authentication() {
   const { isAuthenticated } = usePersistStore();
@@ -20,7 +21,7 @@ function Authentication() {
   }, []);
 
   return (
-    <Box>
+    <Box backgroundImage={authBg} backgroundSize="cover" backgroundRepeat="no-repeat">
       <Container
         maxW="container.lg"
         minH="100vh"
