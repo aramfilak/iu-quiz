@@ -1,9 +1,8 @@
 import React, { useRef } from 'react';
-import { FiXCircle, FiRefreshCw, FiPlusCircle } from 'react-icons/fi';
+import { FiXCircle, FiRefreshCw, FiPlusCircle, FiInfo } from 'react-icons/fi';
 import {
   Avatar,
   FlexProps,
-  Tooltip,
   useToast,
   FormLabel,
   Input,
@@ -16,7 +15,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
-  useDisclosure
+  useDisclosure,
+  Text
 } from '@chakra-ui/react';
 import { useStudentStore } from '../sotres';
 
@@ -65,7 +65,6 @@ function UploadProfileImage(rest: FlexProps) {
         isCentered
       >
         <AlertDialogOverlay />
-
         <AlertDialogContent>
           <AlertDialogHeader>Profil Bild Löschen</AlertDialogHeader>
           <AlertDialogCloseButton />
@@ -89,12 +88,14 @@ function UploadProfileImage(rest: FlexProps) {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
       <Flex {...rest} gap="0.5rem">
         <Avatar
           src={studentProfile?.profileImage?.url}
           size={{ base: 'xl', lg: '2xl' }}
           borderRadius="md"
         />
+
         <Flex flexDir="column" justifyContent="end" gap="2" flex="1">
           {/*_____________________ Delete Image ____________________ */}
 
@@ -117,38 +118,40 @@ function UploadProfileImage(rest: FlexProps) {
           </Button>
 
           {/*_____________________ Update or Add Image ____________________ */}
-          <Tooltip label="Bildformate png, jpg und jpeg. maximale Größe 5 MB" borderRadius="md">
-            <FormLabel
-              _hover={{ bg: 'teal.600' }}
-              display="flex"
-              justifyContent="center"
-              width="100%"
-              color="white"
-              bg="teal.500"
-              _dark={{ bg: 'tea.200', color: 'gray.800' }}
-              borderRadius="md"
-              htmlFor="profileImage"
-              cursor="pointer"
-              p="2"
-            >
-              {studentProfile?.profileImage?.url ? (
-                <Flex gap="0.5rem" alignItems="center">
-                  <FiRefreshCw />
-                  Aktualisieren
-                </Flex>
-              ) : (
-                <Flex gap="0.5rem" alignItems="center">
-                  <FiPlusCircle />
-                  Hinzufügen
-                </Flex>
-              )}
-            </FormLabel>
-          </Tooltip>
+          <FormLabel
+            _hover={{ bg: 'teal.600' }}
+            display="flex"
+            justifyContent="center"
+            width="100%"
+            color="white"
+            bg="teal.500"
+            _dark={{ bg: 'tea.200', color: 'gray.800' }}
+            borderRadius="md"
+            htmlFor="profileImage"
+            cursor="pointer"
+            p="2"
+          >
+            {studentProfile?.profileImage?.url ? (
+              <Flex gap="0.5rem" alignItems="center">
+                <FiRefreshCw />
+                Aktualisieren
+              </Flex>
+            ) : (
+              <Flex gap="0.5rem" alignItems="center">
+                <FiPlusCircle />
+                Hinzufügen
+              </Flex>
+            )}
+          </FormLabel>
         </Flex>
 
         {/*_____________________  Image Input ____________________ */}
         <Input id="profileImage" type="file" onChange={handleImageUpload} display="none" />
       </Flex>
+      {/*_____________________ Image Size Info ____________________ */}
+      <Text display="flex" alignItems="center" gap="1">
+        <FiInfo /> Bildformate png, jpg und jpeg. maximale Größe 5 MB
+      </Text>
     </>
   );
 }
