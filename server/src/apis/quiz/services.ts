@@ -235,7 +235,7 @@ async function deleteQuizById(req: Request, res: Response) {
 
 /**
  * ________________________________________________________________
- * @route api/v1/quiz/follow-quiz/:quizId
+ * @route api/v1/quiz/follow/:quizId
  * @method POST
  * @access protected
  * ________________________________________________________________
@@ -243,6 +243,8 @@ async function deleteQuizById(req: Request, res: Response) {
 async function followQuiz(req: Request, res: Response) {
   const studentId = req.auth?.studentId;
   const quizId = req.params.quizId;
+
+  validate.isEmpty('Quiz Id', quizId);
 
   const student = await db.student.findUnique({ where: { id: studentId } });
 
@@ -276,7 +278,39 @@ async function followQuiz(req: Request, res: Response) {
     data: { followerId: student.id, quizId: existingQuiz.id }
   });
 
-  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, 'Quiz gefolgt'));
+  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, ''));
+}
+
+/**
+ * ________________________________________________________________
+ * @route api/v1/quiz/follow/:quizId
+ * @method DELETE
+ * @access protected
+ * ________________________________________________________________
+ */
+async function unFollowQuiz(req: Request, res: Response) {
+  const studentId = req.auth?.studentId;
+  const quizId = req.params.quizId;
+
+  const student = await db.student.findUnique({ where: { id: studentId } });
+
+  if (!student) {
+    throw new UnauthorizedError('Sie sind nicht berechtigt');
+  }
+
+  const isFollowed = await db.followedQuizzes.findUnique({
+    where: { followerId_quizId: { followerId: student.id, quizId: Number(quizId) } }
+  });
+
+  if (!isFollowed) {
+    throw new BadRequestError('Quiz ist nicht gefolgt');
+  }
+
+  await db.followedQuizzes.delete({
+    where: { followerId_quizId: { followerId: student.id, quizId: Number(quizId) } }
+  });
+
+  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, ''));
 }
 
 export {
@@ -286,5 +320,6 @@ export {
   createQuizQuestion,
   updateQuiz,
   deleteQuizById,
-  followQuiz
+  followQuiz,
+  unFollowQuiz
 };

@@ -168,6 +168,16 @@ async function uploadStudentProfileImage(req: Request, res: Response) {
     allowed_formats: ['png', 'jpg']
   });
 
+  if (!studentProfile.profileImage) {
+    await db.profileImage.create({
+      data: {
+        profileId: studentProfile.id,
+        url: '',
+        publicId: ''
+      }
+    });
+  }
+
   const updatedStudent = await db.studentProfile.update({
     where: { studentId: studentId },
     data: {

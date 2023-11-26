@@ -6,7 +6,8 @@ import {
   createQuizQuestion,
   updateQuiz,
   deleteQuizById,
-  followQuiz
+  followQuiz,
+  unFollowQuiz
 } from './services';
 
 const quizRoutes = Router();
@@ -16,6 +17,7 @@ quizRoutes.get('/:quizId', findQuizById);
 quizRoutes.delete('/:quizId', deleteQuizById);
 quizRoutes.post('/', createQuiz);
 quizRoutes.post('/question', createQuizQuestion);
-quizRoutes.post('/follow-quiz/:quizId', followQuiz);
+quizRoutes.post('/follow/:quizId', followQuiz);
+quizRoutes.delete('/follow/:quizId', unFollowQuiz);
 
 export { quizRoutes };
