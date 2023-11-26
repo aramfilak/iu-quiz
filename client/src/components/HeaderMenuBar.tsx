@@ -24,7 +24,7 @@ import {
   useColorMode
 } from '@chakra-ui/react';
 import { FiMenu, FiChevronDown, FiLogOut, FiSun, FiMoon } from 'react-icons/fi';
-import { useAuthStore, useStudentStore } from '../sotres';
+import { useAuthStore, useStudentStore } from '../stores';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../utils/routes';
 import { useRef } from 'react';

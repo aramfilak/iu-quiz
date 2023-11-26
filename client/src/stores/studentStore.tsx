@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { axiosStudentApi, asyncHandler } from '../utils/http';
 import { IuQuizServerResponse } from '../utils/types';
-import { usePersistStore } from './';
+import { usePersistStore } from '.';
 import { StudentProfile } from '../utils/types';
 
 interface UseStudentStore {

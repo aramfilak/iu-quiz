@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useAuthStore } from '../../sotres';
+import { useAuthStore } from '../../stores';
 import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Button } from '@chakra-ui/react';
 import { CustomAlert } from '../../utils/types';
 import { useNavigate, useSearchParams } from 'react-router-dom';

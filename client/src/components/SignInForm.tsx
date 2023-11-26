@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { RiLockPasswordLine, RiMailLine } from 'react-icons/ri';
 import { BiShow, BiHide } from 'react-icons/bi';
-import { useAuthStore } from '../sotres';
+import { useAuthStore } from '../stores';
 import {
   Button,
   Text,

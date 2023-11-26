@@ -1,6 +1,6 @@
 import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { FiEye, FiEdit3 } from 'react-icons/fi';
-import { useStudentStore } from '../../../../sotres';
+import { useStudentStore } from '../../../../stores';
 import { PageHeader } from '../../../../components';
 import { Edit } from './Edit';
 import { View } from './View';

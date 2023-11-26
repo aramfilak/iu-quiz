@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { UploadProfileImage, BoxWrapper } from '../../../../../components';
 import { useState, useRef } from 'react';
-import { useStudentStore } from '../../../../../sotres';
+import { useStudentStore } from '../../../../../stores';
 import { CustomAlert } from '../../../../../utils/types';
 import courseOfStudy from '../../../../../data/courseOfStudy.json';
 import { FiSave, FiUserX } from 'react-icons/fi';

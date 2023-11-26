@@ -1,6 +1,6 @@
 import './style.css';
 import { Box, Container } from '@chakra-ui/react';
-import { usePersistStore } from '../../sotres';
+import { usePersistStore } from '../../stores';
 import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { routes } from '../../utils/routes';

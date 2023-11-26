@@ -2,7 +2,7 @@ import { Flex, CloseButton, Box, Text, BoxProps, Button } from '@chakra-ui/react
 import { NavItem } from '.';
 import { routes } from '../utils/routes';
 import { useNavigate } from 'react-router-dom';
-import { usePersistStore } from '../sotres';
+import { usePersistStore } from '../stores';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
 interface SidebarProps extends BoxProps {

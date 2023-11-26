@@ -1,6 +1,6 @@
 import { InputGroup, Input, Select, InputLeftAddon, Tooltip, Flex } from '@chakra-ui/react';
 import { useState, useRef } from 'react';
-import { useStudentStore } from '../../../../sotres';
+import { useStudentStore } from '../../../../stores';
 import courseOfStudy from '../../../../data/courseOfStudy.json';
 import { FaEdit, FaBook, FaGraduationCap } from 'react-icons/fa';
 import { BoxWrapper, PageHeader } from '../../../../components';

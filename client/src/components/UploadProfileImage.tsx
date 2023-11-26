@@ -18,7 +18,7 @@ import {
   useDisclosure,
   Text
 } from '@chakra-ui/react';
-import { useStudentStore } from '../sotres';
+import { useStudentStore } from '../stores';
 
 function UploadProfileImage(rest: FlexProps) {
   const toast = useToast();

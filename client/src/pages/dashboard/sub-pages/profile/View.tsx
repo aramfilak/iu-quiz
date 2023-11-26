@@ -1,6 +1,6 @@
 import { Avatar, Flex, Link, Text } from '@chakra-ui/react';
 import { convertToGermanDate } from '../../../../utils/helpers';
-import { useStudentStore } from '../../../../sotres';
+import { useStudentStore } from '../../../../stores';
 import { BoxWrapper } from '../../../../components';
 import { MdEmail } from 'react-icons/md';
 import {
