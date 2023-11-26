@@ -5,16 +5,17 @@ import {
   createQuiz,
   createQuizQuestion,
   updateQuiz,
-  deleteQuizById
+  deleteQuizById,
+  followQuiz
 } from './services';
-import { authenticate } from '../../middlewares/authenticate';
 
 const quizRoutes = Router();
 
 quizRoutes.get('/', findAllQuizzes);
 quizRoutes.get('/:quizId', findQuizById);
-quizRoutes.delete('/:quizId', authenticate, deleteQuizById);
-quizRoutes.post('/', authenticate, createQuiz);
-quizRoutes.post('/question', authenticate, createQuizQuestion);
+quizRoutes.delete('/:quizId', deleteQuizById);
+quizRoutes.post('/', createQuiz);
+quizRoutes.post('/question', createQuizQuestion);
+quizRoutes.post('/follow-quiz/:quizId', followQuiz);
 
 export { quizRoutes };

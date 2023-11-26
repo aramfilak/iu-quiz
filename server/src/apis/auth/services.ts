@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { BadRequestError, NotFoundError, UnauthorizedError } from '../../errors';
 import bcrypt from 'bcryptjs';
-import { database } from '../../configs';
+import { db } from '../../configs';
 import { StatusCodes } from 'http-status-codes';
 import { createApiResponse, parseIuStudentDefaultName } from '../../utils/response';
 import { validate } from '../../utils/validate';
@@ -22,7 +22,7 @@ async function signUp(req: Request, res: Response) {
   email = validate.isIuEmail(email);
   password = validate.isValidPassword(password);
 
-  const student = await database.student.findFirst({ where: { email: email } });
+  const student = await db.student.findFirst({ where: { email: email } });
 
   if (student && !student.isVerified) {
     throw new BadRequestError(
@@ -42,7 +42,7 @@ async function signUp(req: Request, res: Response) {
 
   const verificationToken = crypto.randomBytes(30).toString('hex');
 
-  await database.student.create({
+  await db.student.create({
     data: {
       email: email,
       password: hashedPassword,
@@ -81,7 +81,7 @@ async function signUp(req: Request, res: Response) {
 async function verifyEmail(req: Request, res: Response) {
   const { email, emailVerificationToken } = req.body;
 
-  const student = await database.student.findFirst({
+  const student = await db.student.findFirst({
     where: { email: email }
   });
 
@@ -103,7 +103,7 @@ async function verifyEmail(req: Request, res: Response) {
     throw new UnauthorizedError('Verifizierung fehlgeschlagen');
   }
 
-  await database.student.update({
+  await db.student.update({
     where: { email: email, emailVerificationToken: emailVerificationToken },
     data: {
       isVerified: true,
@@ -129,7 +129,7 @@ async function signIn(req: Request, res: Response) {
   email = validate.isEmpty('Email', email);
   password = validate.isEmpty('Password', password);
 
-  const student = await database.student.findFirst({ where: { email: email } });
+  const student = await db.student.findFirst({ where: { email: email } });
 
   if (student && !student.isVerified) {
     throw new BadRequestError('Bitte bestätigen Sie Ihre E-Mail, um sich einzuloggen');

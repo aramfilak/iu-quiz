@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { BadRequestError, NotFoundError } from '../../errors';
-import { cloudinary, database } from '../../configs';
+import { cloudinary, db } from '../../configs';
 import { StatusCodes } from 'http-status-codes';
 import { createApiResponse } from '../../utils/response';
 import { validate } from '../../utils/validate';
@@ -26,7 +26,7 @@ const studentProfileDataIncludeSchema = {
 async function findStudentById(req: Request, res: Response) {
   const studentId = req.params.studentId;
 
-  const studentProfile = await database.studentProfile.findUnique({
+  const studentProfile = await db.studentProfile.findUnique({
     where: { studentId: studentId },
     include: studentProfileDataIncludeSchema
   });
@@ -47,7 +47,7 @@ async function findStudentById(req: Request, res: Response) {
 async function findStudent(req: Request, res: Response) {
   const studentId = req.auth?.studentId;
 
-  const studentProfile = await database.studentProfile.findUnique({
+  const studentProfile = await db.studentProfile.findUnique({
     where: { studentId: studentId },
     include: studentProfileDataIncludeSchema
   });
@@ -82,7 +82,7 @@ async function updateStudent(req: Request, res: Response) {
     throw new BadRequestError('Keine Änderungen vorhanden');
   }
 
-  const updatedStudent = await database.studentProfile.update({
+  const updatedStudent = await db.studentProfile.update({
     where: { studentId: studentId },
     data: updateData,
     include: studentProfileDataIncludeSchema
@@ -107,7 +107,7 @@ async function updateStudent(req: Request, res: Response) {
 async function deleteStudent(req: Request, res: Response) {
   const studentId = req.auth?.studentId;
 
-  const studentProfile = await database.studentProfile.findUnique({
+  const studentProfile = await db.studentProfile.findUnique({
     where: { studentId: studentId },
     include: studentProfileDataIncludeSchema
   });
@@ -122,7 +122,7 @@ async function deleteStudent(req: Request, res: Response) {
     await cloudinary.uploader.destroy(profileImagePublicId);
   }
 
-  await database.student.delete({
+  await db.student.delete({
     where: { id: studentId }
   });
 
@@ -146,7 +146,7 @@ async function uploadStudentProfileImage(req: Request, res: Response) {
     throw new BadRequestError('Kein Bild zum Hochladen');
   }
 
-  const studentProfile = await database.studentProfile.findUnique({
+  const studentProfile = await db.studentProfile.findUnique({
     where: { studentId: studentId },
     include: studentProfileDataIncludeSchema
   });
@@ -168,17 +168,7 @@ async function uploadStudentProfileImage(req: Request, res: Response) {
     allowed_formats: ['png', 'jpg']
   });
 
-  if (!studentProfile.profileImage) {
-    await database.profileImage.create({
-      data: {
-        profileId: studentProfile.id,
-        url: '',
-        publicId: ''
-      }
-    });
-  }
-
-  const updatedStudent = await database.studentProfile.update({
+  const updatedStudent = await db.studentProfile.update({
     where: { studentId: studentId },
     data: {
       profileImage: {
@@ -206,7 +196,7 @@ async function uploadStudentProfileImage(req: Request, res: Response) {
 async function deleteStudentProfileImage(req: Request, res: Response) {
   const studentId = req.auth?.studentId;
 
-  const studentProfile = await database.studentProfile.findFirst({
+  const studentProfile = await db.studentProfile.findFirst({
     where: { studentId: studentId },
     include: {
       profileImage: true
@@ -221,7 +211,7 @@ async function deleteStudentProfileImage(req: Request, res: Response) {
 
   await cloudinary.uploader.destroy(publicId);
 
-  const updatedStudent = await database.studentProfile.update({
+  const updatedStudent = await db.studentProfile.update({
     where: { studentId: studentId },
     data: {
       profileImage: {

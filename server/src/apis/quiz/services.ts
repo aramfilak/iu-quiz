@@ -1,26 +1,37 @@
 import { Request, Response } from 'express';
-import { database } from '../../configs';
+import { db } from '../../configs';
 import { StatusCodes } from 'http-status-codes';
 import { createApiResponse } from '../../utils/response';
-import { BadRequestError } from '../../errors';
+import { BadRequestError, UnauthorizedError } from '../../errors';
 import { validate } from '../../utils/validate';
 
 /**
  * ________________________________________________________________
  * @route api/v1/quiz
  * @method GET
- * @access public
+ * @access protected
  * ________________________________________________________________
  */
 async function findAllQuizzes(req: Request, res: Response) {
-  const { page, limit, createdAt, updatedAt, popularity, size, courseOfStudy, sortField, sort } =
+  const studentId = req.auth?.studentId;
+  const { page, limit, createdAt, updatedAt, popularity, size, courseOfStudy, courseId, sort } =
     req.query;
+
+  const student = await db.student.findUnique({ where: { id: studentId } });
+
+  if (!student) {
+    throw new UnauthorizedError('Sie sind nicht berechtigt');
+  }
 
   const where: any = {};
   const sortOrder = sort ? sort : 'asc';
 
   if (courseOfStudy) {
     where.courseOfStudy = courseOfStudy;
+  }
+
+  if (courseId) {
+    where.courseId = courseId;
   }
 
   const orderBy: any = [];
@@ -44,7 +55,7 @@ async function findAllQuizzes(req: Request, res: Response) {
   const skip = (Number(page) - 1 || 0) * (Number(limit) || 10);
   const take = Number(limit) || 10;
 
-  const quizzes = await database.quiz.findMany({
+  const quizzes = await db.quiz.findMany({
     where: where,
     include: {
       quizQuestions: {
@@ -64,14 +75,21 @@ async function findAllQuizzes(req: Request, res: Response) {
  * ________________________________________________________________
  * @route api/v1/quiz/:quizId
  * @method GET
- * @access public
+ * @access protected
  * ________________________________________________________________
  */
 async function findQuizById(req: Request, res: Response) {
+  const studentId = req.auth?.studentId;
   const quizId = req.params.quizId;
 
-  const quiz = await database.quiz.findUnique({
-    where: { id: parseInt(quizId) },
+  const student = await db.student.findUnique({ where: { id: studentId } });
+
+  if (!student) {
+    throw new UnauthorizedError('Sie sind nicht berechtigt');
+  }
+
+  const quiz = await db.quiz.findUnique({
+    where: { id: Number(quizId) },
     include: {
       quizQuestions: {
         include: {
@@ -97,20 +115,24 @@ async function findQuizById(req: Request, res: Response) {
  */
 async function createQuiz(req: Request, res: Response) {
   const studentId = req.auth?.studentId;
-  const { title, courseOfStudy } = req.body;
+  const { title, courseOfStudy, courseId } = req.body;
+
+  const student = await db.student.findUnique({ where: { id: studentId } });
+
+  if (!student) {
+    throw new UnauthorizedError('Sie sind nicht berechtigt');
+  }
 
   validate.isEmpty('Title', title);
   validate.isEmpty('Course of study', courseOfStudy);
+  validate.isEmpty('Course id', courseId);
 
-  const quiz = await database.quiz.create({
+  const quiz = await db.quiz.create({
     data: {
-      student: {
-        connect: {
-          id: studentId
-        }
-      },
+      authorId: student.id,
       title,
-      courseOfStudy
+      courseOfStudy,
+      courseId
     }
   });
 
@@ -124,23 +146,31 @@ async function createQuiz(req: Request, res: Response) {
  * ________________________________________________________________
  */
 async function createQuizQuestion(req: Request, res: Response) {
+  const studentId = req.auth?.studentId;
   const { quizId, question, answers } = req.body;
+
+  const student = await db.student.findUnique({ where: { id: studentId } });
+
+  if (!student) {
+    throw new UnauthorizedError('Sie sind nicht berechtigt');
+  }
 
   validate.isEmpty('Quiz Id', quizId);
   validate.isEmpty('Question', question);
   validate.isEmpty('Answers', answers);
 
-  const existingQuiz = await database.quiz.findUnique({
+  const existingQuiz = await db.quiz.findUnique({
     where: {
-      id: quizId
+      id: quizId,
+      authorId: student.id
     }
   });
 
   if (!existingQuiz) {
-    throw new BadRequestError('Quiz nicht gefunden');
+    throw new BadRequestError('Quiz existiert nicht');
   }
 
-  const createdQuestion = await database.quizQuestion.create({
+  const createdQuestion = await db.quizQuestion.create({
     data: {
       quiz: { connect: { id: quizId } },
       question,
@@ -155,7 +185,7 @@ async function createQuizQuestion(req: Request, res: Response) {
     }
   });
 
-  await database.quiz.update({
+  await db.quiz.update({
     where: {
       id: quizId
     },
@@ -184,17 +214,77 @@ async function updateQuiz(req: Request, res: Response) {}
  * ________________________________________________________________
  */
 async function deleteQuizById(req: Request, res: Response) {
-  const quizId = req.params.quizId;
   const studentId = req.auth?.studentId;
+  const quizId = req.params.quizId;
 
-  await database.quiz.delete({
+  const student = await db.student.findUnique({ where: { id: studentId } });
+
+  if (!student) {
+    throw new UnauthorizedError('Sie sind nicht berechtigt');
+  }
+
+  await db.quiz.delete({
     where: {
       id: Number(quizId),
-      studentId: studentId
+      authorId: student.id
     }
   });
 
   res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, 'Quiz gelöscht'));
 }
 
-export { findAllQuizzes, findQuizById, createQuiz, createQuizQuestion, updateQuiz, deleteQuizById };
+/**
+ * ________________________________________________________________
+ * @route api/v1/quiz/follow-quiz/:quizId
+ * @method POST
+ * @access protected
+ * ________________________________________________________________
+ */
+async function followQuiz(req: Request, res: Response) {
+  const studentId = req.auth?.studentId;
+  const quizId = req.params.quizId;
+
+  const student = await db.student.findUnique({ where: { id: studentId } });
+
+  if (!student) {
+    throw new UnauthorizedError('Sie sind nicht berechtigt');
+  }
+
+  const existingQuiz = await db.quiz.findUnique({
+    where: {
+      id: Number(quizId)
+    }
+  });
+
+  if (!existingQuiz) {
+    throw new BadRequestError('Quiz existiert nicht');
+  }
+
+  if (student.id === existingQuiz.authorId) {
+    throw new BadRequestError('Sie können Ihrem eigenen Quiz nicht folgen');
+  }
+
+  const isFollowed = await db.followedQuizzes.findUnique({
+    where: { followerId_quizId: { followerId: student.id, quizId: Number(existingQuiz.id) } }
+  });
+
+  if (isFollowed) {
+    throw new BadRequestError('Quiz ist bereits gefolgt');
+  }
+
+  await db.followedQuizzes.create({
+    data: { followerId: student.id, quizId: existingQuiz.id }
+  });
+
+  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, 'Quiz gefolgt'));
+}
+
+export {
+  findAllQuizzes,
+  findQuizById,
+  createQuiz,
+  createQuizQuestion,
+  updateQuiz,
+  deleteQuizById,
+  followQuiz
+};
