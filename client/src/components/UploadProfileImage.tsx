@@ -125,7 +125,7 @@ function UploadProfileImage(rest: FlexProps) {
             width="100%"
             color="white"
             bg="teal.500"
-            _dark={{ bg: 'tea.200', color: 'gray.800' }}
+            _dark={{ bg: 'teal.200', color: 'gray.800' }}
             borderRadius="md"
             htmlFor="profileImage"
             cursor="pointer"

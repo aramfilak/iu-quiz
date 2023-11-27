@@ -41,9 +41,9 @@ const useStudentStore = create<UseStudentStore>((set) => ({
 
       return response.data;
     }),
-  uploadImage: (image: FormData) =>
+  uploadImage: (profileImage: FormData) =>
     asyncHandler(async () => {
-      const response = await axiosStudentApi.post('/profile-image', image, {
+      const response = await axiosStudentApi.post('/profile-image', profileImage, {
         headers: {
           Authorization: usePersistStore.getState().accessToken,
           'Content-Type': 'multipart/form-data'

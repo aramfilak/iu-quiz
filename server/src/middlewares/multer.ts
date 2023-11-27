@@ -2,12 +2,8 @@ import multer from 'multer';
 import path from 'path';
 import { BadRequestError } from '../errors';
 
-const upload = multer({
-  storage: multer.diskStorage({
-    filename: function (req, file, cb) {
-      cb(null, file.originalname);
-    }
-  }),
+const profileImageUploader = multer({
+  storage: multer.memoryStorage(),
   fileFilter: (req, file, cb) => {
     const ext = path.extname(file.originalname);
 
@@ -24,6 +20,6 @@ const upload = multer({
     // 5MB
     fileSize: 5 * 1024 * 1024
   }
-});
+}).single('image');
 
-export { upload };
+export { profileImageUploader };

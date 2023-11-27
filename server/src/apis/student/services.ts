@@ -5,6 +5,9 @@ import { StatusCodes } from 'http-status-codes';
 import { createApiResponse } from '../../utils/response';
 import { validate } from '../../utils/validate';
 import { StudentProfile } from '@prisma/client';
+import { Readable } from 'stream';
+import { UploadApiResponse } from 'cloudinary';
+import { uploadImageToCloudinary } from '../../utils/helpers';
 
 const studentProfileDataIncludeSchema = {
   profileImage: true,
@@ -140,9 +143,9 @@ async function deleteStudent(req: Request, res: Response) {
  */
 async function uploadStudentProfileImage(req: Request, res: Response) {
   const studentId = req.auth?.studentId;
-  const imageSource = req.file?.path;
+  const profileImage = req.file;
 
-  if (!imageSource) {
+  if (!profileImage) {
     throw new BadRequestError('Kein Bild zum Hochladen');
   }
 
@@ -161,12 +164,7 @@ async function uploadStudentProfileImage(req: Request, res: Response) {
     await cloudinary.uploader.destroy(imageId);
   }
 
-  const { secure_url, public_id } = await cloudinary.uploader.upload(imageSource, {
-    folder: 'iu-quiz-app',
-    unique_filename: true,
-    resource_type: 'auto',
-    allowed_formats: ['png', 'jpg']
-  });
+  const { secure_url, public_id } = await uploadImageToCloudinary(profileImage.buffer);
 
   if (!studentProfile.profileImage) {
     await db.profileImage.create({
