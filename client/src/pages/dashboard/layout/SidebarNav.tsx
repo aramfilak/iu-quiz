@@ -31,7 +31,7 @@ function SidebarNav({ onClose, isCollapsed, toggleSidebar, ...rest }: SidebarPro
     >
       <Center justifyContent={{ base: 'start', md: 'center' }}>
         {/* ________________ Logo ____________________ */}
-        <Image src={logo} alt="iu quiz app logo" width={{ base: '5rem' }} />
+        <Image src={logo} alt="iu quiz app logo" width={{ base: '4rem', md: '6rem' }} />
         <CloseButton
           style={{ marginLeft: 'auto', marginRight: '1.6rem' }}
           display={{ base: 'flex', md: 'none' }}
@@ -39,7 +39,7 @@ function SidebarNav({ onClose, isCollapsed, toggleSidebar, ...rest }: SidebarPro
         />
       </Center>
 
-      <Box mt="4rem" position="relative">
+      <Box mt={isCollapsed ? '4rem' : '1rem'} position="relative">
         {/* ________________ Collapse Button ____________________ */}
         <Tooltip label={isCollapsed ? 'Öffnen' : 'Schlißen'} placement="right">
           <IconButton

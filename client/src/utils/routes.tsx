@@ -5,10 +5,11 @@ import {
   EmailVerification,
   Profile,
   FAQs,
-  Editor
+  Editor,
+  MeineQuiz
 } from '../pages';
 import { FiHome, FiUser, FiHeart, FiEdit, FiSearch, FiCheckSquare } from 'react-icons/fi';
-import { SignIn, SignUp } from '../pages/Authentication';
+import { SignIn, SignUp } from '../pages/authentication';
 
 const routes = {
   Authentication: {
@@ -62,7 +63,7 @@ const routes = {
         icon: FiHeart,
         name: 'Meine Quiz',
         path: 'my-quizzes',
-        element: <div>Meine Quiz</div>
+        element: <MeineQuiz />
       },
       QuizEditor: {
         icon: FiEdit,
