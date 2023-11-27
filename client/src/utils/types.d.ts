@@ -11,22 +11,19 @@ export interface CustomAlert {
 }
 
 export interface Student {
-  id: string;
   email: string;
-  password: string;
-  isVerified: boolean;
   emailVerificationToken: string;
+  registrationDate: Date;
   studentProfile?: StudentProfile;
   Quiz: Quiz[];
-  registrationDate: Date;
+  followedQuizzes: FollowedQuizzes[];
 }
 
 export interface StudentProfile {
   id: number;
   name: string;
-  courseOfStudy?: string | null;
-  studyFormat?: string | null;
   location?: string | null;
+  courseOfStudy?: string | null;
   xingUrl?: string | null;
   linkedinUrl?: string | null;
   student: Student;
@@ -44,14 +41,23 @@ export interface ProfileImage {
 export interface Quiz {
   id: number;
   student: Student;
-  studentId: string;
+  authorId: string;
   title: string;
   createdAt: Date;
   updatedAt: Date;
   size: number;
   popularity: number;
   courseOfStudy: string;
+  courseId: string;
   quizQuestions: QuizQuestion[];
+  followedBy: FollowedQuizzes[];
+}
+
+export interface FollowedQuizzes {
+  student: Student;
+  followerId: string;
+  quiz: Quiz;
+  quizId: number;
 }
 
 export interface QuizQuestion {
@@ -59,7 +65,7 @@ export interface QuizQuestion {
   quiz: Quiz;
   quizId: number;
   question: string;
-  answers: QuizAnswer[];
+  quizAnswers: QuizAnswer[];
 }
 
 export interface QuizAnswer {

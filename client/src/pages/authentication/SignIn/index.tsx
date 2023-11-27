@@ -1,6 +1,7 @@
 import { Box, Flex, Image } from '@chakra-ui/react';
-import signInIll from '../../assets/Mobile login-rafiki.svg';
-import { LabelHeading, SignInForm } from '../../components';
+import signInIll from '../../../assets/Mobile login-rafiki.svg';
+import { LabelHeading } from '../../../components';
+import { SignInForm } from './SignInForm';
 
 const SignIn = () => {
   return (

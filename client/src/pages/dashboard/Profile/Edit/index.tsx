@@ -11,11 +11,11 @@ import {
   Tooltip,
   Flex
 } from '@chakra-ui/react';
-import { UploadProfileImage, BoxWrapper } from '../../../../../components';
+import { UploadProfileImage, BoxWrapper } from '../../../../components';
 import { useState, useRef } from 'react';
-import { useStudentStore } from '../../../../../stores';
-import { CustomAlert } from '../../../../../utils/types';
-import courseOfStudy from '../../../../../data/courseOfStudy.json';
+import { useStudentStore } from '../../../../stores';
+import { CustomAlert } from '../../../../utils/types';
+import courseOfStudy from '../../../../data/courseOfStudy.json';
 import { FiSave, FiUserX } from 'react-icons/fi';
 import { FaLinkedin, FaXing, FaGraduationCap, FaMapMarkerAlt, FaUser } from 'react-icons/fa';
 import { DeleteStudentAlert } from './DeleteStudentAlert';

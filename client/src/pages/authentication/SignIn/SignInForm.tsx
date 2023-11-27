@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { RiLockPasswordLine, RiMailLine } from 'react-icons/ri';
 import { BiShow, BiHide } from 'react-icons/bi';
-import { useAuthStore } from '../stores';
+import { useAuthStore } from '../../../stores';
 import {
   Button,
   Text,
@@ -15,9 +15,9 @@ import {
   useToast
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
-import { routes } from '../utils/routes';
-import { CustomAlert } from '../utils/types';
-import { LabelHeading } from '.';
+import { routes } from '../../../utils/routes';
+import { CustomAlert } from '../../../utils/types';
+import { LabelHeading } from '../../../components';
 
 function SignInForm(rest: React.HTMLProps<HTMLFormElement>) {
   const emailInputRef = useRef<HTMLInputElement>(null);

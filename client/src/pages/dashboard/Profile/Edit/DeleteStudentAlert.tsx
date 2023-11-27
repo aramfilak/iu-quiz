@@ -17,8 +17,8 @@ import {
 } from '@chakra-ui/react';
 import { FiAlertTriangle } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
-import { useStudentStore, usePersistStore } from '../../../../../stores';
-import { routes } from '../../../../../utils/routes';
+import { useStudentStore, usePersistStore } from '../../../../stores';
+import { routes } from '../../../../utils/routes';
 import { useRef } from 'react';
 
 interface DeleteStudentAlertProps extends UseDisclosureProps {

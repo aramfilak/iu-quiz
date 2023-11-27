@@ -18,8 +18,8 @@ import {
 import { FaSearch } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import { useState } from 'react';
-import faqs from './../../../../data/faqs.json';
-import { PageHeader } from '../../../../components';
+import faqs from '../../../data/faqs.json';
+import { PageHeader } from '../../../components';
 
 function FAQs() {
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -33,13 +33,16 @@ function FAQs() {
       faq.category.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const groupByCategory = filteredFaqs.reduce((acc, faq) => {
-    if (!acc[faq.category]) {
-      acc[faq.category] = [];
-    }
-    acc[faq.category].push(faq);
-    return acc;
-  }, {} as Record<string, typeof faqs>);
+  const groupByCategory = filteredFaqs.reduce(
+    (acc, faq) => {
+      if (!acc[faq.category]) {
+        acc[faq.category] = [];
+      }
+      acc[faq.category].push(faq);
+      return acc;
+    },
+    {} as Record<string, typeof faqs>
+  );
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);

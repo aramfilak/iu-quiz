@@ -1,7 +1,4 @@
-export { Authentication } from './authentication';
+export { Authentication } from './Authentication';
 export { NotFound404 } from './404';
-export { EmailVerification } from './email-verification';
-export { Dashboard } from './dashboard';
-export { Profile } from './dashboard/sub-pages';
-export { FAQs } from './dashboard/sub-pages';
-export { QuizEditor } from './dashboard/sub-pages';
+export { EmailVerification } from './EmailVerification';
+export { Dashboard, Profile, Editor, FAQs } from './Dashboard';

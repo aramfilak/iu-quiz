@@ -4,8 +4,6 @@ import { usePersistStore } from '../../stores';
 import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { routes } from '../../utils/routes';
-import { SignIn } from './SignIn';
-import { SignUp } from './SignUp';
 import authBg from '../../assets/auth-page-bg.svg';
 
 function Authentication() {
@@ -36,4 +34,6 @@ function Authentication() {
   );
 }
 
-export { Authentication, SignIn, SignUp };
+export { Authentication };
+export { SignIn } from './SignIn';
+export { SignUp } from './SignUp';

@@ -1,6 +1,7 @@
 import { Box, Flex, Image } from '@chakra-ui/react';
-import { LabelHeading, SignUpForm } from '../../components';
-import signUpIll from '../../assets/Mobile login-pana.svg';
+import { LabelHeading } from '../../../components';
+import signUpIll from '../../../assets/Mobile login-pana.svg';
+import { SignUpForm } from './SignUpForm';
 
 function SignUp() {
   return (

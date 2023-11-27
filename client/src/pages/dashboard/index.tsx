@@ -1,6 +1,6 @@
 import { useState } from 'react';
+import { HeaderMenuBar, SidebarNav } from './layout';
 import { Box, Container, Drawer, DrawerContent, useDisclosure } from '@chakra-ui/react';
-import { HeaderMenuBar, SidebarNav } from '../../components';
 import { Outlet } from 'react-router-dom';
 import { useScreenSize } from '../../hooks';
 
@@ -39,3 +39,6 @@ function Dashboard() {
 }
 
 export { Dashboard };
+export { Editor } from './Editor';
+export { FAQs } from './FAQs';
+export { Profile } from './Profile';
