@@ -1,9 +1,10 @@
-import { Flex, CloseButton, Box, Text, BoxProps, Button } from '@chakra-ui/react';
+import { CloseButton, Box, BoxProps, Image, Center, IconButton, Tooltip } from '@chakra-ui/react';
 import { NavItem } from '../../../components';
 import { routes } from '../../../utils/routes';
 import { useNavigate } from 'react-router-dom';
 import { usePersistStore } from '../../../stores';
-import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import logo from '../../../assets/logo.png';
+import { FaArrowRight, FaArrowLeft } from 'react-icons/fa';
 
 interface SidebarProps extends BoxProps {
   onClose: () => void;
@@ -15,6 +16,7 @@ function SidebarNav({ onClose, isCollapsed, toggleSidebar, ...rest }: SidebarPro
   const navigate = useNavigate();
   const { activeNaveLinkIndex, setActiveNaveLinkIndex } = usePersistStore();
 
+  const boxShadowDark = isCollapsed ? '' : '1px solid #4a5568';
   return (
     <Box
       transition="0.1s ease"
@@ -27,34 +29,47 @@ function SidebarNav({ onClose, isCollapsed, toggleSidebar, ...rest }: SidebarPro
       h="full"
       {...rest}
     >
-      <Flex h="20" alignItems="center" justifyContent="space-between">
+      <Center justifyContent={{ base: 'start', md: 'center' }}>
         {/* ________________ Logo ____________________ */}
-        <Text
-          ml={isCollapsed ? '0.3rem' : '1.5rem'}
-          fontSize="2xl"
-          fontFamily="monospace"
-          fontWeight="bold"
-        >
-          LOGO
-        </Text>
-        <Text
-          display={{ base: 'flex', md: isCollapsed ? 'none' : 'block' }}
-          fontSize="2xl"
-          fontFamily="monospace"
-          fontWeight="bold"
-          ml={{ base: 'auto', md: 'auto' }}
-          mr={{ base: 'none', md: '1.6rem' }}
-        >
-          IU~QUIZ
-        </Text>
+        <Image src={logo} alt="iu quiz app logo" width={{ base: '5rem' }} />
         <CloseButton
           style={{ marginLeft: 'auto', marginRight: '1.6rem' }}
           display={{ base: 'flex', md: 'none' }}
           onClick={onClose}
         />
-      </Flex>
+      </Center>
 
-      <Box mt="2.2rem">
+      <Box mt="4rem" position="relative">
+        {/* ________________ Collapse Button ____________________ */}
+        <Tooltip label={isCollapsed ? 'Öffnen' : 'Schlißen'} placement="right">
+          <IconButton
+            display={{ base: 'none', md: 'flex' }}
+            position="absolute"
+            top="-2.7rem"
+            height="20%"
+            borderRadius="xl"
+            right={isCollapsed ? '25%' : '-4%'}
+            onClick={toggleSidebar}
+            aria-label="Toggle Sidebar"
+            fontSize="1.1rem"
+            size="sm"
+            boxShadow={isCollapsed ? 'none' : '1px 0 0 0.2px rgba(0, 0, 0,0.1)'}
+            colorScheme="gray"
+            bg="white"
+            color="teal"
+            _hover={{ bg: 'white' }}
+            _dark={{
+              bg: 'gray.800',
+              color: 'teal.200',
+              boxShadow: 'none',
+              borderRight: boxShadowDark,
+              _hover: { bg: 'gray.800' }
+            }}
+          >
+            {isCollapsed ? <FaArrowRight /> : <FaArrowLeft />}
+          </IconButton>
+        </Tooltip>
+
         {/* ________________ Nav Links ____________________ */}
         {Object.values(routes.Dashboard.children).map((link, index) => (
           <NavItem
@@ -72,22 +87,6 @@ function SidebarNav({ onClose, isCollapsed, toggleSidebar, ...rest }: SidebarPro
           </NavItem>
         ))}
       </Box>
-
-      {/* ________________ Collapse Button ____________________ */}
-      <Button
-        width="full"
-        position="absolute"
-        top="4rem"
-        right={isCollapsed ? 'initial' : '0'}
-        height="2.1rem"
-        colorScheme="gray"
-        display={{ base: 'none', md: 'flex' }}
-        onClick={toggleSidebar}
-        variant="ghost"
-        leftIcon={isCollapsed ? <FiChevronRight /> : <FiChevronLeft />}
-        alignItems="center"
-        pl="1.5rem"
-      ></Button>
     </Box>
   );
 }
