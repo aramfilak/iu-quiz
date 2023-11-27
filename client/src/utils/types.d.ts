@@ -59,7 +59,7 @@ export interface QuizQuestion {
   quiz: Quiz;
   quizId: number;
   question: string;
-  quizAnswers: QuizAnswer[];
+  answers: QuizAnswer[];
 }
 
 export interface QuizAnswer {

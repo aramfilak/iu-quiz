@@ -16,6 +16,10 @@ const axiosStudentApi = axios.create({
   baseURL: `${baseURL}/api/v1/student`
 });
 
+const axiosQuizApi = axios.create({
+  baseURL: `${baseURL}/api/v1/quiz`
+});
+
 /**
  * Handle asynchronous errors
  */
@@ -33,4 +37,4 @@ async function asyncHandler<T>(asyncFunction: () => Promise<T>): Promise<T> {
   }
 }
 
-export { axiosAuthApi, axiosStudentApi, asyncHandler, serverErrorMessage };
+export { axiosAuthApi, axiosStudentApi, axiosQuizApi, asyncHandler, serverErrorMessage };
