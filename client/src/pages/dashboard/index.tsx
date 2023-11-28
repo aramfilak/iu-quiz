@@ -42,3 +42,4 @@ export { Dashboard };
 export { Editor } from './Editor';
 export { FAQs } from './FAQs';
 export { Profile } from './Profile';
+export { MeineQuiz } from './MyQuizzes';

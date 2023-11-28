@@ -4,7 +4,6 @@ import {
   IconButton,
   Flex,
   Text,
-  ChakraProvider,
   Menu,
   MenuButton,
   MenuList,
@@ -42,7 +41,6 @@ import { useQuizStore } from '../../../stores';
 import courseOfStudy from '../../../data/courseOfStudy.json';
 import { CustomAlert } from '../../../utils/types';
 import { useNavigate } from 'react-router-dom';
-import { useScreenSize } from '../../../hooks';
 
 const Rectangle = ({
   title,
@@ -59,26 +57,11 @@ const Rectangle = ({
 }) => {
   const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
   const leastDestructiveRef = useRef(null);
-  const [isHovered, setIsHovered] = useState(false);
-
   const onCloseDeleteAlert = () => setIsDeleteAlertOpen(false);
   const onDeleteButtonClick = () => setIsDeleteAlertOpen(true);
-
   const handleDeleteConfirmed = () => {
     onDelete();
     onCloseDeleteAlert();
-  };
-  const { isMobileScreen } = useScreenSize();
-  const handleMouseEnter = () => {
-    if (!isMobileScreen) {
-      setIsHovered(true);
-    }
-  };
-
-  const handleMouseLeave = () => {
-    if (!isMobileScreen) {
-      setIsHovered(false);
-    }
   };
 
   return (
@@ -88,6 +71,8 @@ const Rectangle = ({
       border="2px"
       borderRadius="2xl"
       borderColor="teal.700"
+      bg="white"
+      _dark={{ bg: 'transparent' }}
       p={4}
       m={2}
       position="relative"
@@ -95,19 +80,10 @@ const Rectangle = ({
       alignItems="center"
       display="flex"
     >
-      <Text
-        fontWeight="bold"
-        position="relative"
-        display="inline-block"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
-        {!isHovered && (
-          <Text _dark={{ color: 'teal.100' }} fontWeight="bold">
-            {title}
-          </Text>
-        )}
-        {isHovered && <Button colorScheme="teal">Quiz spielen</Button>}
+      <Text fontWeight="bold" position="relative" display="inline-block">
+        <Text _dark={{ color: 'teal.100' }} fontWeight="bold">
+          {title}
+        </Text>
       </Text>
       <Flex position="absolute" bottom={2}>
         <Flex direction="column" justifyContent="center" alignItems="center">
@@ -168,13 +144,11 @@ const Rectangle = ({
           </MenuList>
         </Menu>
       </Flex>
-      {isMobileScreen && (
-        <Flex position="absolute" top={2} left={2}>
-          <Button ml={2} size="sm" color="transparent">
-            <FaPlay color="teal"></FaPlay>
-          </Button>
-        </Flex>
-      )}
+      <Flex position="absolute" top={2} left={2}>
+        <Button ml={2} size="sm" bg="gray.300">
+          <FaPlay></FaPlay>
+        </Button>
+      </Flex>
 
       {/* AlertDialog für Löschen */}
       <AlertDialog
@@ -214,12 +188,12 @@ function MeineQuiz() {
   const moduleSelectRef = useRef<HTMLSelectElement>(null);
   const { quizzes, getAllQuizzes } = useQuizStore();
   const { studentProfile } = useStudentStore();
-  const [selectedCourseOfStudy, setSelectedCourseOfStudy] = useState<string>(
-    studentProfile?.courseOfStudy || ''
-  );
   const [alert, setAlert] = useState<CustomAlert | null>(null);
   const [loading, setLoadingState] = useState<boolean>(true);
   const navigate = useNavigate();
+  const [selectedCourseOfStudy, setSelectedCourseOfStudy] = useState<string>(
+    studentProfile?.courseOfStudy || ''
+  );
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -251,6 +225,7 @@ function MeineQuiz() {
   };
 
   const handleCreateQuiz = async () => {
+    setLoadingState(true);
     setAlert({ status: 'loading', message: 'Es lädt...' });
     const { success, message } = await useQuizStore
       .getState()
@@ -261,6 +236,7 @@ function MeineQuiz() {
       );
 
     setAlert({ status: success ? 'success' : 'error', message: message });
+    setLoadingState(false);
   };
 
   const handleEditRectangle = (quizId: number) => {
@@ -268,9 +244,11 @@ function MeineQuiz() {
   };
 
   const handleDeleteRectangle = async (quizId: number) => {
+    setLoadingState(true);
     setAlert({ status: 'loading', message: 'Es lädt...' });
     const { success, message } = await useQuizStore.getState().deleteQuizById(quizId);
     setAlert({ status: success ? 'success' : 'error', message: message });
+    setLoadingState(false);
   };
 
   const handelChange = () => {
@@ -316,117 +294,117 @@ function MeineQuiz() {
           title={'Meine Quiz'}
           description="Dein Wissen. Deine Quiz. Alles im Überblick."
         />
-        <ChakraProvider>
-          <Skeleton isLoaded={!loading}>
-            <Flex direction="row" align="center" justify="center" flexWrap="wrap">
-              {quizzes?.map((quiz, index) => (
-                <Rectangle
-                  key={index}
-                  title={quiz?.title}
-                  createdDate={quiz?.createdAt}
-                  modifiedDate={quiz?.updatedAt}
-                  onEdit={() => handleEditRectangle(quiz?.id)}
-                  onDelete={() => handleDeleteRectangle(quiz?.id)}
-                />
-              ))}
-              <Box
-                width="180px"
-                height="180px"
-                border="2px"
-                borderRadius="2xl"
-                borderColor="teal.700"
-                p={4}
-                m={2}
-                position="relative"
-                justifyContent="center"
-                alignItems="center"
-                display="flex"
-              >
-                <Box display="flex" alignItems="center" onClick={handleOpenModal} cursor="pointer">
-                  <Flex direction="column" align="center" justify="center">
-                    <Text>{'Neues Quiz'}</Text>
-                    <IconButton
-                      aria-label="Add"
-                      icon={<FaPlus />}
-                      size="sm"
-                      colorScheme="teal"
-                      mt={2}
-                    />
-                  </Flex>
-                </Box>
-              </Box>
-            </Flex>
-          </Skeleton>
-          <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-            <ModalOverlay />
-            <ModalContent>
-              <ModalHeader>Neues Quiz erstellen</ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>
-                <FormControl isRequired isInvalid={formErrorTitle} mb={3}>
-                  <Input ref={quizTitleRef} onChange={handelChange} placeholder="Quiz-Titel" />
-                  <FormErrorMessage>Dies ist ein Pflichtfeld</FormErrorMessage>
-                </FormControl>
-                {/*------------------- Course Of Study --------------------*/}
-                <FormControl isRequired isInvalid={formErrorCourseOfStudy} mb={3}>
-                  <InputGroup>
-                    <Tooltip label="Studiengang">
-                      <Select
-                        ref={courseOfStudySelectRef}
-                        onChange={(e) => {
-                          handelChange();
-                          setSelectedCourseOfStudy(e.target.value);
-                        }}
-                        defaultValue={studentProfile?.courseOfStudy || ''}
-                      >
-                        <option value="" disabled hidden>
-                          Studiengang auswählen
-                        </option>
-                        {courseOfStudy.map(({ name }) => (
-                          <option value={name} key={name}>
-                            {name}
-                          </option>
-                        ))}
-                      </Select>
-                    </Tooltip>
-                  </InputGroup>
-                  <FormErrorMessage>Dies ist ein Pflichtfeld</FormErrorMessage>
-                </FormControl>
-                {/*------------------- Course --------------------*/}
-                <FormControl isRequired isInvalid={formErrorModule} mb={3}>
-                  <InputGroup>
-                    <Tooltip label="Modul">
-                      <Select onChange={handelChange} ref={moduleSelectRef}>
-                        <option value="" disabled hidden>
-                          Modul auswählen
-                        </option>
-                        {courseOfStudy
-                          ?.find(({ name }) => name === selectedCourseOfStudy)
-                          ?.courses?.map(({ title, shortcode }) => (
-                            <option key={shortcode} value={shortcode}>
-                              {title}
-                            </option>
-                          )) || []}
-                      </Select>
-                    </Tooltip>
-                  </InputGroup>
-                  <FormErrorMessage>Dies ist ein Pflichtfeld</FormErrorMessage>
-                </FormControl>
-              </ModalBody>
-
-              <ModalFooter>
-                <Flex justifyContent="flex-end">
-                  <Button mr={3} colorScheme="teal" onClick={handleCloseModal}>
-                    Abbrechen
-                  </Button>
-                  <Button colorScheme="teal" onClick={handleAddRectangle}>
-                    Erstellen
-                  </Button>
+        <Skeleton isLoaded={!loading}>
+          <Flex direction="row" align="center" justify="center" flexWrap="wrap">
+            {quizzes?.map((quiz, index) => (
+              <Rectangle
+                key={index}
+                title={quiz?.title}
+                createdDate={quiz?.createdAt}
+                modifiedDate={quiz?.updatedAt}
+                onEdit={() => handleEditRectangle(quiz?.id)}
+                onDelete={() => handleDeleteRectangle(quiz?.id)}
+              />
+            ))}
+            <Box
+              width="180px"
+              height="180px"
+              border="2px"
+              borderRadius="2xl"
+              borderColor="teal.700"
+              bg="white"
+              _dark={{ bg: 'transparent' }}
+              p={4}
+              m={2}
+              position="relative"
+              justifyContent="center"
+              alignItems="center"
+              display="flex"
+            >
+              <Box display="flex" alignItems="center" onClick={handleOpenModal} cursor="pointer">
+                <Flex direction="column" align="center" justify="center">
+                  <Text>{'Neues Quiz'}</Text>
+                  <IconButton
+                    aria-label="Add"
+                    icon={<FaPlus />}
+                    size="sm"
+                    colorScheme="teal"
+                    mt={2}
+                  />
                 </Flex>
-              </ModalFooter>
-            </ModalContent>
-          </Modal>
-        </ChakraProvider>
+              </Box>
+            </Box>
+          </Flex>
+        </Skeleton>
+        <Modal isOpen={isModalOpen} onClose={handleCloseModal} isCentered>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Neues Quiz erstellen</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <FormControl isRequired isInvalid={formErrorTitle} mb={3}>
+                <Input ref={quizTitleRef} onChange={handelChange} placeholder="Quiz-Titel" />
+                <FormErrorMessage>Dies ist ein Pflichtfeld</FormErrorMessage>
+              </FormControl>
+              {/*------------------- Course Of Study --------------------*/}
+              <FormControl isRequired isInvalid={formErrorCourseOfStudy} mb={3}>
+                <InputGroup>
+                  <Tooltip label="Studiengang">
+                    <Select
+                      ref={courseOfStudySelectRef}
+                      onChange={(e) => {
+                        handelChange();
+                        setSelectedCourseOfStudy(e.target.value);
+                      }}
+                      defaultValue={studentProfile?.courseOfStudy || ''}
+                    >
+                      <option value="" disabled hidden>
+                        Studiengang auswählen
+                      </option>
+                      {courseOfStudy.map(({ name }) => (
+                        <option value={name} key={name}>
+                          {name}
+                        </option>
+                      ))}
+                    </Select>
+                  </Tooltip>
+                </InputGroup>
+                <FormErrorMessage>Dies ist ein Pflichtfeld</FormErrorMessage>
+              </FormControl>
+              {/*------------------- Course --------------------*/}
+              <FormControl isRequired isInvalid={formErrorModule} mb={3}>
+                <InputGroup>
+                  <Tooltip label="Modul">
+                    <Select onChange={handelChange} ref={moduleSelectRef}>
+                      <option value="" disabled hidden>
+                        Modul auswählen
+                      </option>
+                      {courseOfStudy
+                        ?.find(({ name }) => name === selectedCourseOfStudy)
+                        ?.courses?.map(({ title, shortcode }) => (
+                          <option key={shortcode} value={shortcode}>
+                            {title}
+                          </option>
+                        )) || []}
+                    </Select>
+                  </Tooltip>
+                </InputGroup>
+                <FormErrorMessage>Dies ist ein Pflichtfeld</FormErrorMessage>
+              </FormControl>
+            </ModalBody>
+
+            <ModalFooter>
+              <Flex justifyContent="flex-end">
+                <Button mr={3} colorScheme="teal" onClick={handleCloseModal}>
+                  Abbrechen
+                </Button>
+                <Button colorScheme="teal" onClick={handleAddRectangle}>
+                  Erstellen
+                </Button>
+              </Flex>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       </Box>
     </>
   );
