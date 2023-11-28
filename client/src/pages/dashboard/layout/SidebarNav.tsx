@@ -71,21 +71,23 @@ function SidebarNav({ onClose, isCollapsed, toggleSidebar, ...rest }: SidebarPro
         </Tooltip>
 
         {/* ________________ Nav Links ____________________ */}
-        {Object.values(routes.Dashboard.children).map((link, index) => (
-          <NavItem
-            isActive={index === activeNaveLinkIndex}
-            key={link.name}
-            icon={link.icon}
-            onClick={() => {
-              setActiveNaveLinkIndex(index);
-              navigate(link.path);
-              onClose();
-            }}
-            tooltip={isCollapsed ? link.name : undefined}
-          >
-            {isCollapsed ? null : link.name}
-          </NavItem>
-        ))}
+        {Object.values(routes.Dashboard.children)
+          .filter((link) => link.name !== 'Editor')
+          .map((link, index) => (
+            <NavItem
+              isActive={index === activeNaveLinkIndex}
+              key={link.name}
+              icon={link.icon}
+              onClick={() => {
+                setActiveNaveLinkIndex(index);
+                navigate(link.path);
+                onClose();
+              }}
+              tooltip={isCollapsed ? link.name : undefined}
+            >
+              {isCollapsed ? null : link.name}
+            </NavItem>
+          ))}
       </Box>
     </Box>
   );

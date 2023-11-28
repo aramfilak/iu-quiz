@@ -68,7 +68,7 @@ async function findAllQuizzes(req: Request, res: Response) {
     skip,
     take
   });
-  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, 'Quiz erstellt', quizzes));
+  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, 'Alle Quiz geladen', quizzes));
 }
 
 /**
@@ -136,7 +136,7 @@ async function createQuiz(req: Request, res: Response) {
     }
   });
 
-  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, '', quiz));
+  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, 'Quiz erstellt', quiz));
 }
 /**
  * ________________________________________________________________

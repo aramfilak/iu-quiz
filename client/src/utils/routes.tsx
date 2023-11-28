@@ -68,7 +68,7 @@ const routes = {
       QuizEditor: {
         icon: FiEdit,
         name: 'Editor',
-        path: 'editor',
+        path: 'editor/:quizId',
         element: <Editor />
       },
       FAQs: {
