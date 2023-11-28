@@ -34,7 +34,7 @@ import {
   AlertDialogFooter,
   Skeleton
 } from '@chakra-ui/react';
-import { FaPlus, FaEdit, FaTrash, FaList, FaUserEdit, FaBuilding } from 'react-icons/fa';
+import { FaPlus, FaEdit, FaTrash, FaList, FaUserEdit, FaBuilding, FaPlay } from 'react-icons/fa';
 import { PageHeader } from '../../../components';
 import { useRef } from 'react';
 import { useStudentStore } from '../../../stores';
@@ -42,6 +42,7 @@ import { useQuizStore } from '../../../stores';
 import courseOfStudy from '../../../data/courseOfStudy.json';
 import { CustomAlert } from '../../../utils/types';
 import { useNavigate } from 'react-router-dom';
+import { useScreenSize } from '../../../hooks';
 
 const Rectangle = ({
   title,
@@ -58,6 +59,7 @@ const Rectangle = ({
 }) => {
   const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
   const leastDestructiveRef = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
 
   const onCloseDeleteAlert = () => setIsDeleteAlertOpen(false);
   const onDeleteButtonClick = () => setIsDeleteAlertOpen(true);
@@ -66,12 +68,24 @@ const Rectangle = ({
     onDelete();
     onCloseDeleteAlert();
   };
+  const { isMobileScreen } = useScreenSize();
+  const handleMouseEnter = () => {
+    if (!isMobileScreen) {
+      setIsHovered(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (!isMobileScreen) {
+      setIsHovered(false);
+    }
+  };
 
   return (
     <Box
       width="180px"
       height="180px"
-      border="1px"
+      border="2px"
       borderRadius="2xl"
       borderColor="teal.700"
       p={4}
@@ -81,7 +95,20 @@ const Rectangle = ({
       alignItems="center"
       display="flex"
     >
-      <Text fontWeight="bold">{title}</Text>
+      <Text
+        fontWeight="bold"
+        position="relative"
+        display="inline-block"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        {!isHovered && (
+          <Text _dark={{ color: 'teal.100' }} fontWeight="bold">
+            {title}
+          </Text>
+        )}
+        {isHovered && <Button colorScheme="teal">Quiz spielen</Button>}
+      </Text>
       <Flex position="absolute" bottom={2}>
         <Flex direction="column" justifyContent="center" alignItems="center">
           <Flex direction="row" justifyContent="center" alignItems="center">
@@ -112,17 +139,42 @@ const Rectangle = ({
       </Flex>
       <Flex position="absolute" top={2} right={2}>
         <Menu>
-          <MenuButton as={IconButton} icon={<FaList />} size="sm" mr={2} aria-label="Menu" />
+          <MenuButton
+            _dark={{ color: 'white.300' }}
+            as={IconButton}
+            icon={<FaList />}
+            size="sm"
+            mr={2}
+            aria-label="Menu"
+          />
           <MenuList>
-            <MenuItem onClick={onEdit} icon={<FaEdit />} aria-label="Edit">
+            <MenuItem
+              _dark={{ textColor: 'white' }}
+              onClick={onEdit}
+              icon={<FaEdit />}
+              aria-label="Edit"
+            >
               Bearbeiten
             </MenuItem>
-            <MenuItem onClick={onDeleteButtonClick} icon={<FaTrash />} aria-label="Delete">
+            <MenuItem
+              _dark={{ textColor: 'red.300' }}
+              textColor="red"
+              onClick={onDeleteButtonClick}
+              icon={<FaTrash />}
+              aria-label="Delete"
+            >
               Löschen
             </MenuItem>
           </MenuList>
         </Menu>
       </Flex>
+      {isMobileScreen && (
+        <Flex position="absolute" top={2} left={2}>
+          <Button ml={2} size="sm" color="transparent">
+            <FaPlay color="teal"></FaPlay>
+          </Button>
+        </Flex>
+      )}
 
       {/* AlertDialog für Löschen */}
       <AlertDialog
@@ -280,7 +332,7 @@ function MeineQuiz() {
               <Box
                 width="180px"
                 height="180px"
-                border="1px"
+                border="2px"
                 borderRadius="2xl"
                 borderColor="teal.700"
                 p={4}
