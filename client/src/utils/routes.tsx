@@ -1,3 +1,4 @@
+import { FiHome, FiUser, FiHeart, FiEdit, FiSearch, FiCheckSquare } from 'react-icons/fi';
 import {
   Authentication,
   Dashboard,
@@ -10,13 +11,11 @@ import {
   SignUp,
   QuizEditor
 } from '../pages';
-import { FiHome, FiUser, FiHeart, FiEdit, FiSearch, FiCheckSquare } from 'react-icons/fi';
 
 const routes = {
   Authentication: {
     icon: FiHome,
     name: 'Authentication',
-
     element: <Authentication />,
     children: {
       SignIn: {

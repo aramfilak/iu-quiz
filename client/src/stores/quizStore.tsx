@@ -6,6 +6,7 @@ import { Quiz } from '../utils/types';
 
 interface UseQuizStore {
   studentQuizzes: Quiz[] | null;
+  setStudentQuizzes: (studentQuizzes: Quiz[] | null) => void;
   getAllQuizzes: (params: Partial<Quiz>) => Promise<IuQuizServerResponse<Quiz[]>>;
   deleteQuizById: (quizId: number) => Promise<IuQuizServerResponse<void>>;
   createQuiz: (
@@ -18,14 +19,14 @@ interface UseQuizStore {
 const useQuizStore = create<UseQuizStore>((set) => ({
   studentQuizzes: null,
 
+  setStudentQuizzes: (studentQuizzes: Quiz[] | null) => set({ studentQuizzes }),
+
   getAllQuizzes: (params: Partial<Quiz>) =>
     asyncHandler(async () => {
       const response = await axiosQuizApi.get(`/`, {
         params,
         headers: { Authorization: usePersistStore.getState().accessToken }
       });
-
-      set({ studentQuizzes: response.data.data });
 
       return response.data;
     }),
@@ -43,8 +44,6 @@ const useQuizStore = create<UseQuizStore>((set) => ({
         }
       );
 
-      set({ studentQuizzes: response.data.data });
-
       return response.data;
     }),
   deleteQuizById: (quizId: number) =>
@@ -52,8 +51,6 @@ const useQuizStore = create<UseQuizStore>((set) => ({
       const response = await axiosQuizApi.delete(`/${quizId}`, {
         headers: { Authorization: usePersistStore.getState().accessToken }
       });
-
-      set({ studentQuizzes: response.data.data });
 
       return response.data;
     })

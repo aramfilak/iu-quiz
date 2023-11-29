@@ -26,32 +26,46 @@ function UploadProfileImage(rest: FlexProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef<HTMLButtonElement>(null);
 
-  const handleDeleteImage = async () => {
-    const loadingToast = toast({
-      status: 'loading',
-      description: 'Es lädt...',
-      duration: 3.6e6
+  const handleDeleteImage = () => {
+    const response = new Promise((resolve, reject) => {
+      deleteImage().then(({ success }) => {
+        if (success) {
+          resolve(true);
+        } else {
+          reject();
+        }
+      });
     });
 
-    const { success, message } = await deleteImage();
-
-    toast.close(loadingToast);
-
-    toast({ status: success ? 'success' : 'error', description: message });
+    toast.promise(response, {
+      success: { description: 'Profilebild gelöscht' },
+      error: { description: 'Löschen fehlgeschlagen' },
+      loading: { description: 'Es lädt..' }
+    });
   };
 
-  const handleImageUpload = async ({ target: { files } }: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = ({ target: { files } }: React.ChangeEvent<HTMLInputElement>) => {
     const image = files ? files[0] : null;
 
     if (image) {
       const formData = new FormData();
       formData.append('image', image);
-      const loadingToast = toast({ status: 'loading', description: 'Es lädt...', duration: 3.6e6 });
 
-      const { success, message } = await uploadImage(formData);
+      const response = new Promise((resolve, reject) => {
+        uploadImage(formData).then(({ success }) => {
+          if (success) {
+            resolve(true);
+          } else {
+            reject();
+          }
+        });
+      });
 
-      toast.close(loadingToast);
-      toast({ status: success ? 'success' : 'error', description: message });
+      toast.promise(response, {
+        success: { description: 'Profilebild hochgeladen' },
+        error: { description: 'Hochgeladen fehlgeschlagen' },
+        loading: { description: 'Es lädt..' }
+      });
     }
   };
 

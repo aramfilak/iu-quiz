@@ -28,7 +28,6 @@ function Edit() {
   const courseOfStudySelectRef = useRef<HTMLSelectElement>(null);
   const [isChanged, setIsChanged] = useState<boolean>(false);
   const { studentProfile, updateStudent } = useStudentStore();
-
   const [alert, setAlert] = useState<CustomAlert | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
 

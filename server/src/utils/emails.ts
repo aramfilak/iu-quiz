@@ -1,8 +1,5 @@
 import nodemailer from 'nodemailer';
 import { nodemailerConfig } from '../configs';
-import fs from 'fs';
-import ejs from 'ejs';
-import path from 'path';
 
 interface SendEmail {
   to: string;
@@ -35,20 +32,26 @@ async function sendEmail({ to, subject, html }: SendEmail) {
 async function sendVerificationEmail({ name, email, verificationToken }: SendVerificationEmail) {
   const verifyEmailLink = `${process.env.ORIGIN}/email-verification?emailVerificationToken=${verificationToken}&email=${email}`;
 
-  const templatePath = path.join(__dirname, '../templates/verification-email.ejs');
-
-  const templateString = fs.readFileSync(templatePath, {
-    encoding: 'utf8'
-  });
-
-  const compiledTemplate = ejs.compile(templateString);
-
-  const htmlContent = compiledTemplate({ name, verifyEmailLink });
-
   return sendEmail({
     to: email,
     subject: 'E-Mail Bestätigung',
-    html: htmlContent
+    html: `
+    <div style="font-family: Arial, sans-serif; color: #333;">
+      <h4>Hallo, ${name}</h4>
+      <p>
+        Bitte bestätigen Sie Ihre E-Mail, indem Sie auf den folgenden Link klicken:
+        <a href="${verifyEmailLink}" style="color: #319795; font-weight: bold;">E-Mail verifizieren</a>
+      </p>
+      <p>
+        Bei Fragen oder Problemen kontaktieren Sie bitte unseren Support unter:
+        <a href="mailto:iu.quiz.app@gmail.com" style="color: #319795; text-decoration: none;">iu.quiz.app@gmail.com</a>
+      </p>
+      <p>
+        Mit freundlichen Grüßen,<br/>
+        Ihr IU Quiz Team
+      </p>
+    </div>
+  `
   });
 }
 

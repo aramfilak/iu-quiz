@@ -35,22 +35,29 @@ function DeleteStudentAlert({ isOpen, onClose }: DeleteStudentAlertProps) {
   const toast = useToast();
   const navigate = useNavigate();
 
-  const handleDeleteStudentProfile = async () => {
+  const handleDeleteStudentProfile = () => {
     const inputValue = `${inputRef.current?.value}`.trim().toLowerCase();
     if (inputValue === 'mein konto löschen') {
       onClose();
 
-      const loading = toast({ status: 'loading', description: 'Es lädt...', duration: 60 * 1000 });
+      const response = new Promise((resolve, reject) => {
+        deleteStudent().then(({ success }) => {
+          if (success) {
+            resolve(true);
+            setAccessToken(null);
+            setIsAuthenticated(false);
+            navigate(routes.Authentication.children.SignIn.path, { replace: true });
+          } else {
+            reject();
+          }
+        });
+      });
 
-      const { success, message } = await deleteStudent();
-
-      toast.close(loading);
-
-      toast({ status: success ? 'success' : 'error', description: message });
-
-      setAccessToken(null);
-      setIsAuthenticated(false);
-      navigate(routes.Authentication.children.SignUp.path);
+      toast.promise(response, {
+        success: { description: 'Profile gelöscht' },
+        error: { description: 'Löschen fehlgeschlagen' },
+        loading: { description: 'Es lädt..' }
+      });
     } else {
       toast({ status: 'error', description: 'Falsche Eingabe', variant: 'solid' });
     }
