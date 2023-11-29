@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { HeaderMenuBar, SidebarNav } from './layout';
+import { HeaderMenuBar, SidebarNav } from '../../components';
 import { Box, Container, Drawer, DrawerContent, useDisclosure } from '@chakra-ui/react';
 import { Outlet } from 'react-router-dom';
 import { useScreenSize } from '../../hooks';
@@ -39,7 +39,3 @@ function Dashboard() {
 }
 
 export { Dashboard };
-export { Editor } from './Editor';
-export { FAQs } from './FAQs';
-export { Profile } from './Profile';
-export { MeineQuiz } from './MyQuizzes';

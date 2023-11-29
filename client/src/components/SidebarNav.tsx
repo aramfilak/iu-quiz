@@ -1,9 +1,9 @@
 import { CloseButton, Box, BoxProps, Image, Center, IconButton, Tooltip } from '@chakra-ui/react';
-import { NavItem } from '../../../components';
-import { routes } from '../../../utils/routes';
+import { NavItem } from '.';
+import { routes } from '../utils/routes';
 import { useNavigate } from 'react-router-dom';
-import { usePersistStore } from '../../../stores';
-import logo from '../../../assets/logo.png';
+import { usePersistStore } from '../stores';
+import logo from '../assets/logo.png';
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa';
 
 interface SidebarProps extends BoxProps {
@@ -39,13 +39,13 @@ function SidebarNav({ onClose, isCollapsed, toggleSidebar, ...rest }: SidebarPro
         />
       </Center>
 
-      <Box mt={isCollapsed ? '4rem' : '1rem'} position="relative">
+      <Box mt="4rem" position="relative">
         {/* ________________ Collapse Button ____________________ */}
         <Tooltip label={isCollapsed ? 'Öffnen' : 'Schlißen'} placement="right">
           <IconButton
             display={{ base: 'none', md: 'flex' }}
             position="absolute"
-            top="-2.7rem"
+            top="-4rem"
             height="20%"
             borderRadius="xl"
             right={isCollapsed ? '25%' : '-4%'}

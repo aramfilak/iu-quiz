@@ -5,11 +5,12 @@ import {
   EmailVerification,
   Profile,
   FAQs,
-  Editor,
-  MeineQuiz
+  MyQuizzes,
+  SignIn,
+  SignUp,
+  QuizEditor
 } from '../pages';
 import { FiHome, FiUser, FiHeart, FiEdit, FiSearch, FiCheckSquare } from 'react-icons/fi';
-import { SignIn, SignUp } from '../pages/authentication';
 
 const routes = {
   Authentication: {
@@ -21,10 +22,12 @@ const routes = {
       SignIn: {
         name: 'Sign-In',
         path: '/',
+        mainPath: '/',
         element: <SignIn />
       },
       SignUp: {
         name: 'Sign-Up',
+        mainPath: 'sign-up',
         path: 'sign-up',
         element: <SignUp />
       }
@@ -34,12 +37,14 @@ const routes = {
     icon: FiHome,
     name: 'Not Found 404',
     path: '*',
+    mainPath: '*',
     element: <NotFound404 />
   },
   EmailVerification: {
     icon: FiHome,
     name: 'Email Verification',
     path: 'email-verification',
+    mainPath: 'email-verification',
     element: <EmailVerification />
   },
   Dashboard: {
@@ -51,25 +56,29 @@ const routes = {
         icon: FiUser,
         name: 'Profile',
         path: 'profile',
+        mainPath: 'profile',
         element: <Profile />
       },
       SearchQuiz: {
         icon: FiSearch,
         name: 'Quiz Finden',
         path: 'find-quiz',
+        mainPath: 'find-quiz',
         element: <div>Editor Quiz</div>
       },
       ActiveQuiz: {
         icon: FiHeart,
         name: 'Meine Quiz',
         path: 'my-quizzes',
-        element: <MeineQuiz />
+        mainPath: 'my-quizzes',
+        element: <MyQuizzes />
       },
       QuizEditor: {
         icon: FiEdit,
-        name: 'Editor',
-        path: 'editor/:quizId',
-        element: <Editor />
+        name: 'Quiz Editor',
+        path: 'quiz-editor/:quizId',
+        mainPath: 'quiz-editor',
+        element: <QuizEditor />
       },
       FAQs: {
         icon: FiCheckSquare,

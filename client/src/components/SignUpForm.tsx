@@ -17,11 +17,11 @@ import {
 } from '@chakra-ui/react';
 import { RiLockPasswordLine, RiMailLine } from 'react-icons/ri';
 import { BiShow, BiHide, BiCheckShield } from 'react-icons/bi';
-import { useAuthStore } from '../../../stores';
-import { CustomAlert } from '../../../utils/types';
+import { useAuthStore } from '../stores';
+import { CustomAlert } from '../utils/types';
 import { useNavigate } from 'react-router-dom';
-import { routes } from '../../../utils/routes';
-import { LabelHeading } from '../../../components';
+import { routes } from '../utils/routes';
+import { LabelHeading } from '.';
 
 function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
   const emailInputRef = useRef<HTMLInputElement>(null);

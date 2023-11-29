@@ -21,15 +21,19 @@ const useStudentStore = create<UseStudentStore>((set) => ({
       const response = await axiosStudentApi.get('/', {
         headers: { Authorization: usePersistStore.getState().accessToken }
       });
+
       set({ studentProfile: response.data.data });
+
       return response.data;
     }),
+
   updateStudent: (data: Partial<StudentProfile>) =>
     asyncHandler(async () => {
       const response = await axiosStudentApi.patch('/', data, {
         headers: { Authorization: usePersistStore.getState().accessToken }
       });
       set({ studentProfile: response.data.data });
+
       return response.data;
     }),
   deleteStudent: () =>
@@ -37,6 +41,7 @@ const useStudentStore = create<UseStudentStore>((set) => ({
       const response = await axiosStudentApi.delete('/', {
         headers: { Authorization: usePersistStore.getState().accessToken }
       });
+
       set({ studentProfile: response.data.data });
 
       return response.data;
@@ -49,7 +54,9 @@ const useStudentStore = create<UseStudentStore>((set) => ({
           'Content-Type': 'multipart/form-data'
         }
       });
+
       set({ studentProfile: response.data.data });
+
       return response.data;
     }),
   deleteImage: () =>
@@ -59,7 +66,9 @@ const useStudentStore = create<UseStudentStore>((set) => ({
           Authorization: usePersistStore.getState().accessToken
         }
       });
+
       set({ studentProfile: response.data.data });
+
       return response.data;
     })
 }));

@@ -7,7 +7,6 @@ import {
   useDisclosure,
   Select,
   InputLeftAddon,
-  Heading,
   Tooltip,
   Flex
 } from '@chakra-ui/react';
@@ -106,19 +105,13 @@ function Edit() {
         <Flex flexDir={{ base: 'column', sm: 'row' }} flexWrap="wrap" gap="1rem">
           {/*---------------- Upload Image -------------*/}
 
-          <BoxWrapper w="100%">
-            <Heading as="h3" fontSize="sm" mb="2">
-              Profil Bild
-            </Heading>
+          <BoxWrapper w="100%" title="Profil Bild">
             <UploadProfileImage />
           </BoxWrapper>
 
           {/*------------------- General Data --------------------*/}
           <Flex flexDir={{ base: 'column', md: 'row' }} gap="1rem" width="100%">
-            <BoxWrapper flex="1">
-              <Heading as="h3" fontSize="sm">
-                Allgemein
-              </Heading>
+            <BoxWrapper flex="1" title="Allgemein">
               {/*------------------- Nick Name --------------------*/}
               <InputGroup>
                 <Tooltip label="Name">
@@ -184,10 +177,7 @@ function Edit() {
 
             {/*------------------- Connection Links --------------------*/}
 
-            <BoxWrapper flex="1">
-              <Heading as="h3" fontSize="sm">
-                Verbindungslinks
-              </Heading>
+            <BoxWrapper flex="1" title="Verbindungslinks">
               {/*------------------- Linkedin --------------------*/}
               <InputGroup>
                 <Tooltip label="Linkedin">
@@ -247,10 +237,7 @@ function Edit() {
           </BoxWrapper>
 
           {/*------------------- Delete Profile -----------------*/}
-          <BoxWrapper width="100%" border="2px dashed" borderColor="red.600">
-            <Heading as="h3" fontSize="sm">
-              Gefahrenzone
-            </Heading>
+          <BoxWrapper title="Gefahrenzone" width="100%" border="2px dashed" borderColor="red.600">
             <Button
               width={{ base: '100%', sm: 'fit-content' }}
               colorScheme="red"

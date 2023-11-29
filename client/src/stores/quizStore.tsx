@@ -5,8 +5,8 @@ import { usePersistStore } from '.';
 import { Quiz } from '../utils/types';
 
 interface UseQuizStore {
-  quizzes: Quiz[] | null;
-  getAllQuizzes: () => Promise<IuQuizServerResponse<Quiz[]>>;
+  studentQuizzes: Quiz[] | null;
+  getAllQuizzes: (params: Partial<Quiz>) => Promise<IuQuizServerResponse<Quiz[]>>;
   deleteQuizById: (quizId: number) => Promise<IuQuizServerResponse<void>>;
   createQuiz: (
     title: string,
@@ -16,14 +16,17 @@ interface UseQuizStore {
 }
 
 const useQuizStore = create<UseQuizStore>((set) => ({
-  quizzes: null,
+  studentQuizzes: null,
 
-  getAllQuizzes: () =>
+  getAllQuizzes: (params: Partial<Quiz>) =>
     asyncHandler(async () => {
-      const response = await axiosQuizApi.get('/', {
+      const response = await axiosQuizApi.get(`/`, {
+        params,
         headers: { Authorization: usePersistStore.getState().accessToken }
       });
-      set({ quizzes: response.data.data });
+
+      set({ studentQuizzes: response.data.data });
+
       return response.data;
     }),
   createQuiz: (title: string, courseOfStudy: string, courseId: string) =>
@@ -39,9 +42,8 @@ const useQuizStore = create<UseQuizStore>((set) => ({
           headers: { Authorization: usePersistStore.getState().accessToken }
         }
       );
-      set((state) => ({
-        quizzes: state.quizzes ? [...state.quizzes, response.data.data] : [response.data.data]
-      }));
+
+      set({ studentQuizzes: response.data.data });
 
       return response.data;
     }),
@@ -51,10 +53,7 @@ const useQuizStore = create<UseQuizStore>((set) => ({
         headers: { Authorization: usePersistStore.getState().accessToken }
       });
 
-      // Update local state after successful deletion
-      set((state) => ({
-        quizzes: state.quizzes?.filter((quiz) => quiz.id !== quizId) || null
-      }));
+      set({ studentQuizzes: response.data.data });
 
       return response.data;
     })

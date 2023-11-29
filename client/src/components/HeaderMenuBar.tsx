@@ -24,9 +24,9 @@ import {
   useColorMode
 } from '@chakra-ui/react';
 import { FiMenu, FiChevronDown, FiLogOut, FiSun, FiMoon } from 'react-icons/fi';
-import { useAuthStore, useStudentStore } from '../../../stores';
+import { useAuthStore, useStudentStore } from '../stores';
 import { useNavigate } from 'react-router-dom';
-import { routes } from '../../../utils/routes';
+import { routes } from '../utils/routes';
 import { useRef } from 'react';
 interface MobileProps extends FlexProps {
   onOpen: () => void;
@@ -147,7 +147,7 @@ function HeaderMenuBar({ onOpen: handleOpen, setCollapsedFalse, ...rest }: Mobil
               <MenuDivider />
 
               {/*________________ Open Sign-out Dialog ______________________ */}
-              <MenuItem color="red.600" icon={<FiLogOut />} onClick={onOpen}>
+              <MenuItem color="red.500" icon={<FiLogOut />} onClick={onOpen}>
                 Abmelden
               </MenuItem>
             </MenuList>

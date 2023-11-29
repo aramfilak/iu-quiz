@@ -23,18 +23,18 @@ const axiosQuizApi = axios.create({
 /**
  * Handle asynchronous errors
  */
-const serverErrorMessage = {
-  success: false,
-  message: 'Server Error',
-  statusCode: 500
-};
-
 async function asyncHandler<T>(asyncFunction: () => Promise<T>): Promise<T> {
   try {
     return await asyncFunction();
   } catch (e) {
-    return axios.isAxiosError(e) ? e.response?.data : serverErrorMessage;
+    return axios.isAxiosError(e)
+      ? e.response?.data
+      : {
+          success: false,
+          message: 'Server Error',
+          statusCode: 500
+        };
   }
 }
 
-export { axiosAuthApi, axiosStudentApi, axiosQuizApi, asyncHandler, serverErrorMessage };
+export { axiosAuthApi, axiosStudentApi, axiosQuizApi, asyncHandler };

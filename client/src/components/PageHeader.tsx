@@ -11,7 +11,7 @@ function PageHeader({ title, description, ...rest }: PageHeaderProps) {
       <Heading
         as="h1"
         fontWeight="900"
-        fontSize={{ base: '2rem', md: '2.6rem', xl: '3rem' }}
+        fontSize={{ base: '2rem', md: '2.5rem', xl: '2.7rem' }}
         mb="0.2rem"
       >
         {title}

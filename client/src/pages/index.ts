@@ -1,4 +1,10 @@
-export { Authentication } from './authentication';
+export { Authentication } from './Authentication';
+export { SignIn } from './Authentication/SignIn';
+export { SignUp } from './Authentication/SignUp';
 export { NotFound404 } from './404';
 export { EmailVerification } from './EmailVerification';
-export { Dashboard, Profile, Editor, FAQs, MeineQuiz } from './dashboard';
+export { Dashboard } from './Dashboard';
+export { QuizEditor } from './Dashboard/QuizEditor';
+export { FAQs } from './Dashboard/FAQs';
+export { Profile } from './Dashboard/Profile';
+export { MyQuizzes } from './Dashboard/MyQuizzes';

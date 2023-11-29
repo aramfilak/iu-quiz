@@ -14,8 +14,18 @@ import { validate } from '../../utils/validate';
  */
 async function findAllQuizzes(req: Request, res: Response) {
   const studentId = req.auth?.studentId;
-  const { page, limit, createdAt, updatedAt, popularity, size, courseOfStudy, courseId, sort } =
-    req.query;
+  const {
+    page,
+    limit,
+    createdAt,
+    updatedAt,
+    popularity,
+    size,
+    courseOfStudy,
+    courseId,
+    sort,
+    authorId
+  } = req.query;
 
   const student = await db.student.findUnique({ where: { id: studentId } });
 
@@ -25,6 +35,10 @@ async function findAllQuizzes(req: Request, res: Response) {
 
   const where: any = {};
   const sortOrder = sort ? sort : 'asc';
+
+  if (authorId) {
+    where.authorId = authorId;
+  }
 
   if (courseOfStudy) {
     where.courseOfStudy = courseOfStudy;
@@ -68,7 +82,8 @@ async function findAllQuizzes(req: Request, res: Response) {
     skip,
     take
   });
-  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, 'Alle Quiz geladen', quizzes));
+
+  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, '', quizzes));
 }
 
 /**
@@ -103,7 +118,7 @@ async function findQuizById(req: Request, res: Response) {
     throw new BadRequestError('Quiz nicht gefunden');
   }
 
-  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, 'Quiz erstellt', quiz));
+  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, '', quiz));
 }
 
 /**
@@ -194,7 +209,7 @@ async function createQuizQuestion(req: Request, res: Response) {
 
   res
     .status(StatusCodes.OK)
-    .json(createApiResponse(StatusCodes.OK, 'Quiz erstellt', createdQuestion));
+    .json(createApiResponse(StatusCodes.OK, 'Frage gespeichert', createdQuestion));
 }
 
 /**

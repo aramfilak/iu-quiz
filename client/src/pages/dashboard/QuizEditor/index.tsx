@@ -2,10 +2,10 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { PageHeader } from '../../../components';
 import { Quiz } from './Quiz';
 import { Questions } from './Questions';
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 
-function Editor() {
-  const { quizId } = useParams();
+function QuizEditor() {
+  // const { quizId } = useParams();
 
   return (
     <>
@@ -19,11 +19,11 @@ function Editor() {
         <TabPanels>
           <TabPanel>
             <TabPanel>
-              <Quiz quizIdNumber={quizId} />
+              <Quiz />
             </TabPanel>
           </TabPanel>
           <TabPanel>
-            <Questions quizIdNumber={quizId} />
+            <Questions />
           </TabPanel>
         </TabPanels>
       </Tabs>
@@ -31,4 +31,4 @@ function Editor() {
   );
 }
 
-export { Editor };
+export { QuizEditor };

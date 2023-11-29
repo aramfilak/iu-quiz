@@ -1,11 +1,12 @@
-import { Box, BoxProps } from '@chakra-ui/react';
+import { Box, BoxProps, Heading } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 interface WrapperBoxProps extends BoxProps {
+  title?: string;
   children: ReactNode;
 }
 
-function BoxWrapper({ children, ...rest }: WrapperBoxProps) {
+function BoxWrapper({ title, children, ...rest }: WrapperBoxProps) {
   return (
     <Box
       {...rest}
@@ -19,6 +20,11 @@ function BoxWrapper({ children, ...rest }: WrapperBoxProps) {
       flexDir="column"
       gap="1rem"
     >
+      {title && (
+        <Heading as="h3" fontSize="md">
+          {title}
+        </Heading>
+      )}
       {children}
     </Box>
   );
