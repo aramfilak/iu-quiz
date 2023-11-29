@@ -15,8 +15,7 @@ function App() {
         defaultOptions: {
           position: 'top',
           duration: 5000,
-          isClosable: true,
-          variant: 'subtle'
+          isClosable: true
         }
       }}
     >

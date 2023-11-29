@@ -1,31 +1,16 @@
-import { Box, Grid, SkeletonText, useToast } from '@chakra-ui/react';
-
-import { useEffect, useState } from 'react';
+import { Grid, SkeletonText, useToast } from '@chakra-ui/react';
+import { useEffect } from 'react';
 import { CreateNewQuiz, QuizCard } from '../../../../components';
-import { useQuizStore, useStudentStore } from '../../../../stores';
+import { useQuizStore } from '../../../../stores';
 
 function My() {
-  const { studentQuizzes, getAllQuizzes, setStudentQuizzes, deleteQuizById } = useQuizStore();
-  const { studentProfile } = useStudentStore();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { studentQuizzes, isLoading, deleteQuizById, getStudentQuizzes } = useQuizStore();
   const toast = useToast();
 
-  const fetchQuizzes = () => {
-    setIsLoading(true);
-    getAllQuizzes({
-      authorId: studentProfile?.studentId
-    }).then(({ success, message, data }) => {
-      if (success && data) {
-        setStudentQuizzes(data);
-      } else {
-        toast({ status: 'error', description: message });
-      }
-      setIsLoading(false);
-    });
-  };
-
   useEffect(() => {
-    fetchQuizzes();
+    if (!studentQuizzes) {
+      getStudentQuizzes();
+    }
   }, []);
 
   const handleDeleteQuiz = (quizId: number) => {
@@ -33,7 +18,7 @@ function My() {
       deleteQuizById(quizId).then(({ success }) => {
         if (success) {
           resolve(true);
-          fetchQuizzes();
+          getStudentQuizzes();
         } else {
           reject();
         }
@@ -50,16 +35,14 @@ function My() {
   return (
     <>
       {isLoading ? (
-        <Grid gridTemplateColumns="repeat(auto-fill, minmax(16rem, 1fr))">
-          {new Array(8).fill(
-            <Box p={6} m={2}>
-              <SkeletonText mt="4" noOfLines={5} spacing="3" skeletonHeight="3" />
-            </Box>
-          )}
+        <Grid gridTemplateColumns="repeat(auto-fill, minmax(15rem, 1fr))" gap="1rem">
+          {Array.from({ length: 10 }, (_, index) => (
+            <SkeletonText key={index} noOfLines={7} spacing="2" skeletonHeight="4" />
+          ))}
         </Grid>
       ) : (
-        <Grid gridTemplateColumns="repeat(auto-fill, minmax(16rem, 1fr))" gap="1rem">
-          <CreateNewQuiz minH="14rem" />
+        <Grid gridTemplateColumns="repeat(auto-fill, minmax(15rem, 1fr))" gap="1rem">
+          <CreateNewQuiz minH="12rem" />
           {studentQuizzes?.map((quiz) => (
             <QuizCard key={quiz.id} quiz={quiz} onDelete={() => handleDeleteQuiz(quiz.id)} />
           ))}

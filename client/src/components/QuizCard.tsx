@@ -23,7 +23,7 @@ import {
   CardFooter
 } from '@chakra-ui/react';
 import { useRef } from 'react';
-import { FaList, FaEdit, FaTrash, FaPlay } from 'react-icons/fa';
+import { FaList, FaEdit, FaTrash, FaPlay, FaRegClone } from 'react-icons/fa';
 import { convertToGermanDate } from '../utils/helpers';
 import { Quiz } from '../utils/types';
 import { routes } from '../utils/routes';
@@ -85,9 +85,10 @@ function QuizCard({
         <CardHeader width="full" display="flex" justifyContent="end">
           {/*----------------- Quiz Size -------------------*/}
           <Tooltip label="Anzahl" margin="right">
-            <Text fontSize="lg" fontWeight="bold" marginRight="auto">
-              #{size}
-            </Text>
+            <Flex marginRight="auto" align="center" gap="1">
+              <FaRegClone />
+              <Text>{size}</Text>
+            </Flex>
           </Tooltip>
 
           {/*----------------- Card Options Menu -------------------*/}
@@ -130,22 +131,9 @@ function QuizCard({
 
         <CardBody minW="full">
           {/*----------------- Title -------------------*/}
-          <Tooltip label={title}>
-            <Flex align="start" flexDir="column" gap="1">
-              <Text
-                fontWeight="bold"
-                fontSize="xl"
-                maxW="12rem"
-                textTransform="capitalize"
-                textOverflow="ellipsis"
-                overflow="hidden"
-                whiteSpace="nowrap"
-                mb="0.5rem"
-              >
-                {title}
-              </Text>
-            </Flex>
-          </Tooltip>
+          <Text fontWeight="bold" textTransform="capitalize" textAlign="center">
+            {title}
+          </Text>
         </CardBody>
 
         <CardFooter minW="full" display="flex" alignItems="center" justifyContent="space-between">

@@ -125,7 +125,6 @@ function Edit() {
                   ref={nameInputRef}
                   borderColor="teal.500"
                   autoComplete="on"
-                  id="nick-name"
                   placeholder="Name"
                   defaultValue={studentProfile?.name}
                 />
@@ -146,7 +145,6 @@ function Edit() {
                   ref={locationInputRef}
                   borderColor="teal.500"
                   autoComplete="on"
-                  id="location"
                   placeholder="Wohnort"
                   defaultValue={studentProfile?.location || ''}
                 />
@@ -191,7 +189,6 @@ function Edit() {
                   onChange={handelChange}
                   ref={linkedInInputRef}
                   autoComplete="on"
-                  id="linkedin"
                   placeholder="https://www.linkedin.com/profil"
                   defaultValue={studentProfile?.linkedinUrl || ''}
                 />
@@ -211,7 +208,6 @@ function Edit() {
                   onChange={handelChange}
                   ref={xingInputRef}
                   autoComplete="on"
-                  id="linkedin"
                   placeholder="https://www.xing.com/profile"
                   defaultValue={studentProfile?.xingUrl || ''}
                 />

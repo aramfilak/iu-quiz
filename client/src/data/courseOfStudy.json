@@ -4,127 +4,127 @@
     "courses": [
       {
         "title": "Mathematik Grundlagen I",
-        "shortcode": "IMT101"
+        "id": "IMT101"
       },
       {
         "title": "Einführung in das wissenschaftliche Arbeiten für IT und Technik",
-        "shortcode": "DLBWIRITT"
+        "id": "DLBWIRITT"
       },
       {
         "title": "Betriebswirtschaftslehre",
-        "shortcode": "BBWL01-01"
+        "id": "BBWL01-01"
       },
       {
         "title": "Betriebswirtschaftslehre",
-        "shortcode": "BBWL02-01"
+        "id": "BBWL02-01"
       },
       {
         "title": "Grundlagen der industriellen Softwaretechnik",
-        "shortcode": "IGIS01"
+        "id": "IGIS01"
       },
       {
         "title": "Digital Skills",
-        "shortcode": "DLBDS01-01"
+        "id": "DLBDS01-01"
       },
       {
         "title": "Objektorientierte Programmierung",
-        "shortcode": "IOBP01"
+        "id": "IOBP01"
       },
       {
         "title": "Objektorientierte Programmierung",
-        "shortcode": "DLBCSDSJCL02_D"
+        "id": "DLBCSDSJCL02_D"
       },
       {
         "title": "Einführung in das Internet of Things",
-        "shortcode": "DLBINGEIT01"
+        "id": "DLBINGEIT01"
       },
       {
         "title": "Mathematik Grundlagen II",
-        "shortcode": "IMT102-01"
+        "id": "IMT102-01"
       },
       {
         "title": "Programmierung von Webanwendungen",
-        "shortcode": "IPWA01-01"
+        "id": "IPWA01-01"
       },
       {
         "title": "Programmierung von Webanwendungen",
-        "shortcode": "IPWA02-01"
+        "id": "IPWA02-01"
       },
       {
         "title": "Requirements Engineering",
-        "shortcode": "IREN01"
+        "id": "IREN01"
       },
       {
         "title": "Statistik",
-        "shortcode": "BSTA01-02"
+        "id": "BSTA01-02"
       },
       {
         "title": "Betriebssysteme, Rechnernetze und verteilte Systeme",
-        "shortcode": "DLBIBRVS01"
+        "id": "DLBIBRVS01"
       },
       {
         "title": "Algorithmen, Datenstrukturen und Programmiersprachen",
-        "shortcode": "DLBIADPS01"
+        "id": "DLBIADPS01"
       },
       {
         "title": "Datenmodellierung und Datenbanksysteme",
-        "shortcode": "IDBS01"
+        "id": "IDBS01"
       },
       {
         "title": "Spezifikation",
-        "shortcode": "ISPE01"
+        "id": "ISPE01"
       },
       {
         "title": "IT-Projektmanagement",
-        "shortcode": "IPMG01-01"
+        "id": "IPMG01-01"
       },
       {
         "title": "IT-Servicemanagement",
-        "shortcode": "IWSM01"
+        "id": "IWSM01"
       },
       {
         "title": "Projekt: IT-Servicemanagement",
-        "shortcode": "IWSM02"
+        "id": "IWSM02"
       },
       {
         "title": "Qualitätssicherung im Softwareprozess",
-        "shortcode": "IQSS01"
+        "id": "IQSS01"
       },
       {
         "title": "Theoretische Informatik und Mathematische Logik",
-        "shortcode": "DLBITIML01"
+        "id": "DLBITIML01"
       },
       {
         "title": "Projekt: Software Engineering",
-        "shortcode": "ISEF01"
+        "id": "ISEF01"
       },
       {
         "title": "IT-Recht",
-        "shortcode": "DLBIITR01"
+        "id": "DLBIITR01"
       },
       {
         "title": "IT-Sicherheit",
-        "shortcode": "DLBISIC01"
+        "id": "DLBISIC01"
       },
       {
         "title": "IT-Sicherheit",
-        "shortcode": "DLBISIC02-01"
+        "id": "DLBISIC02-01"
       },
       {
         "title": "Künstliche Intelligenz",
-        "shortcode": "DLBIKI01"
+        "id": "DLBIKI01"
       },
       {
         "title": "Data Analytics und Big Data",
-        "shortcode": "DLBINGDADB01"
+        "id": "DLBINGDADB01"
       },
       {
         "title": "Seminar Software Engineering",
-        "shortcode": "ISSE01"
+        "id": "ISSE01"
       },
       {
         "title": "Informatik und Gesellschaft",
-        "shortcode": "DLBIIUG01"
+        "id": "DLBIIUG01"
       }
     ]
   },
@@ -133,127 +133,127 @@
     "courses": [
       {
         "title": "Einführung in die Wirtschaftsinformatik",
-        "shortcode": "DLBWIEWI01"
+        "id": "DLBWIEWI01"
       },
       {
         "title": "Betriebswirtschaftslehre",
-        "shortcode": "BBWL01-01"
+        "id": "BBWL01-01"
       },
       {
         "title": "Betriebswirtschaftslehre",
-        "shortcode": "BBWL02-01"
+        "id": "BBWL02-01"
       },
       {
         "title": "Einführung in das wissenschaftliche Arbeiten für IT und Technik",
-        "shortcode": "BWIRITT"
+        "id": "BWIRITT"
       },
       {
         "title": "Mathematik Grundlagen I",
-        "shortcode": "IMT101"
+        "id": "IMT101"
       },
       {
         "title": "Requirements Engineering",
-        "shortcode": "IREN01"
+        "id": "IREN01"
       },
       {
         "title": "Grundlagen der objektorientierten Programmierung mit Java",
-        "shortcode": "IOBP01"
+        "id": "IOBP01"
       },
       {
         "title": "Kollaboratives Arbeiten",
-        "shortcode": "DLBKA01"
+        "id": "DLBKA01"
       },
       {
         "title": "Investition und Finanzierung",
-        "shortcode": "DLBLOFUI01-01"
+        "id": "DLBLOFUI01-01"
       },
       {
         "title": "Datenstruktur und Java-Klassenbibliothek",
-        "shortcode": "DLBCSDSJCL02_D"
+        "id": "DLBCSDSJCL02_D"
       },
       {
         "title": "Statistik",
-        "shortcode": "BSTA01-02"
+        "id": "BSTA01-02"
       },
       {
         "title": "Datenmodellierung und Datenbanksysteme",
-        "shortcode": "IDBS01"
+        "id": "IDBS01"
       },
       {
         "title": "Einführung in das Prozessmanagement",
-        "shortcode": "DLBWIEPM01"
+        "id": "DLBWIEPM01"
       },
       {
         "title": "Grundlagen der IT- und ERP-Systeme",
-        "shortcode": "DLBFMGSYS01"
+        "id": "DLBFMGSYS01"
       },
       {
         "title": "Programmierung von Web-Anwendungsoberflächen",
-        "shortcode": "IPWA01"
+        "id": "IPWA01"
       },
       {
         "title": "Programmierung von industriellen Informationssytemen mit Java EE",
-        "shortcode": "IPWA02"
+        "id": "IPWA02"
       },
       {
         "title": "Kosten- und Leistungsrechnung",
-        "shortcode": "BKLR01-01"
+        "id": "BKLR01-01"
       },
       {
         "title": "Kosten- und Leistungsrechnung",
-        "shortcode": "BKLR02-01"
+        "id": "BKLR02-01"
       },
       {
         "title": "Interkulturelle und ethische Handlungskompetenzen",
-        "shortcode": "DLBIHK01"
+        "id": "DLBIHK01"
       },
       {
         "title": "Qualitätssicherung im Softwareprozess",
-        "shortcode": "IQSS01"
+        "id": "IQSS01"
       },
       {
         "title": "Data Analytics und Big Data",
-        "shortcode": "DLBINGDABD01"
+        "id": "DLBINGDABD01"
       },
       {
         "title": "Einkauf, Beschaffung und Distribution",
-        "shortcode": "DLBLOISCM102"
+        "id": "DLBLOISCM102"
       },
       {
         "title": "IT-Recht",
-        "shortcode": "DLBIITR01"
+        "id": "DLBIITR01"
       },
       {
         "title": "IT-Projektmanagement",
-        "shortcode": "IPMG01-01"
+        "id": "IPMG01-01"
       },
       {
         "title": "Projekt Software Engineering",
-        "shortcode": "ISEF01 Projekt Software Engineering"
+        "id": "ISEF01 Projekt Software Engineering"
       },
       {
         "title": "Marketing",
-        "shortcode": "BMAR01-01"
+        "id": "BMAR01-01"
       },
       {
         "title": "Marketing",
-        "shortcode": "BMAR02-01"
+        "id": "BMAR02-01"
       },
       {
         "title": "Personal und Unternehmensführung",
-        "shortcode": "DLBBWPU01"
+        "id": "DLBBWPU01"
       },
       {
         "title": "Seminar: Software Engineering",
-        "shortcode": "ISSE01"
+        "id": "ISSE01"
       },
       {
         "title": "Digitale Business-Modelle",
-        "shortcode": "DLBLODB01"
+        "id": "DLBLODB01"
       },
       {
         "title": "Organizational Behavior",
-        "shortcode": "DLBBWOB01"
+        "id": "DLBBWOB01"
       }
     ]
   },
@@ -262,115 +262,115 @@
     "courses": [
       {
         "title": "Grundlagen der industriellen Softwaretechnik",
-        "shortcode": "IGIS01"
+        "id": "IGIS01"
       },
       {
         "title": "Einführung in das wissenschaftliche Arbeiten für IT und Technik",
-        "shortcode": "DLBWIRITT01"
+        "id": "DLBWIRITT01"
       },
       {
         "title": "Requirements Engineering",
-        "shortcode": "IREN01"
+        "id": "IREN01"
       },
       {
         "title": "Spezifikation",
-        "shortcode": "ISPE01"
+        "id": "ISPE01"
       },
       {
         "title": "Grundlagen der objektorientierten Programmierung mit Java",
-        "shortcode": "IOBP01"
+        "id": "IOBP01"
       },
       {
         "title": "Datenmodellierung und Datenbanksysteme",
-        "shortcode": "IDBS01"
+        "id": "IDBS01"
       },
       {
         "title": "Datenstruktur und Java-Klassenbibliothek",
-        "shortcode": "DLBCSDSJCL02_D"
+        "id": "DLBCSDSJCL02_D"
       },
       {
         "title": "Kollaboratives Arbeiten",
-        "shortcode": "DLBKA01"
+        "id": "DLBKA01"
       },
       {
         "title": "Programmierung von Web-Anwendungsoberflächen",
-        "shortcode": "IPWA01-01"
+        "id": "IPWA01-01"
       },
       {
         "title": "Algorithmen, Datenstrukturen und Programmiersprachen",
-        "shortcode": "DLBIADPS01"
+        "id": "DLBIADPS01"
       },
       {
         "title": "Qualitätssicherung im Softwareprozess",
-        "shortcode": "IQSS01"
+        "id": "IQSS01"
       },
       {
         "title": "IT-Architekturmanagement",
-        "shortcode": "IAMG01"
+        "id": "IAMG01"
       },
       {
         "title": "Programmierung von industriellen Informationssytemen mit Java EE",
-        "shortcode": "IPWA02-01"
+        "id": "IPWA02-01"
       },
       {
         "title": "Ethik und Nachhaltigkeit in der IT",
-        "shortcode": "DLBSEPENIT01_D"
+        "id": "DLBSEPENIT01_D"
       },
       {
         "title": "IT-Projektmanagement",
-        "shortcode": "IPMG01-01"
+        "id": "IPMG01-01"
       },
       {
         "title": "Techniken und Methoden der agilen Softwareentwicklung",
-        "shortcode": "DLBWIWTMAS01"
+        "id": "DLBWIWTMAS01"
       },
       {
         "title": "Mobile Software Engineering am Beispiel der Android-Plattform",
-        "shortcode": "DLBCSEMSE01_D"
+        "id": "DLBCSEMSE01_D"
       },
       {
         "title": "Seminar \"Software Engineering\"",
-        "shortcode": "ISSE01"
+        "id": "ISSE01"
       },
       {
         "title": "Projekt Agiles Software Engineering",
-        "shortcode": "IWNF02"
+        "id": "IWNF02"
       },
       {
         "title": "IT-Infrastruktur",
-        "shortcode": "DLBSEPITI01_D"
+        "id": "DLBSEPITI01_D"
       },
       {
         "title": "IT-Service Management",
-        "shortcode": "IWSM01"
+        "id": "IWSM01"
       },
       {
         "title": "Projekt: Mobile Software Engineering II",
-        "shortcode": "DLBCSEMSE02_D"
+        "id": "DLBCSEMSE02_D"
       },
       {
         "title": "Cloud Programming",
-        "shortcode": "DLBSEPCP01_D"
+        "id": "DLBSEPCP01_D"
       },
       {
         "title": "Einführung in Datenschutz und IT-Sicherheit",
-        "shortcode": "DLBISIC01"
+        "id": "DLBISIC01"
       },
       {
         "title": "DevOps und Continuous Delivery",
-        "shortcode": "DLBSEPDOCD01_D"
+        "id": "DLBSEPDOCD01_D"
       },
       {
         "title": "Gestaltung und Ergonomie von User Interfaces",
-        "shortcode": "DLBMIUID01"
+        "id": "DLBMIUID01"
       },
       {
         "title": "Einführung in die Programmierung mit Python",
-        "shortcode": "DLBDSIPWP01_D"
+        "id": "DLBDSIPWP01_D"
       },
       {
         "title": "Projekt: Software Development",
-        "shortcode": "DLBSEPPSD01_D"
+        "id": "DLBSEPPSD01_D"
       }
     ]
   },
@@ -379,115 +379,115 @@
     "courses": [
       {
         "title": "Grundlagen der industriellen Softwaretechnik",
-        "shortcode": "IGIS01"
+        "id": "IGIS01"
       },
       {
         "title": "Digitale Medienformate",
-        "shortcode": "DLBMIDMF01"
+        "id": "DLBMIDMF01"
       },
       {
         "title": "Einführung in das wissenschaftliche Arbeiten",
-        "shortcode": "BWIR01-01"
+        "id": "BWIR01-01"
       },
       {
         "title": "Mathematik Grundlagen I",
-        "shortcode": "IMT101"
+        "id": "IMT101"
       },
       {
         "title": "Grundlagen der objektorientierten Programmierung mit Java",
-        "shortcode": "IOBP01"
+        "id": "IOBP01"
       },
       {
         "title": "Datenstrukturen und JAVA Klassenbibliothek",
-        "shortcode": "IOBP02"
+        "id": "IOBP02"
       },
       {
         "title": "Designgrundlagen: sehen und verstehen",
-        "shortcode": "DLBKDDSV01-02"
+        "id": "DLBKDDSV01-02"
       },
       {
         "title": "Kollaboratives Arbeiten",
-        "shortcode": "DLBKA01"
+        "id": "DLBKA01"
       },
       {
         "title": "Medienplattformen und -systeme",
-        "shortcode": "DLBMIMPFS01"
+        "id": "DLBMIMPFS01"
       },
       {
         "title": "Gestaltung und Ergonomie von User Interfaces",
-        "shortcode": "DLBMIUID01"
+        "id": "DLBMIUID01"
       },
       {
         "title": "Betriebssysteme, Rechnernetze und verteilte Systeme",
-        "shortcode": "DLBIBRVS01"
+        "id": "DLBIBRVS01"
       },
       {
         "title": "Projekt User Interface Design",
-        "shortcode": "DLBMIUID02"
+        "id": "DLBMIUID02"
       },
       {
         "title": "Programmierung von industriellen Informationssystemen mit Java EE",
-        "shortcode": "IPWA02-01"
+        "id": "IPWA02-01"
       },
       {
         "title": "Datenmodellierung und Datenbanksysteme",
-        "shortcode": "IDBS01"
+        "id": "IDBS01"
       },
       {
         "title": "Programmierung von Web-Anwendungsoberflächen",
-        "shortcode": "IPWA01-01"
+        "id": "IPWA01-01"
       },
       {
         "title": "Interkulturelle und ethische Handlungskompetenzen",
-        "shortcode": "DLBIHK01"
+        "id": "DLBIHK01"
       },
       {
         "title": "Informatik und Gesellschaft",
-        "shortcode": "DLBIIUG01"
+        "id": "DLBIIUG01"
       },
       {
         "title": "Projekt: Web-Programmierung",
-        "shortcode": "DLBUXPWP01"
+        "id": "DLBUXPWP01"
       },
       {
         "title": "Einführung in Computer Graphics",
-        "shortcode": "DLBAVRECC01"
+        "id": "DLBAVRECC01"
       },
       {
         "title": "Augmented, Mixed und Virtual Reality",
-        "shortcode": "DLBMIAMVR01"
+        "id": "DLBMIAMVR01"
       },
       {
         "title": "Medienrecht",
-        "shortcode": "DLBMIMR01"
+        "id": "DLBMIMR01"
       },
       {
         "title": "Digitale Medienproduktion",
-        "shortcode": "DLBMDWDMP01-01"
+        "id": "DLBMDWDMP01-01"
       },
       {
         "title": "Gestaltung interaktiver Medien",
-        "shortcode": "DLBMIGIM01"
+        "id": "DLBMIGIM01"
       },
       {
         "title": "Darstellen: Fotografie und Video",
-        "shortcode": "DLBIADFV01"
+        "id": "DLBIADFV01"
       },
       {
         "title": "Digital Publishing",
-        "shortcode": "DLBMDDP01"
+        "id": "DLBMDDP01"
       },
       {
         "title": "Grundlagen der Animation",
-        "shortcode": "DLBMIGA01"
+        "id": "DLBMIGA01"
       },
       {
         "title": "Seminar: Gesellschaft und Digitale Medien",
-        "shortcode": "DLBMISGDM01"
+        "id": "DLBMISGDM01"
       },
       {
         "title": "Projekt Medieninformatik",
-        "shortcode": "DLBMIPMI01"
+        "id": "DLBMIPMI01"
       }
     ]
   }
