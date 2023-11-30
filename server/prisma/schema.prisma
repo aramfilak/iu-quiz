@@ -2,9 +2,10 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider      = "prisma-client-js"
-  output        = "../node_modules/.prisma/client"
-  binaryTargets = ["native", "darwin-arm64"]
+  provider        = "prisma-client-js"
+  output          = "../node_modules/.prisma/client"
+  previewFeatures = ["fullTextSearch"]
+  binaryTargets   = ["native", "darwin-arm64"]
 }
 
 datasource db {
@@ -49,12 +50,11 @@ model Quiz {
   student       Student           @relation(fields: [authorId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   authorId      String
   title         String            @db.Text
-  createdAt     DateTime          @default(now())
   updatedAt     DateTime          @updatedAt
   size          Int               @default(0)
   popularity    Int               @default(0)
   courseOfStudy String
-  courseId      String
+  course        String
   quizQuestions QuizQuestion[]
   followedBy    FollowedQuizzes[]
 }

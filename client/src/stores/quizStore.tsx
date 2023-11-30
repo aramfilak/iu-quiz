@@ -21,19 +21,15 @@ const useQuizStore = create<UseQuizStore>((set, get) => ({
   isLoading: false,
 
   getStudentQuizzes: async () => {
-    set({ isLoading: true });
     const { data } = await get().getAllQuizzes({
       authorId: useStudentStore.getState().studentProfile?.studentId
     });
 
-    set({ isLoading: false });
     return data || [];
   },
 
   getAllQuizzes: (params: Partial<Quiz>) =>
     asyncHandler(async () => {
-      set({ isLoading: true });
-
       const response = await axiosQuizApi.get(`/`, {
         params,
         headers: { Authorization: usePersistStore.getState().accessToken }
@@ -43,7 +39,7 @@ const useQuizStore = create<UseQuizStore>((set, get) => ({
 
       return response.data;
     }),
-  createQuiz: (title: string, courseOfStudy: string, courseId: string) =>
+  createQuiz: (title: string, courseOfStudy: string, course: string) =>
     asyncHandler(async () => {
       set({ isLoading: true });
 
@@ -52,14 +48,12 @@ const useQuizStore = create<UseQuizStore>((set, get) => ({
         {
           title,
           courseOfStudy,
-          courseId
+          course
         },
         {
           headers: { Authorization: usePersistStore.getState().accessToken }
         }
       );
-
-      set({ isLoading: false });
 
       return response.data;
     }),
@@ -70,8 +64,6 @@ const useQuizStore = create<UseQuizStore>((set, get) => ({
       const response = await axiosQuizApi.delete(`/${quizId}`, {
         headers: { Authorization: usePersistStore.getState().accessToken }
       });
-
-      set({ isLoading: false });
 
       return response.data;
     })

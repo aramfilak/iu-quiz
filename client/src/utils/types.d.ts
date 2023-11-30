@@ -43,12 +43,11 @@ export interface Quiz {
   student: Student;
   authorId: string;
   title: string;
-  createdAt: Date;
   updatedAt: Date;
   size: number;
   popularity: number;
   courseOfStudy: string;
-  courseId: string;
+  course: string;
   quizQuestions: QuizQuestion[];
   followedBy: FollowedQuizzes[];
 }

@@ -30,7 +30,6 @@ interface CreateNewQuizProps extends CardBodyProps {
 
 interface Course {
   title: string;
-  id: string;
   onCreate?: () => void;
 }
 
@@ -64,11 +63,11 @@ function CreateNewQuiz({ onCreate, ...rest }: CreateNewQuizProps) {
     e.preventDefault();
     const title = titleInputRef.current?.value;
     const courseOfStudy = courseOfStudySelectRef.current?.value;
-    const courseId = courseSelectRef.current?.value;
+    const course = courseSelectRef.current?.value;
 
-    if (title && courseOfStudy && courseId) {
+    if (title && courseOfStudy && course) {
       const response = new Promise((resolve, reject) => {
-        createQuiz(title, courseOfStudy, courseId).then(({ success }) => {
+        createQuiz(title, courseOfStudy, course).then(({ success }) => {
           if (success) {
             resolve(true);
             onCreate();
@@ -145,8 +144,8 @@ function CreateNewQuiz({ onCreate, ...rest }: CreateNewQuizProps) {
                   </InputLeftAddon>
                 </Tooltip>
                 <Select ref={courseSelectRef}>
-                  {selectedCourseOfStudyCourses.map(({ id, title }) => (
-                    <option key={id} value={id}>
+                  {selectedCourseOfStudyCourses.map(({ title }) => (
+                    <option key={title} value={title}>
                       {title}
                     </option>
                   ))}

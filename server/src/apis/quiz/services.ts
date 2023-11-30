@@ -13,18 +13,8 @@ import { validate } from '../../utils/validate';
  * ________________________________________________________________
  */
 async function findAllQuizzes(req: Request, res: Response) {
-  const {
-    page,
-    limit,
-    createdAt,
-    updatedAt,
-    popularity,
-    size,
-    courseOfStudy,
-    courseId,
-    sort,
-    authorId
-  } = req.query;
+  const { page, limit, updatedAt, popularity, size, courseOfStudy, course, sort, authorId } =
+    req.query;
 
   const where: any = {};
   const sortOrder = sort ? sort : 'asc';
@@ -37,15 +27,11 @@ async function findAllQuizzes(req: Request, res: Response) {
     where.courseOfStudy = courseOfStudy;
   }
 
-  if (courseId) {
-    where.courseId = courseId;
+  if (course) {
+    where.course = course;
   }
 
   const orderBy: any = [];
-
-  if (createdAt) {
-    orderBy.push({ createdAt: sortOrder });
-  }
 
   if (updatedAt) {
     orderBy.push({ updatedAt: sortOrder });
@@ -116,7 +102,7 @@ async function findQuizById(req: Request, res: Response) {
  */
 async function createQuiz(req: Request, res: Response) {
   const studentId = req.auth?.studentId;
-  const { title, courseOfStudy, courseId } = req.body;
+  const { title, courseOfStudy, course } = req.body;
 
   if (!studentId) {
     throw new UnauthorizedError('Sie sind nicht berechtigt');
@@ -124,14 +110,14 @@ async function createQuiz(req: Request, res: Response) {
 
   validate.isEmpty('Title', title);
   validate.isEmpty('Course of study', courseOfStudy);
-  validate.isEmpty('Course id', courseId);
+  validate.isEmpty('Course', course);
 
   const quiz = await db.quiz.create({
     data: {
       authorId: studentId,
       title,
       courseOfStudy,
-      courseId
+      course
     }
   });
 
