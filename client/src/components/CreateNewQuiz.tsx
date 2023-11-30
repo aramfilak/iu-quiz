@@ -24,20 +24,25 @@ import { FaGraduationCap, FaPlus, FaBook, FaBookmark } from 'react-icons/fa';
 import courseOfStudies from '../data/courseOfStudy.json';
 import { useQuizStore, useStudentStore } from '../stores';
 
+interface CreateNewQuizProps extends CardBodyProps {
+  onCreate: () => void;
+}
+
 interface Course {
   title: string;
   id: string;
+  onCreate?: () => void;
 }
 
 const findCourseOfStudyCourses = (courseOfStudyName: string) => {
   return courseOfStudies.find(({ name }) => name === courseOfStudyName);
 };
 
-function CreateNewQuiz({ ...rest }: CardBodyProps) {
+function CreateNewQuiz({ onCreate, ...rest }: CreateNewQuizProps) {
   const titleInputRef = useRef<HTMLInputElement>(null);
   const courseOfStudySelectRef = useRef<HTMLSelectElement>(null);
   const courseSelectRef = useRef<HTMLSelectElement>(null);
-  const { createQuiz, getStudentQuizzes } = useQuizStore();
+  const { createQuiz } = useQuizStore();
   const { studentProfile } = useStudentStore();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
@@ -66,7 +71,7 @@ function CreateNewQuiz({ ...rest }: CardBodyProps) {
         createQuiz(title, courseOfStudy, courseId).then(({ success }) => {
           if (success) {
             resolve(true);
-            getStudentQuizzes();
+            onCreate();
           } else {
             reject();
           }

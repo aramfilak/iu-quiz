@@ -1,16 +1,22 @@
 import { Grid, SkeletonText, useToast } from '@chakra-ui/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { CreateNewQuiz, QuizCard } from '../../../../components';
 import { useQuizStore } from '../../../../stores';
+import { Quiz } from '../../../../utils/types';
 
 function My() {
-  const { studentQuizzes, isLoading, deleteQuizById, getStudentQuizzes } = useQuizStore();
+  const { isLoading, deleteQuizById, getStudentQuizzes } = useQuizStore();
   const toast = useToast();
+  const [studentQuizzes, setStudentQuizzes] = useState<Quiz[]>([]);
+
+  const fetchStudentQuizzes = () => {
+    getStudentQuizzes().then((quizzes) => {
+      setStudentQuizzes(quizzes);
+    });
+  };
 
   useEffect(() => {
-    if (!studentQuizzes) {
-      getStudentQuizzes();
-    }
+    fetchStudentQuizzes();
   }, []);
 
   const handleDeleteQuiz = (quizId: number) => {
@@ -18,7 +24,7 @@ function My() {
       deleteQuizById(quizId).then(({ success }) => {
         if (success) {
           resolve(true);
-          getStudentQuizzes();
+          fetchStudentQuizzes();
         } else {
           reject();
         }
@@ -42,7 +48,7 @@ function My() {
         </Grid>
       ) : (
         <Grid gridTemplateColumns="repeat(auto-fill, minmax(15rem, 1fr))" gap="1rem">
-          <CreateNewQuiz minH="12rem" />
+          <CreateNewQuiz onCreate={fetchStudentQuizzes} minH="12rem" />
           {studentQuizzes?.map((quiz) => (
             <QuizCard key={quiz.id} quiz={quiz} onDelete={() => handleDeleteQuiz(quiz.id)} />
           ))}

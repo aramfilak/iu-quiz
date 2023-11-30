@@ -131,7 +131,7 @@ function QuizCard({
 
         <CardBody minW="full">
           {/*----------------- Title -------------------*/}
-          <Text fontWeight="bold" textTransform="capitalize" textAlign="center">
+          <Text fontWeight="bold" textAlign="center">
             {title}
           </Text>
         </CardBody>

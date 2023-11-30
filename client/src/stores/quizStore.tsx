@@ -5,11 +5,9 @@ import { usePersistStore, useStudentStore } from '.';
 import { Quiz } from '../utils/types';
 
 interface UseQuizStore {
-  studentQuizzes: Quiz[] | null;
   isLoading: boolean;
-
   getAllQuizzes: (params: Partial<Quiz>) => Promise<IuQuizServerResponse<Quiz[]>>;
-  getStudentQuizzes: () => Promise<void>;
+  getStudentQuizzes: () => Promise<Quiz[] | []>;
   deleteQuizById: (quizId: number) => Promise<IuQuizServerResponse<void>>;
   createQuiz: (
     title: string,
@@ -29,13 +27,13 @@ const useQuizStore = create<UseQuizStore>((set, get) => ({
     });
 
     set({ isLoading: false });
-
-    set({ studentQuizzes: data });
+    return data || [];
   },
 
   getAllQuizzes: (params: Partial<Quiz>) =>
     asyncHandler(async () => {
       set({ isLoading: true });
+
       const response = await axiosQuizApi.get(`/`, {
         params,
         headers: { Authorization: usePersistStore.getState().accessToken }
@@ -48,6 +46,7 @@ const useQuizStore = create<UseQuizStore>((set, get) => ({
   createQuiz: (title: string, courseOfStudy: string, courseId: string) =>
     asyncHandler(async () => {
       set({ isLoading: true });
+
       const response = await axiosQuizApi.post(
         '/',
         {
@@ -67,10 +66,13 @@ const useQuizStore = create<UseQuizStore>((set, get) => ({
   deleteQuizById: (quizId: number) =>
     asyncHandler(async () => {
       set({ isLoading: true });
+
       const response = await axiosQuizApi.delete(`/${quizId}`, {
         headers: { Authorization: usePersistStore.getState().accessToken }
       });
+
       set({ isLoading: false });
+
       return response.data;
     })
 }));

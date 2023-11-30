@@ -13,7 +13,6 @@ import { validate } from '../../utils/validate';
  * ________________________________________________________________
  */
 async function findAllQuizzes(req: Request, res: Response) {
-  const studentId = req.auth?.studentId;
   const {
     page,
     limit,

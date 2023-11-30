@@ -5,8 +5,6 @@ import { StatusCodes } from 'http-status-codes';
 import { createApiResponse } from '../../utils/response';
 import { validate } from '../../utils/validate';
 import { StudentProfile } from '@prisma/client';
-import { Readable } from 'stream';
-import { UploadApiResponse } from 'cloudinary';
 import { uploadImageToCloudinary } from '../../utils/helpers';
 
 const studentProfileDataIncludeSchema = {
