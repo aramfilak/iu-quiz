@@ -34,12 +34,12 @@ import { TbUserHeart } from 'react-icons/tb';
 interface QuizCardProps extends CardProps {
   quiz: Quiz;
   onDelete?: () => void;
-  isAuthorQuiz: boolean;
+  isAuthor: boolean;
 }
 
 function QuizCard({
   onDelete,
-  isAuthorQuiz,
+  isAuthor,
   quiz: { id, title, updatedAt, size, popularity },
   ...rest
 }: QuizCardProps) {
@@ -94,7 +94,7 @@ function QuizCard({
           </Tooltip>
 
           {/*----------------- Card Options Menu -------------------*/}
-          {isAuthorQuiz && (
+          {isAuthor && (
             <Menu>
               <Tooltip label="Optionen">
                 <MenuButton

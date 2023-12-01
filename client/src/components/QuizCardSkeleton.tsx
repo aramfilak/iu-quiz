@@ -1,12 +1,13 @@
-import { Grid, GridProps, SkeletonText } from '@chakra-ui/react';
+import { GridProps, SkeletonText } from '@chakra-ui/react';
+import { QuizCardsGrid } from '.';
 
 function QuizCardSkeleton(rest: GridProps) {
   return (
-    <Grid {...rest} gridTemplateColumns="repeat(auto-fill, minmax(15rem, 1fr))" gap="1rem">
+    <QuizCardsGrid {...rest}>
       {Array.from({ length: 10 }, (_, index) => (
         <SkeletonText key={index} noOfLines={7} spacing="2" skeletonHeight="4" />
       ))}
-    </Grid>
+    </QuizCardsGrid>
   );
 }
 

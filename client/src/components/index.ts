@@ -12,3 +12,4 @@ export { SignUpForm } from './SignUpForm';
 export { QuizCard } from './QuizCard';
 export { CreateNewQuiz } from './CreateNewQuiz';
 export { QuizCardSkeleton } from './QuizCardSkeleton';
+export { QuizCardsGrid } from './QuizCardsGrid';

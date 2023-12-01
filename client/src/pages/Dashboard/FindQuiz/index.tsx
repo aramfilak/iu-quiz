@@ -7,14 +7,12 @@ import {
   InputRightElement,
   Icon,
   useColorModeValue,
-  Grid,
   Checkbox,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
   Button,
-  SkeletonText,
   Flex,
   Tooltip,
   Heading,
@@ -31,9 +29,9 @@ import {
   FaArrowDown
 } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
-import { PageHeader, BoxWrapper } from '../../../components';
+import { PageHeader, BoxWrapper, QuizCardSkeleton, QuizCardsGrid } from '../../../components';
 import { useEffect, useState } from 'react';
-import { useQuizStore } from '../../../stores';
+import { useQuizStore, useStudentStore } from '../../../stores';
 import courseOfStudy from '../../../data/courseOfStudy.json';
 import { QuizCard } from '../../../components/QuizCard';
 import { Quiz } from '../../../utils/types';
@@ -41,6 +39,7 @@ import { Quiz } from '../../../utils/types';
 function FindQuiz() {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const { isLoading, getAllQuizzes } = useQuizStore();
+  const { studentProfile } = useStudentStore();
   const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
   const [selectedModules, setSelectedModules] = useState<string[]>([]);
   const [selectedSortOrder, setSelectedSortOrder] = useState<string | string | null>(null);
@@ -320,19 +319,17 @@ function FindQuiz() {
       </Box>
 
       {isLoading ? (
-        <Grid gridTemplateColumns="repeat(auto-fit, minmax(16rem, 1fr))">
-          {new Array(8).fill(
-            <Box p={6} m={2}>
-              <SkeletonText mt="4" noOfLines={5} spacing="3" skeletonHeight="3" />
-            </Box>
-          )}
-        </Grid>
+        <QuizCardSkeleton />
       ) : (
-        <>
-          <Grid gridTemplateColumns="repeat(auto-fill, minmax(15rem, 1fr))" gap="1rem">
-            {allQuizzes?.map((quiz) => <QuizCard key={quiz.id} quiz={quiz} isAuthorQuiz={true} />)}
-          </Grid>
-        </>
+        <QuizCardsGrid>
+          {allQuizzes?.map((quiz) => (
+            <QuizCard
+              key={quiz.id}
+              quiz={quiz}
+              isAuthor={quiz.authorId === studentProfile?.studentId}
+            />
+          ))}
+        </QuizCardsGrid>
       )}
     </>
   );

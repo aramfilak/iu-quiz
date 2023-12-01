@@ -1,6 +1,6 @@
-import { Grid, useToast } from '@chakra-ui/react';
+import { useToast } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { CreateNewQuiz, QuizCard, QuizCardSkeleton } from '../../../../components';
+import { CreateNewQuiz, QuizCard, QuizCardSkeleton, QuizCardsGrid } from '../../../../components';
 import { useQuizStore } from '../../../../stores';
 import { Quiz } from '../../../../utils/types';
 
@@ -43,17 +43,17 @@ function My() {
       {isLoading ? (
         <QuizCardSkeleton />
       ) : (
-        <Grid gridTemplateColumns="repeat(auto-fill, minmax(15rem, 1fr))" gap="1rem">
+        <QuizCardsGrid>
           <CreateNewQuiz onCreate={fetchStudentQuizzes} minH="12rem" />
           {studentQuizzes?.map((quiz) => (
             <QuizCard
               key={quiz.id}
               quiz={quiz}
               onDelete={() => handleDeleteQuiz(quiz.id)}
-              isAuthorQuiz={true}
+              isAuthor={true}
             />
           ))}
-        </Grid>
+        </QuizCardsGrid>
       )}
     </>
   );
