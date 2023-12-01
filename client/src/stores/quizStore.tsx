@@ -30,6 +30,8 @@ const useQuizStore = create<UseQuizStore>((set, get) => ({
 
   getAllQuizzes: (params: Partial<Quiz>) =>
     asyncHandler(async () => {
+      set({ isLoading: true });
+
       const response = await axiosQuizApi.get(`/`, {
         params,
         headers: { Authorization: usePersistStore.getState().accessToken }

@@ -34,7 +34,7 @@ interface Course {
 }
 
 const findCourseOfStudyCourses = (courseOfStudyName: string) => {
-  return courseOfStudies.find(({ name }) => name === courseOfStudyName);
+  return courseOfStudies.find(({ name }) => name === courseOfStudyName)?.courses;
 };
 
 function CreateNewQuiz({ onCreate, ...rest }: CreateNewQuizProps) {
@@ -46,17 +46,20 @@ function CreateNewQuiz({ onCreate, ...rest }: CreateNewQuizProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
   const defaultCourseOfStudy = studentProfile?.courseOfStudy || courseOfStudies[0].name;
-  const [selectedCourseOfStudyCourses, setSelectedCourseOfStudyCourses] = useState<Array<Course>>(
-    () => {
-      const result = findCourseOfStudyCourses(defaultCourseOfStudy);
-      return result ? result.courses : [];
+  const [selectedCourseOfStudyCourses, setSelectedCourseOfStudyCourses] = useState<Course[]>(() => {
+    const courses = findCourseOfStudyCourses(defaultCourseOfStudy);
+    if (courses) {
+      return courses;
+    } else {
+      return [];
     }
-  );
+  });
 
   const handleSelectCourseOfStudy = (selectedCourseOfStudy: string) => {
-    const courses = findCourseOfStudyCourses(selectedCourseOfStudy)?.courses;
-
-    setSelectedCourseOfStudyCourses(courses || []);
+    const courses = findCourseOfStudyCourses(selectedCourseOfStudy);
+    if (courses) {
+      setSelectedCourseOfStudyCourses(courses);
+    }
   };
 
   const handleCreateNewQuiz = (e: React.FormEvent<HTMLFormElement>) => {
