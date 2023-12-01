@@ -8,3 +8,4 @@ export { QuizEditor } from './Dashboard/QuizEditor/index';
 export { FAQs } from './Dashboard/FAQs/index';
 export { Profile } from './Dashboard/Profile/index';
 export { MyQuizzes } from './Dashboard/MyQuizzes/index';
+export { FindQuiz } from './Dashboard/FindQuiz/index';

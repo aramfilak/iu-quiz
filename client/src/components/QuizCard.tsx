@@ -33,11 +33,13 @@ import { TbUserHeart } from 'react-icons/tb';
 
 interface QuizCardProps extends CardProps {
   quiz: Quiz;
-  onDelete: () => void;
+  onDelete?: () => void;
+  isAuthorQuiz: boolean;
 }
 
 function QuizCard({
   onDelete,
+  isAuthorQuiz,
   quiz: { id, title, updatedAt, size, popularity },
   ...rest
 }: QuizCardProps) {
@@ -68,7 +70,7 @@ function QuizCard({
                 colorScheme="red"
                 onClick={() => {
                   onClose();
-                  onDelete();
+                  onDelete?.();
                 }}
                 ml={3}
                 type="button"
@@ -92,37 +94,39 @@ function QuizCard({
           </Tooltip>
 
           {/*----------------- Card Options Menu -------------------*/}
-          <Menu>
-            <Tooltip label="Optionen">
-              <MenuButton
-                bg="gray.300"
-                _dark={{ color: 'white.300' }}
-                as={IconButton}
-                icon={<FaList />}
-                size="sm"
-                aria-label="Quiz Card Menü"
-              />
-            </Tooltip>
-            <MenuList>
-              <MenuItem
-                _dark={{ textColor: 'white' }}
-                onClick={() => navigate(`${routes.Dashboard.children.QuizEditor.mainPath}/${id}`)}
-                icon={<FaEdit />}
-                aria-label="Edit"
-              >
-                Bearbeiten
-              </MenuItem>
-              <MenuItem
-                _dark={{ textColor: 'red.300' }}
-                textColor="red.500"
-                onClick={onOpen}
-                icon={<FaTrash />}
-                aria-label="Delete"
-              >
-                Löschen
-              </MenuItem>
-            </MenuList>
-          </Menu>
+          {isAuthorQuiz && (
+            <Menu>
+              <Tooltip label="Optionen">
+                <MenuButton
+                  bg="gray.300"
+                  _dark={{ color: 'white.300' }}
+                  as={IconButton}
+                  icon={<FaList />}
+                  size="sm"
+                  aria-label="Quiz Card Menü"
+                />
+              </Tooltip>
+              <MenuList>
+                <MenuItem
+                  _dark={{ textColor: 'white' }}
+                  onClick={() => navigate(`${routes.Dashboard.children.QuizEditor.mainPath}/${id}`)}
+                  icon={<FaEdit />}
+                  aria-label="Edit"
+                >
+                  Bearbeiten
+                </MenuItem>
+                <MenuItem
+                  _dark={{ textColor: 'red.300' }}
+                  textColor="red.500"
+                  onClick={onOpen}
+                  icon={<FaTrash />}
+                  aria-label="Delete"
+                >
+                  Löschen
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          )}
           {/*----------------- Play Quiz -------------------*/}
           <Tooltip label="Spielen">
             <IconButton icon={<FaPlay />} aria-label="Quiz Spielen" ml={2} size="sm" />

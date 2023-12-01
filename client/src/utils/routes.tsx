@@ -9,7 +9,8 @@ import {
   MyQuizzes,
   SignIn,
   SignUp,
-  QuizEditor
+  QuizEditor,
+  FindQuiz
 } from '../pages';
 
 const routes = {
@@ -63,7 +64,7 @@ const routes = {
         name: 'Quiz Finden',
         path: 'find-quiz',
         mainPath: 'find-quiz',
-        element: <div>Editor Quiz</div>
+        element: <FindQuiz />
       },
       ActiveQuiz: {
         icon: FiHeart,

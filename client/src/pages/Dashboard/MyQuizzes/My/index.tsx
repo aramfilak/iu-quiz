@@ -46,7 +46,12 @@ function My() {
         <Grid gridTemplateColumns="repeat(auto-fill, minmax(15rem, 1fr))" gap="1rem">
           <CreateNewQuiz onCreate={fetchStudentQuizzes} minH="12rem" />
           {studentQuizzes?.map((quiz) => (
-            <QuizCard key={quiz.id} quiz={quiz} onDelete={() => handleDeleteQuiz(quiz.id)} />
+            <QuizCard
+              key={quiz.id}
+              quiz={quiz}
+              onDelete={() => handleDeleteQuiz(quiz.id)}
+              isAuthorQuiz={true}
+            />
           ))}
         </Grid>
       )}
