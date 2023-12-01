@@ -1,6 +1,6 @@
-import { Grid, SkeletonText, useToast } from '@chakra-ui/react';
+import { Grid, useToast } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { CreateNewQuiz, QuizCard } from '../../../../components';
+import { CreateNewQuiz, QuizCard, QuizCardSkeleton } from '../../../../components';
 import { useQuizStore } from '../../../../stores';
 import { Quiz } from '../../../../utils/types';
 
@@ -41,11 +41,7 @@ function My() {
   return (
     <>
       {isLoading ? (
-        <Grid gridTemplateColumns="repeat(auto-fill, minmax(15rem, 1fr))" gap="1rem">
-          {Array.from({ length: 10 }, (_, index) => (
-            <SkeletonText key={index} noOfLines={7} spacing="2" skeletonHeight="4" />
-          ))}
-        </Grid>
+        <QuizCardSkeleton />
       ) : (
         <Grid gridTemplateColumns="repeat(auto-fill, minmax(15rem, 1fr))" gap="1rem">
           <CreateNewQuiz onCreate={fetchStudentQuizzes} minH="12rem" />

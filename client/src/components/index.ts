@@ -11,3 +11,4 @@ export { SignInForm } from './SignInForm';
 export { SignUpForm } from './SignUpForm';
 export { QuizCard } from './QuizCard';
 export { CreateNewQuiz } from './CreateNewQuiz';
+export { QuizCardSkeleton } from './QuizCardSkeleton';
