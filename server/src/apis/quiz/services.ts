@@ -312,6 +312,40 @@ async function unFollowQuiz(req: Request, res: Response) {
   res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, ''));
 }
 
+/**
+ * ________________________________________________________________
+ * @route api/v1/quiz/follow
+ * @method GET
+ * @access protected
+ * ________________________________________________________________
+ */
+async function findFollowedQuizzes(req: Request, res: Response) {
+  const studentId = req.auth?.studentId;
+
+  const student = await db.student.findUnique({ where: { id: studentId } });
+
+  if (!student) {
+    throw new UnauthorizedError('Sie sind nicht berechtigt');
+  }
+
+  const followedQuizzes = await db.followedQuizzes.findMany({
+    where: { followerId: student.id },
+    include: {
+      quiz: {
+        include: {
+          quizQuestions: {
+            include: {
+              quizAnswers: true
+            }
+          }
+        }
+      }
+    }
+  });
+
+  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, '', followedQuizzes));
+}
+
 export {
   findAllQuizzes,
   findQuizById,
@@ -320,5 +354,6 @@ export {
   updateQuiz,
   deleteQuizById,
   followQuiz,
-  unFollowQuiz
+  unFollowQuiz,
+  findFollowedQuizzes
 };

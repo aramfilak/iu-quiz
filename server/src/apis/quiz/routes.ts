@@ -1,22 +1,17 @@
 import { Router } from 'express';
-import {
-  findAllQuizzes,
-  findQuizById,
-  createQuiz,
-  createQuizQuestion,
-  deleteQuizById,
-  followQuiz,
-  unFollowQuiz
-} from './services';
+import * as quizService from './services';
 
 const quizRoutes = Router();
 
-quizRoutes.get('/', findAllQuizzes);
-quizRoutes.get('/:quizId', findQuizById);
-quizRoutes.delete('/:quizId', deleteQuizById);
-quizRoutes.post('/', createQuiz);
-quizRoutes.post('/question', createQuizQuestion);
-quizRoutes.post('/follow/:quizId', followQuiz);
-quizRoutes.delete('/follow/:quizId', unFollowQuiz);
+quizRoutes.get('/follow', quizService.findFollowedQuizzes);
+quizRoutes.post('/follow/:quizId', quizService.followQuiz);
+quizRoutes.delete('/follow/:quizId', quizService.unFollowQuiz);
+
+quizRoutes.get('/', quizService.findAllQuizzes);
+quizRoutes.get('/:quizId', quizService.findQuizById);
+quizRoutes.post('/', quizService.createQuiz);
+quizRoutes.delete('/:quizId', quizService.deleteQuizById);
+
+quizRoutes.post('/question', quizService.createQuizQuestion);
 
 export { quizRoutes };
