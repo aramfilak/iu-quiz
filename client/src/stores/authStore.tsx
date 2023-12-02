@@ -10,8 +10,14 @@ interface AuthResponse {
 }
 
 interface UseAuthStore {
-  singUp: (email: string, password: string) => Promise<IuQuizServerResponse<AuthResponse>>;
-  signIn: (email: string, password: string) => Promise<IuQuizServerResponse<AuthResponse>>;
+  singUp: (
+    email: string,
+    password: string
+  ) => Promise<IuQuizServerResponse<AuthResponse>>;
+  signIn: (
+    email: string,
+    password: string
+  ) => Promise<IuQuizServerResponse<AuthResponse>>;
   signOut: () => void;
   authenticate: (
     endpoint: string,
@@ -43,10 +49,13 @@ const useAuthStore = create<UseAuthStore>((_, get) => ({
 
   authenticate: (endpoint: string, email: string, password: string) =>
     asyncHandler(async () => {
-      const response = await axiosAuthApi.post<IuQuizServerResponse<AuthResponse>>(endpoint, {
-        email: email,
-        password: password
-      });
+      const response = await axiosAuthApi.post<IuQuizServerResponse<AuthResponse>>(
+        endpoint,
+        {
+          email: email,
+          password: password
+        }
+      );
 
       const accessToken = response.data.data?.accessToken || null;
 
@@ -59,10 +68,13 @@ const useAuthStore = create<UseAuthStore>((_, get) => ({
 
   verifyEmail: (email: string, emailVerificationToken: string) =>
     asyncHandler(async () => {
-      const response = await axiosAuthApi.post<IuQuizServerResponse<unknown>>('/verify-email', {
-        email: email,
-        emailVerificationToken: emailVerificationToken
-      });
+      const response = await axiosAuthApi.post<IuQuizServerResponse<unknown>>(
+        '/verify-email',
+        {
+          email: email,
+          emailVerificationToken: emailVerificationToken
+        }
+      );
 
       return response.data;
     })

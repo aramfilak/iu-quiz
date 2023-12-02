@@ -51,7 +51,11 @@ function SignInForm(rest: React.HTMLProps<HTMLFormElement>) {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }} {...rest}>
+    <form
+      onSubmit={handleSubmit}
+      style={{ display: 'flex', flexDirection: 'column' }}
+      {...rest}
+    >
       {/*------------------- Response Alert --------------------*/}
       {alert && (
         <Alert status={alert.status}>
@@ -60,7 +64,11 @@ function SignInForm(rest: React.HTMLProps<HTMLFormElement>) {
         </Alert>
       )}
 
-      <LabelHeading fontSize={{ base: '4xl', lg: '5xl' }} variant="solid" description="Anmelden" />
+      <LabelHeading
+        fontSize={{ base: '4xl', lg: '5xl' }}
+        variant="solid"
+        description="Anmelden"
+      />
       {/*------------------- Email --------------------*/}
       <FormLabel mt="2" htmlFor="email">
         Email
@@ -102,7 +110,14 @@ function SignInForm(rest: React.HTMLProps<HTMLFormElement>) {
       </InputGroup>
 
       {/*------------------- Form Submit -----------------*/}
-      <Button disabled={isSubmitting} colorScheme="teal" type="submit" mt="4" mb="2" width="full">
+      <Button
+        disabled={isSubmitting}
+        colorScheme="teal"
+        type="submit"
+        mt="4"
+        mb="2"
+        width="full"
+      >
         Anmelden
       </Button>
 

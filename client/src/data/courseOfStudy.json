@@ -3,7 +3,9 @@
     "name": "Informatik",
     "courses": [
       { "title": "Mathematik Grundlagen I - IMT101" },
-      { "title": "Einführung in das wissenschaftliche Arbeiten für IT und Technik - DLBWIRITT" },
+      {
+        "title": "Einführung in das wissenschaftliche Arbeiten für IT und Technik - DLBWIRITT"
+      },
       { "title": "Betriebswirtschaftslehre - BBWL01-01" },
       { "title": "Betriebswirtschaftslehre - BBWL02-01" },
       { "title": "Grundlagen der industriellen Softwaretechnik - IGIS01" },
@@ -41,7 +43,9 @@
       { "title": "Einführung in die Wirtschaftsinformatik - DLBWIEWI01" },
       { "title": "Betriebswirtschaftslehre - BBWL01-01" },
       { "title": "Betriebswirtschaftslehre - BBWL02-01" },
-      { "title": "Einführung in das wissenschaftliche Arbeiten für IT und Technik - BWIRITT" },
+      {
+        "title": "Einführung in das wissenschaftliche Arbeiten für IT und Technik - BWIRITT"
+      },
       { "title": "Mathematik Grundlagen I - IMT101" },
       { "title": "Requirements Engineering - IREN01" },
       { "title": "Grundlagen der objektorientierten Programmierung mit Java - IOBP01" },
@@ -53,7 +57,9 @@
       { "title": "Einführung in das Prozessmanagement - DLBWIEPM01" },
       { "title": "Grundlagen der IT- und ERP-Systeme - DLBFMGSYS01" },
       { "title": "Programmierung von Web-Anwendungsoberflächen - IPWA01" },
-      { "title": "Programmierung von industriellen Informationssytemen mit Java EE - IPWA02" },
+      {
+        "title": "Programmierung von industriellen Informationssytemen mit Java EE - IPWA02"
+      },
       { "title": "Kosten- und Leistungsrechnung - BKLR01-01" },
       { "title": "Kosten- und Leistungsrechnung - BKLR02-01" },
       { "title": "Interkulturelle und ethische Handlungskompetenzen - DLBIHK01" },
@@ -75,7 +81,9 @@
     "name": "Softwareentwicklung",
     "courses": [
       { "title": "Grundlagen der industriellen Softwaretechnik - IGIS01" },
-      { "title": "Einführung in das wissenschaftliche Arbeiten für IT und Technik - DLBWIRITT01" },
+      {
+        "title": "Einführung in das wissenschaftliche Arbeiten für IT und Technik - DLBWIRITT01"
+      },
       { "title": "Requirements Engineering - IREN01" },
       { "title": "Spezifikation - ISPE01" },
       { "title": "Grundlagen der objektorientierten Programmierung mit Java - IOBP01" },
@@ -86,11 +94,15 @@
       { "title": "Algorithmen, Datenstrukturen und Programmiersprachen - DLBIADPS01" },
       { "title": "Qualitätssicherung im Softwareprozess - IQSS01" },
       { "title": "IT-Architekturmanagement - IAMG01" },
-      { "title": "Programmierung von industriellen Informationssytemen mit Java EE - IPWA02-01" },
+      {
+        "title": "Programmierung von industriellen Informationssytemen mit Java EE - IPWA02-01"
+      },
       { "title": "Ethik und Nachhaltigkeit in der IT - DLBSEPENIT01_D" },
       { "title": "IT-Projektmanagement - IPMG01-01" },
       { "title": "Techniken und Methoden der agilen Softwareentwicklung - DLBWIWTMAS01" },
-      { "title": "Mobile Software Engineering am Beispiel der Android-Plattform - DLBCSEMSE01_D" },
+      {
+        "title": "Mobile Software Engineering am Beispiel der Android-Plattform - DLBCSEMSE01_D"
+      },
       { "title": "Seminar \"Software Engineering\" - ISSE01" },
       { "title": "Projekt Agiles Software Engineering - IWNF02" },
       { "title": "IT-Infrastruktur - DLBSEPITI01_D" },
@@ -119,7 +131,9 @@
       { "title": "Gestaltung und Ergonomie von User Interfaces - DLBMIUID01" },
       { "title": "Betriebssysteme, Rechnernetze und verteilte Systeme - DLBIBRVS01" },
       { "title": "Projekt User Interface Design - DLBMIUID02" },
-      { "title": "Programmierung von industriellen Informationssystemen mit Java EE - IPWA02-01" },
+      {
+        "title": "Programmierung von industriellen Informationssystemen mit Java EE - IPWA02-01"
+      },
       { "title": "Datenmodellierung und Datenbanksysteme - IDBS01" },
       { "title": "Programmierung von Web-Anwendungsoberflächen - IPWA01-01" },
       { "title": "Interkulturelle und ethische Handlungskompetenzen - DLBIHK01" },

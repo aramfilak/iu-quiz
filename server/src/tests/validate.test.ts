@@ -17,9 +17,18 @@ const invalidIUEmails = [
 const validPasswords = ['1111111a', 'aaaaaaa2', 'aaaa111$$', '32kljsd€$1'];
 const inValidPasswords = ['1', ' ', '1111', '123456789', 'qweasdrf', 'aaa'];
 const inValidLinkInUrl = ['http://www.linkedin.com/feed/', 'https://www.linkedin/feed/'];
-const validLinkInUrl = ['https://www.linkedin.com/feed/', 'https://www.linkedin.com/mynetwork/'];
-const inValidXingUrl = ['http:/www.xing.com/discover/updates', 'https://www.xing.de/discover/'];
-const validXing = ['https://www.xing.com/notifications', 'https://www.xing.com/discover/updates'];
+const validLinkInUrl = [
+  'https://www.linkedin.com/feed/',
+  'https://www.linkedin.com/mynetwork/'
+];
+const inValidXingUrl = [
+  'http:/www.xing.com/discover/updates',
+  'https://www.xing.de/discover/'
+];
+const validXing = [
+  'https://www.xing.com/notifications',
+  'https://www.xing.com/discover/updates'
+];
 
 test.each(emptyValues)('is Empty String', (emptyValue) => {
   // @ts-ignore

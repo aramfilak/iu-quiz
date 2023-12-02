@@ -10,13 +10,23 @@ import {
   Tooltip,
   Flex
 } from '@chakra-ui/react';
-import { DeleteStudentAlert, UploadProfileImage, BoxWrapper } from '../../../../components';
+import {
+  DeleteStudentAlert,
+  UploadProfileImage,
+  BoxWrapper
+} from '../../../../components';
 import { useState, useRef } from 'react';
 import { useStudentStore } from '../../../../stores';
 import { CustomAlert } from '../../../../utils/types';
 import courseOfStudy from '../../../../data/courseOfStudy.json';
 import { FiSave, FiUserX } from 'react-icons/fi';
-import { FaLinkedin, FaXing, FaGraduationCap, FaMapMarkerAlt, FaUser } from 'react-icons/fa';
+import {
+  FaLinkedin,
+  FaXing,
+  FaGraduationCap,
+  FaMapMarkerAlt,
+  FaUser
+} from 'react-icons/fa';
 
 function Edit() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -36,7 +46,8 @@ function Edit() {
       locationInputRef.current?.value.trim() !== (studentProfile?.location || ''),
       linkedInInputRef.current?.value.trim() !== (studentProfile?.linkedinUrl || ''),
       xingInputRef.current?.value.trim() !== (studentProfile?.xingUrl || ''),
-      courseOfStudySelectRef.current?.value.trim() !== (studentProfile?.courseOfStudy || '')
+      courseOfStudySelectRef.current?.value.trim() !==
+        (studentProfile?.courseOfStudy || '')
     ];
 
     setIsChanged(inputs.some((input) => input));
@@ -218,7 +229,12 @@ function Edit() {
           </BoxWrapper>
 
           {/*------------------- Delete Profile -----------------*/}
-          <BoxWrapper title="Gefahrenzone" width="100%" border="2px dashed" borderColor="red.600">
+          <BoxWrapper
+            title="Gefahrenzone"
+            width="100%"
+            border="2px dashed"
+            borderColor="red.600"
+          >
             <Button
               width={{ base: '100%', sm: 'fit-content' }}
               colorScheme="red"

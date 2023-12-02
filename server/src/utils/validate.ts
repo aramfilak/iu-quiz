@@ -53,25 +53,39 @@ class Validate {
     return email;
   }
 
-  public min(valueName: string, value: string, minLength: number, isEmpty = true): string {
+  public min(
+    valueName: string,
+    value: string,
+    minLength: number,
+    isEmpty = true
+  ): string {
     if (isEmpty) {
       value = this.isEmpty(valueName, value);
     }
 
     if (value.length < minLength) {
-      throw new BadRequestError(`${valueName} muss mindestens ${minLength} Zeichen lang sein.`);
+      throw new BadRequestError(
+        `${valueName} muss mindestens ${minLength} Zeichen lang sein.`
+      );
     }
 
     return value;
   }
 
-  public max(valueName: string, value: string, maxLength: number, isEmpty = true): string {
+  public max(
+    valueName: string,
+    value: string,
+    maxLength: number,
+    isEmpty = true
+  ): string {
     if (isEmpty) {
       value = this.isEmpty(valueName, value);
     }
 
     if (value.length > maxLength) {
-      throw new BadRequestError(`${valueName} darf maximal ${maxLength} Zeichen lang sein.`);
+      throw new BadRequestError(
+        `${valueName} darf maximal ${maxLength} Zeichen lang sein.`
+      );
     }
 
     return value;

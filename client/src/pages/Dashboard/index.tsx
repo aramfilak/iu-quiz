@@ -27,7 +27,10 @@ function Dashboard() {
           </DrawerContent>
         </Drawer>
       )}
-      <HeaderMenuBar onOpen={onOpen} setCollapsedFalse={() => setSidebarCollapsed(false)} />
+      <HeaderMenuBar
+        onOpen={onOpen}
+        setCollapsedFalse={() => setSidebarCollapsed(false)}
+      />
 
       <Box ml={{ base: 0, md: isSidebarCollapsed ? 16 : 60 }} padding="1rem">
         <Container maxWidth="container.xl" padding="0">

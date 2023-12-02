@@ -16,7 +16,8 @@ import {
   Tooltip,
   Heading,
   Text,
-  IconButton
+  IconButton,
+  useToast
 } from '@chakra-ui/react';
 import {
   FaSearch,
@@ -28,24 +29,56 @@ import {
   FaArrowDown
 } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
-import { PageHeader, BoxWrapper, QuizCardSkeleton, QuizCardsGrid } from '../../../components';
+import {
+  PageHeader,
+  BoxWrapper,
+  QuizCardSkeleton,
+  QuizCardsGrid
+} from '../../../components';
 import { useEffect, useState } from 'react';
-import { useQuizStore, useStudentStore } from '../../../stores';
+import { useQuizStore } from '../../../stores';
 import courseOfStudy from '../../../data/courseOfStudy.json';
 import { QuizCard } from '../../../components/QuizCard';
 import { Quiz } from '../../../utils/types';
 
 function FindQuiz() {
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const { isLoading, getAllQuizzes } = useQuizStore();
-  const { studentProfile } = useStudentStore();
+  const { isLoading, getAllQuizzes, followQuiz } = useQuizStore();
   const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
   const [selectedModules, setSelectedModules] = useState<string[]>([]);
-  const [selectedSortOrder, setSelectedSortOrder] = useState<string | string | null>(null);
-  const [selectedFilterProperty, setSelectedFilterProperty] = useState<string | null>(null);
-  const [allQuizzes, setAllQuizzes] = useState<Quiz[] | undefined>(undefined);
+  const [selectedSortOrder, setSelectedSortOrder] = useState<string | string | null>(
+    null
+  );
+  const [selectedFilterProperty, setSelectedFilterProperty] = useState<string | null>(
+    null
+  );
+  const [unFollowedQuizzes, setUnFollowedQuizzes] = useState<Quiz[]>([]);
   const [isBoxOpen, setIsBoxOpen] = useState(true);
   const boxShadowDark = isBoxOpen ? '' : '1px solid #4a5568';
+  const toast = useToast();
+
+  const fetchUnFollowedQuizzes = async () => {
+    const quizzes = await getAllQuizzes({ unFollowed: true });
+    setUnFollowedQuizzes(quizzes);
+  };
+
+  useEffect(() => {
+    fetchUnFollowedQuizzes();
+  }, []);
+
+  const handleFlowQuiz = (quizId: number) => {
+    const response = new Promise((resolve, reject) =>
+      followQuiz(quizId)
+        .then(() => resolve(fetchUnFollowedQuizzes()))
+        .catch(() => reject())
+    );
+
+    toast.promise(response, {
+      success: { description: 'Quiz gefolget' },
+      error: { description: 'Folgen fehlgeschlagen' },
+      loading: { description: 'Es lädt..' }
+    });
+  };
 
   const handleToggleBox = () => {
     setIsBoxOpen((prev) => !prev);
@@ -89,15 +122,6 @@ function FindQuiz() {
   const handleDeleteSearch = () => {
     setSearchTerm('');
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await getAllQuizzes({});
-      setAllQuizzes(response.data);
-    };
-
-    fetchData();
-  }, []);
 
   return (
     <>
@@ -287,7 +311,10 @@ function FindQuiz() {
           </BoxWrapper>
           <Flex w="100%" justify="center" h="20%">
             {/* ________________ Collapse Button ____________________ */}
-            <Tooltip label={!isBoxOpen ? 'Filter öffnen' : 'Filter schließen'} placement="bottom">
+            <Tooltip
+              label={!isBoxOpen ? 'Filter öffnen' : 'Filter schließen'}
+              placement="bottom"
+            >
               <IconButton
                 display={{ base: 'flex', md: 'flex' }}
                 height="20%"
@@ -321,11 +348,13 @@ function FindQuiz() {
         <QuizCardSkeleton />
       ) : (
         <QuizCardsGrid>
-          {allQuizzes?.map((quiz) => (
+          {unFollowedQuizzes?.map((quiz) => (
             <QuizCard
               key={quiz.id}
               quiz={quiz}
-              isAuthor={quiz.authorId === studentProfile?.studentId}
+              displayFollowButton={{
+                onFollow: () => handleFlowQuiz(quiz.id)
+              }}
             />
           ))}
         </QuizCardsGrid>

@@ -74,13 +74,15 @@ async function updateStudent(req: Request, res: Response) {
   const updateData: Partial<StudentProfile> = {};
 
   if (name) {
+    updateData.name = validate.min('Name', name, 2);
     updateData.name = validate.max('Name', name, 20);
-  }
-  if (courseOfStudy) {
-    updateData.courseOfStudy = courseOfStudy;
   }
   if (location) {
     updateData.location = validate.max('Ort', location, 20, false);
+    updateData.location = validate.min('Ort', location, 2, false);
+  }
+  if (courseOfStudy) {
+    updateData.courseOfStudy = courseOfStudy;
   }
   if (linkedinUrl) {
     updateData.linkedinUrl = validate.url('linkedin', linkedinUrl);
@@ -88,7 +90,6 @@ async function updateStudent(req: Request, res: Response) {
   if (xingUrl) {
     updateData.xingUrl = validate.url('xing', xingUrl);
   }
-
   if (!Object.keys(updateData).length) {
     throw new BadRequestError('Keine Änderungen vorhanden');
   }
@@ -139,7 +140,12 @@ async function deleteStudent(req: Request, res: Response) {
 
   res
     .status(StatusCodes.OK)
-    .json(createApiResponse(StatusCodes.OK, 'Schade, dass Sie gehen! Wir vermissen Sie bereits'));
+    .json(
+      createApiResponse(
+        StatusCodes.OK,
+        'Schade, dass Sie gehen! Wir vermissen Sie bereits'
+      )
+    );
 }
 
 /**
@@ -199,7 +205,13 @@ async function uploadStudentProfileImage(req: Request, res: Response) {
 
   res
     .status(StatusCodes.OK)
-    .json(createApiResponse(StatusCodes.OK, 'Profilbild erfolgreich hochgeladen', updatedStudent));
+    .json(
+      createApiResponse(
+        StatusCodes.OK,
+        'Profilbild erfolgreich hochgeladen',
+        updatedStudent
+      )
+    );
 }
 
 /**
@@ -242,7 +254,9 @@ async function deleteStudentProfileImage(req: Request, res: Response) {
 
   res
     .status(StatusCodes.OK)
-    .json(createApiResponse(StatusCodes.OK, 'Profilbild erfolgreich gelöscht', updatedStudent));
+    .json(
+      createApiResponse(StatusCodes.OK, 'Profilbild erfolgreich gelöscht', updatedStudent)
+    );
 }
 
 export {

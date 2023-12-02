@@ -7,10 +7,12 @@ import { StudentProfile } from '../utils/types';
 interface UseStudentStore {
   studentProfile: StudentProfile | null;
   getStudent: () => Promise<IuQuizServerResponse<StudentProfile>>;
-  updateStudent: (data: Partial<StudentProfile>) => Promise<IuQuizServerResponse<StudentProfile>>;
-  deleteStudent: () => Promise<IuQuizServerResponse<StudentProfile>>;
-  uploadImage: (image: FormData) => Promise<IuQuizServerResponse<StudentProfile>>;
-  deleteImage: () => Promise<IuQuizServerResponse<StudentProfile>>;
+  updateStudent: (
+    data: Partial<StudentProfile>
+  ) => Promise<IuQuizServerResponse<StudentProfile>>;
+  deleteStudent: () => Promise<void>;
+  uploadImage: (image: FormData) => Promise<void>;
+  deleteImage: () => Promise<void>;
 }
 
 const useStudentStore = create<UseStudentStore>((set) => ({
@@ -36,41 +38,36 @@ const useStudentStore = create<UseStudentStore>((set) => ({
 
       return response.data;
     }),
+
   deleteStudent: () =>
     asyncHandler(async () => {
-      const response = await axiosStudentApi.delete('/', {
+      await axiosStudentApi.delete('/', {
         headers: { Authorization: usePersistStore.getState().accessToken }
       });
 
-      set({ studentProfile: response.data.data });
-
-      return response.data;
+      set({ studentProfile: null });
     }),
-  uploadImage: (profileImage: FormData) =>
-    asyncHandler(async () => {
-      const response = await axiosStudentApi.post('/profile-image', profileImage, {
-        headers: {
-          Authorization: usePersistStore.getState().accessToken,
-          'Content-Type': 'multipart/form-data'
-        }
-      });
 
-      set({ studentProfile: response.data.data });
+  uploadImage: async (profileImage: FormData) => {
+    const response = await axiosStudentApi.post('/profile-image', profileImage, {
+      headers: {
+        Authorization: usePersistStore.getState().accessToken,
+        'Content-Type': 'multipart/form-data'
+      }
+    });
 
-      return response.data;
-    }),
-  deleteImage: () =>
-    asyncHandler(async () => {
-      const response = await axiosStudentApi.delete('/profile-image', {
-        headers: {
-          Authorization: usePersistStore.getState().accessToken
-        }
-      });
+    set({ studentProfile: response.data.data });
+  },
 
-      set({ studentProfile: response.data.data });
+  deleteImage: async () => {
+    const response = await axiosStudentApi.delete('/profile-image', {
+      headers: {
+        Authorization: usePersistStore.getState().accessToken
+      }
+    });
 
-      return response.data;
-    })
+    set({ studentProfile: response.data.data });
+  }
 }));
 
 export { useStudentStore };

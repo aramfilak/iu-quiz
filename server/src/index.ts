@@ -46,9 +46,9 @@ app.use(pathNotFound);
 app.use(errorHandler);
 
 /*
- * MAIN FUNCTION
+ * RUN SERVER
  */
-(async function main() {
+(async function run() {
   const port = 4000;
   const serverLocal = `http://localhost:${port}`;
 

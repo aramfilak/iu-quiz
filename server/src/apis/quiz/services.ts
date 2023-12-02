@@ -14,8 +14,19 @@ import { validate } from '../../utils/validate';
  */
 async function findAllQuizzes(req: Request, res: Response) {
   const studentId = req.auth?.studentId;
-  const { page, limit, updatedAt, popularity, size, courseOfStudy, course, sort, authorId } =
-    req.query;
+  const {
+    page,
+    limit,
+    updatedAt,
+    popularity,
+    size,
+    courseOfStudy,
+    course,
+    sort,
+    authorId,
+    followed,
+    unFollowed
+  } = req.query;
 
   const student = await db.student.findUnique({ where: { id: studentId } });
 
@@ -36,6 +47,31 @@ async function findAllQuizzes(req: Request, res: Response) {
 
   if (course) {
     where.course = course;
+  }
+
+  if (followed === 'true') {
+    const followedQuizzes = await db.followedQuizzes.findMany({
+      where: { followerId: studentId },
+      include: { quiz: true }
+    });
+
+    const followedQuizzesIds = followedQuizzes.map((followedQuiz) => followedQuiz.quizId);
+
+    where.id = { in: followedQuizzesIds };
+  }
+
+  if (unFollowed === 'true') {
+    const followedQuizzes = await db.followedQuizzes.findMany({
+      where: { followerId: studentId },
+      include: { quiz: true }
+    });
+
+    const followedQuizzesIds = followedQuizzes.map(
+      (unfollowedQuiz) => unfollowedQuiz.quizId
+    );
+
+    where.id = { notIn: followedQuizzesIds };
+    where.authorId = { not: studentId };
   }
 
   const orderBy: any = [];
@@ -137,7 +173,9 @@ async function createQuiz(req: Request, res: Response) {
     }
   });
 
-  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, 'Quiz erstellt', quiz));
+  res
+    .status(StatusCodes.OK)
+    .json(createApiResponse(StatusCodes.OK, 'Quiz erstellt', quiz));
 }
 /**
  * ________________________________________________________________
@@ -193,7 +231,9 @@ async function createQuizQuestion(req: Request, res: Response) {
     data: { size: existingQuiz.size + 1 }
   });
 
-  res.status(StatusCodes.CREATED).json(createApiResponse(StatusCodes.CREATED, '', createdQuestion));
+  res
+    .status(StatusCodes.CREATED)
+    .json(createApiResponse(StatusCodes.CREATED, '', createdQuestion));
 }
 
 /**
@@ -266,7 +306,9 @@ async function followQuiz(req: Request, res: Response) {
   }
 
   const isFollowed = await db.followedQuizzes.findUnique({
-    where: { followerId_quizId: { followerId: student.id, quizId: Number(existingQuiz.id) } }
+    where: {
+      followerId_quizId: { followerId: student.id, quizId: Number(existingQuiz.id) }
+    }
   });
 
   if (isFollowed) {
@@ -312,34 +354,6 @@ async function unFollowQuiz(req: Request, res: Response) {
   res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, ''));
 }
 
-/**
- * ________________________________________________________________
- * @route api/v1/quiz/follow
- * @method GET
- * @access protected
- * ________________________________________________________________
- */
-async function findFollowedQuizzes(req: Request, res: Response) {
-  const studentId = req.auth?.studentId;
-
-  const student = await db.student.findUnique({ where: { id: studentId } });
-
-  if (!student) {
-    throw new UnauthorizedError('Sie sind nicht berechtigt');
-  }
-
-  const followedQuizzes = await db.followedQuizzes.findMany({
-    where: { followerId: student.id },
-    include: {
-      quiz: true
-    }
-  });
-
-  const filterQuizzes = followedQuizzes.map((followedQuiz) => followedQuiz.quiz);
-
-  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, '', filterQuizzes));
-}
-
 export {
   findAllQuizzes,
   findQuizById,
@@ -348,6 +362,5 @@ export {
   updateQuiz,
   deleteQuizById,
   followQuiz,
-  unFollowQuiz,
-  findFollowedQuizzes
+  unFollowQuiz
 };

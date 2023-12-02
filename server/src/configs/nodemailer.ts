@@ -8,7 +8,6 @@ const nodemailerConfig = {
     pass: process.env.IU_QUIZ_EMAIL_PASS
   },
   tls: {
-    // Do not fail on invalid certs
     rejectUnauthorized: false
   }
 };

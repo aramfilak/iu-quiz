@@ -12,12 +12,17 @@ function errorHandler(e: Error, req: Request, res: Response, next: NextFunction)
     const argument = e.message.split('\n').at(-1)?.split(' ')[2];
     return res
       .status(StatusCodes.BAD_REQUEST)
-      .json(createErrorResponse(StatusCodes.BAD_REQUEST, `Unbekanntes Argument ${argument}`));
+      .json(
+        createErrorResponse(StatusCodes.BAD_REQUEST, `Unbekanntes Argument ${argument}`)
+      );
   } else if (e instanceof MulterError && e.code === 'LIMIT_FILE_SIZE') {
     return res
       .status(StatusCodes.BAD_REQUEST)
       .json(
-        createErrorResponse(StatusCodes.BAD_REQUEST, 'Bild zu groß, maximal zulässige Größe 5 MB')
+        createErrorResponse(
+          StatusCodes.BAD_REQUEST,
+          'Bild zu groß, maximal zulässige Größe 5 MB'
+        )
       );
   } else {
     return res

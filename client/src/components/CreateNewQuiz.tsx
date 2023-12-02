@@ -45,7 +45,9 @@ function CreateNewQuiz({ onCreate, ...rest }: CreateNewQuizProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
   const defaultCourseOfStudy = studentProfile?.courseOfStudy || courseOfStudies[0].name;
-  const [selectedCourseOfStudyCourses, setSelectedCourseOfStudyCourses] = useState<Course[]>(() => {
+  const [selectedCourseOfStudyCourses, setSelectedCourseOfStudyCourses] = useState<
+    Course[]
+  >(() => {
     const courses = findCourseOfStudyCourses(defaultCourseOfStudy);
     if (courses) {
       return courses;
@@ -67,15 +69,11 @@ function CreateNewQuiz({ onCreate, ...rest }: CreateNewQuizProps) {
     const course = courseSelectRef.current?.value;
 
     if (title && courseOfStudy && course) {
-      const response = new Promise((resolve, reject) => {
-        createQuiz(title, courseOfStudy, course).then(({ success }) => {
-          if (success) {
-            resolve(onCreate());
-          } else {
-            reject();
-          }
-        });
-      });
+      const response = new Promise((resolve, reject) =>
+        createQuiz(title, courseOfStudy, course)
+          .then(() => resolve(onCreate()))
+          .catch(() => reject())
+      );
 
       toast.promise(response, {
         success: { description: 'Neues Quiz erstellt' },
@@ -129,7 +127,11 @@ function CreateNewQuiz({ onCreate, ...rest }: CreateNewQuizProps) {
                 </Tooltip>
                 <Select ref={courseOfStudySelectRef} defaultValue={defaultCourseOfStudy}>
                   {courseOfStudies.map(({ name }) => (
-                    <option key={name} value={name} onClick={() => handleSelectCourseOfStudy(name)}>
+                    <option
+                      key={name}
+                      value={name}
+                      onClick={() => handleSelectCourseOfStudy(name)}
+                    >
                       {name}
                     </option>
                   ))}

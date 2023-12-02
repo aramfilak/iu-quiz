@@ -46,9 +46,10 @@ interface QuizCardProps extends CardProps {
     onDelete: () => void;
   };
   displayFollowButton?: {
-    isFollowed: boolean;
     onFollow: () => void;
-    onUnfollow: () => void;
+  };
+  displayUnFollowButton?: {
+    onUnFollow: () => void;
   };
 }
 
@@ -56,6 +57,7 @@ function QuizCard({
   displayOptionMenu,
   displayPlayButton,
   displayFollowButton,
+  displayUnFollowButton,
   quiz: { id, title, updatedAt, size, popularity },
   ...rest
 }: QuizCardProps) {
@@ -100,7 +102,14 @@ function QuizCard({
         </AlertDialog>
       )}
       {/*-----------------  Quiz Card -------------------*/}
-      <Card {...rest} overflow="hidden" shadow="none" align="start" justify="center" dir="column">
+      <Card
+        {...rest}
+        overflow="hidden"
+        shadow="none"
+        align="start"
+        justify="center"
+        dir="column"
+      >
         <CardHeader width="full" display="flex" justifyContent="end">
           {/*----------------- Quiz Size -------------------*/}
           <Tooltip label="Anzahl" margin="right">
@@ -147,17 +156,26 @@ function QuizCard({
             </Menu>
           )}
 
-          {/*----------------- Follow  & Unfollow Button -------------------*/}
+          {/*----------------- Follow Button -------------------*/}
           {displayFollowButton && (
-            <Tooltip label={displayFollowButton.isFollowed ? 'Nicht mehr folgen' : 'Folgen'}>
+            <Tooltip label="Folgen">
               <IconButton
-                onClick={
-                  displayFollowButton.isFollowed
-                    ? displayFollowButton.onUnfollow
-                    : displayFollowButton.onFollow
-                }
-                icon={displayFollowButton.isFollowed ? <FaHeartBroken /> : <FaHeart />}
-                aria-label={displayFollowButton.isFollowed ? 'Nicht mehr folgen' : 'Folgen'}
+                onClick={displayFollowButton.onFollow}
+                icon={<FaHeart />}
+                aria-label="Folgen"
+                ml="2"
+                size="sm"
+              />
+            </Tooltip>
+          )}
+
+          {/*----------------- UnFolow Button -------------------*/}
+          {displayUnFollowButton && (
+            <Tooltip label="Nicht mehr folgen">
+              <IconButton
+                onClick={displayUnFollowButton.onUnFollow}
+                icon={<FaHeartBroken />}
+                aria-label="Nicht mehr folgen"
                 ml="2"
                 size="sm"
               />
@@ -168,7 +186,9 @@ function QuizCard({
           {displayPlayButton && (
             <Tooltip label="Spielen">
               <IconButton
-                onClick={() => navigate(`../${routes.Dashboard.children.PlayQuiz.mainPath}/${id}`)}
+                onClick={() =>
+                  navigate(`../${routes.Dashboard.children.PlayQuiz.mainPath}/${id}`)
+                }
                 icon={<FaPlay />}
                 aria-label="Quiz Spielen"
                 ml="2"
@@ -184,7 +204,12 @@ function QuizCard({
           </Text>
         </CardBody>
 
-        <CardFooter minW="full" display="flex" alignItems="center" justifyContent="space-between">
+        <CardFooter
+          minW="full"
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+        >
           {/*----------------- Popularity -------------------*/}
           <Tooltip label="Beliebtheit">
             <Flex align="center" gap="1">

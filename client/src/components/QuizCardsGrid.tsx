@@ -7,7 +7,11 @@ interface QuizCardsGridProps extends GridProps {
 
 function QuizCardsGrid({ children, ...rest }: QuizCardsGridProps) {
   return (
-    <Grid {...rest} gridTemplateColumns="repeat(auto-fill, minmax(15rem, 1fr))" gap="1rem">
+    <Grid
+      {...rest}
+      gridTemplateColumns="repeat(auto-fill, minmax(15rem, 1fr))"
+      gap="1rem"
+    >
       {children}
     </Grid>
   );

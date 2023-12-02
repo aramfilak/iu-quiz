@@ -2,38 +2,30 @@ import { useToast } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import {
   CreateNewQuiz,
-  NoQuizzes,
   QuizCard,
   QuizCardSkeleton,
   QuizCardsGrid
 } from '../../../../components';
-import { useQuizStore } from '../../../../stores';
+import { useQuizStore, useStudentStore } from '../../../../stores';
 import { Quiz } from '../../../../utils/types';
 
 function My() {
   const [studentQuizzes, setStudentQuizzes] = useState<Quiz[]>([]);
-  const { isLoading, deleteQuizById, getStudentQuizzes } = useQuizStore();
+  const { studentProfile } = useStudentStore();
+  const { isLoading, deleteQuizById, getAllQuizzes } = useQuizStore();
   const toast = useToast();
 
   const fetchStudentQuizzes = async () => {
-    const quizzes = await getStudentQuizzes();
-    setStudentQuizzes(() => quizzes);
+    const quizzes = await getAllQuizzes({ authorId: studentProfile?.studentId });
+    setStudentQuizzes(quizzes);
   };
 
-  useEffect(() => {
-    fetchStudentQuizzes();
-  }, []);
-
   const handleDeleteQuiz = (quizId: number) => {
-    const response = new Promise((resolve, reject) => {
-      deleteQuizById(quizId).then(({ success }) => {
-        if (success) {
-          resolve(fetchStudentQuizzes());
-        } else {
-          reject();
-        }
-      });
-    });
+    const response = new Promise((resolve, reject) =>
+      deleteQuizById(quizId)
+        .then(() => resolve(fetchStudentQuizzes()))
+        .catch(() => reject())
+    );
 
     toast.promise(response, {
       success: { description: 'Erfolgreich gelöscht' },
@@ -42,30 +34,25 @@ function My() {
     });
   };
 
+  useEffect(() => {
+    fetchStudentQuizzes();
+  }, []);
+
   return isLoading ? (
     <QuizCardSkeleton />
   ) : (
-    <>
-      <QuizCardsGrid>
-        <CreateNewQuiz onCreate={fetchStudentQuizzes} minH="12rem" />
-        {studentQuizzes.length > 0 &&
-          studentQuizzes?.map((quiz) => (
-            <QuizCard
-              key={quiz.id}
-              quiz={quiz}
-              displayPlayButton
-              displayOptionMenu={{ onDelete: () => handleDeleteQuiz(quiz.id) }}
-            />
-          ))}
-      </QuizCardsGrid>
-      {studentQuizzes.length < 1 && (
-        <NoQuizzes
-          mt="20"
-          title="Noch keine Quiz?"
-          description="Erstellen Sie jetzt Ihr erstes Quiz, indem Sie auf „Neues Quiz“ klicken"
-        />
-      )}
-    </>
+    <QuizCardsGrid>
+      <CreateNewQuiz onCreate={fetchStudentQuizzes} minH="12rem" />
+      {studentQuizzes.length > 0 &&
+        studentQuizzes?.map((quiz) => (
+          <QuizCard
+            key={quiz.id}
+            quiz={quiz}
+            displayPlayButton
+            displayOptionMenu={{ onDelete: () => handleDeleteQuiz(quiz.id) }}
+          />
+        ))}
+    </QuizCardsGrid>
   );
 }
 

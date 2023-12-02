@@ -59,7 +59,11 @@ function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }} {...rest}>
+    <form
+      onSubmit={handleSubmit}
+      style={{ display: 'flex', flexDirection: 'column' }}
+      {...rest}
+    >
       {/*------------------- Response Alert --------------------*/}
       {alert && (
         <Alert status={alert.status}>
@@ -156,7 +160,14 @@ function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
       </InputGroup>
       {/*------------------- Form Submit -----------------*/}
 
-      <Button colorScheme="teal" type="submit" disabled={isSubmitting} mt="4" mb="2" width="full">
+      <Button
+        colorScheme="teal"
+        type="submit"
+        disabled={isSubmitting}
+        mt="4"
+        mb="2"
+        width="full"
+      >
         Registrieren
       </Button>
       <Text>

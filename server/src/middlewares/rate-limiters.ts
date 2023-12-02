@@ -1,6 +1,6 @@
 import rateLimit from 'express-rate-limit';
 import { ToManyRequestsError } from '../errors';
-import { Request, Response } from 'express';
+import { Request } from 'express';
 
 const LimiterErrorMessage = (min: number) => {
   throw new ToManyRequestsError(
@@ -10,7 +10,7 @@ const LimiterErrorMessage = (min: number) => {
 
 const convertMsToMin = (min: number) => min * 60 * 1000;
 
-const userIP = (req: Request, res: Response) => req.clientIp!;
+const userIP = (req: Request) => req.clientIp!;
 
 const standardRateLimiter = rateLimit({
   windowMs: convertMsToMin(15),

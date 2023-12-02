@@ -16,9 +16,11 @@ function App() {
           {/*------------public-------------------*/}
           <Route element={Authentication.element}>
             {/*------------Authentication Sub Pages-------------------*/}
-            {Object.values(routes.Authentication.children).map(({ name, path, element }) => {
-              return <Route key={name} path={path} element={element} />;
-            })}
+            {Object.values(routes.Authentication.children).map(
+              ({ name, path, element }) => {
+                return <Route key={name} path={path} element={element} />;
+              }
+            )}
           </Route>
           <Route path={EmailVerification.path} element={EmailVerification.element} />
           <Route path={NotFound404.path} element={NotFound404.element} />

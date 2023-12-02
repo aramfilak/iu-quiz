@@ -1,4 +1,12 @@
-import { CloseButton, Box, BoxProps, Image, Center, IconButton, Tooltip } from '@chakra-ui/react';
+import {
+  CloseButton,
+  Box,
+  BoxProps,
+  Image,
+  Center,
+  IconButton,
+  Tooltip
+} from '@chakra-ui/react';
 import { NavItem } from '.';
 import { routes } from '../utils/routes';
 import { useLocation, useNavigate } from 'react-router-dom';

@@ -1,72 +1,23 @@
 import { create } from 'zustand';
 import { axiosQuizApi, asyncHandler } from '../utils/http';
-import { IuQuizServerResponse } from '../utils/types';
-import { usePersistStore, useStudentStore } from '.';
+import { QuizQueryParams } from '../utils/types';
+import { usePersistStore } from '.';
 import { Quiz } from '../utils/types';
 
 interface UseQuizStore {
   isLoading: boolean;
-  followQuiz: (quizId: number) => Promise<IuQuizServerResponse<void>>;
-  unfollowQuiz: (quizId: number) => Promise<IuQuizServerResponse<void>>;
-  getFollowedQuizzes: () => Promise<Quiz[]>;
-  getAllQuizzes: (params: Partial<Quiz>) => Promise<IuQuizServerResponse<Quiz[]>>;
-  getStudentQuizzes: () => Promise<Quiz[]>;
-  deleteQuizById: (quizId: number) => Promise<IuQuizServerResponse<void>>;
-  createQuiz: (
-    title: string,
-    courseOfStudy: string,
-    courseId: string
-  ) => Promise<IuQuizServerResponse<void>>;
+  getAllQuizzes: (params: Partial<QuizQueryParams>) => Promise<Quiz[]>;
+  deleteQuizById: (quizId: number) => Promise<void>;
+  createQuiz: (title: string, courseOfStudy: string, courseId: string) => Promise<void>;
+  followQuiz: (quizId: number) => Promise<void>;
+  unfollowQuiz: (quizId: number) => Promise<void>;
 }
 
-const useQuizStore = create<UseQuizStore>((set, get) => ({
+const useQuizStore = create<UseQuizStore>((set) => ({
   studentQuizzes: null,
-  isLoading: true,
+  isLoading: false,
 
-  getFollowedQuizzes: () =>
-    asyncHandler(async () => {
-      set({ isLoading: true });
-
-      const response = await axiosQuizApi.get(`/follow`, {
-        headers: { Authorization: usePersistStore.getState().accessToken }
-      });
-
-      set({ isLoading: false });
-
-      return response.data.data;
-    }),
-
-  followQuiz: (quizId: number) =>
-    asyncHandler(async () => {
-      set({ isLoading: true });
-
-      const response = await axiosQuizApi.post(`/follow/${quizId}`, {
-        headers: { Authorization: usePersistStore.getState().accessToken }
-      });
-
-      return response.data;
-    }),
-
-  unfollowQuiz: (quizId: number) =>
-    asyncHandler(async () => {
-      set({ isLoading: true });
-
-      const response = await axiosQuizApi.delete(`/follow/${quizId}`, {
-        headers: { Authorization: usePersistStore.getState().accessToken }
-      });
-
-      return response.data;
-    }),
-
-  getStudentQuizzes: async () => {
-    const { data } = await get().getAllQuizzes({
-      authorId: useStudentStore.getState().studentProfile?.studentId
-    });
-
-    return data || [];
-  },
-
-  getAllQuizzes: (params: Partial<Quiz>) =>
+  getAllQuizzes: (params: Partial<QuizQueryParams>) =>
     asyncHandler(async () => {
       set({ isLoading: true });
 
@@ -76,39 +27,52 @@ const useQuizStore = create<UseQuizStore>((set, get) => ({
       });
 
       set({ isLoading: false });
-
-      return response.data;
+      return response.data.data;
     }),
 
-  createQuiz: (title: string, courseOfStudy: string, course: string) =>
-    asyncHandler(async () => {
-      set({ isLoading: true });
+  createQuiz: async (title: string, courseOfStudy: string, course: string) => {
+    set({ isLoading: true });
 
-      const response = await axiosQuizApi.post(
-        '/',
-        {
-          title,
-          courseOfStudy,
-          course
-        },
-        {
-          headers: { Authorization: usePersistStore.getState().accessToken }
-        }
-      );
-
-      return response.data;
-    }),
-
-  deleteQuizById: (quizId: number) =>
-    asyncHandler(async () => {
-      set({ isLoading: true });
-
-      const response = await axiosQuizApi.delete(`/${quizId}`, {
+    await axiosQuizApi.post(
+      '/',
+      {
+        title,
+        courseOfStudy,
+        course
+      },
+      {
         headers: { Authorization: usePersistStore.getState().accessToken }
-      });
+      }
+    );
+  },
 
-      return response.data;
-    })
+  deleteQuizById: async (quizId: number) => {
+    set({ isLoading: true });
+
+    await axiosQuizApi.delete(`/${quizId}`, {
+      headers: { Authorization: usePersistStore.getState().accessToken }
+    });
+  },
+
+  followQuiz: async (quizId: number) => {
+    set({ isLoading: true });
+
+    await axiosQuizApi.post(
+      `/follow/${quizId}`,
+      {},
+      {
+        headers: { Authorization: usePersistStore.getState().accessToken }
+      }
+    );
+  },
+
+  unfollowQuiz: async (quizId: number) => {
+    set({ isLoading: true });
+
+    await axiosQuizApi.delete(`/follow/${quizId}`, {
+      headers: { Authorization: usePersistStore.getState().accessToken }
+    });
+  }
 }));
 
 export { useQuizStore };

@@ -78,7 +78,9 @@ function HeaderMenuBar({ onOpen: handleOpen, setCollapsedFalse, ...rest }: Mobil
               Abmelden
             </AlertDialogHeader>
 
-            <AlertDialogBody>Sind Sie sicher, dass Sie sich abmelden möchten?</AlertDialogBody>
+            <AlertDialogBody>
+              Sind Sie sicher, dass Sie sich abmelden möchten?
+            </AlertDialogBody>
 
             <AlertDialogFooter>
               <Button ref={cancelRef} onClick={onClose}>

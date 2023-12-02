@@ -3,7 +3,6 @@ import * as quizService from './services';
 
 const quizRoutes = Router();
 
-quizRoutes.get('/follow', quizService.findFollowedQuizzes);
 quizRoutes.post('/follow/:quizId', quizService.followQuiz);
 quizRoutes.delete('/follow/:quizId', quizService.unFollowQuiz);
 

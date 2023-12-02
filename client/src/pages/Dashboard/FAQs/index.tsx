@@ -23,9 +23,9 @@ import { PageHeader } from '../../../components';
 
 function FAQs() {
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const [openQuestionIndex, setOpenQuestionIndex] = useState<number | number[] | undefined>(
-    undefined
-  );
+  const [openQuestionIndex, setOpenQuestionIndex] = useState<
+    number | number[] | undefined
+  >(undefined);
 
   const filteredFaqs = faqs.filter(
     (faq) =>

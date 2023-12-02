@@ -26,25 +26,9 @@ function UploadProfileImage(rest: FlexProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef<HTMLButtonElement>(null);
 
-  const handleDeleteImage = () => {
-    const response = new Promise((resolve, reject) => {
-      deleteImage().then(({ success }) => {
-        if (success) {
-          resolve(true);
-        } else {
-          reject();
-        }
-      });
-    });
-
-    toast.promise(response, {
-      success: { description: 'Profilebild gelöscht' },
-      error: { description: 'Löschen fehlgeschlagen' },
-      loading: { description: 'Es lädt..' }
-    });
-  };
-
-  const handleImageUpload = ({ target: { files } }: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = ({
+    target: { files }
+  }: React.ChangeEvent<HTMLInputElement>) => {
     const image = files ? files[0] : null;
 
     if (image) {
@@ -52,13 +36,9 @@ function UploadProfileImage(rest: FlexProps) {
       formData.append('image', image);
 
       const response = new Promise((resolve, reject) => {
-        uploadImage(formData).then(({ success }) => {
-          if (success) {
-            resolve(true);
-          } else {
-            reject();
-          }
-        });
+        uploadImage(formData)
+          .then(() => resolve(true))
+          .catch(() => reject());
       });
 
       toast.promise(response, {
@@ -67,6 +47,20 @@ function UploadProfileImage(rest: FlexProps) {
         loading: { description: 'Es lädt..' }
       });
     }
+  };
+
+  const handleDeleteImage = () => {
+    const response = new Promise((resolve, reject) => {
+      deleteImage()
+        .then(() => resolve(true))
+        .catch(() => reject());
+    });
+
+    toast.promise(response, {
+      success: { description: 'Profilebild gelöscht' },
+      error: { description: 'Löschen fehlgeschlagen' },
+      loading: { description: 'Es lädt..' }
+    });
   };
 
   return (
@@ -160,7 +154,12 @@ function UploadProfileImage(rest: FlexProps) {
         </Flex>
 
         {/*_____________________  Image Input ____________________ */}
-        <Input id="profileImage" type="file" onChange={handleImageUpload} display="none" />
+        <Input
+          id="profileImage"
+          type="file"
+          onChange={handleImageUpload}
+          display="none"
+        />
       </Flex>
       {/*_____________________ Image Size Info ____________________ */}
       <Text display="flex" alignItems="center" gap="1">

@@ -28,9 +28,12 @@ async function sendEmail({ to, subject, html }: SendEmail) {
  *
  * send verification email
  */
-
-async function sendVerificationEmail({ name, email, verificationToken }: SendVerificationEmail) {
-  const verifyEmailLink = `${process.env.ORIGIN}/email-verification?emailVerificationToken=${verificationToken}&email=${email}`;
+async function sendVerificationEmail({
+  name,
+  email,
+  verificationToken
+}: SendVerificationEmail) {
+  const verificationLink = `${process.env.ORIGIN}/email-verification?emailVerificationToken=${verificationToken}&email=${email}`;
 
   return sendEmail({
     to: email,
@@ -40,7 +43,7 @@ async function sendVerificationEmail({ name, email, verificationToken }: SendVer
       <h4>Hallo, ${name}</h4>
       <p>
         Bitte bestätigen Sie Ihre E-Mail, indem Sie auf den folgenden Link klicken:
-        <a href="${verifyEmailLink}" style="color: #319795; font-weight: bold;">E-Mail verifizieren</a>
+        <a href="${verificationLink}" style="color: #319795; font-weight: bold;">E-Mail verifizieren</a>
       </p>
       <p>
         Bei Fragen oder Problemen kontaktieren Sie bitte unseren Support unter:

@@ -1,6 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useAuthStore } from '../../stores';
-import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Button } from '@chakra-ui/react';
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  Box,
+  Button
+} from '@chakra-ui/react';
 import { CustomAlert } from '../../utils/types';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { routes } from '../../utils/routes';
@@ -56,7 +63,9 @@ function EmailVerification() {
       </Alert>
       {alert?.status === 'success' && (
         <Button
-          onClick={() => navigate(routes.Authentication.children.SignIn.path, { replace: true })}
+          onClick={() =>
+            navigate(routes.Authentication.children.SignIn.path, { replace: true })
+          }
           colorScheme="teal"
           size="md"
           marginBlock="1.5"

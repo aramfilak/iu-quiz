@@ -36,21 +36,23 @@ function DeleteStudentAlert({ isOpen, onClose }: DeleteStudentAlertProps) {
   const navigate = useNavigate();
 
   const handleDeleteStudentProfile = () => {
-    const inputValue = `${inputRef.current?.value}`.trim().toLowerCase();
+    const inputValue = String(inputRef.current?.value)
+      .trim()
+      .toLowerCase();
+
     if (inputValue === 'mein konto löschen') {
       onClose();
 
       const response = new Promise((resolve, reject) => {
-        deleteStudent().then(({ success }) => {
-          if (success) {
-            resolve(true);
+        deleteStudent()
+          .then(() => {
             setAccessToken(null);
             setIsAuthenticated(false);
-            navigate(routes.Authentication.children.SignIn.path, { replace: true });
-          } else {
-            reject();
-          }
-        });
+            resolve(
+              navigate(routes.Authentication.children.SignIn.path, { replace: true })
+            );
+          })
+          .catch(() => reject());
       });
 
       toast.promise(response, {
@@ -73,14 +75,20 @@ function DeleteStudentAlert({ isOpen, onClose }: DeleteStudentAlertProps) {
     >
       <AlertDialogOverlay />
       <AlertDialogContent>
-        <AlertDialogHeader color="red.500" fontSize="3.5rem" display="flex" justifyContent="center">
+        <AlertDialogHeader
+          color="red.500"
+          fontSize="3.5rem"
+          display="flex"
+          justifyContent="center"
+        >
           <FiAlertTriangle />
         </AlertDialogHeader>
         <AlertDialogCloseButton />
         <AlertDialogBody textAlign="center">
           <Text fontWeight="bold" mb="4">
-            Möchten Sie Ihr Profil wirklich löschen? Diese Aktion kann nicht rückgängig gemacht
-            werden und führt zum Verlust aller Ihrer gespeicherten Daten und Einstellungen.
+            Möchten Sie Ihr Profil wirklich löschen? Diese Aktion kann nicht rückgängig
+            gemacht werden und führt zum Verlust aller Ihrer gespeicherten Daten und
+            Einstellungen.
           </Text>
 
           <FormControl>
@@ -92,13 +100,22 @@ function DeleteStudentAlert({ isOpen, onClose }: DeleteStudentAlertProps) {
               </Box>
               ein, um fortzufahren
             </FormLabel>
-            <Input ref={inputRef} placeholder="Mein Konto löschen" borderColor="teal.500" />
+            <Input
+              ref={inputRef}
+              placeholder="Mein Konto löschen"
+              borderColor="teal.500"
+            />
           </FormControl>
         </AlertDialogBody>
 
         <AlertDialogFooter>
           <Button onClick={onClose}>Abbrechen</Button>
-          <Button colorScheme="red" ml={3} onClick={handleDeleteStudentProfile} type="button">
+          <Button
+            colorScheme="red"
+            ml={3}
+            onClick={handleDeleteStudentProfile}
+            type="button"
+          >
             Löschen
           </Button>
         </AlertDialogFooter>

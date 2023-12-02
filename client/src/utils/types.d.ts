@@ -75,3 +75,17 @@ export interface QuizAnswer {
   quizQuestion: QuizQuestion;
   quizQuestionId: number;
 }
+
+export interface QuizQueryParams {
+  page?: string;
+  limit?: string;
+  updatedAt?: string;
+  popularity?: string;
+  size?: string;
+  courseOfStudy?: string;
+  course?: string;
+  sort?: string;
+  authorId?: string;
+  followed?: boolean;
+  unFollowed?: boolean;
+}
