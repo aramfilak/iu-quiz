@@ -3,22 +3,13 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { routes } from './utils/routes';
 import { ProtectedRoutes } from './components';
 import { Analytics } from '@vercel/analytics/react';
-import { theme } from './theme';
+import { theme, toastOptions } from './ui/';
 
 const { EmailVerification, Authentication, NotFound404, Dashboard } = routes;
 
 function App() {
   return (
-    <ChakraProvider
-      theme={theme}
-      toastOptions={{
-        defaultOptions: {
-          position: 'top',
-          duration: 5000,
-          isClosable: true
-        }
-      }}
-    >
+    <ChakraProvider theme={theme} toastOptions={{ defaultOptions: toastOptions }}>
       <Analytics />
       <BrowserRouter>
         <Routes>

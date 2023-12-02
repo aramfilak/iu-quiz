@@ -24,7 +24,7 @@ import {
 } from '@chakra-ui/react';
 import { useRef } from 'react';
 import { FaList, FaEdit, FaTrash, FaPlay, FaRegClone } from 'react-icons/fa';
-import { convertToGermanDate } from '../utils/helpers';
+import { convertToGermanDate } from '../utils/formatters.ts';
 import { Quiz } from '../utils/types';
 import { routes } from '../utils/routes';
 import { useNavigate } from 'react-router-dom';
@@ -109,7 +109,9 @@ function QuizCard({
               <MenuList>
                 <MenuItem
                   _dark={{ textColor: 'white' }}
-                  onClick={() => navigate(`../${routes.Dashboard.children.QuizEditor.mainPath}/${id}`)}
+                  onClick={() =>
+                    navigate(`../${routes.Dashboard.children.QuizEditor.mainPath}/${id}`)
+                  }
                   icon={<FaEdit />}
                   aria-label="Edit"
                 >

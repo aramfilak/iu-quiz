@@ -10,14 +10,13 @@ import {
   Tooltip,
   Flex
 } from '@chakra-ui/react';
-import { UploadProfileImage, BoxWrapper } from '../../../../components';
+import { DeleteStudentAlert, UploadProfileImage, BoxWrapper } from '../../../../components';
 import { useState, useRef } from 'react';
 import { useStudentStore } from '../../../../stores';
 import { CustomAlert } from '../../../../utils/types';
 import courseOfStudy from '../../../../data/courseOfStudy.json';
 import { FiSave, FiUserX } from 'react-icons/fi';
 import { FaLinkedin, FaXing, FaGraduationCap, FaMapMarkerAlt, FaUser } from 'react-icons/fa';
-import { DeleteStudentAlert } from './DeleteStudentAlert';
 
 function Edit() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -31,30 +30,16 @@ function Edit() {
   const [alert, setAlert] = useState<CustomAlert | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handelChange = () => {
-    const nameIsChanged = nameInputRef.current?.value.trim() !== studentProfile?.name;
+  const handleInputChange = () => {
+    const inputs: boolean[] = [
+      nameInputRef.current?.value.trim() !== (studentProfile?.name || ''),
+      locationInputRef.current?.value.trim() !== (studentProfile?.location || ''),
+      linkedInInputRef.current?.value.trim() !== (studentProfile?.linkedinUrl || ''),
+      xingInputRef.current?.value.trim() !== (studentProfile?.xingUrl || ''),
+      courseOfStudySelectRef.current?.value.trim() !== (studentProfile?.courseOfStudy || '')
+    ];
 
-    const locationIsChanged = locationInputRef.current?.value.trim() !== studentProfile?.location;
-
-    const linkedInUrlIsChanged =
-      linkedInInputRef.current?.value.trim() !== studentProfile?.linkedinUrl;
-
-    const xingUrlIsChanged = xingInputRef.current?.value.trim() !== studentProfile?.xingUrl;
-
-    const courseOfStudyIsChanged =
-      courseOfStudySelectRef.current?.value.trim() !== studentProfile?.courseOfStudy;
-
-    if (
-      nameIsChanged ||
-      locationIsChanged ||
-      xingUrlIsChanged ||
-      courseOfStudyIsChanged ||
-      linkedInUrlIsChanged
-    ) {
-      setIsChanged(true);
-    } else {
-      setIsChanged(false);
-    }
+    setIsChanged(inputs.some((input) => input));
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -66,7 +51,7 @@ function Edit() {
     const courseOfStudy = courseOfStudySelectRef.current?.value;
 
     if (!name) {
-      setAlert({ status: 'warning', message: 'Name ist ein Pflichtfeld' });
+      return setAlert({ status: 'warning', message: 'Name ist ein Pflichtfeld' });
     }
 
     setAlert({ status: 'loading', message: 'Es lädt...' });
@@ -84,6 +69,7 @@ function Edit() {
     if (success) {
       setIsChanged(false);
     }
+
     setIsSubmitting(false);
   };
 
@@ -121,7 +107,7 @@ function Edit() {
                 <Input
                   borderTopLeftRadius="0"
                   borderBottomLeftRadius="0"
-                  onChange={handelChange}
+                  onChange={handleInputChange}
                   ref={nameInputRef}
                   borderColor="teal.500"
                   autoComplete="on"
@@ -141,7 +127,7 @@ function Edit() {
                 <Input
                   borderTopLeftRadius="0"
                   borderBottomLeftRadius="0"
-                  onChange={handelChange}
+                  onChange={handleInputChange}
                   ref={locationInputRef}
                   borderColor="teal.500"
                   autoComplete="on"
@@ -158,7 +144,7 @@ function Edit() {
                   </InputLeftAddon>
                 </Tooltip>
                 <Select
-                  onChange={handelChange}
+                  onChange={handleInputChange}
                   ref={courseOfStudySelectRef}
                   placeholder="Studiengang nicht anzeigen"
                   defaultValue={studentProfile?.courseOfStudy || ''}
@@ -186,7 +172,7 @@ function Edit() {
                   borderTopLeftRadius="0"
                   borderBottomLeftRadius="0"
                   borderColor="teal.500"
-                  onChange={handelChange}
+                  onChange={handleInputChange}
                   ref={linkedInInputRef}
                   autoComplete="on"
                   placeholder="https://www.linkedin.com/profil"
@@ -205,7 +191,7 @@ function Edit() {
                   borderTopLeftRadius="0"
                   borderBottomLeftRadius="0"
                   borderColor="teal.500"
-                  onChange={handelChange}
+                  onChange={handleInputChange}
                   ref={xingInputRef}
                   autoComplete="on"
                   placeholder="https://www.xing.com/profile"
