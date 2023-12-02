@@ -53,6 +53,7 @@ const routes = {
     element: <Dashboard />,
     children: {
       Profile: {
+        isSidebarItem: true,
         icon: FiUser,
         name: 'Profile',
         path: 'profile',
@@ -60,32 +61,36 @@ const routes = {
         element: <Profile />
       },
       SearchQuiz: {
+        isSidebarItem: true,
         icon: FiSearch,
         name: 'Quiz Finden',
         path: 'find-quiz',
         mainPath: 'find-quiz',
         element: <FindQuiz />
       },
-      ActiveQuiz: {
+      MyQuizzes: {
+        isSidebarItem: true,
         icon: FiHeart,
         name: 'Meine Quiz',
         path: 'my-quizzes',
         mainPath: 'my-quizzes',
         element: <MyQuizzes />
       },
+      FAQs: {
+        isSidebarItem: true,
+        icon: FiCheckSquare,
+        name: 'FAQs',
+        path: 'faqs',
+        element: <FAQs />
+      },
       QuizEditor: {
+        isSidebarItem: false,
         icon: FiEdit,
         name: 'Quiz Editor',
         path: 'quiz-editor/:quizId',
         mainPath: 'quiz-editor',
         element: <QuizEditor />
       },
-      FAQs: {
-        icon: FiCheckSquare,
-        name: 'FAQs',
-        path: 'faqs',
-        element: <FAQs />
-      }
     }
   }
 };

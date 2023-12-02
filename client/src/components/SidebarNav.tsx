@@ -72,8 +72,8 @@ function SidebarNav({ onClose, isCollapsed, toggleSidebar, ...rest }: SidebarPro
 
         {/* ________________ Nav Links ____________________ */}
         {Object.values(routes.Dashboard.children)
-          .filter((link) => link.name !== 'Editor')
-          .map((link, index) => (
+          .map((link, index) => {
+            return  link.isSidebarItem ?
             <NavItem
               isActive={index === activeNaveLinkIndex}
               key={link.name}
@@ -86,8 +86,8 @@ function SidebarNav({ onClose, isCollapsed, toggleSidebar, ...rest }: SidebarPro
               tooltip={isCollapsed ? link.name : undefined}
             >
               {isCollapsed ? null : link.name}
-            </NavItem>
-          ))}
+            </NavItem> : null }
+          )}
       </Box>
     </Box>
   );

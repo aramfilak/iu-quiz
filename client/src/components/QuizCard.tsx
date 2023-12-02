@@ -109,7 +109,7 @@ function QuizCard({
               <MenuList>
                 <MenuItem
                   _dark={{ textColor: 'white' }}
-                  onClick={() => navigate(`${routes.Dashboard.children.QuizEditor.mainPath}/${id}`)}
+                  onClick={() => navigate(`../${routes.Dashboard.children.QuizEditor.mainPath}/${id}`)}
                   icon={<FaEdit />}
                   aria-label="Edit"
                 >
@@ -129,7 +129,7 @@ function QuizCard({
           )}
           {/*----------------- Play Quiz -------------------*/}
           <Tooltip label="Spielen">
-            <IconButton icon={<FaPlay />} aria-label="Quiz Spielen" ml={2} size="sm" />
+            <IconButton icon={<FaPlay />} aria-label="Quiz Spielen" ml="2" size="sm" />
           </Tooltip>
         </CardHeader>
 
