@@ -91,6 +91,14 @@ const routes = {
         mainPath: 'quiz-editor',
         element: <QuizEditor />
       },
+      PlayQuiz: {
+        isSidebarItem: false,
+        icon: FiEdit,
+        name: 'Play Quiz',
+        path: 'play-quiz/:quizId',
+        mainPath: 'play-quiz',
+        element: <QuizEditor />
+      }
     }
   }
 };

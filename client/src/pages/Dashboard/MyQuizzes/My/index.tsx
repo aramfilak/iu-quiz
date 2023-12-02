@@ -11,9 +11,9 @@ import { useQuizStore } from '../../../../stores';
 import { Quiz } from '../../../../utils/types';
 
 function My() {
+  const [studentQuizzes, setStudentQuizzes] = useState<Quiz[]>([]);
   const { isLoading, deleteQuizById, getStudentQuizzes } = useQuizStore();
   const toast = useToast();
-  const [studentQuizzes, setStudentQuizzes] = useState<Quiz[]>([]);
 
   const fetchStudentQuizzes = async () => {
     const quizzes = await getStudentQuizzes();
@@ -53,8 +53,8 @@ function My() {
             <QuizCard
               key={quiz.id}
               quiz={quiz}
-              onDelete={() => handleDeleteQuiz(quiz.id)}
-              isAuthor={true}
+              displayPlayButton
+              displayOptionMenu={{ onDelete: () => handleDeleteQuiz(quiz.id) }}
             />
           ))}
       </QuizCardsGrid>

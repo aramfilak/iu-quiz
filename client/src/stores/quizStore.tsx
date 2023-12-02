@@ -23,11 +23,24 @@ const useQuizStore = create<UseQuizStore>((set, get) => ({
   studentQuizzes: null,
   isLoading: true,
 
+  getFollowedQuizzes: () =>
+    asyncHandler(async () => {
+      set({ isLoading: true });
+
+      const response = await axiosQuizApi.get(`/follow`, {
+        headers: { Authorization: usePersistStore.getState().accessToken }
+      });
+
+      set({ isLoading: false });
+
+      return response.data.data;
+    }),
+
   followQuiz: (quizId: number) =>
     asyncHandler(async () => {
       set({ isLoading: true });
 
-      const response = await axiosQuizApi.post(`/follow${quizId}`, {
+      const response = await axiosQuizApi.post(`/follow/${quizId}`, {
         headers: { Authorization: usePersistStore.getState().accessToken }
       });
 
@@ -38,22 +51,9 @@ const useQuizStore = create<UseQuizStore>((set, get) => ({
     asyncHandler(async () => {
       set({ isLoading: true });
 
-      const response = await axiosQuizApi.delete(`/follow${quizId}`, {
+      const response = await axiosQuizApi.delete(`/follow/${quizId}`, {
         headers: { Authorization: usePersistStore.getState().accessToken }
       });
-
-      return response.data;
-    }),
-
-  getFollowedQuizzes: () =>
-    asyncHandler(async () => {
-      set({ isLoading: true });
-
-      const response = await axiosQuizApi.get(`/follow`, {
-        headers: { Authorization: usePersistStore.getState().accessToken }
-      });
-
-      set({ isLoading: false });
 
       return response.data;
     }),

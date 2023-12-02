@@ -331,19 +331,13 @@ async function findFollowedQuizzes(req: Request, res: Response) {
   const followedQuizzes = await db.followedQuizzes.findMany({
     where: { followerId: student.id },
     include: {
-      quiz: {
-        include: {
-          quizQuestions: {
-            include: {
-              quizAnswers: true
-            }
-          }
-        }
-      }
+      quiz: true
     }
   });
 
-  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, '', followedQuizzes));
+  const filterQuizzes = followedQuizzes.map((followedQuiz) => followedQuiz.quiz);
+
+  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, '', filterQuizzes));
 }
 
 export {

@@ -23,7 +23,15 @@ import {
   CardFooter
 } from '@chakra-ui/react';
 import { useRef } from 'react';
-import { FaList, FaEdit, FaTrash, FaPlay, FaRegClone } from 'react-icons/fa';
+import {
+  FaList,
+  FaEdit,
+  FaTrash,
+  FaPlay,
+  FaRegClone,
+  FaHeart,
+  FaHeartBroken
+} from 'react-icons/fa';
 import { convertToGermanDate } from '../utils/formatters.ts';
 import { Quiz } from '../utils/types';
 import { routes } from '../utils/routes';
@@ -33,13 +41,21 @@ import { TbUserHeart } from 'react-icons/tb';
 
 interface QuizCardProps extends CardProps {
   quiz: Quiz;
-  onDelete?: () => void;
-  isAuthor: boolean;
+  displayPlayButton?: boolean;
+  displayOptionMenu?: {
+    onDelete: () => void;
+  };
+  displayFollowButton?: {
+    isFollowed: boolean;
+    onFollow: () => void;
+    onUnfollow: () => void;
+  };
 }
 
 function QuizCard({
-  onDelete,
-  isAuthor,
+  displayOptionMenu,
+  displayPlayButton,
+  displayFollowButton,
   quiz: { id, title, updatedAt, size, popularity },
   ...rest
 }: QuizCardProps) {
@@ -50,38 +66,39 @@ function QuizCard({
   return (
     <>
       {/*----------------- Delete Alert Dialog -------------------*/}
-      <AlertDialog
-        motionPreset="slideInBottom"
-        isOpen={isOpen}
-        onClose={onClose}
-        leastDestructiveRef={cancelRef}
-        isCentered
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader>Löschen bestätigen</AlertDialogHeader>
-            <AlertDialogCloseButton />
-            <AlertDialogBody>Möchten Sie "{title}" wirklich löschen?</AlertDialogBody>
-            <AlertDialogFooter>
-              <Button colorScheme="teal" onClick={onClose}>
-                Abbrechen
-              </Button>
-              <Button
-                colorScheme="red"
-                onClick={() => {
-                  onClose();
-                  onDelete?.();
-                }}
-                ml={3}
-                type="button"
-              >
-                Löschen
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
-
+      {displayOptionMenu && (
+        <AlertDialog
+          motionPreset="slideInBottom"
+          isOpen={isOpen}
+          onClose={onClose}
+          leastDestructiveRef={cancelRef}
+          isCentered
+        >
+          <AlertDialogOverlay>
+            <AlertDialogContent>
+              <AlertDialogHeader>Löschen bestätigen</AlertDialogHeader>
+              <AlertDialogCloseButton />
+              <AlertDialogBody>Möchten Sie "{title}" wirklich löschen?</AlertDialogBody>
+              <AlertDialogFooter>
+                <Button colorScheme="teal" onClick={onClose}>
+                  Abbrechen
+                </Button>
+                <Button
+                  colorScheme="red"
+                  onClick={() => {
+                    onClose();
+                    displayOptionMenu.onDelete();
+                  }}
+                  ml={3}
+                  type="button"
+                >
+                  Löschen
+                </Button>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialogOverlay>
+        </AlertDialog>
+      )}
       {/*-----------------  Quiz Card -------------------*/}
       <Card {...rest} overflow="hidden" shadow="none" align="start" justify="center" dir="column">
         <CardHeader width="full" display="flex" justifyContent="end">
@@ -94,7 +111,7 @@ function QuizCard({
           </Tooltip>
 
           {/*----------------- Card Options Menu -------------------*/}
-          {isAuthor && (
+          {displayOptionMenu && (
             <Menu>
               <Tooltip label="Optionen">
                 <MenuButton
@@ -129,12 +146,37 @@ function QuizCard({
               </MenuList>
             </Menu>
           )}
-          {/*----------------- Play Quiz -------------------*/}
-          <Tooltip label="Spielen">
-            <IconButton icon={<FaPlay />} aria-label="Quiz Spielen" ml="2" size="sm" />
-          </Tooltip>
-        </CardHeader>
 
+          {/*----------------- Follow  & Unfollow Button -------------------*/}
+          {displayFollowButton && (
+            <Tooltip label={displayFollowButton.isFollowed ? 'Nicht mehr folgen' : 'Folgen'}>
+              <IconButton
+                onClick={
+                  displayFollowButton.isFollowed
+                    ? displayFollowButton.onUnfollow
+                    : displayFollowButton.onFollow
+                }
+                icon={displayFollowButton.isFollowed ? <FaHeartBroken /> : <FaHeart />}
+                aria-label={displayFollowButton.isFollowed ? 'Nicht mehr folgen' : 'Folgen'}
+                ml="2"
+                size="sm"
+              />
+            </Tooltip>
+          )}
+
+          {/*----------------- Play Quiz -------------------*/}
+          {displayPlayButton && (
+            <Tooltip label="Spielen">
+              <IconButton
+                onClick={() => navigate(`../${routes.Dashboard.children.PlayQuiz.mainPath}/${id}`)}
+                icon={<FaPlay />}
+                aria-label="Quiz Spielen"
+                ml="2"
+                size="sm"
+              />
+            </Tooltip>
+          )}
+        </CardHeader>
         <CardBody minW="full">
           {/*----------------- Title -------------------*/}
           <Text fontWeight="bold" textAlign="center">
