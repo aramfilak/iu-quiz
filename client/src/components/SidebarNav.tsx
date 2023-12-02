@@ -1,10 +1,11 @@
 import { CloseButton, Box, BoxProps, Image, Center, IconButton, Tooltip } from '@chakra-ui/react';
 import { NavItem } from '.';
 import { routes } from '../utils/routes';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { usePersistStore } from '../stores';
 import logo from '../assets/logo.png';
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa';
+import { useEffect } from 'react';
 
 interface SidebarProps extends BoxProps {
   onClose: () => void;
@@ -15,8 +16,19 @@ interface SidebarProps extends BoxProps {
 function SidebarNav({ onClose, isCollapsed, toggleSidebar, ...rest }: SidebarProps) {
   const navigate = useNavigate();
   const { activeNaveLinkIndex, setActiveNaveLinkIndex } = usePersistStore();
-
+  const location = useLocation();
   const boxShadowDark = isCollapsed ? '' : '1px solid #4a5568';
+
+  useEffect(() => {
+    const currentPath = location.pathname.slice(1);
+
+    const activeLinkIndex = Object.values(routes.Dashboard.children).findIndex(
+      (link) => link.path === currentPath
+    );
+
+    setActiveNaveLinkIndex(activeLinkIndex);
+  }, [location.pathname]);
+
   return (
     <Box
       transition="0.1s ease"
@@ -71,23 +83,22 @@ function SidebarNav({ onClose, isCollapsed, toggleSidebar, ...rest }: SidebarPro
         </Tooltip>
 
         {/* ________________ Nav Links ____________________ */}
-        {Object.values(routes.Dashboard.children)
-          .map((link, index) => {
-            return  link.isSidebarItem ?
+        {Object.values(routes.Dashboard.children).map((link, index) => {
+          return link.isSidebarItem ? (
             <NavItem
               isActive={index === activeNaveLinkIndex}
               key={link.name}
               icon={link.icon}
               onClick={() => {
-                setActiveNaveLinkIndex(index);
                 navigate(link.path);
                 onClose();
               }}
               tooltip={isCollapsed ? link.name : undefined}
             >
               {isCollapsed ? null : link.name}
-            </NavItem> : null }
-          )}
+            </NavItem>
+          ) : null;
+        })}
       </Box>
     </Box>
   );

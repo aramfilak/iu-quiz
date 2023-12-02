@@ -21,7 +21,7 @@ interface UseQuizStore {
 
 const useQuizStore = create<UseQuizStore>((set, get) => ({
   studentQuizzes: null,
-  isLoading: false,
+  isLoading: true,
 
   followQuiz: (quizId: number) =>
     asyncHandler(async () => {

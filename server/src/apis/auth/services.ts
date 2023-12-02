@@ -148,7 +148,7 @@ async function signIn(req: Request, res: Response) {
   const accessToken = generateJWT({ id: student.id });
 
   res.status(StatusCodes.OK).json(
-    createApiResponse(StatusCodes.OK, `Willkommen zurück`, {
+    createApiResponse(StatusCodes.OK, 'Willkommen zurück', {
       accessToken: accessToken
     })
   );

@@ -30,7 +30,6 @@ interface CreateNewQuizProps extends CardBodyProps {
 
 interface Course {
   title: string;
-  onCreate?: () => void;
 }
 
 const findCourseOfStudyCourses = (courseOfStudyName: string) => {
@@ -50,9 +49,8 @@ function CreateNewQuiz({ onCreate, ...rest }: CreateNewQuizProps) {
     const courses = findCourseOfStudyCourses(defaultCourseOfStudy);
     if (courses) {
       return courses;
-    } else {
-      return [];
     }
+    return [];
   });
 
   const handleSelectCourseOfStudy = (selectedCourseOfStudy: string) => {
@@ -72,8 +70,7 @@ function CreateNewQuiz({ onCreate, ...rest }: CreateNewQuizProps) {
       const response = new Promise((resolve, reject) => {
         createQuiz(title, courseOfStudy, course).then(({ success }) => {
           if (success) {
-            resolve(true);
-            onCreate();
+            resolve(onCreate());
           } else {
             reject();
           }

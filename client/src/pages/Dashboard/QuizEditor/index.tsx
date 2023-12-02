@@ -9,7 +9,7 @@ function QuizEditor() {
 
   return (
     <>
-      <PageHeader title={'Editor'} description="Erstelle dein eigenes Quiz" />
+      <PageHeader title="Editor" description="Erstelle dein eigenes Quiz" />
       <Tabs>
         <TabList gap="5" mb="8" pb="2">
           <Tab>Quiz</Tab>

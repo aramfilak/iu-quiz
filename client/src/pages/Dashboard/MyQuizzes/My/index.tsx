@@ -1,6 +1,12 @@
 import { useToast } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { CreateNewQuiz, QuizCard, QuizCardSkeleton, QuizCardsGrid } from '../../../../components';
+import {
+  CreateNewQuiz,
+  NoQuizzes,
+  QuizCard,
+  QuizCardSkeleton,
+  QuizCardsGrid
+} from '../../../../components';
 import { useQuizStore } from '../../../../stores';
 import { Quiz } from '../../../../utils/types';
 
@@ -9,10 +15,9 @@ function My() {
   const toast = useToast();
   const [studentQuizzes, setStudentQuizzes] = useState<Quiz[]>([]);
 
-  const fetchStudentQuizzes = () => {
-    getStudentQuizzes().then((quizzes) => {
-      setStudentQuizzes(quizzes);
-    });
+  const fetchStudentQuizzes = async () => {
+    const quizzes = await getStudentQuizzes();
+    setStudentQuizzes(() => quizzes);
   };
 
   useEffect(() => {
@@ -23,8 +28,7 @@ function My() {
     const response = new Promise((resolve, reject) => {
       deleteQuizById(quizId).then(({ success }) => {
         if (success) {
-          resolve(true);
-          fetchStudentQuizzes();
+          resolve(fetchStudentQuizzes());
         } else {
           reject();
         }
@@ -38,14 +42,14 @@ function My() {
     });
   };
 
-  return (
+  return isLoading ? (
+    <QuizCardSkeleton />
+  ) : (
     <>
-      {isLoading ? (
-        <QuizCardSkeleton />
-      ) : (
-        <QuizCardsGrid>
-          <CreateNewQuiz onCreate={fetchStudentQuizzes} minH="12rem" />
-          {studentQuizzes?.map((quiz) => (
+      <QuizCardsGrid>
+        <CreateNewQuiz onCreate={fetchStudentQuizzes} minH="12rem" />
+        {studentQuizzes.length > 0 &&
+          studentQuizzes?.map((quiz) => (
             <QuizCard
               key={quiz.id}
               quiz={quiz}
@@ -53,7 +57,13 @@ function My() {
               isAuthor={true}
             />
           ))}
-        </QuizCardsGrid>
+      </QuizCardsGrid>
+      {studentQuizzes.length < 1 && (
+        <NoQuizzes
+          mt="20"
+          title="Noch keine Quiz?"
+          description="Erstellen Sie jetzt Ihr erstes Quiz, indem Sie auf „Neues Quiz“ klicken"
+        />
       )}
     </>
   );

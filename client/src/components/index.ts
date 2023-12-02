@@ -14,3 +14,4 @@ export { CreateNewQuiz } from './CreateNewQuiz';
 export { QuizCardSkeleton } from './QuizCardSkeleton';
 export { QuizCardsGrid } from './QuizCardsGrid';
 export { DeleteStudentAlert } from './DeleteStudentAlert';
+export { NoQuizzes } from './NoQuizzes';
