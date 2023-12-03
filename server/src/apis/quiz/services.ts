@@ -2,8 +2,9 @@ import { Request, Response } from 'express';
 import { db } from '../../configs';
 import { StatusCodes } from 'http-status-codes';
 import { createApiResponse } from '../../utils/response';
-import { BadRequestError, UnauthorizedError } from '../../errors';
+import { BadRequestError, NotFoundError, UnauthorizedError } from '../../errors';
 import { validate } from '../../utils/validate';
+import { Quiz } from '@prisma/client';
 
 /**
  * ________________________________________________________________
@@ -160,7 +161,8 @@ async function createQuiz(req: Request, res: Response) {
     throw new UnauthorizedError('Sie sind nicht berechtigt');
   }
 
-  validate.isEmpty('Title', title);
+  validate.min('Title', title, 3);
+  validate.max('Title', title, 50);
   validate.isEmpty('Course of study', courseOfStudy);
   validate.isEmpty('Course', course);
 
@@ -206,7 +208,7 @@ async function createQuizQuestion(req: Request, res: Response) {
   });
 
   if (!existingQuiz) {
-    throw new BadRequestError('Quiz existiert nicht');
+    throw new NotFoundError('Quiz nicht gefunden');
   }
 
   const createdQuestion = await db.quizQuestion.create({
@@ -243,7 +245,55 @@ async function createQuizQuestion(req: Request, res: Response) {
  * @access protected
  * ________________________________________________________________
  */
-async function updateQuiz(req: Request, res: Response) {}
+async function updateQuiz(req: Request, res: Response) {
+  const studentId = req.auth?.studentId;
+  const quizId = req.params.quizId;
+  const { title, courseOfStudy, course } = req.body;
+
+  const student = await db.student.findUnique({ where: { id: studentId } });
+
+  if (!student) {
+    throw new UnauthorizedError('Sie sind nicht berechtigt');
+  }
+
+  const existingQuiz = await db.quiz.findUnique({
+    where: {
+      id: Number(quizId),
+      authorId: studentId
+    }
+  });
+
+  if (!existingQuiz) {
+    throw new NotFoundError('Quiz nicht gefunden');
+  }
+
+  const updateData: Partial<Quiz> = {};
+
+  if (title) {
+    validate.min('Title', title, 3);
+    validate.max('Title', title, 50);
+    updateData.title = title;
+  }
+  if (courseOfStudy) {
+    updateData.courseOfStudy = validate.isEmpty('Course of study', courseOfStudy);
+  }
+  if (course) {
+    updateData.course = validate.isEmpty('Course', course);
+  }
+
+  if (!Object.keys(updateData).length) {
+    throw new BadRequestError('Keine Änderungen vorhanden');
+  }
+
+  const updatedQuiz = await db.quiz.update({
+    where: { authorId: studentId, id: Number(quizId) },
+    data: updateData
+  });
+
+  res
+    .status(StatusCodes.OK)
+    .json(createApiResponse(StatusCodes.OK, 'Änderungen gespeichert', updatedQuiz));
+}
 
 /**
  * ________________________________________________________________

@@ -1,13 +1,13 @@
 import { useToast } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import { useQuizStore, useStudentStore } from '../../../../stores';
+import { Quiz } from '../../../../utils/types';
 import {
   CreateNewQuiz,
   QuizCard,
   QuizCardSkeleton,
   QuizCardsGrid
 } from '../../../../components';
-import { useQuizStore, useStudentStore } from '../../../../stores';
-import { Quiz } from '../../../../utils/types';
 
 function My() {
   const [studentQuizzes, setStudentQuizzes] = useState<Quiz[]>([]);
@@ -16,8 +16,7 @@ function My() {
   const toast = useToast();
 
   const fetchStudentQuizzes = async () => {
-    const quizzes = await getAllQuizzes({ authorId: studentProfile?.studentId });
-    setStudentQuizzes(quizzes);
+    setStudentQuizzes(await getAllQuizzes({ authorId: studentProfile?.studentId }));
   };
 
   const handleDeleteQuiz = (quizId: number) => {
@@ -38,21 +37,28 @@ function My() {
     fetchStudentQuizzes();
   }, []);
 
-  return isLoading ? (
-    <QuizCardSkeleton />
-  ) : (
-    <QuizCardsGrid>
-      <CreateNewQuiz onCreate={fetchStudentQuizzes} minH="12rem" />
-      {studentQuizzes.length > 0 &&
-        studentQuizzes?.map((quiz) => (
-          <QuizCard
-            key={quiz.id}
-            quiz={quiz}
-            displayPlayButton
-            displayOptionMenu={{ onDelete: () => handleDeleteQuiz(quiz.id) }}
-          />
-        ))}
-    </QuizCardsGrid>
+  return (
+    <>
+      {isLoading ? (
+        <QuizCardSkeleton />
+      ) : (
+        <QuizCardsGrid>
+          <CreateNewQuiz onFinal={fetchStudentQuizzes} minH="12rem" />
+          {studentQuizzes?.map((quiz) => {
+            return (
+              <QuizCard
+                key={quiz.id}
+                quiz={quiz}
+                displayPlayButton
+                displayOptionMenu={{
+                  onDelete: () => handleDeleteQuiz(quiz.id)
+                }}
+              />
+            );
+          })}
+        </QuizCardsGrid>
+      )}
+    </>
   );
 }
 

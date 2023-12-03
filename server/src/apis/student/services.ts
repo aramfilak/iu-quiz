@@ -78,9 +78,11 @@ async function updateStudent(req: Request, res: Response) {
     updateData.name = validate.max('Name', name, 20);
   }
   if (location) {
-    updateData.location = validate.max('Ort', location, 20, false);
-    updateData.location = validate.min('Ort', location, 2, false);
+    validate.max('Ort', location, 20, false);
+    validate.min('Ort', location, 2, false);
+    updateData.location = location;
   }
+
   if (courseOfStudy) {
     updateData.courseOfStudy = courseOfStudy;
   }

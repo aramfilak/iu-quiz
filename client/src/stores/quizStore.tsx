@@ -7,8 +7,14 @@ import { Quiz } from '../utils/types';
 interface UseQuizStore {
   isLoading: boolean;
   getAllQuizzes: (params: Partial<QuizQueryParams>) => Promise<Quiz[]>;
-  deleteQuizById: (quizId: number) => Promise<void>;
   createQuiz: (title: string, courseOfStudy: string, courseId: string) => Promise<void>;
+  updateQuiz: (
+    quizId: number,
+    title: string,
+    courseOfStudy: string,
+    course: string
+  ) => Promise<void>;
+  deleteQuizById: (quizId: number) => Promise<void>;
   followQuiz: (quizId: number) => Promise<void>;
   unfollowQuiz: (quizId: number) => Promise<void>;
 }
@@ -40,6 +46,22 @@ const useQuizStore = create<UseQuizStore>((set) => ({
         courseOfStudy,
         course
       },
+      {
+        headers: { Authorization: usePersistStore.getState().accessToken }
+      }
+    );
+  },
+  updateQuiz: async (
+    quizId: number,
+    title: string,
+    courseOfStudy: string,
+    course: string
+  ) => {
+    set({ isLoading: true });
+
+    await axiosQuizApi.patch(
+      `/${quizId}`,
+      { title, courseOfStudy, course },
       {
         headers: { Authorization: usePersistStore.getState().accessToken }
       }

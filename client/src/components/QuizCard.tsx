@@ -22,16 +22,16 @@ import {
   Tooltip,
   CardFooter
 } from '@chakra-ui/react';
-import { useRef } from 'react';
 import {
   FaList,
-  FaEdit,
   FaTrash,
   FaPlay,
   FaRegClone,
   FaHeart,
-  FaHeartBroken
+  FaHeartBroken,
+  FaEdit
 } from 'react-icons/fa';
+import { useRef } from 'react';
 import { convertToGermanDate } from '../utils/formatters.ts';
 import { Quiz } from '../utils/types';
 import { routes } from '../utils/routes';
@@ -58,7 +58,7 @@ function QuizCard({
   displayPlayButton,
   displayFollowButton,
   displayUnFollowButton,
-  quiz: { id, title, updatedAt, size, popularity },
+  quiz,
   ...rest
 }: QuizCardProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -80,7 +80,9 @@ function QuizCard({
             <AlertDialogContent>
               <AlertDialogHeader>Löschen bestätigen</AlertDialogHeader>
               <AlertDialogCloseButton />
-              <AlertDialogBody>Möchten Sie "{title}" wirklich löschen?</AlertDialogBody>
+              <AlertDialogBody>
+                Möchten Sie "{quiz.title}" wirklich löschen?
+              </AlertDialogBody>
               <AlertDialogFooter>
                 <Button colorScheme="teal" onClick={onClose}>
                   Abbrechen
@@ -115,7 +117,7 @@ function QuizCard({
           <Tooltip label="Anzahl" margin="right">
             <Flex marginRight="auto" align="center" gap="1">
               <FaRegClone />
-              <Text>{size}</Text>
+              <Text>{quiz.size}</Text>
             </Flex>
           </Tooltip>
 
@@ -133,16 +135,20 @@ function QuizCard({
                 />
               </Tooltip>
               <MenuList>
+                {/*----------------- Update Questions-------------------*/}
                 <MenuItem
                   _dark={{ textColor: 'white' }}
                   onClick={() =>
-                    navigate(`../${routes.Dashboard.children.QuizEditor.mainPath}/${id}`)
+                    navigate(
+                      `../${routes.Dashboard.children.QuizEditor.mainPath}/${quiz.id}`
+                    )
                   }
                   icon={<FaEdit />}
-                  aria-label="Edit"
+                  aria-label="Edit Questions"
                 >
                   Bearbeiten
                 </MenuItem>
+                {/*----------------- Delete Quiz -------------------*/}
                 <MenuItem
                   _dark={{ textColor: 'red.300' }}
                   textColor="red.500"
@@ -173,6 +179,7 @@ function QuizCard({
           {displayUnFollowButton && (
             <Tooltip label="Nicht mehr folgen">
               <IconButton
+                colorScheme="red"
                 onClick={displayUnFollowButton.onUnFollow}
                 icon={<FaHeartBroken />}
                 aria-label="Nicht mehr folgen"
@@ -187,7 +194,7 @@ function QuizCard({
             <Tooltip label="Spielen">
               <IconButton
                 onClick={() =>
-                  navigate(`../${routes.Dashboard.children.PlayQuiz.mainPath}/${id}`)
+                  navigate(`../${routes.Dashboard.children.PlayQuiz.mainPath}/${quiz.id}`)
                 }
                 icon={<FaPlay />}
                 aria-label="Quiz Spielen"
@@ -200,7 +207,7 @@ function QuizCard({
         <CardBody minW="full">
           {/*----------------- Title -------------------*/}
           <Text fontWeight="bold" textAlign="center">
-            {title}
+            {quiz.title}
           </Text>
         </CardBody>
 
@@ -214,14 +221,14 @@ function QuizCard({
           <Tooltip label="Beliebtheit">
             <Flex align="center" gap="1">
               <TbUserHeart />
-              <Text> {popularity}</Text>
+              <Text> {quiz.popularity}</Text>
             </Flex>
           </Tooltip>
           {/*----------------- Update Date -------------------*/}
           <Tooltip label="Letztes Update">
             <Flex align="center" gap="1">
               <HiMiniArrowPath />
-              <Text> {convertToGermanDate(updatedAt)}</Text>
+              <Text> {convertToGermanDate(quiz.updatedAt)}</Text>
             </Flex>
           </Tooltip>
         </CardFooter>

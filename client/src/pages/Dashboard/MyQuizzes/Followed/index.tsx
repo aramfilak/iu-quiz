@@ -36,17 +36,16 @@ function Followed() {
     <QuizCardSkeleton />
   ) : (
     <QuizCardsGrid>
-      {followedQuizzes.length > 0 &&
-        followedQuizzes?.map((quiz) => (
-          <QuizCard
-            key={quiz.id}
-            quiz={quiz}
-            displayPlayButton
-            displayUnFollowButton={{
-              onUnFollow: () => handleUnFlowQuiz(quiz.id)
-            }}
-          />
-        ))}
+      {followedQuizzes?.map((quiz) => (
+        <QuizCard
+          key={quiz.id}
+          quiz={quiz}
+          displayPlayButton
+          displayUnFollowButton={{
+            onUnFollow: () => handleUnFlowQuiz(quiz.id)
+          }}
+        />
+      ))}
     </QuizCardsGrid>
   );
 }
