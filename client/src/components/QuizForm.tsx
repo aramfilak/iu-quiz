@@ -17,37 +17,47 @@ import {
   useToast
 } from '@chakra-ui/react';
 import { FaBookmark, FaGraduationCap, FaBook } from 'react-icons/fa';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useQuizStore, useStudentStore } from '../stores';
+import { ActionType } from '../utils/enums';
 import courseOfStudies from '../data/courseOfStudy.json';
-import { useQuizStore } from '../stores';
 
 interface Course {
-  title: string;
+  name: string;
 }
 
-const findCourses = (courseOfStudy: string): Course[] => {
-  return courseOfStudies.find(({ name }) => name === courseOfStudy)?.courses || [];
-};
-
-interface CreateQuizFormProps extends UseDisclosureProps {
-  defaultCourseOfStudy: string;
+interface QuizFormProps extends UseDisclosureProps {
   isOpen: boolean;
   onClose: () => void;
   onFinal: () => void;
 }
 
-function CreateQuizForm({
-  defaultCourseOfStudy,
-  isOpen,
-  onClose,
-  onFinal
-}: CreateQuizFormProps) {
+function QuizForm({ isOpen, onClose, onFinal }: QuizFormProps) {
   const titleInputRef = useRef<HTMLInputElement>(null);
   const courseOfStudySelectRef = useRef<HTMLSelectElement>(null);
   const courseSelectRef = useRef<HTMLSelectElement>(null);
-  const { createQuiz } = useQuizStore();
+  const { editQuiz, quizFormActionType, createQuiz, updateQuiz } = useQuizStore();
+  const { studentProfile } = useStudentStore();
+  const [isLoading, setIsLoading] = useState(false);
+  const isUpdate = quizFormActionType === ActionType.UPDATE;
+  const defaultCourseOfStudy = isUpdate
+    ? editQuiz?.courseOfStudy
+    : studentProfile?.courseOfStudy || courseOfStudies[0].name;
+  const [courses, setCourses] = useState<Course[]>([]);
   const toast = useToast();
-  const [courses, setCourses] = useState<Course[]>(findCourses(defaultCourseOfStudy));
+
+  const handleUpdateCourses = (courseName: string) => {
+    const courseOfStudy = courseOfStudies.find(({ name }) => name === courseName);
+    setCourses(courseOfStudy?.courses || []);
+  };
+
+  useEffect(() => {
+    if (isUpdate && editQuiz) {
+      handleUpdateCourses(editQuiz?.courseOfStudy);
+    } else {
+      handleUpdateCourses(studentProfile?.courseOfStudy || courseOfStudies[0].name);
+    }
+  }, []);
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -69,20 +79,45 @@ function CreateQuizForm({
       });
     }
 
-    const response = new Promise((resolve, reject) =>
-      createQuiz(title, courseOfStudy, course)
-        .then(() => {
-          resolve(onClose());
-        })
-        .catch(() => reject())
-        .finally(() => onFinal())
-    );
+    if (quizFormActionType === ActionType.CREATE) {
+      setIsLoading(true);
+      const response = new Promise((resolve, reject) =>
+        createQuiz(title, courseOfStudy, course)
+          .then(() => {
+            resolve(onClose());
+          })
+          .catch(() => reject())
+          .finally(() => {
+            onFinal();
+            setIsLoading(false);
+          })
+      );
 
-    toast.promise(response, {
-      success: { description: 'Neues Quiz erstellt' },
-      error: { description: 'Erstellung fehlgeschlagen' },
-      loading: { description: 'Es lädt..' }
-    });
+      toast.promise(response, {
+        success: { description: 'Neues Quiz erstellt' },
+        error: { description: 'Erstellung fehlgeschlagen' },
+        loading: { description: 'Es lädt..' }
+      });
+    } else if (quizFormActionType === ActionType.UPDATE && editQuiz) {
+      setIsLoading(true);
+      const response = new Promise((resolve, reject) =>
+        updateQuiz(editQuiz?.id, title, courseOfStudy, course)
+          .then(() => {
+            resolve(onClose());
+          })
+          .catch(() => reject())
+          .finally(() => {
+            onFinal();
+            setIsLoading(false);
+          })
+      );
+
+      toast.promise(response, {
+        success: { description: 'Quiz aktualisiert' },
+        error: { description: 'Aktualisierung fehlgeschlagen' },
+        loading: { description: 'Es lädt..' }
+      });
+    }
   };
 
   return (
@@ -102,6 +137,7 @@ function CreateQuizForm({
               </Tooltip>
               <FormControl>
                 <Input
+                  defaultValue={isUpdate ? editQuiz?.title : undefined}
                   borderTopLeftRadius="0"
                   borderBottomLeftRadius="0"
                   borderColor="teal.500"
@@ -119,13 +155,13 @@ function CreateQuizForm({
                   <FaGraduationCap />
                 </InputLeftAddon>
               </Tooltip>
-              <Select ref={courseOfStudySelectRef} defaultValue={defaultCourseOfStudy}>
+              <Select
+                onChange={(e) => handleUpdateCourses(e.target.value)}
+                ref={courseOfStudySelectRef}
+                defaultValue={defaultCourseOfStudy}
+              >
                 {courseOfStudies.map(({ name }) => (
-                  <option
-                    key={name}
-                    value={name}
-                    onClick={() => setCourses(findCourses(name))}
-                  >
+                  <option key={name} value={name}>
                     {name}
                   </option>
                 ))}
@@ -139,13 +175,15 @@ function CreateQuizForm({
                   <FaBook />
                 </InputLeftAddon>
               </Tooltip>
-              <Select ref={courseSelectRef}>
-                {courses &&
-                  courses.map(({ title }) => (
-                    <option key={title} value={title}>
-                      {title}
-                    </option>
-                  ))}
+              <Select
+                ref={courseSelectRef}
+                defaultValue={isUpdate ? editQuiz?.course : undefined}
+              >
+                {courses.map(({ name }) => (
+                  <option key={name} value={name}>
+                    {name}
+                  </option>
+                ))}
               </Select>
             </InputGroup>
           </ModalBody>
@@ -155,7 +193,9 @@ function CreateQuizForm({
             <Button mr="3" colorScheme="gray" onClick={onClose}>
               Abbrechen
             </Button>
-            <Button type="submit">Speichern</Button>
+            <Button type="submit" isLoading={isLoading}>
+              {isUpdate ? 'Aktualisieren' : 'Erstellen'}
+            </Button>
           </ModalFooter>
         </ModalContent>
       </form>
@@ -163,4 +203,4 @@ function CreateQuizForm({
   );
 }
 
-export { CreateQuizForm };
+export { QuizForm };

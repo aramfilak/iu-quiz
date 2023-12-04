@@ -29,6 +29,7 @@ import {
   FaRegClone,
   FaHeart,
   FaHeartBroken,
+  FaClipboardList,
   FaEdit
 } from 'react-icons/fa';
 import { useRef } from 'react';
@@ -38,12 +39,15 @@ import { routes } from '../utils/routes';
 import { useNavigate } from 'react-router-dom';
 import { HiMiniArrowPath } from 'react-icons/hi2';
 import { TbUserHeart } from 'react-icons/tb';
+import { useQuizStore } from '../stores/quizStore.tsx';
+import { ActionType } from '../utils/enums.ts';
 
 interface QuizCardProps extends CardProps {
   quiz: Quiz;
   displayPlayButton?: boolean;
   displayOptionMenu?: {
     onDelete: () => void;
+    onEdit: () => void;
   };
   displayFollowButton?: {
     onFollow: () => void;
@@ -62,6 +66,7 @@ function QuizCard({
   ...rest
 }: QuizCardProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { setEditQuiz, setQuizFormActionType } = useQuizStore();
   const cancelRef = useRef(null);
   const navigate = useNavigate();
 
@@ -135,18 +140,31 @@ function QuizCard({
                 />
               </Tooltip>
               <MenuList>
-                {/*----------------- Update Questions-------------------*/}
+                {/*----------------- Update Quiz-------------------*/}
                 <MenuItem
                   _dark={{ textColor: 'white' }}
+                  onClick={() => {
+                    setEditQuiz(quiz);
+                    setQuizFormActionType(ActionType.UPDATE);
+                    displayOptionMenu.onEdit();
+                  }}
+                  icon={<FaEdit />}
+                  aria-label="Edit Questions"
+                >
+                  Daten aktualisieren
+                </MenuItem>
+                {/*----------------- Update Questions-------------------*/}
+                <MenuItem
                   onClick={() =>
                     navigate(
                       `../${routes.Dashboard.children.QuizEditor.mainPath}/${quiz.id}`
                     )
                   }
-                  icon={<FaEdit />}
+                  _dark={{ textColor: 'white' }}
+                  icon={<FaClipboardList />}
                   aria-label="Edit Questions"
                 >
-                  Bearbeiten
+                  Fragen bearbeiten
                 </MenuItem>
                 {/*----------------- Delete Quiz -------------------*/}
                 <MenuItem

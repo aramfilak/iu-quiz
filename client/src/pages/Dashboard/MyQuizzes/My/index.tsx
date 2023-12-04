@@ -1,17 +1,21 @@
-import { useToast } from '@chakra-ui/react';
+import { useDisclosure, useToast } from '@chakra-ui/react';
 import { useQuizStore, useStudentStore } from '../../../../stores';
 import { Quiz } from '../../../../utils/types';
 import {
-  CreateNewQuiz,
+  CreateNewQuizCard,
   QuizCard,
   QuizCardSkeleton,
   QuizCardsGrid
 } from '../../../../components';
 import { useFetch } from '../../../../hooks';
+import { QuizForm } from '../../../../components/QuizForm';
+import { ActionType } from '../../../../utils/enums';
 
 function My() {
   const { studentProfile } = useStudentStore();
-  const { deleteQuizById, getAllQuizzes } = useQuizStore();
+  const { setEditQuiz, setQuizFormActionType, deleteQuizById, getAllQuizzes } =
+    useQuizStore();
+  const { onClose, onOpen, isOpen } = useDisclosure();
   const toast = useToast();
   const {
     isLoading,
@@ -35,11 +39,20 @@ function My() {
 
   return (
     <>
+      {/*____________________ Create New Quiz Form ____________________*/}
+      <QuizForm onClose={onClose} onFinal={refetchData} isOpen={isOpen} />
       {isLoading ? (
         <QuizCardSkeleton />
       ) : (
         <QuizCardsGrid>
-          <CreateNewQuiz onFinal={refetchData} minH="12rem" />
+          <CreateNewQuizCard
+            minH="12rem"
+            onClick={() => {
+              setQuizFormActionType(ActionType.CREATE);
+              setEditQuiz(null);
+              onOpen();
+            }}
+          />
           {studentQuizzes?.map((quiz) => {
             return (
               <QuizCard
@@ -47,7 +60,8 @@ function My() {
                 quiz={quiz}
                 displayPlayButton
                 displayOptionMenu={{
-                  onDelete: () => handleDeleteQuiz(quiz.id)
+                  onDelete: () => handleDeleteQuiz(quiz.id),
+                  onEdit: onOpen
                 }}
               />
             );

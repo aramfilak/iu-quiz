@@ -10,7 +10,7 @@ export { BoxWrapper } from './BoxWrapper';
 export { SignInForm } from './SignInForm';
 export { SignUpForm } from './SignUpForm';
 export { QuizCard } from './QuizCard';
-export { CreateNewQuiz } from './CreateNewQuiz';
+export { CreateNewQuizCard } from './CreateNewQuizCard';
 export { QuizCardSkeleton } from './QuizCardSkeleton';
 export { QuizCardsGrid } from './QuizCardsGrid';
 export { DeleteStudentAlert } from './DeleteStudentAlert';

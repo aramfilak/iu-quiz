@@ -121,7 +121,7 @@ function FindQuiz() {
   return (
     <>
       <Box mx="auto" maxW="600px" mb="4">
-        <PageHeader title={'Quiz Finden'} description="Finde passende Quiz für dich." />
+        <PageHeader title="Quiz Finden" description="Finde passende Quiz für dich." />
         <Flex flexDir={{ base: 'column', sm: 'row' }} flexWrap="wrap" gap="1rem">
           <InputGroup>
             <Input
@@ -288,13 +288,13 @@ function FindQuiz() {
                     <MenuList maxH="19rem" overflowY="auto">
                       {courseOfStudy
                         ?.find(({ name }) => name === selectedCourse)
-                        ?.courses?.map(({ title }) => (
-                          <MenuItem key={title}>
+                        ?.courses?.map(({ name }) => (
+                          <MenuItem key={name}>
                             <Checkbox
-                              isChecked={selectedModules.includes(title)}
-                              onChange={() => handleModuleChange(title)}
+                              isChecked={selectedModules.includes(name)}
+                              onChange={() => handleModuleChange(name)}
                             >
-                              {title}
+                              {name}
                             </Checkbox>
                           </MenuItem>
                         )) || []}

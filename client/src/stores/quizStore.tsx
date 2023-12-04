@@ -1,11 +1,16 @@
 import { create } from 'zustand';
-import { axiosQuizApi, asyncHandler } from '../utils/http';
+import { axiosQuizApi } from '../utils/http';
 import { QuizQueryParams } from '../utils/types';
 import { usePersistStore } from '.';
 import { Quiz } from '../utils/types';
-
+import { ActionType } from '../utils/enums';
 interface UseQuizStore {
+  editQuiz: Quiz | null;
+  quizFormActionType: ActionType | null;
+  setQuizFormActionType: (type: ActionType | null) => void;
+  setEditQuiz: (quiz: Quiz | null) => void;
   getAllQuizzes: (params: Partial<QuizQueryParams>) => Promise<Quiz[]>;
+  getQuizById: (quizId: number) => Promise<Quiz>;
   createQuiz: (title: string, courseOfStudy: string, courseId: string) => Promise<void>;
   updateQuiz: (
     quizId: number,
@@ -18,16 +23,30 @@ interface UseQuizStore {
   unfollowQuiz: (quizId: number) => Promise<void>;
 }
 
-const useQuizStore = create<UseQuizStore>(() => ({
-  getAllQuizzes: (params: Partial<QuizQueryParams>) =>
-    asyncHandler(async () => {
-      const response = await axiosQuizApi.get(`/`, {
-        params,
-        headers: { Authorization: usePersistStore.getState().accessToken }
-      });
+const useQuizStore = create<UseQuizStore>((set) => ({
+  editQuiz: null,
+  quizFormActionType: null,
 
-      return response.data.data;
-    }),
+  setEditQuiz: (quiz: Quiz | null) => set({ editQuiz: quiz }),
+
+  setQuizFormActionType: (type: ActionType | null) => set({ quizFormActionType: type }),
+
+  getAllQuizzes: async (params: Partial<QuizQueryParams>) => {
+    const response = await axiosQuizApi.get(`/`, {
+      params,
+      headers: { Authorization: usePersistStore.getState().accessToken }
+    });
+
+    return response.data.data;
+  },
+
+  getQuizById: async (quizId: number) => {
+    const response = await axiosQuizApi.get(`/${quizId}`, {
+      headers: { Authorization: usePersistStore.getState().accessToken }
+    });
+
+    return response.data.data;
+  },
 
   createQuiz: async (title: string, courseOfStudy: string, course: string) => {
     await axiosQuizApi.post(
