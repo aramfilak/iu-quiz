@@ -77,15 +77,15 @@ async function findAllQuizzes(req: Request, res: Response) {
 
   const orderBy: any = [];
 
-  if (updatedAt) {
+  if (updatedAt === 'true') {
     orderBy.push({ updatedAt: sortOrder });
   }
 
-  if (size) {
+  if (size === 'true') {
     orderBy.push({ size: sortOrder });
   }
 
-  if (popularity) {
+  if (popularity === 'true') {
     orderBy.push({ popularity: sortOrder });
   }
 

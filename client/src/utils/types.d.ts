@@ -79,9 +79,9 @@ export interface QuizAnswer {
 export interface QuizQueryParams {
   page?: string;
   limit?: string;
-  updatedAt?: string;
-  popularity?: string;
-  size?: string;
+  updatedAt?: boolean;
+  popularity?: boolean;
+  size?: boolean;
   courseOfStudy?: string;
   course?: string;
   sort?: string;

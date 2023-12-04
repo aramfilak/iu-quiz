@@ -40,6 +40,7 @@ import { useQuizStore } from '../../../stores';
 import courseOfStudy from '../../../data/courseOfStudy.json';
 import { QuizCard } from '../../../components/QuizCard';
 import { useFetch } from '../../../hooks';
+import { QuizQueryParams } from '../../../utils/types';
 
 function FindQuiz() {
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -55,11 +56,12 @@ function FindQuiz() {
   const [isBoxOpen, setIsBoxOpen] = useState(true);
   const boxShadowDark = isBoxOpen ? '' : '1px solid #4a5568';
   const toast = useToast();
+  const [params, setParams] = useState<QuizQueryParams>({ unFollowed: true });
   const {
     isLoading,
     data: unFollowedQuizzes,
     refetchData
-  } = useFetch(() => getAllQuizzes({ unFollowed: true }));
+  } = useFetch(() => getAllQuizzes(params));
 
   const handleFlowQuiz = (quizId: number) => {
     const response = new Promise((resolve, reject) =>
