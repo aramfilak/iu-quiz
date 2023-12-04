@@ -5,7 +5,6 @@ import { usePersistStore } from '.';
 import { Quiz } from '../utils/types';
 
 interface UseQuizStore {
-  isLoading: boolean;
   getAllQuizzes: (params: Partial<QuizQueryParams>) => Promise<Quiz[]>;
   createQuiz: (title: string, courseOfStudy: string, courseId: string) => Promise<void>;
   updateQuiz: (
@@ -19,26 +18,18 @@ interface UseQuizStore {
   unfollowQuiz: (quizId: number) => Promise<void>;
 }
 
-const useQuizStore = create<UseQuizStore>((set) => ({
-  studentQuizzes: null,
-  isLoading: false,
-
+const useQuizStore = create<UseQuizStore>(() => ({
   getAllQuizzes: (params: Partial<QuizQueryParams>) =>
     asyncHandler(async () => {
-      set({ isLoading: true });
-
       const response = await axiosQuizApi.get(`/`, {
         params,
         headers: { Authorization: usePersistStore.getState().accessToken }
       });
 
-      set({ isLoading: false });
       return response.data.data;
     }),
 
   createQuiz: async (title: string, courseOfStudy: string, course: string) => {
-    set({ isLoading: true });
-
     await axiosQuizApi.post(
       '/',
       {
@@ -51,14 +42,13 @@ const useQuizStore = create<UseQuizStore>((set) => ({
       }
     );
   },
+
   updateQuiz: async (
     quizId: number,
     title: string,
     courseOfStudy: string,
     course: string
   ) => {
-    set({ isLoading: true });
-
     await axiosQuizApi.patch(
       `/${quizId}`,
       { title, courseOfStudy, course },
@@ -69,16 +59,12 @@ const useQuizStore = create<UseQuizStore>((set) => ({
   },
 
   deleteQuizById: async (quizId: number) => {
-    set({ isLoading: true });
-
     await axiosQuizApi.delete(`/${quizId}`, {
       headers: { Authorization: usePersistStore.getState().accessToken }
     });
   },
 
   followQuiz: async (quizId: number) => {
-    set({ isLoading: true });
-
     await axiosQuizApi.post(
       `/follow/${quizId}`,
       {},
@@ -89,8 +75,6 @@ const useQuizStore = create<UseQuizStore>((set) => ({
   },
 
   unfollowQuiz: async (quizId: number) => {
-    set({ isLoading: true });
-
     await axiosQuizApi.delete(`/follow/${quizId}`, {
       headers: { Authorization: usePersistStore.getState().accessToken }
     });

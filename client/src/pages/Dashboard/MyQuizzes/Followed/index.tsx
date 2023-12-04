@@ -1,23 +1,22 @@
 import { useToast } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
 import { QuizCard, QuizCardSkeleton, QuizCardsGrid } from '../../../../components';
 import { useQuizStore } from '../../../../stores';
 import { Quiz } from '../../../../utils/types';
+import { useFetch } from '../../../../hooks';
 
 function Followed() {
-  const [followedQuizzes, setFollowedQuizzes] = useState<Quiz[]>([]);
-  const { isLoading, unfollowQuiz, getAllQuizzes } = useQuizStore();
+  const { unfollowQuiz, getAllQuizzes } = useQuizStore();
   const toast = useToast();
-
-  const fetchFollowedQuizzes = async () => {
-    const quizzes = await getAllQuizzes({ followed: true });
-    setFollowedQuizzes(() => quizzes);
-  };
+  const {
+    isLoading,
+    data: followedQuizzes,
+    refetchData
+  } = useFetch<Quiz[]>(() => getAllQuizzes({ followed: true }));
 
   const handleUnFlowQuiz = (quizId: number) => {
     const response = new Promise((resolve, reject) =>
       unfollowQuiz(quizId)
-        .then(() => resolve(fetchFollowedQuizzes()))
+        .then(() => resolve(refetchData()))
         .catch(() => reject())
     );
 
@@ -27,10 +26,6 @@ function Followed() {
       loading: { description: 'Es lädt..' }
     });
   };
-
-  useEffect(() => {
-    fetchFollowedQuizzes();
-  }, []);
 
   return isLoading ? (
     <QuizCardSkeleton />

@@ -35,15 +35,15 @@ import {
   QuizCardSkeleton,
   QuizCardsGrid
 } from '../../../components';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useQuizStore } from '../../../stores';
 import courseOfStudy from '../../../data/courseOfStudy.json';
 import { QuizCard } from '../../../components/QuizCard';
-import { Quiz } from '../../../utils/types';
+import { useFetch } from '../../../hooks';
 
 function FindQuiz() {
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const { isLoading, getAllQuizzes, followQuiz } = useQuizStore();
+  const { getAllQuizzes, followQuiz } = useQuizStore();
   const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
   const [selectedModules, setSelectedModules] = useState<string[]>([]);
   const [selectedSortOrder, setSelectedSortOrder] = useState<string | string | null>(
@@ -52,24 +52,19 @@ function FindQuiz() {
   const [selectedFilterProperty, setSelectedFilterProperty] = useState<string | null>(
     null
   );
-  const [unFollowedQuizzes, setUnFollowedQuizzes] = useState<Quiz[]>([]);
   const [isBoxOpen, setIsBoxOpen] = useState(true);
   const boxShadowDark = isBoxOpen ? '' : '1px solid #4a5568';
   const toast = useToast();
-
-  const fetchUnFollowedQuizzes = async () => {
-    const quizzes = await getAllQuizzes({ unFollowed: true });
-    setUnFollowedQuizzes(quizzes);
-  };
-
-  useEffect(() => {
-    fetchUnFollowedQuizzes();
-  }, []);
+  const {
+    isLoading,
+    data: unFollowedQuizzes,
+    refetchData
+  } = useFetch(() => getAllQuizzes({ unFollowed: true }));
 
   const handleFlowQuiz = (quizId: number) => {
     const response = new Promise((resolve, reject) =>
       followQuiz(quizId)
-        .then(() => resolve(fetchUnFollowedQuizzes()))
+        .then(() => resolve(refetchData()))
         .catch(() => reject())
     );
 
