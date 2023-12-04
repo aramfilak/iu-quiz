@@ -157,7 +157,7 @@ function QuizCard({
                 <MenuItem
                   onClick={() =>
                     navigate(
-                      `../${routes.Dashboard.children.QuizEditor.mainPath}/${quiz.id}`
+                      `../${routes.Dashboard.children.QuestionsEditor.mainPath}/${quiz.id}`
                     )
                   }
                   _dark={{ textColor: 'white' }}

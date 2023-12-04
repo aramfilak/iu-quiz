@@ -4,7 +4,7 @@ export { SignIn } from './Authentication/SignIn/index';
 export { SignUp } from './Authentication/SignUp/index';
 export { EmailVerification } from './EmailVerification';
 export { Dashboard } from './Dashboard/index';
-export { QuizEditor } from './Dashboard/QuizEditor/index';
+export { QuestionsEditor } from './Dashboard/QuestionsEditor/index';
 export { FAQs } from './Dashboard/FAQs/index';
 export { Profile } from './Dashboard/Profile/index';
 export { MyQuizzes } from './Dashboard/MyQuizzes/index';

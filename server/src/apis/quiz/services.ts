@@ -127,7 +127,14 @@ async function findQuizById(req: Request, res: Response) {
   }
 
   const quiz = await db.quiz.findUnique({
-    where: { id: Number(quizId) }
+    where: { id: Number(quizId) },
+    include: {
+      quizQuestions: {
+        include: {
+          quizAnswers: true
+        }
+      }
+    }
   });
 
   if (!quiz) {

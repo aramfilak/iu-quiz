@@ -40,6 +40,7 @@ function QuizForm({ isOpen, onClose, onFinal }: QuizFormProps) {
   const { studentProfile } = useStudentStore();
   const [isLoading, setIsLoading] = useState(false);
   const isUpdate = quizFormActionType === ActionType.UPDATE;
+  const isCreate = quizFormActionType === ActionType.CREATE;
   const defaultCourseOfStudy = isUpdate
     ? editQuiz?.courseOfStudy
     : studentProfile?.courseOfStudy || courseOfStudies[0].name;
@@ -79,7 +80,7 @@ function QuizForm({ isOpen, onClose, onFinal }: QuizFormProps) {
       });
     }
 
-    if (quizFormActionType === ActionType.CREATE) {
+    if (isCreate) {
       setIsLoading(true);
       const response = new Promise((resolve, reject) =>
         createQuiz(title, courseOfStudy, course)
@@ -98,7 +99,7 @@ function QuizForm({ isOpen, onClose, onFinal }: QuizFormProps) {
         error: { description: 'Erstellung fehlgeschlagen' },
         loading: { description: 'Es lädt..' }
       });
-    } else if (quizFormActionType === ActionType.UPDATE && editQuiz) {
+    } else if (isUpdate && editQuiz) {
       setIsLoading(true);
       const response = new Promise((resolve, reject) =>
         updateQuiz(editQuiz?.id, title, courseOfStudy, course)

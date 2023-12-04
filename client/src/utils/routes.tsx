@@ -9,7 +9,7 @@ import {
   MyQuizzes,
   SignIn,
   SignUp,
-  QuizEditor,
+  QuestionsEditor,
   FindQuiz
 } from '../pages';
 
@@ -83,13 +83,13 @@ const routes = {
         path: 'faqs',
         element: <FAQs />
       },
-      QuizEditor: {
+      QuestionsEditor: {
         isSidebarItem: false,
         icon: FiEdit,
-        name: 'Quiz Editor',
-        path: 'quiz-editor/:quizId',
-        mainPath: 'quiz-editor',
-        element: <QuizEditor />
+        name: 'Questions Editor',
+        path: 'questions-editor/:quizId',
+        mainPath: 'questions-editor',
+        element: <QuestionsEditor />
       },
       PlayQuiz: {
         isSidebarItem: false,
@@ -97,7 +97,7 @@ const routes = {
         name: 'Play Quiz',
         path: 'play-quiz/:quizId',
         mainPath: 'play-quiz',
-        element: <QuizEditor />
+        element: <QuestionsEditor />
       }
     }
   }
