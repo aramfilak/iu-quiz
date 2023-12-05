@@ -10,7 +10,6 @@ import {
   FormControl,
   FormLabel,
   Input,
-  UseDisclosureProps,
   useToast,
   Text,
   Box
@@ -21,7 +20,7 @@ import { useStudentStore, usePersistStore } from '../stores';
 import { routes } from '../utils/routes.tsx';
 import { useRef } from 'react';
 
-interface DeleteStudentAlertProps extends UseDisclosureProps {
+interface DeleteStudentAlertProps {
   onClose: () => void;
   isOpen: boolean;
 }

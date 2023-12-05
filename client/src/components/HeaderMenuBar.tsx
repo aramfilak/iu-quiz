@@ -13,13 +13,6 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
-  AlertDialog,
-  AlertDialogFooter,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogOverlay,
-  Button,
   useDisclosure,
   useColorMode
 } from '@chakra-ui/react';
@@ -27,7 +20,7 @@ import { FiMenu, FiChevronDown, FiLogOut, FiSun, FiMoon } from 'react-icons/fi';
 import { useAuthStore, useStudentStore } from '../stores';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../utils/routes';
-import { useRef } from 'react';
+import { CustomAlertDialog } from '.';
 interface MobileProps extends FlexProps {
   onOpen: () => void;
   setCollapsedFalse: () => void;
@@ -37,7 +30,6 @@ function HeaderMenuBar({ onOpen: handleOpen, setCollapsedFalse, ...rest }: Mobil
   const { signOut } = useAuthStore();
   const { studentProfile } = useStudentStore();
   const navigate = useNavigate();
-  const cancelRef = useRef<HTMLButtonElement>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -65,43 +57,18 @@ function HeaderMenuBar({ onOpen: handleOpen, setCollapsedFalse, ...rest }: Mobil
       />
 
       {/*______________________ Handle Sign-out Alert Dialog ________________________ */}
-      <AlertDialog
-        motionPreset="slideInBottom"
-        leastDestructiveRef={cancelRef}
+      <CustomAlertDialog
         onClose={onClose}
         isOpen={isOpen}
-        isCentered
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Abmelden
-            </AlertDialogHeader>
-
-            <AlertDialogBody>
-              Sind Sie sicher, dass Sie sich abmelden möchten?
-            </AlertDialogBody>
-
-            <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onClose}>
-                Abbrechen
-              </Button>
-              <Button
-                colorScheme="red"
-                onClick={() => {
-                  onClose();
-                  signOut();
-                  navigate(routes.Authentication.children.SignIn.path);
-                }}
-                ml={3}
-              >
-                Abmelden
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
-
+        onSubmit={() => {
+          onClose();
+          signOut();
+          navigate(routes.Authentication.children.SignIn.path);
+        }}
+        submitButtonLabel="Abmelden"
+        title="Abmelden"
+        description="Sind Sie sicher, dass Sie sich abmelden möchten?"
+      />
       <HStack spacing={{ base: '0', md: '6' }}>
         <Flex alignItems={'center'}>
           <Menu>

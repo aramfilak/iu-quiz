@@ -1,4 +1,3 @@
-import React, { useRef } from 'react';
 import { FiXCircle, FiRefreshCw, FiPlusCircle, FiInfo } from 'react-icons/fi';
 import {
   Avatar,
@@ -8,23 +7,16 @@ import {
   Input,
   Button,
   Flex,
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogCloseButton,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   useDisclosure,
   Text
 } from '@chakra-ui/react';
 import { useStudentStore } from '../stores';
+import { CustomAlertDialog } from '.';
 
 function UploadProfileImage(rest: FlexProps) {
   const toast = useToast();
   const { studentProfile, uploadImage, deleteImage } = useStudentStore();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = useRef<HTMLButtonElement>(null);
 
   const handleImageUpload = ({
     target: { files }
@@ -65,37 +57,17 @@ function UploadProfileImage(rest: FlexProps) {
 
   return (
     <>
-      <AlertDialog
-        motionPreset="slideInBottom"
-        leastDestructiveRef={cancelRef}
+      <CustomAlertDialog
         onClose={onClose}
         isOpen={isOpen}
-        isCentered
-      >
-        <AlertDialogOverlay />
-        <AlertDialogContent>
-          <AlertDialogHeader>Profil Bild Löschen</AlertDialogHeader>
-          <AlertDialogCloseButton />
-          <AlertDialogBody>
-            Sind Sie sicher, dass Sie Ihr Profilbild löschen möchten?
-          </AlertDialogBody>
-          <AlertDialogFooter>
-            <Button ref={cancelRef} onClick={onClose}>
-              Abbrechen
-            </Button>
-            <Button
-              colorScheme="red"
-              ml={3}
-              onClick={() => {
-                handleDeleteImage();
-                onClose();
-              }}
-            >
-              Löschen
-            </Button>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+        title="Profil Bild Löschen"
+        description="Sind Sie sicher, dass Sie Ihr Profilbild löschen möchten?"
+        onSubmit={() => {
+          handleDeleteImage();
+          onClose();
+        }}
+        submitButtonLabel="Löschen"
+      />
 
       <Flex {...rest} gap="0.5rem">
         <Avatar

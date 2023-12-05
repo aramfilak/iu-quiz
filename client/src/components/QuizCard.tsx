@@ -1,12 +1,4 @@
 import {
-  AlertDialog,
-  AlertDialogOverlay,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogCloseButton,
-  AlertDialogBody,
-  AlertDialogFooter,
-  Button,
   Flex,
   Menu,
   MenuButton,
@@ -32,7 +24,6 @@ import {
   FaClipboardList,
   FaEdit
 } from 'react-icons/fa';
-import { useRef } from 'react';
 import { convertToGermanDate } from '../utils/formatters.ts';
 import { Quiz } from '../utils/types';
 import { routes } from '../utils/routes';
@@ -41,6 +32,7 @@ import { HiMiniArrowPath } from 'react-icons/hi2';
 import { TbUserHeart } from 'react-icons/tb';
 import { useQuizStore } from '../stores/quizStore.tsx';
 import { ActionType } from '../utils/enums.ts';
+import { CustomAlertDialog } from './CustomAlertDialog.tsx';
 
 interface QuizCardProps extends CardProps {
   quiz: Quiz;
@@ -67,46 +59,23 @@ function QuizCard({
 }: QuizCardProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { setEditQuiz, setQuizFormActionType } = useQuizStore();
-  const cancelRef = useRef(null);
   const navigate = useNavigate();
 
   return (
     <>
       {/*----------------- Delete Alert Dialog -------------------*/}
       {displayOptionMenu && (
-        <AlertDialog
-          motionPreset="slideInBottom"
+        <CustomAlertDialog
           isOpen={isOpen}
           onClose={onClose}
-          leastDestructiveRef={cancelRef}
-          isCentered
-        >
-          <AlertDialogOverlay>
-            <AlertDialogContent>
-              <AlertDialogHeader>Löschen bestätigen</AlertDialogHeader>
-              <AlertDialogCloseButton />
-              <AlertDialogBody>
-                Möchten Sie "{quiz.title}" wirklich löschen?
-              </AlertDialogBody>
-              <AlertDialogFooter>
-                <Button colorScheme="teal" onClick={onClose}>
-                  Abbrechen
-                </Button>
-                <Button
-                  colorScheme="red"
-                  onClick={() => {
-                    onClose();
-                    displayOptionMenu.onDelete();
-                  }}
-                  ml={3}
-                  type="button"
-                >
-                  Löschen
-                </Button>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialogOverlay>
-        </AlertDialog>
+          title="Löschen bestätigen"
+          description={`Möchten Sie "${quiz.title}" wirklich löschen?`}
+          onSubmit={() => {
+            onClose();
+            displayOptionMenu.onDelete();
+          }}
+          submitButtonLabel="Löschen"
+        />
       )}
       {/*-----------------  Quiz Card -------------------*/}
       <Card

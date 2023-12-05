@@ -77,14 +77,6 @@ function FindQuiz() {
     setSelectedSortOrder(sort);
   };
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-  };
-
-  const handleDeleteSearch = () => {
-    setSearchTerm('');
-  };
-
   const handleCourseOfStudyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedCourseOfStudy = e.target.value;
     setSelectedCourseOfStudy(selectedCourseOfStudy);
@@ -123,14 +115,14 @@ function FindQuiz() {
         <PageHeader title="Quiz Finden" description="Finde passende Quiz für dich." />
         <form onSubmit={handleSubmit}>
           <Flex flexDir={{ base: 'column', sm: 'row' }} flexWrap="wrap" gap="1rem">
-            <Flex w="100%" flexDir={'row'} gap="1rem">
+            <Flex w="100%" flexDir="row" gap="1rem">
               <InputGroup>
                 <Input
                   variant="outline"
                   type="text"
                   placeholder="Nach Quiz-Titel suchen ..."
                   value={searchTerm}
-                  onChange={handleSearchChange}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                   bg={useColorModeValue('white', 'gray.800')}
                   borderColor={useColorModeValue('gray.300', 'gray.600')}
                   focusBorderColor="teal.500"
@@ -143,7 +135,7 @@ function FindQuiz() {
                         cursor="pointer"
                         color="gray.300"
                         fontSize="20px"
-                        onClick={handleDeleteSearch}
+                        onClick={() => setSearchTerm('')}
                       />
                     }
                     style={{
@@ -183,12 +175,8 @@ function FindQuiz() {
                   Filtereinstellungen
                 </Heading>
                 <Tooltip label="Filter zurücksetzen" margin="bottom">
-                  <Button
-                    h="0"
-                    onClick={handleFilterReset}
-                    colorScheme="transparent"
-                    paddingRight="0"
-                  >
+                  <Button h="0" onClick={handleFilterReset} paddingRight="0">
+                    zurücksetzen
                     <FaSync color="teal"></FaSync>
                   </Button>
                 </Tooltip>

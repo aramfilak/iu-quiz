@@ -14,3 +14,5 @@ export { CreateNewQuizCard } from './CreateNewQuizCard';
 export { QuizCardSkeleton } from './QuizCardSkeleton';
 export { QuizCardsGrid } from './QuizCardsGrid';
 export { DeleteStudentAlert } from './DeleteStudentAlert';
+export { QuestionBar } from './QuestionBar';
+export { CustomAlertDialog } from './CustomAlertDialog';

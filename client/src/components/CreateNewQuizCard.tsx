@@ -9,7 +9,7 @@ function CreateNewQuizCard(rest: CardProps) {
         w="full"
         h="full"
         boxShadow="none"
-        border="2px dashed"
+        border="3px dashed"
         borderColor="gray.400"
         cursor="pointer"
         display="flex"

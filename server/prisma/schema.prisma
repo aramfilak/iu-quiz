@@ -74,6 +74,7 @@ model QuizQuestion {
   quizId      Int
   question    String       @db.Text
   quizAnswers QuizAnswer[]
+  updatedAt   DateTime     @updatedAt
 }
 
 model QuizAnswer {
