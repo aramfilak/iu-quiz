@@ -1,0 +1,18 @@
+{
+  "scripts": {
+    "test": "cd server && npm test",
+    "install-server": "cd server && npm i",
+    "install-client": "cd client && npm i",
+    "install-dep": "npm i && npm run install-server && npm run install-client",
+    "server": "cd server && npm run dev",
+    "prisma": "cd server && npx prisma studio",
+    "client": "cd client && npm run dev",
+    "open": "node open.js",
+    "dev": "concurrently \"npm run server\" \"npm run prisma\" \"npm run client\" \"npm run open\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "open": "^8.0.5",
+    "prettier": "^3.1.0"
+  }
+}

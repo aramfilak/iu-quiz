@@ -1,0 +1,154 @@
+[
+  {
+    "name": "Informatik",
+    "courses": [
+      { "name": "Mathematik Grundlagen I - IMT101" },
+      {
+        "name": "Einführung in das wissenschaftliche Arbeiten für IT und Technik - DLBWIRITT"
+      },
+      { "name": "Betriebswirtschaftslehre - BBWL01-01" },
+      { "name": "Betriebswirtschaftslehre - BBWL02-01" },
+      { "name": "Grundlagen der industriellen Softwaretechnik - IGIS01" },
+      { "name": "Digital Skills - DLBDS01-01" },
+      { "name": "Objektorientierte Programmierung - IOBP01" },
+      { "name": "Objektorientierte Programmierung - DLBCSDSJCL02_D" },
+      { "name": "Einführung in das Internet of Things - DLBINGEIT01" },
+      { "name": "Mathematik Grundlagen II - IMT102-01" },
+      { "name": "Programmierung von Webanwendungen - IPWA01-01" },
+      { "name": "Programmierung von Webanwendungen - IPWA02-01" },
+      { "name": "Requirements Engineering - IREN01" },
+      { "name": "Statistik - BSTA01-02" },
+      { "name": "Betriebssysteme, Rechnernetze und verteilte Systeme - DLBIBRVS01" },
+      { "name": "Algorithmen, Datenstrukturen und Programmiersprachen - DLBIADPS01" },
+      { "name": "Datenmodellierung und Datenbanksysteme - IDBS01" },
+      { "name": "Spezifikation - ISPE01" },
+      { "name": "IT-Projektmanagement - IPMG01-01" },
+      { "name": "IT-Servicemanagement - IWSM01" },
+      { "name": "Projekt: IT-Servicemanagement - IWSM02" },
+      { "name": "Qualitätssicherung im Softwareprozess - IQSS01" },
+      { "name": "Theoretische Informatik und Mathematische Logik - DLBITIML01" },
+      { "name": "Projekt: Software Engineering - ISEF01" },
+      { "name": "IT-Recht - DLBIITR01" },
+      { "name": "IT-Sicherheit - DLBISIC01" },
+      { "name": "IT-Sicherheit - DLBISIC02-01" },
+      { "name": "Künstliche Intelligenz - DLBIKI01" },
+      { "name": "Data Analytics und Big Data - DLBINGDADB01" },
+      { "name": "Seminar Software Engineering - ISSE01" },
+      { "name": "Informatik und Gesellschaft - DLBIIUG01" }
+    ]
+  },
+  {
+    "name": "Wirtschaftsinformatik",
+    "courses": [
+      { "name": "Einführung in die Wirtschaftsinformatik - DLBWIEWI01" },
+      { "name": "Betriebswirtschaftslehre - BBWL01-01" },
+      { "name": "Betriebswirtschaftslehre - BBWL02-01" },
+      {
+        "name": "Einführung in das wissenschaftliche Arbeiten für IT und Technik - BWIRITT"
+      },
+      { "name": "Mathematik Grundlagen I - IMT101" },
+      { "name": "Requirements Engineering - IREN01" },
+      { "name": "Grundlagen der objektorientierten Programmierung mit Java - IOBP01" },
+      { "name": "Kollaboratives Arbeiten - DLBKA01" },
+      { "name": "Investition und Finanzierung - DLBLOFUI01-01" },
+      { "name": "Datenstruktur und Java-Klassenbibliothek - DLBCSDSJCL02_D" },
+      { "name": "Statistik - BSTA01-02" },
+      { "name": "Datenmodellierung und Datenbanksysteme - IDBS01" },
+      { "name": "Einführung in das Prozessmanagement - DLBWIEPM01" },
+      { "name": "Grundlagen der IT- und ERP-Systeme - DLBFMGSYS01" },
+      { "name": "Programmierung von Web-Anwendungsoberflächen - IPWA01" },
+      {
+        "name": "Programmierung von industriellen Informationssytemen mit Java EE - IPWA02"
+      },
+      { "name": "Kosten- und Leistungsrechnung - BKLR01-01" },
+      { "name": "Kosten- und Leistungsrechnung - BKLR02-01" },
+      { "name": "Interkulturelle und ethische Handlungskompetenzen - DLBIHK01" },
+      { "name": "Qualitätssicherung im Softwareprozess - IQSS01" },
+      { "name": "Data Analytics und Big Data - DLBINGDABD01" },
+      { "name": "Einkauf, Beschaffung und Distribution - DLBLOISCM102" },
+      { "name": "IT-Recht - DLBIITR01" },
+      { "name": "IT-Projektmanagement - IPMG01-01" },
+      { "name": "Projekt Software Engineering - ISEF01 Projekt Software Engineering" },
+      { "name": "Marketing - BMAR01-01" },
+      { "name": "Marketing - BMAR02-01" },
+      { "name": "Personal und Unternehmensführung - DLBBWPU01" },
+      { "name": "Seminar: Software Engineering - ISSE01" },
+      { "name": "Digitale Business-Modelle - DLBLODB01" },
+      { "name": "Organizational Behavior - DLBBWOB01" }
+    ]
+  },
+  {
+    "name": "Softwareentwicklung",
+    "courses": [
+      { "name": "Grundlagen der industriellen Softwaretechnik - IGIS01" },
+      {
+        "name": "Einführung in das wissenschaftliche Arbeiten für IT und Technik - DLBWIRITT01"
+      },
+      { "name": "Requirements Engineering - IREN01" },
+      { "name": "Spezifikation - ISPE01" },
+      { "name": "Grundlagen der objektorientierten Programmierung mit Java - IOBP01" },
+      { "name": "Datenmodellierung und Datenbanksysteme - IDBS01" },
+      { "name": "Datenstruktur und Java-Klassenbibliothek - DLBCSDSJCL02_D" },
+      { "name": "Kollaboratives Arbeiten - DLBKA01" },
+      { "name": "Programmierung von Web-Anwendungsoberflächen - IPWA01-01" },
+      { "name": "Algorithmen, Datenstrukturen und Programmiersprachen - DLBIADPS01" },
+      { "name": "Qualitätssicherung im Softwareprozess - IQSS01" },
+      { "name": "IT-Architekturmanagement - IAMG01" },
+      {
+        "name": "Programmierung von industriellen Informationssytemen mit Java EE - IPWA02-01"
+      },
+      { "name": "Ethik und Nachhaltigkeit in der IT - DLBSEPENIT01_D" },
+      { "name": "IT-Projektmanagement - IPMG01-01" },
+      { "name": "Techniken und Methoden der agilen Softwareentwicklung - DLBWIWTMAS01" },
+      {
+        "name": "Mobile Software Engineering am Beispiel der Android-Plattform - DLBCSEMSE01_D"
+      },
+      { "name": "Seminar \"Software Engineering\" - ISSE01" },
+      { "name": "Projekt Agiles Software Engineering - IWNF02" },
+      { "name": "IT-Infrastruktur - DLBSEPITI01_D" },
+      { "name": "IT-Service Management - IWSM01" },
+      { "name": "Projekt: Mobile Software Engineering II - DLBCSEMSE02_D" },
+      { "name": "Cloud Programming - DLBSEPCP01_D" },
+      { "name": "Einführung in Datenschutz und IT-Sicherheit - DLBISIC01" },
+      { "name": "DevOps und Continuous Delivery - DLBSEPDOCD01_D" },
+      { "name": "Gestaltung und Ergonomie von User Interfaces - DLBMIUID01" },
+      { "name": "Einführung in die Programmierung mit Python - DLBDSIPWP01_D" },
+      { "name": "Projekt: Software Development - DLBSEPPSD01_D" }
+    ]
+  },
+  {
+    "name": "Medieninformatik",
+    "courses": [
+      { "name": "Grundlagen der industriellen Softwaretechnik - IGIS01" },
+      { "name": "Digitale Medienformate - DLBMIDMF01" },
+      { "name": "Einführung in das wissenschaftliche Arbeiten - BWIR01-01" },
+      { "name": "Mathematik Grundlagen I - IMT101" },
+      { "name": "Grundlagen der objektorientierten Programmierung mit Java - IOBP01" },
+      { "name": "Datenstrukturen und JAVA Klassenbibliothek - IOBP02" },
+      { "name": "Designgrundlagen: sehen und verstehen - DLBKDDSV01-02" },
+      { "name": "Kollaboratives Arbeiten - DLBKA01" },
+      { "name": "Medienplattformen und -systeme - DLBMIMPFS01" },
+      { "name": "Gestaltung und Ergonomie von User Interfaces - DLBMIUID01" },
+      { "name": "Betriebssysteme, Rechnernetze und verteilte Systeme - DLBIBRVS01" },
+      { "name": "Projekt User Interface Design - DLBMIUID02" },
+      {
+        "name": "Programmierung von industriellen Informationssystemen mit Java EE - IPWA02-01"
+      },
+      { "name": "Datenmodellierung und Datenbanksysteme - IDBS01" },
+      { "name": "Programmierung von Web-Anwendungsoberflächen - IPWA01-01" },
+      { "name": "Interkulturelle und ethische Handlungskompetenzen - DLBIHK01" },
+      { "name": "Informatik und Gesellschaft - DLBIIUG01" },
+      { "name": "Projekt: Web-Programmierung - DLBUXPWP01" },
+      { "name": "Einführung in Computer Graphics - DLBAVRECC01" },
+      { "name": "Augmented, Mixed und Virtual Reality - DLBMIAMVR01" },
+      { "name": "Medienrecht - DLBMIMR01" },
+      { "name": "Digitale Medienproduktion - DLBMDWDMP01-01" },
+      { "name": "Gestaltung interaktiver Medien - DLBMIGIM01" },
+      { "name": "Darstellen: Fotografie und Video - DLBIADFV01" },
+      { "name": "Digital Publishing - DLBMDDP01" },
+      { "name": "Grundlagen der Animation - DLBMIGA01" },
+      { "name": "Seminar: Gesellschaft und Digitale Medien - DLBMISGDM01" },
+      { "name": "Projekt Medieninformatik - DLBMIPMI01" }
+    ]
+  }
+]
