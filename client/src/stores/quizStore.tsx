@@ -1,20 +1,9 @@
 import { create } from 'zustand';
 import { axiosQuizApi } from '../utils/http';
-import { QuizQueryParams } from '../utils/types';
+import { QuizQueryParams, QuizQuestion } from '../utils/types';
 import { usePersistStore } from '.';
 import { Quiz } from '../utils/types';
 import { ActionType } from '../utils/enums';
-
-interface Answer {
-  answer: string;
-  answerDescription: string;
-  isRightAnswer: boolean;
-}
-
-interface QuizQuestionData {
-  question: string;
-  answers: Answer[];
-}
 
 interface UseQuizStore {
   editQuiz: Quiz | null;
@@ -33,8 +22,8 @@ interface UseQuizStore {
   deleteQuizById: (quizId: number) => Promise<void>;
   followQuiz: (quizId: number) => Promise<void>;
   unfollowQuiz: (quizId: number) => Promise<void>;
-  createQuizQuestion: (data: QuizQuestionData) => Promise<Quiz>;
-  updateQuizQuestion: (questionId: number, data: QuizQuestionData) => Promise<Quiz>;
+  createQuizQuestion: (data: Partial<QuizQuestion>) => Promise<Quiz>;
+  updateQuizQuestion: (questionId: number, data: Partial<QuizQuestion>) => Promise<Quiz>;
 }
 
 const useQuizStore = create<UseQuizStore>((set) => ({
@@ -113,15 +102,15 @@ const useQuizStore = create<UseQuizStore>((set) => ({
     });
   },
 
-  createQuizQuestion: async (data: QuizQuestionData) => {
+  createQuizQuestion: async (data: Partial<QuizQuestion>) => {
     const response = await axiosQuizApi.post('/question', data, {
       headers: { Authorization: usePersistStore.getState().accessToken }
     });
 
     return response.data.data;
   },
-  updateQuizQuestion: async (questionId: number, data: QuizQuestionData) => {
-    const response = await axiosQuizApi.patch(`/follow/${questionId}`, data, {
+  updateQuizQuestion: async (questionId: number, data: Partial<QuizQuestion>) => {
+    const response = await axiosQuizApi.patch(`/question/${questionId}`, data, {
       headers: { Authorization: usePersistStore.getState().accessToken }
     });
 

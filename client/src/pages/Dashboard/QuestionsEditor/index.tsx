@@ -2,19 +2,10 @@ import { useParams } from 'react-router-dom';
 import { useFetch } from '../../../hooks';
 import { Quiz, QuizQuestion } from '../../../utils/types';
 import { useQuizStore } from '../../../stores';
-import {
-  Box,
-  Button,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  SkeletonText,
-  VStack
-} from '@chakra-ui/react';
+import { Box, InputGroup, InputLeftAddon, Select, SkeletonText } from '@chakra-ui/react';
 import { NoResultFound, PageHeader, QuestionForm } from '../../../components';
-import { FaArrowDown } from 'react-icons/fa';
 import { useState } from 'react';
+import { FaQuestion } from 'react-icons/fa';
 
 function QuestionsEditor() {
   const { quizId } = useParams();
@@ -27,30 +18,32 @@ function QuestionsEditor() {
       {isLoading ? (
         <SkeletonText
           marginInline="auto"
-          noOfLines={7}
+          noOfLines={20}
           spacing="4"
-          skeletonHeight="6rem"
+          skeletonHeight="4"
           borderRadius="md"
         />
       ) : (
-        <VStack gap="4">
-          <Menu isLazy matchWidth>
-            <MenuButton as={Button} rightIcon={<FaArrowDown />} width="min(100%,30rem)">
-              Wähle eine Frage aus
-            </MenuButton>
-            <MenuList maxHeight="20rem" overflowY="auto">
+        <>
+          {/*___________________________ Question Menu___________________________*/}
+          <InputGroup>
+            <InputLeftAddon bg="teal" color="white">
+              <FaQuestion />
+            </InputLeftAddon>
+            <Select placeholder=" Wähle eine Frage aus" mb="10">
               {quiz?.quizQuestions &&
-                quiz?.quizQuestions.map((question) => {
+                quiz?.quizQuestions.map((question, index) => {
                   return (
-                    <MenuItem
-                      fontWeight="600"
+                    <option
                       key={question.id}
                       onClick={() => setSelectedQuestion(question)}
-                    >{`⚡️ ${question.question}`}</MenuItem>
+                    >{`${index + 1} ${question.question}`}</option>
                   );
                 })}
-            </MenuList>
-          </Menu>
+            </Select>
+          </InputGroup>
+
+          {/*___________________________ Question Edit Form ___________________________*/}
 
           {selectedQuestion ? (
             <QuestionForm questionData={selectedQuestion} />
@@ -62,7 +55,7 @@ function QuestionsEditor() {
               description="Bitte wählen Sie die Frage aus, die Sie bearbeiten möchten"
             />
           )}
-        </VStack>
+        </>
       )}
     </Box>
   );

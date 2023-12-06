@@ -9,7 +9,7 @@ import { FollowedQuizzes, Quiz, QuizAnswer, QuizQuestion } from '@prisma/client'
 interface QuizQuestionData {
   quizId: string;
   question: string;
-  answers: QuizAnswer[];
+  quizAnswers: QuizAnswer[];
 }
 
 /**
@@ -362,11 +362,11 @@ async function unFollowQuiz(req: Request, res: Response) {
  * ________________________________________________________________
  */
 async function createQuizQuestion(
-  req: Request<any, any, { quizId: string; question: string; answers: QuizAnswer[] }>,
+  req: Request<any, any, QuizQuestionData>,
   res: Response
 ) {
   const studentId = req.auth?.studentId;
-  const { quizId, question, answers } = req.body;
+  const { quizId, question, quizAnswers } = req.body;
 
   const student = await db.student.findUnique({ where: { id: studentId } });
 
@@ -376,8 +376,8 @@ async function createQuizQuestion(
 
   validate.isEmpty('Quiz Id', quizId);
   validate.isEmpty('Question', question);
-  validate.min('Answers', answers, 2);
-  validate.max('Answers', answers, 4);
+  validate.min('Answers', quizAnswers, 2);
+  validate.max('Answers', quizAnswers, 4);
 
   const existingQuiz = await db.quiz.findUnique({
     where: {
@@ -390,7 +390,7 @@ async function createQuizQuestion(
     throw new NotFoundError('Quiz nicht gefunden');
   }
 
-  for (const answer of answers) {
+  for (const answer of quizAnswers) {
     validate.isEmpty('Is Right Answer', answer.isRightAnswer);
     validate.isEmpty('Answer', answer.answer);
   }
@@ -402,7 +402,7 @@ async function createQuizQuestion(
       question: question,
       quizAnswers: {
         createMany: {
-          data: answers
+          data: quizAnswers
         }
       }
     },
@@ -434,7 +434,7 @@ async function updateQuizQuestion(
   res: Response
 ) {
   const studentId = req.auth?.studentId;
-  const { quizId, question, answers } = req.body;
+  const { quizId, question, quizAnswers } = req.body;
   const questionId = req.params.questionId;
 
   const student = await db.student.findUnique({ where: { id: studentId } });
@@ -445,13 +445,8 @@ async function updateQuizQuestion(
 
   validate.isEmpty('Quiz Id', quizId);
   validate.isEmpty('Question', question);
-  validate.min('Answers', answers, 2);
-  validate.max('Answers', answers, 4);
-
-  for (const answer of answers) {
-    validate.isEmpty('Ist Richtiger Antwort', answer.isRightAnswer);
-    validate.isEmpty('Antwort', answer.answer);
-  }
+  validate.min('Answers', quizAnswers, 2);
+  validate.max('Answers', quizAnswers, 4);
 
   const existingQuestion = await db.quizQuestion.findUnique({
     where: {
@@ -463,6 +458,18 @@ async function updateQuizQuestion(
 
   if (!existingQuestion) {
     throw new NotFoundError('Frage nicht gefunden');
+  }
+
+  const answers = [];
+
+  for (const answer of quizAnswers) {
+    validate.isEmpty('Ist Richtiger Antwort', answer.isRightAnswer);
+    validate.isEmpty('Antwort', answer.answer);
+    answers.push({
+      answer: answer.answer,
+      answerDescription: answer.answerDescription,
+      isRightAnswer: answer.isRightAnswer
+    });
   }
 
   await db.quizQuestion.update({
