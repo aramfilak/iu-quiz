@@ -16,11 +16,18 @@ import {
   useDisclosure,
   useColorMode
 } from '@chakra-ui/react';
-import { FiMenu, FiChevronDown, FiLogOut, FiSun, FiMoon } from 'react-icons/fi';
+import {
+  FiMenu,
+  FiChevronDown,
+  FiLogOut,
+  FiSun,
+  FiMoon,
+  FiAlertCircle
+} from 'react-icons/fi';
 import { useAuthStore, useStudentStore } from '../stores';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../utils/routes';
-import { CustomAlertDialog } from '.';
+import { ContactFormAlert, CustomAlertDialog } from '.';
 interface MobileProps extends FlexProps {
   onOpen: () => void;
   setCollapsedFalse: () => void;
@@ -30,7 +37,8 @@ function HeaderMenuBar({ onOpen: handleOpen, setCollapsedFalse, ...rest }: Mobil
   const { signOut } = useAuthStore();
   const { studentProfile } = useStudentStore();
   const navigate = useNavigate();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const signOutAlert = useDisclosure();
+  const contactFormAlert = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
@@ -58,16 +66,22 @@ function HeaderMenuBar({ onOpen: handleOpen, setCollapsedFalse, ...rest }: Mobil
 
       {/*______________________ Handle Sign-out Alert Dialog ________________________ */}
       <CustomAlertDialog
-        onClose={onClose}
-        isOpen={isOpen}
+        onClose={signOutAlert.onClose}
+        isOpen={signOutAlert.isOpen}
         onSubmit={() => {
-          onClose();
+          signOutAlert.onClose();
           signOut();
           navigate(routes.Authentication.children.SignIn.path);
         }}
         submitButtonLabel="Abmelden"
         title="Abmelden"
         description="Sind Sie sicher, dass Sie sich abmelden möchten?"
+      />
+
+      {/*------------------- Handle Contact Form Alert Dialog --------------------*/}
+      <ContactFormAlert
+        isOpen={contactFormAlert.isOpen}
+        onClose={contactFormAlert.onClose}
       />
       <HStack spacing={{ base: '0', md: '6' }}>
         <Flex alignItems={'center'}>
@@ -113,10 +127,13 @@ function HeaderMenuBar({ onOpen: handleOpen, setCollapsedFalse, ...rest }: Mobil
               >
                 {colorMode === 'light' ? 'Dunkelmodus' : 'Hellermodus'}
               </MenuItem>
+              <MenuItem icon={<FiAlertCircle />} onClick={contactFormAlert.onOpen}>
+                Kontaktformular
+              </MenuItem>
               <MenuDivider />
 
               {/*________________ Open Sign-out Dialog ______________________ */}
-              <MenuItem color="red.500" icon={<FiLogOut />} onClick={onOpen}>
+              <MenuItem color="red.500" icon={<FiLogOut />} onClick={signOutAlert.onOpen}>
                 Abmelden
               </MenuItem>
             </MenuList>

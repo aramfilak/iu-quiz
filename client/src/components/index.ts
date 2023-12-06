@@ -17,3 +17,4 @@ export { DeleteStudentAlert } from './DeleteStudentAlert';
 export { QuestionForm } from './QuestionForm';
 export { CustomAlertDialog } from './CustomAlertDialog';
 export { NoResultFound } from './NoResultFound';
+export { ContactFormAlert } from './ContactFormAlert';

@@ -5,7 +5,8 @@ import {
   updateStudent,
   deleteStudent,
   uploadStudentProfileImage,
-  deleteStudentProfileImage
+  deleteStudentProfileImage,
+  sendContactEmail
 } from './services';
 import { profileImageUploader } from '../../middlewares/multer';
 
@@ -17,5 +18,6 @@ studentRoutes.patch('/', updateStudent);
 studentRoutes.delete('/', deleteStudent);
 studentRoutes.post('/profile-image', profileImageUploader, uploadStudentProfileImage);
 studentRoutes.delete('/profile-image', deleteStudentProfileImage);
+studentRoutes.post('/send-email', sendContactEmail);
 
 export { studentRoutes };

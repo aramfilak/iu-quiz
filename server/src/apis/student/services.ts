@@ -6,6 +6,7 @@ import { createApiResponse } from '../../utils/response';
 import { validate } from '../../utils/validate';
 import { StudentProfile } from '@prisma/client';
 import { uploadImageToCloudinary } from '../../utils/helpers';
+import { sendContactFormMail } from '../../utils/emails';
 
 const studentProfileDataIncludeSchema = {
   profileImage: true,
@@ -262,11 +263,43 @@ async function deleteStudentProfileImage(req: Request, res: Response) {
     );
 }
 
+/**
+ * ________________________________________________________________
+ * @route api/v1/student/send-email
+ * @method POST
+ * @access protected
+ * ________________________________________________________________
+ */
+async function sendContactEmail(req: Request, res: Response) {
+  const studentId = req.auth?.studentId;
+  const { subject, description } = req.body;
+
+  const student = await db.student.findUnique({
+    where: { id: studentId }
+  });
+
+  if (!student) {
+    throw new BadRequestError('Student nicht gefunden.');
+  }
+  const senderEmail = student.email;
+
+  await sendContactFormMail({
+    senderEmail: senderEmail,
+    subject: subject,
+    description: description
+  });
+
+  res
+    .status(StatusCodes.OK)
+    .json(createApiResponse(StatusCodes.OK, 'Bug Report Email wurde versendet'));
+}
+
 export {
   findStudent,
   findStudentById,
   updateStudent,
   deleteStudent,
   uploadStudentProfileImage,
-  deleteStudentProfileImage
+  deleteStudentProfileImage,
+  sendContactEmail
 };

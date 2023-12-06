@@ -13,6 +13,7 @@ interface UseStudentStore {
   deleteStudent: () => Promise<void>;
   uploadImage: (image: FormData) => Promise<void>;
   deleteImage: () => Promise<void>;
+  sendContactEmail: (subject: string, description: string) => Promise<void>;
 }
 
 const useStudentStore = create<UseStudentStore>((set) => ({
@@ -67,6 +68,18 @@ const useStudentStore = create<UseStudentStore>((set) => ({
     });
 
     set({ studentProfile: response.data.data });
+  },
+  sendContactEmail: async (subject: string, description: string) => {
+    await axiosStudentApi.post(
+      '/send-email',
+      {
+        subject,
+        description
+      },
+      {
+        headers: { Authorization: usePersistStore.getState().accessToken }
+      }
+    );
   }
 }));
 

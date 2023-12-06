@@ -13,6 +13,12 @@ interface SendVerificationEmail {
   verificationToken: string;
 }
 
+interface SendContactFormMail {
+  senderEmail: string;
+  subject: string;
+  description: string;
+}
+
 async function sendEmail({ to, subject, html }: SendEmail) {
   const transporter = nodemailer.createTransport(nodemailerConfig);
 
@@ -58,4 +64,28 @@ async function sendVerificationEmail({
   });
 }
 
-export { sendVerificationEmail };
+/**
+ *
+ * send contact form email
+ */
+async function sendContactFormMail({
+  senderEmail,
+  subject,
+  description
+}: SendContactFormMail) {
+  return sendEmail({
+    to: 'stefan.mair@iu-study.org, aram.filak@iu-study.org',
+    subject: 'Kontaktaufnahme',
+    html: `
+    <div style="font-family: Arial, sans-serif; color: #333;">
+      <h4>Neue Kontaktaufnahme:</h4>
+      <p><strong>Absender E-Mail:</strong> ${senderEmail}</p>
+      <p><strong>Betreff:</strong> ${subject}</p>
+      <p><strong>Beschreibung:</strong></p>
+      <p>${description}</p>
+    </div>
+  `
+  });
+}
+
+export { sendVerificationEmail, sendContactFormMail };
