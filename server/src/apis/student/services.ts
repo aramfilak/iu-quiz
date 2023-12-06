@@ -74,8 +74,9 @@ async function updateStudent(req: Request, res: Response) {
   const updateData: Partial<StudentProfile> = {};
 
   if (name) {
-    updateData.name = validate.min('Name', name, 2);
-    updateData.name = validate.max('Name', name, 20);
+    validate.min('Name', name, 2);
+    validate.max('Name', name, 20);
+    updateData.name = name;
   }
   if (location) {
     validate.max('Ort', location, 20, false);

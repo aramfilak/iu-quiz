@@ -60,7 +60,7 @@ const routes = {
         mainPath: 'profile',
         element: <Profile />
       },
-      SearchQuiz: {
+      FindQuiz: {
         isSidebarItem: true,
         icon: FiSearch,
         name: 'Quiz Finden',

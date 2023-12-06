@@ -236,7 +236,7 @@ async function updateQuiz(req: Request, res: Response) {
   }
 
   const updatedQuiz = await db.quiz.update({
-    where: { authorId: studentId, id: Number(quizId) },
+    where: { authorId: existingQuiz.authorId, id: existingQuiz.id },
     data: updateData
   });
 
@@ -376,7 +376,8 @@ async function createQuizQuestion(
 
   validate.isEmpty('Quiz Id', quizId);
   validate.isEmpty('Question', question);
-  validate.isEmpty('Answers', answers);
+  validate.min('Answers', answers, 2);
+  validate.max('Answers', answers, 4);
 
   const existingQuiz = await db.quiz.findUnique({
     where: {
@@ -390,11 +391,11 @@ async function createQuizQuestion(
   }
 
   for (const answer of answers) {
-    validate.isEmpty('Ist Richtiger Antwort', answer.isRightAnswer);
-    validate.isEmpty('Antwort', answer.answer);
+    validate.isEmpty('Is Right Answer', answer.isRightAnswer);
+    validate.isEmpty('Answer', answer.answer);
   }
 
-  const createdQuestion = await db.quizQuestion.create({
+  await db.quizQuestion.create({
     data: {
       authorId: student.id,
       quizId: existingQuiz.id,
@@ -418,9 +419,7 @@ async function createQuizQuestion(
     data: { size: existingQuiz.size + 1 }
   });
 
-  res
-    .status(StatusCodes.CREATED)
-    .json(createApiResponse(StatusCodes.CREATED, '', createdQuestion));
+  res.status(StatusCodes.CREATED).json(createApiResponse(StatusCodes.CREATED, ''));
 }
 
 /**
@@ -446,7 +445,8 @@ async function updateQuizQuestion(
 
   validate.isEmpty('Quiz Id', quizId);
   validate.isEmpty('Question', question);
-  validate.isEmpty('Answers', answers);
+  validate.min('Answers', answers, 2);
+  validate.max('Answers', answers, 4);
 
   for (const answer of answers) {
     validate.isEmpty('Ist Richtiger Antwort', answer.isRightAnswer);
@@ -456,7 +456,8 @@ async function updateQuizQuestion(
   const existingQuestion = await db.quizQuestion.findUnique({
     where: {
       id: Number(questionId),
-      quizId: Number(quizId)
+      quizId: Number(quizId),
+      authorId: student.id
     }
   });
 
@@ -464,9 +465,9 @@ async function updateQuizQuestion(
     throw new NotFoundError('Frage nicht gefunden');
   }
 
-  const updatedQuestion = await db.quizQuestion.update({
+  await db.quizQuestion.update({
     where: {
-      id: Number(questionId)
+      id: existingQuestion.id
     },
     data: {
       question: question,
@@ -482,7 +483,7 @@ async function updateQuizQuestion(
     }
   });
 
-  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, '', updatedQuestion));
+  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, ''));
 }
 
 export {

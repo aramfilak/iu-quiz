@@ -30,6 +30,12 @@ const validXing = [
   'https://www.xing.com/discover/updates'
 ];
 
+const validMinLength = ['1234', '12345', [1, 2, 3, 4, 5, 6]];
+const InvalidMinLength = ['1', '123', ['1', '2'], [1, 2, 3]];
+
+const validMaxLength = ['1', '123', ['1', '2'], [1, 2, 3]];
+const InvalidMaxLength = ['1234', '12345', [1, 2, 3, 4, 5, 6]];
+
 test.each(emptyValues)('is Empty String', (emptyValue) => {
   // @ts-ignore
   expect(() => validate.isEmpty('value', emptyValue)).toThrow();
@@ -70,4 +76,20 @@ test.each(inValidXingUrl)('Invalid LinkedIn URL', (url) => {
 
 test.each(validXing)('valid LinkedIn URL', (url) => {
   expect(() => validate.url('xing', url)).not.toThrow();
+});
+
+test.each(InvalidMinLength)('Min Length 4', (value) => {
+  expect(() => validate.min('value', value, 4)).toThrow();
+});
+
+test.each(validMinLength)('Min Length 4', (value) => {
+  expect(() => validate.min('value', value, 4)).not.toThrow();
+});
+
+test.each(InvalidMaxLength)('Max Length 3', (value) => {
+  expect(() => validate.max('value', value, 3)).toThrow();
+});
+
+test.each(validMaxLength)('Max Length 3', (value) => {
+  expect(() => validate.max('value', value, 3)).not.toThrow();
 });

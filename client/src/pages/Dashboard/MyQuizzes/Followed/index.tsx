@@ -1,12 +1,20 @@
-import { useToast } from '@chakra-ui/react';
-import { QuizCard, QuizCardSkeleton, QuizCardsGrid } from '../../../../components';
+import { Button, useToast } from '@chakra-ui/react';
+import {
+  NoResultFound,
+  QuizCard,
+  QuizCardSkeleton,
+  QuizCardsGrid
+} from '../../../../components';
 import { useQuizStore } from '../../../../stores';
 import { Quiz } from '../../../../utils/types';
 import { useFetch } from '../../../../hooks';
+import { useNavigate } from 'react-router-dom';
+import { routes } from '../../../../utils/routes';
 
 function Followed() {
   const { unfollowQuiz, getAllQuizzes } = useQuizStore();
   const toast = useToast();
+  const navigate = useNavigate();
   const {
     isLoading,
     data: followedQuizzes,
@@ -29,7 +37,7 @@ function Followed() {
 
   return isLoading ? (
     <QuizCardSkeleton />
-  ) : (
+  ) : followedQuizzes?.length ? (
     <QuizCardsGrid>
       {followedQuizzes?.map((quiz) => (
         <QuizCard
@@ -42,6 +50,15 @@ function Followed() {
         />
       ))}
     </QuizCardsGrid>
+  ) : (
+    <NoResultFound
+      title="Kein verfolgtes Quiz"
+      description="Sie müssen einem Quiz folgen, um es spielen zu können"
+    >
+      <Button onClick={() => navigate(`../${routes.Dashboard.children.FindQuiz.path}`)}>
+        Jetzt folgen
+      </Button>
+    </NoResultFound>
   );
 }
 

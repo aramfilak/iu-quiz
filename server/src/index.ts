@@ -54,7 +54,7 @@ app.use(errorHandler);
 
   try {
     await db.$connect();
-    console.info('  ➜  Data Source has been initialized ✅');
+    console.info('  ➜  Connected to database ✅');
 
     app.listen(port, () => {
       console.info('  ➜  Server listening on port', port, '🛜');

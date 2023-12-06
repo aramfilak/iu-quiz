@@ -3,6 +3,7 @@ import { useQuizStore, useStudentStore } from '../../../../stores';
 import { Quiz } from '../../../../utils/types';
 import {
   CreateNewQuizCard,
+  NoResultFound,
   QuizCard,
   QuizCardSkeleton,
   QuizCardsGrid
@@ -44,29 +45,40 @@ function My() {
       {isLoading ? (
         <QuizCardSkeleton />
       ) : (
-        <QuizCardsGrid>
-          <CreateNewQuizCard
-            minH="12rem"
-            onClick={() => {
-              setQuizFormActionType(ActionType.CREATE);
-              setEditQuiz(null);
-              onOpen();
-            }}
-          />
-          {studentQuizzes?.map((quiz) => {
-            return (
-              <QuizCard
-                key={quiz.id}
-                quiz={quiz}
-                displayPlayButton
-                displayOptionMenu={{
-                  onDelete: () => handleDeleteQuiz(quiz.id),
-                  onEdit: onOpen
-                }}
-              />
-            );
-          })}
-        </QuizCardsGrid>
+        <>
+          <QuizCardsGrid>
+            <CreateNewQuizCard
+              minH="12rem"
+              onClick={() => {
+                setQuizFormActionType(ActionType.CREATE);
+                setEditQuiz(null);
+                onOpen();
+              }}
+            />
+            {studentQuizzes?.map((quiz) => {
+              return (
+                <QuizCard
+                  key={quiz.id}
+                  quiz={quiz}
+                  displayPlayButton
+                  displayOptionMenu={{
+                    onDelete: () => handleDeleteQuiz(quiz.id),
+                    onEdit: onOpen
+                  }}
+                />
+              );
+            })}
+          </QuizCardsGrid>
+
+          {!studentQuizzes?.length && (
+            <NoResultFound
+              mt="20"
+              mb="2"
+              title="Keine eigenen Quiz gefunden"
+              description="Sie können Ihr eigenes Quiz erstellen, indem Sie auf die Schaltfläche „Neues Quiz“ klicken"
+            />
+          )}
+        </>
       )}
     </>
   );

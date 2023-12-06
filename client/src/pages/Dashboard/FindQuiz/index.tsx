@@ -22,7 +22,8 @@ import {
   PageHeader,
   BoxWrapper,
   QuizCardSkeleton,
-  QuizCardsGrid
+  QuizCardsGrid,
+  NoResultFound
 } from '../../../components';
 import { useState } from 'react';
 import { useQuizStore } from '../../../stores';
@@ -280,7 +281,7 @@ function FindQuiz() {
 
       {isLoading ? (
         <QuizCardSkeleton />
-      ) : (
+      ) : unFollowedQuizzes?.length ? (
         <QuizCardsGrid>
           {unFollowedQuizzes?.map((quiz) => (
             <QuizCard
@@ -292,6 +293,11 @@ function FindQuiz() {
             />
           ))}
         </QuizCardsGrid>
+      ) : (
+        <NoResultFound
+          title="Keine Ergebnisse gefunden"
+          description="Es gibt keine Quizfragen, denen man folgen kann"
+        />
       )}
     </>
   );

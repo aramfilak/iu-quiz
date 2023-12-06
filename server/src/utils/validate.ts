@@ -57,18 +57,20 @@ class Validate {
 
   public min(
     valueName: string,
-    value: string,
+    value: string | Array<any>,
     minLength: number,
     isEmpty = true
-  ): string {
+  ): string | Array<any> {
     if (isEmpty) {
       value = this.isEmpty(valueName, value);
     }
 
-    if (value.length < minLength) {
+    if (typeof value === 'string' && value.length < minLength) {
       throw new BadRequestError(
         `${valueName} muss mindestens ${minLength} Zeichen lang sein.`
       );
+    } else if (value.length < minLength) {
+      throw new BadRequestError(`${valueName} muss mindestens ${minLength} lang sein.`);
     }
 
     return value;
@@ -76,18 +78,20 @@ class Validate {
 
   public max(
     valueName: string,
-    value: string,
+    value: string | Array<any>,
     maxLength: number,
     isEmpty = true
-  ): string {
+  ): string | Array<any> {
     if (isEmpty) {
       value = this.isEmpty(valueName, value);
     }
 
-    if (value.length > maxLength) {
+    if (typeof value === 'string' && value.length > maxLength) {
       throw new BadRequestError(
         `${valueName} darf maximal ${maxLength} Zeichen lang sein.`
       );
+    } else if (value.length > maxLength) {
+      throw new BadRequestError(`${valueName} darf maximal ${maxLength} lang sein.`);
     }
 
     return value;
