@@ -5,14 +5,16 @@ import {
   InputLeftElement,
   InputRightElement,
   Icon,
-  useColorModeValue,
   Button,
   Flex,
   Tooltip,
   Heading,
   useToast,
   InputLeftAddon,
-  Select
+  Select,
+  Radio,
+  RadioGroup,
+  IconButton
 } from '@chakra-ui/react';
 import { FaSearch, FaGraduationCap, FaBook, FaSync } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
@@ -28,20 +30,17 @@ import courseOfStudy from '../../../data/courseOfStudy.json';
 import { QuizCard } from '../../../components/QuizCard';
 import { useFetch } from '../../../hooks';
 import { QuizQueryParams } from '../../../utils/types';
-import CustomCheckboxGroup from '../../../components/CustomCheckboxGroup';
 
 function FindQuiz() {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const { getAllQuizzes, followQuiz } = useQuizStore();
   const [selectedCourseOfStudy, setSelectedCourseOfStudy] = useState<string>('');
   const [selectedCourse, setSelectedCourse] = useState<string>('');
-  const [selectedSortOrder, setSelectedSortOrder] = useState<string | undefined>('asc');
-  const [selectedFilterProperty, setSelectedFilterProperty] = useState<
-    string | undefined
-  >(undefined);
+  const [selectedSortOrder, setSelectedSortOrder] = useState<string>('asc');
+  const [selectedFilterProperty, setSelectedFilterProperty] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const toast = useToast();
-  const [params, setParams] = useState<QuizQueryParams>({ unFollowed: true });
+  const [params, setParams] = useState<QuizQueryParams>({ page: '1', unFollowed: true });
   const {
     isLoading,
     data: unFollowedQuizzes,
@@ -56,25 +55,17 @@ function FindQuiz() {
     );
 
     toast.promise(response, {
-      success: { description: 'Quiz gefolget' },
+      success: { description: 'Quiz gefolgt' },
       error: { description: 'Folgen fehlgeschlagen' },
       loading: { description: 'Es lädt..' }
     });
   };
 
   const handleFilterReset = () => {
-    handlePropertyChange(undefined);
+    setSelectedFilterProperty('');
     setSelectedSortOrder('asc');
     setSelectedCourseOfStudy('');
     setSelectedCourse('');
-  };
-
-  const handlePropertyChange = (property: string | undefined) => {
-    setSelectedFilterProperty(property);
-  };
-
-  const handleSortChange = (sort: string | undefined) => {
-    setSelectedSortOrder(sort);
   };
 
   const handleCourseOfStudyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -94,15 +85,15 @@ function FindQuiz() {
     const selSortOrder = selectedSortOrder;
     const selFilterProperty = selectedFilterProperty;
 
-    setParams({
-      unFollowed: true,
+    setParams((prevParams) => ({
+      ...prevParams,
       courseOfStudy: selCourseOfStudy,
       course: selCourse,
       size: selFilterProperty === 'size',
       popularity: selFilterProperty === 'popularity',
       updatedAt: selFilterProperty === 'updateAt',
       sort: selSortOrder
-    });
+    }));
 
     refetchData();
 
@@ -123,8 +114,9 @@ function FindQuiz() {
                   placeholder="Nach Quiz-Titel suchen ..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  bg={useColorModeValue('white', 'gray.800')}
-                  borderColor={useColorModeValue('gray.300', 'gray.600')}
+                  bg="white"
+                  borderColor="gray.300"
+                  _dark={{ bg: 'gray.800', borderColor: 'gray.600' }}
                   focusBorderColor="teal.500"
                 />
                 {searchTerm && (
@@ -175,10 +167,14 @@ function FindQuiz() {
                   Filtereinstellungen
                 </Heading>
                 <Tooltip label="Filter zurücksetzen" margin="bottom">
-                  <Button h="0" onClick={handleFilterReset} paddingRight="0">
-                    zurücksetzen
-                    <FaSync color="teal"></FaSync>
-                  </Button>
+                  <IconButton
+                    aria-label=""
+                    icon={<FaSync />}
+                    h="0"
+                    color="teal"
+                    onClick={handleFilterReset}
+                    paddingRight="0"
+                  ></IconButton>
                 </Tooltip>
               </Flex>
 
@@ -191,26 +187,39 @@ function FindQuiz() {
                 >
                   {/* Filter properties checkboxes */}
                   <Flex flexDir="column">
-                    <CustomCheckboxGroup
-                      labels={['Beliebtheit', 'Anzahl der Fragen', 'Letztes Update']}
-                      propertyValues={['popularity', 'size', 'updatedAt']}
-                      heading="Kategorie:"
-                      handleCheckboxChange={handlePropertyChange}
-                      isMandatory={false}
-                      selectedCheckbox={selectedFilterProperty}
-                    />
+                    <Heading as="h3" fontSize="md">
+                      Kategorie:
+                    </Heading>
+                    <RadioGroup
+                      mt={2}
+                      onChange={setSelectedFilterProperty}
+                      value={selectedFilterProperty}
+                      colorScheme="teal"
+                    >
+                      <Flex ml="1" flexDirection="column">
+                        <Radio value="popularity">Beliebtheit</Radio>
+                        <Radio value="size">Anzahl der Fragen</Radio>
+                        <Radio value="updateAt">Letztes Update</Radio>
+                      </Flex>
+                    </RadioGroup>
                   </Flex>
                   {/* Filter sortOrder checkboxes */}
                   <Flex flexDirection="column">
-                    <CustomCheckboxGroup
-                      labels={['Aufsteigend', 'Absteigend']}
-                      propertyValues={['asc', 'desc']}
-                      heading="Sortieren:"
-                      disabled={!selectedFilterProperty}
-                      handleCheckboxChange={handleSortChange}
-                      isMandatory={true}
-                      selectedCheckbox={selectedSortOrder}
-                    />
+                    <Heading as="h3" fontSize="md">
+                      Sortieren:
+                    </Heading>
+                    <RadioGroup
+                      mt={2}
+                      isDisabled={!selectedFilterProperty}
+                      onChange={setSelectedSortOrder}
+                      value={selectedSortOrder}
+                      colorScheme="teal"
+                    >
+                      <Flex ml="1" flexDirection="column">
+                        <Radio value="asc">Aufsteigend</Radio>
+                        <Radio value="desc">Absteigend</Radio>
+                      </Flex>
+                    </RadioGroup>
                   </Flex>
                 </Flex>
                 <Flex mt="1rem" w="100%" flexDir={'column'} gap="1rem">
