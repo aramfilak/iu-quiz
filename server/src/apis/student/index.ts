@@ -1,1 +1,0 @@
-export { studentRoutes } from './routes';

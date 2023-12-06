@@ -1,1 +1,0 @@
-export { quizRoutes } from './routes';
