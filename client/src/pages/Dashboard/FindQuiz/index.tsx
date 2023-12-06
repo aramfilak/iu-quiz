@@ -31,6 +31,7 @@ import courseOfStudy from '../../../data/courseOfStudy.json';
 import { QuizCard } from '../../../components/QuizCard';
 import { useFetch } from '../../../hooks';
 import { QuizQueryParams } from '../../../utils/types';
+import Pagination from '../../../components/Pagination';
 
 function FindQuiz() {
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -42,6 +43,7 @@ function FindQuiz() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const toast = useToast();
   const [params, setParams] = useState<QuizQueryParams>({ page: '1', unFollowed: true });
+  const [currentPageIndex, setCurrentPageIndex] = useState<number>(1);
   const {
     isLoading,
     data: unFollowedQuizzes,
@@ -81,6 +83,7 @@ function FindQuiz() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setCurrentPageIndex(1);
     const selCourseOfStudy = selectedCourseOfStudy;
     const selCourse = selectedCourse;
     const selSortOrder = selectedSortOrder;
@@ -88,6 +91,7 @@ function FindQuiz() {
 
     setParams((prevParams) => ({
       ...prevParams,
+      page: currentPageIndex.toString(),
       courseOfStudy: selCourseOfStudy,
       course: selCourse,
       size: selFilterProperty === 'size',
@@ -99,6 +103,28 @@ function FindQuiz() {
     refetchData();
 
     setIsSubmitting(false);
+  };
+
+  const handlePreviousPage = () => {
+    setCurrentPageIndex((prevPage) => prevPage - 1);
+
+    setParams((prevParams) => ({
+      ...prevParams,
+      page: (currentPageIndex - 1).toString()
+    }));
+
+    refetchData();
+  };
+
+  const handleNextPage = () => {
+    setCurrentPageIndex((prevPage) => prevPage + 1);
+
+    setParams((prevParams) => ({
+      ...prevParams,
+      page: (currentPageIndex + 1).toString()
+    }));
+
+    refetchData();
   };
 
   return (
@@ -299,6 +325,14 @@ function FindQuiz() {
           description="Es gibt keine Quizfragen, denen man folgen kann"
         />
       )}
+      {/* Pagination Section */}
+      <Pagination
+        params={params}
+        handlePreviousPage={handlePreviousPage}
+        handleNextPage={handleNextPage}
+        isLoading={isLoading}
+        currentPage={currentPageIndex}
+      />
     </>
   );
 }
