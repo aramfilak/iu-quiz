@@ -12,6 +12,4 @@ quizRoutes.post('/', quizService.createQuiz);
 quizRoutes.patch('/:quizId', quizService.updateQuiz);
 quizRoutes.delete('/:quizId', quizService.deleteQuizById);
 
-quizRoutes.post('/question', quizService.createQuizQuestion);
-quizRoutes.patch('/question/:questionId', quizService.updateQuizQuestion);
 export { quizRoutes };

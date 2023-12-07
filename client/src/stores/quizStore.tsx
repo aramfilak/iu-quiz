@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import { axiosQuizApi } from '../utils/http';
-import { QuizQueryParams, QuizQuestion } from '../utils/types';
+import { axiosQuizApi, axiosQuizQuestionApi } from '../utils/http';
+import { QuestionData, QuizQueryParams } from '../utils/types';
 import { usePersistStore } from '.';
 import { Quiz } from '../utils/types';
 import { ActionType } from '../utils/enums';
@@ -22,8 +22,9 @@ interface UseQuizStore {
   deleteQuizById: (quizId: number) => Promise<void>;
   followQuiz: (quizId: number) => Promise<void>;
   unfollowQuiz: (quizId: number) => Promise<void>;
-  createQuizQuestion: (data: Partial<QuizQuestion>) => Promise<Quiz>;
-  updateQuizQuestion: (questionId: number, data: Partial<QuizQuestion>) => Promise<Quiz>;
+  createQuizQuestion: (data: QuestionData) => Promise<Quiz>;
+  updateQuizQuestion: (questionId: number, data: QuestionData) => Promise<Quiz>;
+  deleteQuizQuestion: (quizId: number, questionId: number) => Promise<void>;
 }
 
 const useQuizStore = create<UseQuizStore>((set) => ({
@@ -102,15 +103,25 @@ const useQuizStore = create<UseQuizStore>((set) => ({
     });
   },
 
-  createQuizQuestion: async (data: Partial<QuizQuestion>) => {
-    const response = await axiosQuizApi.post('/question', data, {
+  createQuizQuestion: async (data: QuestionData) => {
+    const response = await axiosQuizQuestionApi.post('/', data, {
       headers: { Authorization: usePersistStore.getState().accessToken }
     });
 
     return response.data.data;
   },
-  updateQuizQuestion: async (questionId: number, data: Partial<QuizQuestion>) => {
-    const response = await axiosQuizApi.patch(`/question/${questionId}`, data, {
+
+  updateQuizQuestion: async (questionId: number, data: QuestionData) => {
+    const response = await axiosQuizQuestionApi.patch(`/${questionId}`, data, {
+      headers: { Authorization: usePersistStore.getState().accessToken }
+    });
+
+    return response.data.data;
+  },
+
+  deleteQuizQuestion: async (questionId: number, quizId: number) => {
+    const response = await axiosQuizQuestionApi.delete(`/`, {
+      params: { questionId, quizId },
       headers: { Authorization: usePersistStore.getState().accessToken }
     });
 

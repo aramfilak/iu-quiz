@@ -55,12 +55,7 @@ class Validate {
     return email;
   }
 
-  public min(
-    valueName: string,
-    value: string | Array<any>,
-    minLength: number,
-    isEmpty = true
-  ): string | Array<any> {
+  public min<T>(valueName: string, value: T, minLength: number, isEmpty = true): T {
     if (isEmpty) {
       value = this.isEmpty(valueName, value);
     }
@@ -69,19 +64,14 @@ class Validate {
       throw new BadRequestError(
         `${valueName} muss mindestens ${minLength} Zeichen lang sein.`
       );
-    } else if (value.length < minLength) {
+    } else if (Array.isArray(value) && value.length < minLength) {
       throw new BadRequestError(`${valueName} muss mindestens ${minLength} lang sein.`);
     }
 
     return value;
   }
 
-  public max(
-    valueName: string,
-    value: string | Array<any>,
-    maxLength: number,
-    isEmpty = true
-  ): string | Array<any> {
+  public max<T>(valueName: string, value: T, maxLength: number, isEmpty = true): T {
     if (isEmpty) {
       value = this.isEmpty(valueName, value);
     }
@@ -90,7 +80,7 @@ class Validate {
       throw new BadRequestError(
         `${valueName} darf maximal ${maxLength} Zeichen lang sein.`
       );
-    } else if (value.length > maxLength) {
+    } else if (Array.isArray(value) && value.length > maxLength) {
       throw new BadRequestError(`${valueName} darf maximal ${maxLength} lang sein.`);
     }
 

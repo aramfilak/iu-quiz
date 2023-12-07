@@ -47,7 +47,14 @@ function CustomAlertDialog({
             <Button ref={cancelRef} onClick={onClose}>
               Abbrechen
             </Button>
-            <Button colorScheme="red" onClick={onSubmit} ml={3}>
+            <Button
+              colorScheme="red"
+              onClick={() => {
+                onSubmit();
+                onClose();
+              }}
+              ml={3}
+            >
               {submitButtonLabel}
             </Button>
           </AlertDialogFooter>

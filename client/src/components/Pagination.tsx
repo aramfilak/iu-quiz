@@ -22,7 +22,7 @@ function Pagination({
   const [hasNextPage, setHasNextPage] = useState(false);
   const { getAllQuizzes } = useQuizStore();
 
-  const fetchData = async (page: number): Promise<any[]> => {
+  const fetchData = async (page: number): Promise<unknown[]> => {
     const data = await getAllQuizzes({ ...params, page: page.toString() });
     return data;
   };

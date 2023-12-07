@@ -89,3 +89,6 @@ export interface QuizQueryParams {
   followed?: boolean;
   unFollowed?: boolean;
 }
+export interface QuestionData extends Partial<QuizQuestion> {
+  quizAnswers: Partial<QuizAnswer>[];
+}

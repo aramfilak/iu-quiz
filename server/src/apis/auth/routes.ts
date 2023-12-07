@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import { signUp, signIn, verifyEmail } from './services';
+import * as authServices from './services';
 
 const authRoutes = Router();
 
-authRoutes.post('/sign-up', signUp);
-authRoutes.post('/sign-in', signIn);
-authRoutes.post('/verify-email', verifyEmail);
+authRoutes.post('/sign-up', authServices.signUp);
+authRoutes.post('/sign-in', authServices.signIn);
+authRoutes.post('/verify-email', authServices.verifyEmail);
 
 export { authRoutes };

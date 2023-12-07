@@ -4,13 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 import { createApiResponse } from '../../utils/response';
 import { BadRequestError, NotFoundError, UnauthorizedError } from '../../errors';
 import { validate } from '../../utils/validate';
-import { FollowedQuizzes, Quiz, QuizAnswer, QuizQuestion } from '@prisma/client';
-
-interface QuizQuestionData {
-  quizId: string;
-  question: string;
-  quizAnswers: QuizAnswer[];
-}
+import { FollowedQuizzes, Quiz } from '@prisma/client';
 
 /**
  * ________________________________________________________________
@@ -161,7 +155,7 @@ async function findQuizById(req: Request, res: Response) {
  */
 async function createQuiz(req: Request, res: Response) {
   const studentId = req.auth?.studentId;
-  const { title, courseOfStudy, course } = req.body;
+  let { title, courseOfStudy, course } = req.body;
 
   const student = await db.student.findUnique({ where: { id: studentId } });
 
@@ -170,7 +164,7 @@ async function createQuiz(req: Request, res: Response) {
   }
 
   validate.min('Title', title, 3);
-  validate.max('Title', title, 50);
+  title = validate.max('Title', title, 50);
   validate.isEmpty('Course of study', courseOfStudy);
   validate.isEmpty('Course', course);
 
@@ -221,8 +215,7 @@ async function updateQuiz(req: Request, res: Response) {
 
   if (title) {
     validate.min('Title', title, 3);
-    validate.max('Title', title, 50);
-    updateData.title = title;
+    updateData.title = validate.max('Title', title, 50);
   }
   if (courseOfStudy) {
     updateData.courseOfStudy = validate.isEmpty('Course of study', courseOfStudy);
@@ -354,153 +347,12 @@ async function unFollowQuiz(req: Request, res: Response) {
   res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, ''));
 }
 
-/**
- * ________________________________________________________________
- * @route api/v1/quiz/question
- * @method POST
- * @access protected
- * ________________________________________________________________
- */
-async function createQuizQuestion(
-  req: Request<any, any, QuizQuestionData>,
-  res: Response
-) {
-  const studentId = req.auth?.studentId;
-  const { quizId, question, quizAnswers } = req.body;
-
-  const student = await db.student.findUnique({ where: { id: studentId } });
-
-  if (!student) {
-    throw new UnauthorizedError('Sie sind nicht berechtigt');
-  }
-
-  validate.isEmpty('Quiz Id', quizId);
-  validate.isEmpty('Question', question);
-  validate.min('Answers', quizAnswers, 2);
-  validate.max('Answers', quizAnswers, 4);
-
-  const existingQuiz = await db.quiz.findUnique({
-    where: {
-      id: Number(quizId),
-      authorId: studentId
-    }
-  });
-
-  if (!existingQuiz) {
-    throw new NotFoundError('Quiz nicht gefunden');
-  }
-
-  for (const answer of quizAnswers) {
-    validate.isEmpty('Is Right Answer', answer.isRightAnswer);
-    validate.isEmpty('Answer', answer.answer);
-  }
-
-  await db.quizQuestion.create({
-    data: {
-      authorId: student.id,
-      quizId: existingQuiz.id,
-      question: question,
-      quizAnswers: {
-        createMany: {
-          data: quizAnswers
-        }
-      }
-    },
-    include: {
-      quizAnswers: true
-    }
-  });
-
-  await db.quiz.update({
-    where: {
-      authorId: student.id,
-      id: Number(quizId)
-    },
-    data: { size: existingQuiz.size + 1 }
-  });
-
-  res.status(StatusCodes.CREATED).json(createApiResponse(StatusCodes.CREATED, ''));
-}
-
-/**
- * ________________________________________________________________
- * @route api/v1/quiz/question/:questionId
- * @method PATCH
- * @access protected
- * ________________________________________________________________
- */
-async function updateQuizQuestion(
-  req: Request<any, any, QuizQuestionData>,
-  res: Response
-) {
-  const studentId = req.auth?.studentId;
-  const { quizId, question, quizAnswers } = req.body;
-  const questionId = req.params.questionId;
-
-  const student = await db.student.findUnique({ where: { id: studentId } });
-
-  if (!student) {
-    throw new UnauthorizedError('Sie sind nicht berechtigt');
-  }
-
-  validate.isEmpty('Quiz Id', quizId);
-  validate.isEmpty('Question', question);
-  validate.min('Answers', quizAnswers, 2);
-  validate.max('Answers', quizAnswers, 4);
-
-  const existingQuestion = await db.quizQuestion.findUnique({
-    where: {
-      id: Number(questionId),
-      quizId: Number(quizId),
-      authorId: student.id
-    }
-  });
-
-  if (!existingQuestion) {
-    throw new NotFoundError('Frage nicht gefunden');
-  }
-
-  const answers = [];
-
-  for (const answer of quizAnswers) {
-    validate.isEmpty('Ist Richtiger Antwort', answer.isRightAnswer);
-    validate.isEmpty('Antwort', answer.answer);
-    answers.push({
-      answer: answer.answer,
-      answerDescription: answer.answerDescription,
-      isRightAnswer: answer.isRightAnswer
-    });
-  }
-
-  await db.quizQuestion.update({
-    where: {
-      id: existingQuestion.id
-    },
-    data: {
-      question: question,
-      quizAnswers: {
-        deleteMany: {},
-        createMany: {
-          data: answers
-        }
-      }
-    },
-    include: {
-      quizAnswers: true
-    }
-  });
-
-  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, ''));
-}
-
 export {
   findAllQuizzes,
   findQuizById,
   createQuiz,
-  createQuizQuestion,
   updateQuiz,
   deleteQuizById,
   followQuiz,
-  unFollowQuiz,
-  updateQuizQuestion
+  unFollowQuiz
 };

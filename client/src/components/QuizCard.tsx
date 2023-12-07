@@ -81,7 +81,7 @@ function QuizCard({
       <Card
         {...rest}
         overflow="hidden"
-        shadow="none"
+        shadow="base"
         align="start"
         justify="center"
         dir="column"

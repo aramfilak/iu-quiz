@@ -12,6 +12,7 @@ import { authenticate } from './middlewares/authenticate';
 import { studentRoutes } from './apis/student';
 import { authRoutes } from './apis/auth';
 import { quizRoutes } from './apis/quiz';
+import { quizQuestionRouter } from './apis/question';
 
 const app = express();
 
@@ -38,6 +39,7 @@ app.use(express.json());
 app.use('/api/v1/auth', authRateLimiter, authRoutes);
 app.use('/api/v1/student', standardRateLimiter, authenticate, studentRoutes);
 app.use('/api/v1/quiz', standardRateLimiter, authenticate, quizRoutes);
+app.use('/api/v1/quiz-question', standardRateLimiter, authenticate, quizQuestionRouter);
 
 /*
  * ERROR HANDLERS

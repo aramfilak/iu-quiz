@@ -19,6 +19,9 @@ const axiosStudentApi = axios.create({
 const axiosQuizApi = axios.create({
   baseURL: `${baseURL}/api/v1/quiz`
 });
+const axiosQuizQuestionApi = axios.create({
+  baseURL: `${baseURL}/api/v1/quiz-question`
+});
 
 /**
  * Handle asynchronous errors
@@ -37,4 +40,10 @@ async function asyncHandler<T>(asyncFunction: () => Promise<T>): Promise<T> {
   }
 }
 
-export { axiosAuthApi, axiosStudentApi, axiosQuizApi, asyncHandler };
+export {
+  axiosAuthApi,
+  axiosStudentApi,
+  axiosQuizApi,
+  axiosQuizQuestionApi,
+  asyncHandler
+};

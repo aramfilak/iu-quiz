@@ -1,0 +1,1 @@
+export { quizQuestionRouter } from './routes';

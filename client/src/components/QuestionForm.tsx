@@ -1,50 +1,117 @@
 import {
+  Box,
   BoxProps,
   Button,
+  Checkbox,
   Flex,
   FormControl,
   FormLabel,
   IconButton,
   Input,
   InputGroup,
+  Tooltip,
+  useDisclosure,
   useToast
 } from '@chakra-ui/react';
-
-import { BoxWrapper } from '.';
-import { QuizQuestion } from '../utils/types';
+import { BoxWrapper, CustomAlertDialog } from '.';
+import { QuestionData } from '../utils/types';
 import { useQuizStore } from '../stores';
-import { Field, FieldArray, FieldProps, Form, Formik, FormikHelpers } from 'formik';
-import { FaPlus, FaRegTrashAlt } from 'react-icons/fa';
+import { Field, FieldArray, FieldProps, Form, Formik } from 'formik';
+import { FaPlus, FaRegTrashAlt, FaSave, FaSync, FaTrashAlt } from 'react-icons/fa';
+import { useState } from 'react';
+import { ActionType } from '../utils/enums';
 
 interface QuestionEditBarProps extends BoxProps {
-  questionData: QuizQuestion;
+  onSubmit: () => void;
+  actionType: ActionType;
+  questionData: QuestionData;
 }
 
-function QuestionForm({ questionData, ...rest }: QuestionEditBarProps) {
-  const { updateQuizQuestion } = useQuizStore();
+function QuestionForm({
+  actionType,
+  questionData,
+  onSubmit,
+  ...rest
+}: QuestionEditBarProps) {
+  const { createQuizQuestion, updateQuizQuestion, deleteQuizQuestion } = useQuizStore();
   const toast = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handleSubmit = async (
-    question: QuizQuestion, // Update parameter type to QuizQuestion
-    { setSubmitting }: FormikHelpers<QuizQuestion>
-  ) => {
+  const handleSubmit = (question: QuestionData) => {
+    setIsLoading(true);
+
+    if (actionType === ActionType.CREATE) {
+      const response = new Promise((resolve, reject) =>
+        createQuizQuestion(question)
+          .then(() => {
+            resolve(true);
+          })
+          .catch(() => reject())
+          .finally(() => {
+            setIsLoading(false);
+            onSubmit();
+          })
+      );
+
+      toast.promise(response, {
+        success: { description: 'Frage erstellt' },
+        error: { description: 'Erstellung fehlgeschlagen' },
+        loading: { description: 'Es lädt..' }
+      });
+    } else if (actionType === ActionType.UPDATE) {
+      const response = new Promise((resolve, reject) =>
+        updateQuizQuestion(Number(question.id), question)
+          .then(() => {
+            resolve(true);
+          })
+          .catch(() => reject())
+          .finally(() => {
+            setIsLoading(false);
+            onSubmit();
+          })
+      );
+
+      toast.promise(response, {
+        success: { description: 'Frage aktualisiert' },
+        error: { description: 'Aktualisierung fehlgeschlagen' },
+        loading: { description: 'Es lädt..' }
+      });
+    }
+  };
+
+  const handleDeleteQuestion = () => {
+    setIsLoading(true);
+
     const response = new Promise((resolve, reject) =>
-      updateQuizQuestion(Number(question.id), question)
+      deleteQuizQuestion(Number(questionData.id), Number(questionData.quizId))
         .then(() => {
           resolve(true);
         })
         .catch(() => reject())
-        .finally(() => setSubmitting(false))
+        .finally(() => {
+          setIsLoading(false);
+          onSubmit();
+        })
     );
+
     toast.promise(response, {
-      success: { description: 'Frage aktualisiert' },
-      error: { description: 'Aktualisierung fehlgeschlagen' },
+      success: { description: 'Frage gelöscht' },
+      error: { description: 'Löschen fehlgeschlagen' },
       loading: { description: 'Es lädt..' }
     });
   };
 
   return (
-    <BoxWrapper {...rest}>
+    <Box {...rest}>
+      <CustomAlertDialog
+        isOpen={isOpen}
+        onClose={onClose}
+        onSubmit={handleDeleteQuestion}
+        title="Frage löschen"
+        description="Sind Sie sicher, dass Sie diese Frage löschen möchten? Dies kann nicht wiederhergestellt werden!"
+        submitButtonLabel="Löschen"
+      />
       <Formik
         enableReinitialize
         onSubmit={handleSubmit}
@@ -53,90 +120,167 @@ function QuestionForm({ questionData, ...rest }: QuestionEditBarProps) {
         validateOnMount={true}
         initialValues={questionData}
       >
-        {({ isSubmitting, values }) => (
-          <Form style={{ width: 'min(100%,42rem)' }}>
-            {<pre>{JSON.stringify(values, null, 2)}</pre>}
-            {/*______________________ Question Input ____________________*/}
-            <Field name="question">
-              {({ field }: FieldProps) => (
-                <FormControl isRequired>
-                  <FormLabel htmlFor="question">Frage</FormLabel>
-                  <InputGroup mb="4">
-                    <Input
-                      {...field}
-                      id="question"
-                      name="question"
-                      borderColor="teal.500"
-                      autoComplete="on"
-                      placeholder="Frage..."
-                      defaultValue={questionData.question}
-                    />
-                  </InputGroup>
-                </FormControl>
-              )}
-            </Field>
+        {({ values, handleReset }) => (
+          <Form style={{ width: 'min(100%,90%)', marginInline: 'auto' }}>
+            <BoxWrapper mb="4" shadow="base">
+              {/*______________________ Question Input ____________________*/}
+              <Field name="question">
+                {({ field }: FieldProps) => (
+                  <FormControl isRequired>
+                    <FormLabel htmlFor="question">Frage</FormLabel>
+                    <InputGroup mb="4">
+                      <Input
+                        {...field}
+                        id="question"
+                        name="question"
+                        borderColor="teal.500"
+                        autoComplete="on"
+                        placeholder="Frage..."
+                        defaultValue={questionData.question || ''}
+                      />
+                    </InputGroup>
+                  </FormControl>
+                )}
+              </Field>{' '}
+            </BoxWrapper>
             {/*______________________   Answers ____________________*/}
             <FieldArray name="quizAnswers">
               {({ remove, push }) => (
                 <>
                   {values.quizAnswers.map((answer, index) => (
-                    <Flex key={answer.id} alignItems="end" gap="4" mb="2" width="full">
-                      <Field name={`quizAnswers.${index}.answer`}>
+                    <BoxWrapper mb="4" shadow="base" key={answer.id}>
+                      <Flex alignItems="end" gap="1" mb="2" width="full">
+                        {/*______________________   Answer ____________________*/}
+                        <Field name={`quizAnswers.${index}.answer`}>
+                          {({ field }: FieldProps) => (
+                            <FormControl isRequired>
+                              <FormLabel htmlFor={`quizAnswers.${index}.answer`}>
+                                Antwort {index + 1}
+                              </FormLabel>
+                              <InputGroup>
+                                <Input
+                                  {...field}
+                                  borderColor="teal.500"
+                                  name={`quizAnswers.${index}.answer`}
+                                  id={`quizAnswers.${index}.answer`}
+                                  defaultValue={answer.answer || ''}
+                                />
+                              </InputGroup>
+                            </FormControl>
+                          )}
+                        </Field>
+                        {/*______________________  Delete Answer   ____________________*/}
+                        {values.quizAnswers.length > 2 && (
+                          <Tooltip label="Eingabefeld löschen">
+                            <IconButton
+                              aria-label="Antwort Löschen"
+                              icon={<FaRegTrashAlt />}
+                              colorScheme="red"
+                              onClick={() => remove(index)}
+                            />
+                          </Tooltip>
+                        )}
+
+                        {/*______________________  Add Answer   ____________________*/}
+                        {values.quizAnswers.length < 4 && (
+                          <Tooltip label="Eingabefeld hinzufügen">
+                            <IconButton
+                              aria-label="Neuer Antwort"
+                              icon={<FaPlus />}
+                              onClick={() =>
+                                push({
+                                  answer: '',
+                                  answerDescription: '',
+                                  isRightAnswer: false
+                                })
+                              }
+                            />
+                          </Tooltip>
+                        )}
+                      </Flex>
+
+                      {/*______________________   Answer ____________________*/}
+                      <Field name={`quizAnswers.${index}.answerDescription`}>
                         {({ field }: FieldProps) => (
-                          <FormControl isRequired={index < 2}>
-                            <FormLabel htmlFor={`quizAnswers.${index}.answer`}>
-                              Link
+                          <FormControl>
+                            <FormLabel htmlFor={`quizAnswers.${index}.answerDescription`}>
+                              Beschreibung
                             </FormLabel>
                             <InputGroup>
                               <Input
-                                borderColor="teal.500"
                                 {...field}
-                                name={`quizAnswers.${index}.answer`}
-                                id={`quizAnswers.${index}.answer`}
-                                defaultValue={answer.answer}
+                                borderColor="teal.500"
+                                name={`quizAnswers.${index}.answerDescription`}
+                                id={`quizAnswers.${index}.answerDescription`}
+                                defaultValue={answer.answerDescription || ''}
+                                placeholder="Antwortbeschreibung, wenn ausgewählt"
                               />
                             </InputGroup>
                           </FormControl>
                         )}
                       </Field>
-                      {/*______________________  Delete Answer   ____________________*/}
-                      <IconButton
-                        aria-label="Delete Answer"
-                        icon={<FaRegTrashAlt />}
-                        colorScheme="red"
-                        onClick={() => remove(index)}
-                      />
-                    </Flex>
+                      {/*______________________  Is Right Answer   ____________________*/}
+                      <Field name={`quizAnswers.${index}.isRightAnswer`}>
+                        {({ field }: FieldProps) => (
+                          <FormControl display="flex" alignItems="center">
+                            <InputGroup>
+                              <FormLabel
+                                htmlFor={`quizAnswers.${index}.isRightAnswer`}
+                                mr="2"
+                              >
+                                Ist Richtige Antwort?
+                              </FormLabel>
+                              <Checkbox
+                                size="lg"
+                                borderColor="teal"
+                                colorScheme="teal"
+                                {...field}
+                                defaultChecked={answer.isRightAnswer}
+                                name={`quizAnswers.${index}.isRightAnswer`}
+                                id={`quizAnswers.${index}.isRightAnswer`}
+                              />
+                            </InputGroup>
+                          </FormControl>
+                        )}
+                      </Field>
+                    </BoxWrapper>
                   ))}
-
-                  <IconButton
-                    onClick={() =>
-                      push({
-                        id: Math.round(Math.random() * 10000),
-                        answer: '',
-                        answerDescription: '',
-                        isRightAnswer: false
-                      })
-                    }
-                    aria-label="Frage Löschen"
-                    icon={<FaPlus />}
-                  />
                 </>
               )}
             </FieldArray>
-
-            <Flex justify="end" gap="2" mt="4">
-              {/*______________________ Delete Answer Button ____________________*/}
-              <Button colorScheme="red">Löschen</Button>
-              {/*______________________ Delete Answer Button ____________________*/}
-              <Button type="submit" isLoading={isSubmitting} isDisabled={isSubmitting}>
-                Speichern
+            <Flex mb="4" borderRadius="md" justifyContent="end" gap="2" mt="10">
+              <Button
+                type="button"
+                onClick={handleReset}
+                colorScheme="blue"
+                leftIcon={<FaSync />}
+              >
+                Zürcksetzen
               </Button>
+              {/*______________________ Delete Answer Button ____________________*/}
+
+              {actionType === ActionType.UPDATE && (
+                <Button
+                  colorScheme="red"
+                  type="button"
+                  isLoading={isLoading}
+                  onClick={onOpen}
+                  leftIcon={<FaTrashAlt />}
+                >
+                  Löschen
+                </Button>
+              )}
+              {/*______________________ Delete Answer Button ____________________*/}
+
+              <Button type="submit" isLoading={isLoading} leftIcon={<FaSave />}>
+                {actionType === ActionType.CREATE ? 'Erstellen' : 'Speichern'}
+              </Button>
+              {/*______________________ Delete Answer Button ____________________*/}
             </Flex>
           </Form>
         )}
       </Formik>
-    </BoxWrapper>
+    </Box>
   );
 }
 
