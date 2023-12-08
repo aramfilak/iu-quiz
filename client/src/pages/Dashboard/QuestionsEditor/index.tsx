@@ -69,9 +69,9 @@ function QuestionsEditor() {
           {/*___________________________ Question Edit Form ___________________________*/}
 
           <Tabs
+            paddingInline={{ lg: '4rem', xl: '10rem' }}
             defaultIndex={questionFormsPanelIndex}
             onChange={(index) => setQuestionFormsPanelIndex(index)}
-            variant="soft-rounded"
           >
             <TabList mb="10">
               <Tab gap="2">
@@ -86,12 +86,11 @@ function QuestionsEditor() {
             <TabPanels>
               <TabPanel>
                 {/*___________________________ Question Menu___________________________*/}
-                <InputGroup width="fit-content" margin="auto">
+                <InputGroup margin="auto">
                   <InputLeftAddon
-                    fontWeight="bold"
                     border="2px solid"
                     borderColor="teal.500"
-                    bg="teal"
+                    bg="teal.500"
                     color="white"
                   >
                     Zu aktualisierende Frage
@@ -125,7 +124,7 @@ function QuestionsEditor() {
                   <NoResultFound
                     mt="20"
                     mb="2"
-                    title="Keine Frage"
+                    title="Es gibt keine Fragen zum Bearbeiten"
                     description="Sie können eine neue Frage erstellen, indem Sie auf das Formular „Neue Frage erstellen“ klicken"
                   />
                 )}

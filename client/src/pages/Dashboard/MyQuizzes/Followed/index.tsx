@@ -10,11 +10,13 @@ import { Quiz } from '../../../../utils/types';
 import { useFetch } from '../../../../hooks';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../../../../utils/routes';
+import { useState } from 'react';
 
 function Followed() {
   const { unfollowQuiz, getAllQuizzes } = useQuizStore();
   const toast = useToast();
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const {
     isLoading,
     data: followedQuizzes,
@@ -22,17 +24,12 @@ function Followed() {
   } = useFetch<Quiz[]>(() => getAllQuizzes({ followed: true }));
 
   const handleUnFlowQuiz = (quizId: number) => {
-    const response = new Promise((resolve, reject) =>
-      unfollowQuiz(quizId)
-        .then(() => resolve(refetchData()))
-        .catch(() => reject())
-    );
+    setIsSubmitting(true);
 
-    toast.promise(response, {
-      success: { description: 'Folgen entfernt' },
-      error: { description: 'Folgen entfernen fehlgeschlagen' },
-      loading: { description: 'Es lädt..' }
-    });
+    unfollowQuiz(quizId)
+      .then(() => refetchData())
+      .catch(() => toast({ status: 'error', description: 'Entfolgen fehlgeschlagen' }))
+      .finally(() => setIsSubmitting(false));
   };
 
   return isLoading ? (
@@ -41,6 +38,7 @@ function Followed() {
     <QuizCardsGrid>
       {followedQuizzes?.map((quiz) => (
         <QuizCard
+          isLoading={isSubmitting}
           key={quiz.id}
           quiz={quiz}
           displayPlayButton

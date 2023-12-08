@@ -82,42 +82,31 @@ function QuizForm({ isOpen, onClose, onFinal }: QuizFormProps) {
 
     if (isCreate) {
       setIsLoading(true);
-      const response = new Promise((resolve, reject) =>
-        createQuiz(title, courseOfStudy, course)
-          .then(() => {
-            resolve(onClose());
-          })
-          .catch(() => reject())
-          .finally(() => {
-            onFinal();
-            setIsLoading(false);
-          })
-      );
 
-      toast.promise(response, {
-        success: { description: 'Neues Quiz erstellt' },
-        error: { description: 'Erstellung fehlgeschlagen' },
-        loading: { description: 'Es lädt..' }
-      });
+      createQuiz(title, courseOfStudy, course)
+        .then(() => onClose())
+        .catch(() =>
+          toast({ status: 'error', description: 'Erstellung fehlgeschlagen"' })
+        )
+        .finally(() => {
+          onFinal();
+          setIsLoading(false);
+        });
     } else if (isUpdate && editQuiz) {
       setIsLoading(true);
-      const response = new Promise((resolve, reject) =>
-        updateQuiz(editQuiz?.id, title, courseOfStudy, course)
-          .then(() => {
-            resolve(onClose());
-          })
-          .catch(() => reject())
-          .finally(() => {
-            onFinal();
-            setIsLoading(false);
-          })
-      );
 
-      toast.promise(response, {
-        success: { description: 'Quiz aktualisiert' },
-        error: { description: 'Aktualisierung fehlgeschlagen' },
-        loading: { description: 'Es lädt..' }
-      });
+      updateQuiz(editQuiz?.id, title, courseOfStudy, course)
+        .then(() => onClose())
+        .catch(() =>
+          toast({
+            status: 'error',
+            description: 'Aktualisierung fehlgeschlagen"'
+          })
+        )
+        .finally(() => {
+          onFinal();
+          setIsLoading(false);
+        });
     }
   };
 

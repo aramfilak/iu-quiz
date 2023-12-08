@@ -4,6 +4,8 @@ import { StatusCodes } from 'http-status-codes';
 /**
  * Custom error class for handling to many requests errors (HTTP 429).
  * Extends the base ApiError class.
+ * @extends ApiError
+ * @public
  */
 class ToManyRequestsError extends ApiError {
   constructor(message: string) {

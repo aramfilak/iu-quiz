@@ -17,12 +17,12 @@ import {
 import {
   FaList,
   FaTrash,
-  FaPlay,
   FaRegClone,
   FaHeart,
   FaHeartBroken,
   FaClipboardList,
-  FaEdit
+  FaEdit,
+  FaFolderOpen
 } from 'react-icons/fa';
 import { convertToGermanDate } from '../utils/formatters.ts';
 import { Quiz } from '../utils/types';
@@ -37,6 +37,7 @@ import { CustomAlertDialog } from './CustomAlertDialog.tsx';
 interface QuizCardProps extends CardProps {
   quiz: Quiz;
   displayPlayButton?: boolean;
+  isLoading?: boolean;
   displayOptionMenu?: {
     onDelete: () => void;
     onEdit: () => void;
@@ -50,6 +51,7 @@ interface QuizCardProps extends CardProps {
 }
 
 function QuizCard({
+  isLoading,
   displayOptionMenu,
   displayPlayButton,
   displayFollowButton,
@@ -158,6 +160,7 @@ function QuizCard({
                 aria-label="Folgen"
                 ml="2"
                 size="sm"
+                isLoading={isLoading}
               />
             </Tooltip>
           )}
@@ -172,19 +175,20 @@ function QuizCard({
                 aria-label="Nicht mehr folgen"
                 ml="2"
                 size="sm"
+                isLoading={isLoading}
               />
             </Tooltip>
           )}
 
           {/*----------------- Play Quiz -------------------*/}
           {displayPlayButton && (
-            <Tooltip label="Spielen">
+            <Tooltip label="Öffnen">
               <IconButton
                 onClick={() =>
                   navigate(`../${routes.Dashboard.children.PlayQuiz.mainPath}/${quiz.id}`)
                 }
-                icon={<FaPlay />}
-                aria-label="Quiz Spielen"
+                icon={<FaFolderOpen />}
+                aria-label="Quiz Öffnen"
                 ml="2"
                 size="sm"
               />

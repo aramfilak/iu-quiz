@@ -4,6 +4,8 @@ import { StatusCodes } from 'http-status-codes';
 /**
  * Custom error class for handling bad requests (HTTP 400).
  * Extends the base ApiError class.
+ * @extends ApiError
+ * @public
  */
 class BadRequestError extends ApiError {
   constructor(message: string) {

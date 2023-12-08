@@ -19,6 +19,7 @@ function BoxWrapper({ title, children, ...rest }: WrapperBoxProps) {
       alignItems="start"
       flexDir="column"
       gap="1rem"
+      shadow="base"
     >
       {title && (
         <Heading as="h3" fontSize="md">

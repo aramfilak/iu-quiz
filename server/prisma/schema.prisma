@@ -75,7 +75,6 @@ model QuizQuestion {
   quiz        Quiz         @relation(fields: [quizId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   question    String       @db.Text
   quizAnswers QuizAnswer[]
-  updatedAt   DateTime     @updatedAt
   student     Student      @relation(fields: [authorId], references: [id])
   authorId    String
 }

@@ -4,6 +4,8 @@ import { StatusCodes } from 'http-status-codes';
 /**
  * Custom error class for handling unauthorized access errors (HTTP 401).
  * Extends the base ApiError class.
+ * @extends ApiError
+ * @public
  */
 class UnauthorizedError extends ApiError {
   constructor(message: string) {

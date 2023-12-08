@@ -18,7 +18,7 @@ function Profile() {
         description="Dein Profil, deine Geschichte. Gestalte es einzigartig."
       />
       <Tabs>
-        <TabList gap="5" mb="8" pb="2">
+        <TabList>
           <Tab>
             <FiEye />
             {!isMobileScreen && (

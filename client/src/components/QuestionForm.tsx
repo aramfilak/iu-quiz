@@ -42,41 +42,21 @@ function QuestionForm({
     setIsLoading(true);
 
     if (actionType === ActionType.CREATE) {
-      const response = new Promise((resolve, reject) =>
-        createQuizQuestion(question)
-          .then(() => {
-            resolve(true);
-          })
-          .catch(() => reject())
-          .finally(() => {
-            setIsLoading(false);
-            onSubmit();
-          })
-      );
-
-      toast.promise(response, {
-        success: { description: 'Frage erstellt' },
-        error: { description: 'Erstellung fehlgeschlagen' },
-        loading: { description: 'Es lädt..' }
-      });
+      createQuizQuestion(question)
+        .catch(() => toast({ status: 'error', description: 'Erstellung fehlgeschlagen' }))
+        .finally(() => {
+          setIsLoading(false);
+          onSubmit();
+        });
     } else if (actionType === ActionType.UPDATE) {
-      const response = new Promise((resolve, reject) =>
-        updateQuizQuestion(Number(question.id), question)
-          .then(() => {
-            resolve(true);
-          })
-          .catch(() => reject())
-          .finally(() => {
-            setIsLoading(false);
-            onSubmit();
-          })
-      );
-
-      toast.promise(response, {
-        success: { description: 'Frage aktualisiert' },
-        error: { description: 'Aktualisierung fehlgeschlagen' },
-        loading: { description: 'Es lädt..' }
-      });
+      updateQuizQuestion(Number(question.id), question)
+        .catch(() =>
+          toast({ status: 'error', description: 'Aktualisierung fehlgeschlagen' })
+        )
+        .finally(() => {
+          setIsLoading(false);
+          onSubmit();
+        });
     }
   };
 
@@ -121,7 +101,7 @@ function QuestionForm({
         initialValues={questionData}
       >
         {({ values, handleReset }) => (
-          <Form style={{ width: 'min(100%,90%)', marginInline: 'auto' }}>
+          <Form style={{ width: '100%', marginInline: 'auto' }}>
             <BoxWrapper mb="4" shadow="base">
               {/*______________________ Question Input ____________________*/}
               <Field name="question">
@@ -141,7 +121,7 @@ function QuestionForm({
                     </InputGroup>
                   </FormControl>
                 )}
-              </Field>{' '}
+              </Field>
             </BoxWrapper>
             {/*______________________   Answers ____________________*/}
             <FieldArray name="quizAnswers">

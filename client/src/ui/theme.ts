@@ -113,21 +113,31 @@ function tabsTheme() {
     tabsAnatomy.keys
   );
   const baseStyle = definePartsStyle({
+    tablist: {
+      gap: '2',
+      mb: '2'
+    },
     tab: {
+      bg: 'gray.50',
+      border: '2px solid',
+      borderColor: 'gray.200',
+      colorScheme: 'teal',
       borderRadius: 'md',
       _selected: {
-        color: 'white',
-        bg: 'teal.500'
+        color: 'gray.50',
+        bg: 'teal.500',
+        borderColor: 'teal.500'
       },
       _dark: {
+        borderColor: 'gray.400',
+        bg: 'gray.800',
+        color: 'gray.400',
         _selected: {
           color: 'gray.800',
-          bg: 'teal.200'
+          bg: 'teal.200',
+          borderColor: 'teal.200'
         }
       }
-    },
-    tabpanel: {
-      padding: '0'
     }
   });
 
@@ -136,8 +146,9 @@ function tabsTheme() {
     defaultProps: {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
+
       align: 'center',
-      variant: '"enclosed-colored',
+      variant: 'unstyled',
       colorScheme: 'teal'
     }
   });

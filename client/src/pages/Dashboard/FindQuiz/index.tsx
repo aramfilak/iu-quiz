@@ -1,12 +1,10 @@
 import {
-  Box,
   Input,
   InputGroup,
   InputLeftElement,
   InputRightElement,
   Icon,
   Button,
-  Flex,
   Tooltip,
   Heading,
   useToast,
@@ -14,7 +12,9 @@ import {
   Select,
   Radio,
   RadioGroup,
-  IconButton
+  InputRightAddon,
+  Flex,
+  VStack
 } from '@chakra-ui/react';
 import { FaSearch, FaGraduationCap, FaBook, FaSync } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
@@ -29,7 +29,7 @@ import { useState } from 'react';
 import { useQuizStore } from '../../../stores';
 import courseOfStudy from '../../../data/courseOfStudy.json';
 import { QuizCard } from '../../../components/QuizCard';
-import { useFetch } from '../../../hooks';
+import { useFetch, useScreenSize } from '../../../hooks';
 import { QuizQueryParams } from '../../../utils/types';
 import Pagination from '../../../components/Pagination';
 
@@ -43,6 +43,7 @@ function FindQuiz() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const toast = useToast();
   const [params, setParams] = useState<QuizQueryParams>({ page: '1', unFollowed: true });
+  const { isMobileScreen } = useScreenSize();
   const [currentPageIndex, setCurrentPageIndex] = useState<number>(1);
   const {
     isLoading,
@@ -51,17 +52,11 @@ function FindQuiz() {
   } = useFetch(() => getAllQuizzes(params));
 
   const handleFlowQuiz = (quizId: number) => {
-    const response = new Promise((resolve, reject) =>
-      followQuiz(quizId)
-        .then(() => resolve(refetchData()))
-        .catch(() => reject())
-    );
-
-    toast.promise(response, {
-      success: { description: 'Quiz gefolgt' },
-      error: { description: 'Folgen fehlgeschlagen' },
-      loading: { description: 'Es lädt..' }
-    });
+    setIsSubmitting(true);
+    followQuiz(quizId)
+      .then(() => refetchData())
+      .catch(() => toast({ status: 'error', description: 'Folgen fehlgeschlagen' }))
+      .finally(() => setIsSubmitting(false));
   };
 
   const handleFilterReset = () => {
@@ -129,181 +124,149 @@ function FindQuiz() {
 
   return (
     <>
-      <Box mx="auto" maxW="600px" mb="4">
-        <PageHeader title="Quiz Finden" description="Finde passende Quiz für dich." />
-        <form onSubmit={handleSubmit}>
-          <Flex flexDir={{ base: 'column', sm: 'row' }} flexWrap="wrap" gap="1rem">
-            <Flex w="100%" flexDir="row" gap="1rem">
-              <InputGroup>
-                <Input
-                  variant="outline"
-                  type="text"
-                  placeholder="Nach Quiz-Titel suchen ..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  bg="white"
-                  borderColor="gray.300"
-                  _dark={{ bg: 'gray.800', borderColor: 'gray.600' }}
-                  focusBorderColor="teal.500"
-                />
-                {searchTerm && (
-                  <InputRightElement
-                    children={
-                      <Icon
-                        as={IoMdClose}
-                        cursor="pointer"
-                        color="gray.300"
-                        fontSize="20px"
-                        onClick={() => setSearchTerm('')}
-                      />
-                    }
-                    style={{
-                      position: 'absolute',
-                      top: '50%',
-                      transform: 'translateY(-50%)'
-                    }}
+      <PageHeader title="Quiz Finden" description="Finde passende Quiz für dich." />
+      <BoxWrapper mb="8">
+        <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+          {/*------------------- Search Bar -----------------*/}
+          <InputGroup mb="4">
+            <Input
+              type="search"
+              placeholder="Nach Quiz Titel suchen ..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              bg="white"
+              borderColor="gray.300"
+              _dark={{ bg: 'gray.800', borderColor: 'gray.600' }}
+              focusBorderColor="teal.500"
+            />
+            {searchTerm && (
+              <InputRightElement
+                children={
+                  <Icon
+                    as={IoMdClose}
+                    cursor="pointer"
+                    color="gray.300"
+                    fontSize="20px"
+                    onClick={() => setSearchTerm('')}
                   />
-                )}
-                <InputLeftElement
-                  pointerEvents="none"
-                  children={<Icon as={FaSearch} color="gray.300" />}
-                  style={{
-                    position: 'absolute',
-                    top: '50%',
-                    transform: 'translateY(-50%)'
-                  }}
-                />
-              </InputGroup>
-              {/*------------------- Save Button -----------------*/}
+                }
+              />
+            )}
+            <InputLeftElement
+              pointerEvents="none"
+              children={<Icon as={FaSearch} color="gray.300" />}
+            />
 
+            <InputRightAddon gap="2" p="0">
               <Button
-                alignSelf="end"
-                width={'fit-content'}
-                colorScheme="teal"
+                fontSize="sm"
+                borderInlineStartRadius="0"
                 type="submit"
-                disabled={isSubmitting}
-                leftIcon={<FaSearch />}
+                gap="2"
+                isLoading={isSubmitting || isLoading}
               >
-                Suchen
+                <FaSearch /> {isMobileScreen ? '' : 'Suchen'}
               </Button>
-            </Flex>
 
-            <BoxWrapper w="100%">
-              <Flex w="100%" justify="space-between" align="center">
-                <Heading as="h3" fontSize="md">
-                  Filtereinstellungen
-                </Heading>
-                <Tooltip label="Filter zurücksetzen" margin="bottom">
-                  <IconButton
-                    aria-label=""
-                    icon={<FaSync />}
-                    h="0"
-                    color="teal"
-                    onClick={handleFilterReset}
-                    paddingRight="0"
-                  ></IconButton>
-                </Tooltip>
-              </Flex>
-
-              <Box w="100%">
-                <Flex
-                  flexDir={{ base: 'column', sm: 'row' }}
-                  justify={'space-between'}
-                  w="80%"
-                  gap="1rem"
+              <Tooltip label="Filter zurücksetzen">
+                <Button
+                  fontSize="sm"
+                  colorScheme="blue"
+                  onClick={handleFilterReset}
+                  gap="2"
                 >
-                  {/* Filter properties checkboxes */}
-                  <Flex flexDir="column">
-                    <Heading as="h3" fontSize="md">
-                      Kategorie:
-                    </Heading>
-                    <RadioGroup
-                      mt={2}
-                      onChange={setSelectedFilterProperty}
-                      value={selectedFilterProperty}
-                      colorScheme="teal"
-                    >
-                      <Flex ml="1" flexDirection="column">
-                        <Radio value="popularity">Beliebtheit</Radio>
-                        <Radio value="size">Anzahl der Fragen</Radio>
-                        <Radio value="updateAt">Letztes Update</Radio>
-                      </Flex>
-                    </RadioGroup>
-                  </Flex>
-                  {/* Filter sortOrder checkboxes */}
-                  <Flex flexDirection="column">
-                    <Heading as="h3" fontSize="md">
-                      Sortieren:
-                    </Heading>
-                    <RadioGroup
-                      mt={2}
-                      isDisabled={!selectedFilterProperty}
-                      onChange={setSelectedSortOrder}
-                      value={selectedSortOrder}
-                      colorScheme="teal"
-                    >
-                      <Flex ml="1" flexDirection="column">
-                        <Radio value="asc">Aufsteigend</Radio>
-                        <Radio value="desc">Absteigend</Radio>
-                      </Flex>
-                    </RadioGroup>
-                  </Flex>
-                </Flex>
-                <Flex mt="1rem" w="100%" flexDir={'column'} gap="1rem">
-                  {/*------------------- Course Of Study --------------------*/}
-                  <InputGroup>
-                    <Tooltip label="Studiengang">
-                      <InputLeftAddon>
-                        <FaGraduationCap />
-                      </InputLeftAddon>
-                    </Tooltip>
-                    <Select
-                      value={selectedCourseOfStudy}
-                      defaultValue={''}
-                      onChange={handleCourseOfStudyChange}
-                    >
-                      <option value="" disabled hidden>
-                        Studiengang auswählen
-                      </option>
-                      {courseOfStudy.map(({ name }) => (
-                        <option value={name} key={name}>
-                          {name}
-                        </option>
-                      ))}
-                    </Select>
-                  </InputGroup>
+                  <FaSync /> {isMobileScreen ? '' : 'Zurücksetzen'}
+                </Button>
+              </Tooltip>
+            </InputRightAddon>
+          </InputGroup>
+          <Flex flexWrap="wrap" gap="8" justifyContent="space-between">
+            {/* _________________ Filter properties radios ______________ */}
 
-                  {/*------------------- Course --------------------*/}
-                  <InputGroup>
-                    <Tooltip label="Modul">
-                      <InputLeftAddon>
-                        <FaBook />
-                      </InputLeftAddon>
-                    </Tooltip>
-                    <Select
-                      value={selectedCourse}
-                      defaultValue={''}
-                      isDisabled={!selectedCourseOfStudy}
-                      onChange={handleCourseChange}
-                    >
-                      <option value="" disabled hidden>
-                        Module auswählen
+            <RadioGroup
+              onChange={setSelectedFilterProperty}
+              value={selectedFilterProperty}
+              colorScheme="teal"
+              flexDir="column"
+              display="flex"
+            >
+              <Heading as="h3" fontSize="md">
+                Kategorie:
+              </Heading>
+              <Radio value="popularity">Beliebtheit</Radio>
+              <Radio value="size">Anzahl der Fragen</Radio>
+              <Radio value="updateAt">Letztes Update</Radio>
+            </RadioGroup>
+
+            {/* _____________________ Filter sortOrder radios _____________ */}
+
+            <RadioGroup
+              flexDir="column"
+              display="flex"
+              isDisabled={!selectedFilterProperty}
+              onChange={setSelectedSortOrder}
+              value={selectedSortOrder}
+              colorScheme="teal"
+            >
+              <Heading as="h3" fontSize="md">
+                Sortieren:
+              </Heading>
+              <Radio value="asc">Aufsteigend</Radio>
+              <Radio value="desc">Absteigend</Radio>
+            </RadioGroup>
+
+            {/*------------------- Course Of Study  & Course--------------------*/}
+            <VStack w="min(100%,30rem)" mt={{ base: '4', md: '0' }}>
+              <InputGroup width="full">
+                <Tooltip label="Studiengang">
+                  <InputLeftAddon>
+                    <FaGraduationCap />
+                  </InputLeftAddon>
+                </Tooltip>
+                <Select
+                  value={selectedCourseOfStudy}
+                  defaultValue={''}
+                  onChange={handleCourseOfStudyChange}
+                >
+                  <option value="" disabled hidden>
+                    Studiengang auswählen
+                  </option>
+                  {courseOfStudy.map(({ name }) => (
+                    <option value={name} key={name}>
+                      {name}
+                    </option>
+                  ))}
+                </Select>
+              </InputGroup>
+
+              <InputGroup width="full">
+                <Tooltip label="Modul">
+                  <InputLeftAddon>
+                    <FaBook />
+                  </InputLeftAddon>
+                </Tooltip>
+                <Select
+                  value={selectedCourse}
+                  defaultValue={''}
+                  isDisabled={!selectedCourseOfStudy}
+                  onChange={handleCourseChange}
+                >
+                  <option value="" disabled hidden>
+                    Module auswählen
+                  </option>
+                  {courseOfStudy
+                    ?.find(({ name }) => name === selectedCourseOfStudy)
+                    ?.courses?.map(({ name }) => (
+                      <option key={name} value={name}>
+                        {name}
                       </option>
-                      {courseOfStudy
-                        ?.find(({ name }) => name === selectedCourseOfStudy)
-                        ?.courses?.map(({ name }) => (
-                          <option key={name} value={name}>
-                            {name}
-                          </option>
-                        )) || []}
-                    </Select>
-                  </InputGroup>
-                </Flex>
-              </Box>
-            </BoxWrapper>
+                    )) || []}
+                </Select>
+              </InputGroup>
+            </VStack>
           </Flex>
         </form>
-      </Box>
+      </BoxWrapper>
 
       {isLoading ? (
         <QuizCardSkeleton />
@@ -311,6 +274,7 @@ function FindQuiz() {
         <QuizCardsGrid>
           {unFollowedQuizzes?.map((quiz) => (
             <QuizCard
+              isLoading={isSubmitting}
               key={quiz.id}
               quiz={quiz}
               displayFollowButton={{

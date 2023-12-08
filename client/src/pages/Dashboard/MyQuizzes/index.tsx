@@ -6,9 +6,12 @@ import { Followed } from './Followed';
 function MyQuizzes() {
   return (
     <>
-      <PageHeader title="Meine Quiz" description="Dein Wissen. Deine Quiz. Alles im Überblick." />
+      <PageHeader
+        title="Meine Quiz"
+        description="Dein Wissen. Deine Quiz. Alles im Überblick."
+      />
       <Tabs>
-        <TabList gap="5" mb="8" pb="2">
+        <TabList>
           <Tab>Meine</Tab>
           <Tab>Gefolgt</Tab>
         </TabList>

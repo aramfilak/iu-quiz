@@ -12,15 +12,18 @@ import {
 } from '@chakra-ui/react';
 import { useStudentStore } from '../stores';
 import { CustomAlertDialog } from '.';
+import { useState } from 'react';
 
 function UploadProfileImage(rest: FlexProps) {
   const toast = useToast();
   const { studentProfile, uploadImage, deleteImage } = useStudentStore();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleImageUpload = ({
     target: { files }
   }: React.ChangeEvent<HTMLInputElement>) => {
+    setIsLoading(true);
     const image = files ? files[0] : null;
 
     if (image) {
@@ -30,7 +33,8 @@ function UploadProfileImage(rest: FlexProps) {
       const response = new Promise((resolve, reject) => {
         uploadImage(formData)
           .then(() => resolve(true))
-          .catch(() => reject());
+          .catch(() => reject())
+          .finally(() => setIsLoading(false));
       });
 
       toast.promise(response, {
@@ -42,10 +46,12 @@ function UploadProfileImage(rest: FlexProps) {
   };
 
   const handleDeleteImage = () => {
+    setIsLoading(true);
     const response = new Promise((resolve, reject) => {
       deleteImage()
         .then(() => resolve(true))
-        .catch(() => reject());
+        .catch(() => reject())
+        .finally(() => setIsLoading(false));
     });
 
     toast.promise(response, {
@@ -90,6 +96,7 @@ function UploadProfileImage(rest: FlexProps) {
             gap="0.5rem"
             colorScheme="red"
             onClick={onOpen}
+            isLoading={isLoading}
           >
             <Flex gap="0.5rem" alignItems="center">
               <FiXCircle />
@@ -108,7 +115,7 @@ function UploadProfileImage(rest: FlexProps) {
             _dark={{ bg: 'teal.200', color: 'gray.800' }}
             borderRadius="md"
             htmlFor="profileImage"
-            cursor="pointer"
+            cursor={isLoading ? 'not-allowed' : 'pointer'}
             p="2"
           >
             {studentProfile?.profileImage?.url ? (
@@ -131,6 +138,7 @@ function UploadProfileImage(rest: FlexProps) {
           type="file"
           onChange={handleImageUpload}
           display="none"
+          isDisabled={isLoading}
         />
       </Flex>
       {/*_____________________ Image Size Info ____________________ */}
