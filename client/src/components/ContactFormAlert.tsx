@@ -60,7 +60,7 @@ function ContactFormAlert({ onClose, isOpen }: ContactFormAlertProps) {
       });
 
       toast.promise(response, {
-        success: { description: 'E-Mail wurde gesendet' },
+        success: { description: 'Wir werden uns in Kürze bei Ihnen melden' },
         error: { description: 'E-Mail senden fehlgeschlagen' },
         loading: { description: 'Es lädt..' }
       });
@@ -85,7 +85,7 @@ function ContactFormAlert({ onClose, isOpen }: ContactFormAlertProps) {
         <AlertDialogContent>
           <form onSubmit={handleSubmit}>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Kontaktaufnahme
+              Support-Kontakt
             </AlertDialogHeader>
 
             <AlertDialogBody>

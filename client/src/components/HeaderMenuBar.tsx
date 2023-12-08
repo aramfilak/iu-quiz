@@ -16,18 +16,11 @@ import {
   useDisclosure,
   useColorMode
 } from '@chakra-ui/react';
-import {
-  FiMenu,
-  FiChevronDown,
-  FiLogOut,
-  FiSun,
-  FiMoon,
-  FiAlertCircle
-} from 'react-icons/fi';
+import { FiMenu, FiChevronDown, FiLogOut, FiSun, FiMoon } from 'react-icons/fi';
 import { useAuthStore, useStudentStore } from '../stores';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../utils/routes';
-import { ContactFormAlert, CustomAlertDialog } from '.';
+import { CustomAlertDialog } from '.';
 interface MobileProps extends FlexProps {
   onOpen: () => void;
   setCollapsedFalse: () => void;
@@ -38,7 +31,6 @@ function HeaderMenuBar({ onOpen: handleOpen, setCollapsedFalse, ...rest }: Mobil
   const { studentProfile } = useStudentStore();
   const navigate = useNavigate();
   const signOutAlert = useDisclosure();
-  const contactFormAlert = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
@@ -78,11 +70,6 @@ function HeaderMenuBar({ onOpen: handleOpen, setCollapsedFalse, ...rest }: Mobil
         description="Sind Sie sicher, dass Sie sich abmelden möchten?"
       />
 
-      {/*------------------- Handle Contact Form Alert Dialog --------------------*/}
-      <ContactFormAlert
-        isOpen={contactFormAlert.isOpen}
-        onClose={contactFormAlert.onClose}
-      />
       <HStack spacing={{ base: '0', md: '6' }}>
         <Flex alignItems={'center'}>
           <Menu>
@@ -126,9 +113,6 @@ function HeaderMenuBar({ onOpen: handleOpen, setCollapsedFalse, ...rest }: Mobil
                 onClick={toggleColorMode}
               >
                 {colorMode === 'light' ? 'Dunkelmodus' : 'Hellermodus'}
-              </MenuItem>
-              <MenuItem icon={<FiAlertCircle />} onClick={contactFormAlert.onOpen}>
-                Kontaktformular
               </MenuItem>
               <MenuDivider />
 

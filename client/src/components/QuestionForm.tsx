@@ -235,7 +235,7 @@ function QuestionForm({
                 colorScheme="blue"
                 leftIcon={<FaSync />}
               >
-                Zürcksetzen
+                Zurücksetzen
               </Button>
               {/*______________________ Delete Answer Button ____________________*/}
 

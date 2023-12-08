@@ -1,6 +1,13 @@
 import { useState } from 'react';
-import { HeaderMenuBar, SidebarNav } from '../../components';
-import { Box, Container, Drawer, DrawerContent, useDisclosure } from '@chakra-ui/react';
+import { HeaderMenuBar, SidebarNav, PageFooter } from '../../components';
+import {
+  Box,
+  Container,
+  Drawer,
+  DrawerContent,
+  useDisclosure,
+  Flex
+} from '@chakra-ui/react';
 import { Outlet } from 'react-router-dom';
 import { useScreenSize } from '../../hooks';
 
@@ -32,11 +39,14 @@ function Dashboard() {
         setCollapsedFalse={() => setSidebarCollapsed(false)}
       />
 
-      <Box ml={{ base: 0, md: isSidebarCollapsed ? 16 : 60 }} padding="1rem">
-        <Container maxWidth="container.xl" padding="0">
-          <Outlet />
-        </Container>
-      </Box>
+      <Flex flexDir="column" minHeight="89.3vh" gap="1rem">
+        <Box ml={{ base: 0, md: isSidebarCollapsed ? 16 : 60 }} padding="1rem" flex="1">
+          <Container maxWidth="container.xl" padding="0">
+            <Outlet />
+          </Container>
+        </Box>
+      </Flex>
+      <PageFooter ml={{ base: 0, md: isSidebarCollapsed ? 16 : 60 }} />
     </Box>
   );
 }
