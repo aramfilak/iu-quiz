@@ -19,3 +19,4 @@ export { CustomAlertDialog } from './CustomAlertDialog';
 export { NoResultFound } from './NoResultFound';
 export { ContactFormAlert } from './ContactFormAlert';
 export { PageFooter } from './PageFooter';
+export { DashboardContent } from './DashboardContent';
