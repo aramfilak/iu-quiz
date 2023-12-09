@@ -1,5 +1,5 @@
 import { GridProps, SkeletonText } from '@chakra-ui/react';
-import { QuizCardsGrid } from '.';
+import { QuizCardsGrid } from '../quiz-card';
 
 function QuizCardSkeleton(rest: GridProps) {
   return (

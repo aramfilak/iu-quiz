@@ -16,8 +16,8 @@ import {
 } from '@chakra-ui/react';
 import { FiAlertTriangle } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
-import { useStudentStore, usePersistStore } from '../stores';
-import { routes } from '../utils/routes.tsx';
+import { useStudentStore, usePersistStore } from '../../stores/index.tsx';
+import { routes } from '../../utils/routes.tsx';
 import { useRef } from 'react';
 
 interface DeleteStudentAlertProps {
@@ -25,7 +25,7 @@ interface DeleteStudentAlertProps {
   isOpen: boolean;
 }
 
-function DeleteStudentAlert({ isOpen, onClose }: DeleteStudentAlertProps) {
+function DeleteStudentAlertDialog({ isOpen, onClose }: DeleteStudentAlertProps) {
   const cancelRef = useRef<HTMLButtonElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -122,4 +122,4 @@ function DeleteStudentAlert({ isOpen, onClose }: DeleteStudentAlertProps) {
   );
 }
 
-export { DeleteStudentAlert };
+export { DeleteStudentAlertDialog };

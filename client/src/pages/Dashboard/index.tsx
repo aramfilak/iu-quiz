@@ -2,9 +2,9 @@ import { useState } from 'react';
 import {
   HeaderMenuBar,
   SidebarNav,
-  PageFooter,
+  DashboardFooter,
   DashboardContent
-} from '../../components';
+} from '../../components/dashboard-layout';
 import { Box, Drawer, DrawerContent, useDisclosure, Flex } from '@chakra-ui/react';
 import { useScreenSize } from '../../hooks';
 
@@ -38,9 +38,15 @@ function Dashboard() {
           <DashboardContent />
         </Box>
       </Flex>
-      <PageFooter ml={{ base: 0, md: isSidebarCollapsed ? 16 : 60 }} />
+      <DashboardFooter ml={{ base: 0, md: isSidebarCollapsed ? 16 : 60 }} />
     </Box>
   );
 }
 
 export { Dashboard };
+export { FAQs } from './FAQs';
+export { FindQuiz } from './FindQuiz';
+export { MyQuizzes } from './MyQuizzes';
+export { Profile } from './Profile';
+export { QuestionsEditor } from './QuestionsEditor';
+export { Quiz } from './Quiz';

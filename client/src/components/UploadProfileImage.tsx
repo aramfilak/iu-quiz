@@ -11,7 +11,7 @@ import {
   Text
 } from '@chakra-ui/react';
 import { useStudentStore } from '../stores';
-import { CustomAlertDialog } from '.';
+import { CustomAlertDialog } from './dialogs';
 import { useState } from 'react';
 
 function UploadProfileImage(rest: FlexProps) {

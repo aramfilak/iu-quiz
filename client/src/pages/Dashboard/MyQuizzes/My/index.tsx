@@ -1,16 +1,16 @@
 import { useDisclosure, useToast } from '@chakra-ui/react';
 import { useQuizStore, useStudentStore } from '../../../../stores';
 import { Quiz } from '../../../../utils/types';
+import { NoResultFound } from '../../../../components';
+import { QuizCardSkeleton } from '../../../../components/skeletons';
+import { useFetch } from '../../../../hooks';
+import { QuizForm } from '../../../../components/forms/QuizForm';
+import { ActionType } from '../../../../utils/enums';
 import {
   CreateNewQuizCard,
-  NoResultFound,
   QuizCard,
-  QuizCardSkeleton,
   QuizCardsGrid
-} from '../../../../components';
-import { useFetch } from '../../../../hooks';
-import { QuizForm } from '../../../../components/QuizForm';
-import { ActionType } from '../../../../utils/enums';
+} from '../../../../components/quiz-card';
 
 function My() {
   const { studentProfile } = useStudentStore();

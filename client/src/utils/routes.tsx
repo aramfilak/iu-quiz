@@ -1,17 +1,16 @@
 import { FiHome, FiUser, FiHeart, FiEdit, FiSearch, FiCheckSquare } from 'react-icons/fi';
+import { NotFound404 } from '../pages/404';
+import { EmailVerification } from '../pages/EmailVerification';
+import { Authentication, SignIn, SignUp } from '../pages/Authentication';
 import {
-  Authentication,
   Dashboard,
-  NotFound404,
-  EmailVerification,
-  Profile,
-  FAQs,
-  MyQuizzes,
-  SignIn,
-  SignUp,
   QuestionsEditor,
-  FindQuiz
-} from '../pages';
+  FAQs,
+  Profile,
+  MyQuizzes,
+  FindQuiz,
+  Quiz
+} from '../pages/Dashboard';
 
 const routes = {
   Authentication: {
@@ -91,13 +90,13 @@ const routes = {
         mainPath: 'questions-editor',
         element: <QuestionsEditor />
       },
-      PlayQuiz: {
+      Quiz: {
         isSidebarItem: false,
         icon: FiEdit,
-        name: 'Play Quiz',
-        path: 'play-quiz/:quizId',
-        mainPath: 'play-quiz',
-        element: <QuestionsEditor />
+        name: 'Quiz',
+        path: 'quiz/:quizId',
+        mainPath: 'quiz',
+        element: <Quiz />
       }
     }
   }

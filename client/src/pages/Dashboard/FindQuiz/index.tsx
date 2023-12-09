@@ -18,17 +18,13 @@ import {
 } from '@chakra-ui/react';
 import { FaSearch, FaGraduationCap, FaBook, FaSync } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
-import {
-  PageHeader,
-  BoxWrapper,
-  QuizCardSkeleton,
-  QuizCardsGrid,
-  NoResultFound
-} from '../../../components';
+import { PageHeader, BoxWrapper, NoResultFound } from '../../../components';
+import { QuizCardsGrid } from '../../../components/quiz-card';
+import { QuizCardSkeleton } from '../../../components/skeletons';
 import { useState } from 'react';
 import { useQuizStore } from '../../../stores';
 import courseOfStudy from '../../../data/courseOfStudy.json';
-import { QuizCard } from '../../../components/QuizCard';
+import { QuizCard } from '../../../components/quiz-card/QuizCard';
 import { useFetch, useScreenSize } from '../../../hooks';
 import { QuizQueryParams } from '../../../utils/types';
 import Pagination from '../../../components/Pagination';

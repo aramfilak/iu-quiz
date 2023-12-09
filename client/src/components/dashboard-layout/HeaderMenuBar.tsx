@@ -17,10 +17,10 @@ import {
   useColorMode
 } from '@chakra-ui/react';
 import { FiMenu, FiChevronDown, FiLogOut, FiSun, FiMoon } from 'react-icons/fi';
-import { useAuthStore, useStudentStore } from '../stores';
+import { useAuthStore, useStudentStore } from '../../stores';
 import { useNavigate } from 'react-router-dom';
-import { routes } from '../utils/routes';
-import { CustomAlertDialog } from '.';
+import { routes } from '../../utils/routes';
+import { CustomAlertDialog } from '../dialogs';
 interface MobileProps extends FlexProps {
   onOpen: () => void;
   setCollapsedFalse: () => void;

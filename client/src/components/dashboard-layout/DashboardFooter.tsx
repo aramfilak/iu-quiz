@@ -10,10 +10,10 @@ import {
 } from '@chakra-ui/react';
 import { FaGithub } from 'react-icons/fa';
 import { FiMessageCircle, FiMail } from 'react-icons/fi';
-import logo from '../assets/logo.png';
-import { ContactFormAlert } from '.';
+import logo from '../../assets/logo.png';
+import { ContactFormAlert } from '../dialogs';
 
-function PageFooter({ ml }: SpaceProps) {
+function DashboardFooter({ ml }: SpaceProps) {
   const contactFormAlert = useDisclosure();
 
   return (
@@ -79,4 +79,4 @@ function PageFooter({ ml }: SpaceProps) {
   );
 }
 
-export { PageFooter };
+export { DashboardFooter };

@@ -24,15 +24,15 @@ import {
   FaEdit,
   FaFolderOpen
 } from 'react-icons/fa';
-import { convertToGermanDate } from '../utils/formatters.ts';
-import { Quiz } from '../utils/types';
-import { routes } from '../utils/routes';
+import { convertToGermanDate } from '../../utils/formatters.ts';
+import { Quiz } from '../../utils/types';
+import { routes } from '../../utils/routes.tsx';
 import { useNavigate } from 'react-router-dom';
 import { HiMiniArrowPath } from 'react-icons/hi2';
 import { TbUserHeart } from 'react-icons/tb';
-import { useQuizStore } from '../stores/quizStore.tsx';
-import { ActionType } from '../utils/enums.ts';
-import { CustomAlertDialog } from './CustomAlertDialog.tsx';
+import { useQuizStore } from '../../stores/quizStore.tsx';
+import { ActionType } from '../../utils/enums.ts';
+import { CustomAlertDialog } from '../dialogs/CustomAlertDialog.tsx';
 
 interface QuizCardProps extends CardProps {
   quiz: Quiz;
@@ -185,7 +185,7 @@ function QuizCard({
             <Tooltip label="Öffnen">
               <IconButton
                 onClick={() =>
-                  navigate(`../${routes.Dashboard.children.PlayQuiz.mainPath}/${quiz.id}`)
+                  navigate(`../${routes.Dashboard.children.Quiz.mainPath}/${quiz.id}`)
                 }
                 icon={<FaFolderOpen />}
                 aria-label="Quiz Öffnen"

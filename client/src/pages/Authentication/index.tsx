@@ -35,3 +35,5 @@ function Authentication() {
 }
 
 export { Authentication };
+export { SignIn } from './SignIn';
+export { SignUp } from './SignUp';

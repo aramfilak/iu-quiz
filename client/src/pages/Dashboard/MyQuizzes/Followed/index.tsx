@@ -1,10 +1,7 @@
 import { Button, useToast } from '@chakra-ui/react';
-import {
-  NoResultFound,
-  QuizCard,
-  QuizCardSkeleton,
-  QuizCardsGrid
-} from '../../../../components';
+import { QuizCard, QuizCardsGrid } from '../../../../components/quiz-card';
+import { QuizCardSkeleton } from '../../../../components/skeletons';
+import { NoResultFound } from '../../../../components';
 import { useQuizStore } from '../../../../stores';
 import { Quiz } from '../../../../utils/types';
 import { useFetch } from '../../../../hooks';

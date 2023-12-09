@@ -115,9 +115,10 @@ function tabsTheme() {
   const baseStyle = definePartsStyle({
     tablist: {
       gap: '2',
-      mb: '2'
+      mb: '6'
     },
     tab: {
+      p: '0',
       bg: 'gray.50',
       border: '2px solid',
       borderColor: 'gray.200',
@@ -138,6 +139,9 @@ function tabsTheme() {
           borderColor: 'teal.200'
         }
       }
+    },
+    tabpanel: {
+      p: '0'
     }
   });
 

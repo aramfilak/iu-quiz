@@ -10,11 +10,8 @@ import {
   Tooltip,
   Flex
 } from '@chakra-ui/react';
-import {
-  DeleteStudentAlert,
-  UploadProfileImage,
-  BoxWrapper
-} from '../../../../components';
+import { UploadProfileImage, BoxWrapper } from '../../../../components';
+import { DeleteStudentAlertDialog } from '../../../../components/dialogs';
 import { useState, useRef } from 'react';
 import { useStudentStore } from '../../../../stores';
 import { CustomAlert } from '../../../../utils/types';
@@ -87,7 +84,7 @@ function Edit() {
   return (
     <>
       {/*------------------- Alert Dialog --------------------*/}
-      <DeleteStudentAlert isOpen={isOpen} onClose={onClose} />
+      <DeleteStudentAlertDialog isOpen={isOpen} onClose={onClose} />
 
       {/*------------------- Alert  --------------------*/}
       {alert && (

@@ -18,9 +18,9 @@ import {
 } from '@chakra-ui/react';
 import { FaBookmark, FaGraduationCap, FaBook } from 'react-icons/fa';
 import { useEffect, useRef, useState } from 'react';
-import { useQuizStore, useStudentStore } from '../stores';
-import { ActionType } from '../utils/enums';
-import courseOfStudies from '../data/courseOfStudy.json';
+import { useQuizStore, useStudentStore } from '../../stores';
+import { ActionType } from '../../utils/enums';
+import courseOfStudies from '../../data/courseOfStudy.json';
 
 interface Course {
   name: string;
