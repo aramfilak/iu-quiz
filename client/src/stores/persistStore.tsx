@@ -6,6 +6,8 @@ interface PersistStore {
   questionFormsPanelIndex: number;
   accessToken: string | null;
   isAuthenticated: boolean;
+  signInStudentId: string | null;
+  setSignInStudentId: (studentId: string | null) => void;
   setActiveNaveLinkIndex: (index: number) => void;
   setQuestionFormsPanelIndex: (index: number) => void;
   setAccessToken: (toke: string | null) => void;
@@ -15,9 +17,13 @@ const usePersistStore = create(
   persist<PersistStore>(
     (set) => ({
       accessToken: null,
+      signInStudentId: null,
       isAuthenticated: false,
       activeNaveLinkIndex: 0,
       questionFormsPanelIndex: 0,
+
+      setSignInStudentId: (studentId: string | null) =>
+        set({ signInStudentId: studentId }),
 
       setQuestionFormsPanelIndex: (index: number) =>
         set({ questionFormsPanelIndex: index }),

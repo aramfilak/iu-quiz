@@ -5,3 +5,5 @@ export { LabelHeading } from './LabelHeading';
 export { BoxWrapper } from './BoxWrapper';
 export { NoResultFound } from './NoResultFound';
 export { PageHeader } from './PageHeader';
+export { ProfileView } from './ProfileView';
+export { IconBox } from './IconBox';

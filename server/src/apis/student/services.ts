@@ -20,36 +20,15 @@ const studentProfileDataIncludeSchema = {
 
 /**
  * ________________________________________________________________
- * @route api/v1/student
- * @method GET
- * @access protected
- * ________________________________________________________________
- */
-async function findSignInStudent(req: Request, res: Response) {
-  const studentId = req.auth?.studentId;
-
-  const studentProfile = await db.studentProfile.findUnique({
-    where: { studentId: studentId },
-    include: studentProfileDataIncludeSchema
-  });
-
-  if (!studentProfile) {
-    throw new UnauthorizedError('Sie sind nicht berechtigt');
-  }
-
-  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, '', studentProfile));
-}
-
-/**
- * ________________________________________________________________
- * @route api/v1/student/all
+ * @route api/v1/student/:studentsIds
  * @method GET
  * @access protected
  * ________________________________________________________________
  */
 async function findStudentsByIds(req: Request, res: Response) {
   const studentId = req.auth?.studentId;
-  const studentsIds: string[] = req.body.studentsIds;
+  const studentIdsParam: string = req.params.studentsIds;
+  const studentsIds: string[] = studentIdsParam.split(',');
 
   const student = await db.student.findUnique({ where: { id: studentId } });
 
@@ -94,27 +73,12 @@ async function updateStudent(req: Request, res: Response) {
 
   const updateData: Partial<StudentProfile> = {};
 
-  if (name) {
-    validate.max('Name', name, 20);
-    updateData.name = validate.min('Name', name, 2);
-  }
-  if (location) {
-    validate.max('Ort', location, 20, false);
-    updateData.location = validate.min('Ort', location, 2, false);
-  }
-
-  if (courseOfStudy) {
-    updateData.courseOfStudy = courseOfStudy;
-  }
-  if (linkedinUrl) {
-    updateData.linkedinUrl = validate.url('linkedin', linkedinUrl);
-  }
-  if (xingUrl) {
-    updateData.xingUrl = validate.url('xing', xingUrl);
-  }
-  if (!Object.keys(updateData).length) {
-    throw new BadRequestError('Keine Änderungen vorhanden');
-  }
+  validate.max('Name', name, 20);
+  updateData.name = validate.min('Name', name, 2);
+  updateData.location = validate.max('Ort', location, 20, false);
+  updateData.courseOfStudy = courseOfStudy;
+  updateData.linkedinUrl = validate.url('linkedin', linkedinUrl);
+  updateData.xingUrl = validate.url('xing', xingUrl);
 
   const updatedStudent = await db.studentProfile.update({
     where: { studentId: studentId },
@@ -314,7 +278,6 @@ async function sendContactEmail(req: Request, res: Response) {
 }
 
 export {
-  findSignInStudent,
   findStudentsByIds,
   updateStudent,
   deleteStudent,

@@ -149,7 +149,8 @@ async function signIn(req: Request, res: Response) {
 
   res.status(StatusCodes.OK).json(
     createApiResponse(StatusCodes.OK, 'Willkommen zurück', {
-      accessToken: accessToken
+      accessToken: accessToken,
+      studentId: student.id
     })
   );
 }

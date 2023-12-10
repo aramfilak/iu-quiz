@@ -12,7 +12,8 @@ import { routes } from '../../../utils/routes';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { usePersistStore } from '../../../stores';
 import logo from '../../../assets/logo.png';
-import { FaArrowRight, FaArrowLeft } from 'react-icons/fa';
+import { FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa';
+
 import { useEffect } from 'react';
 
 interface SidebarProps extends BoxProps {
@@ -86,7 +87,7 @@ function SidebarNav({ onClose, isCollapsed, toggleSidebar, ...rest }: SidebarPro
               _hover: { bg: 'gray.800' }
             }}
           >
-            {isCollapsed ? <FaArrowRight /> : <FaArrowLeft />}
+            {isCollapsed ? <FaAngleDoubleRight /> : <FaAngleDoubleLeft />}
           </IconButton>
         </Tooltip>
 

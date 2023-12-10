@@ -6,44 +6,29 @@ import { StudentProfile } from '../utils/types';
 
 interface UseStudentStore {
   studentProfile: StudentProfile | null;
-  getSignInStudent: () => Promise<IuQuizServerResponse<StudentProfile>>;
   updateStudent: (
     data: Partial<StudentProfile>
   ) => Promise<IuQuizServerResponse<StudentProfile>>;
+  setStudentProfile: (studentProfile: StudentProfile | null) => void;
   deleteStudent: () => Promise<void>;
   uploadImage: (image: FormData) => Promise<void>;
   deleteImage: () => Promise<void>;
   sendContactEmail: (subject: string, description: string) => Promise<void>;
-  getStudentsByIds: (
-    studentsIds: string[]
-  ) => Promise<IuQuizServerResponse<StudentProfile[]>>;
+  getStudentsByIds: (...studentsIds: string[]) => Promise<StudentProfile[]>;
 }
 
 const useStudentStore = create<UseStudentStore>((set) => ({
   studentProfile: null,
 
-  getSignInStudent: () =>
-    asyncHandler(async () => {
-      const response = await axiosStudentApi.get('/', {
-        headers: { Authorization: usePersistStore.getState().accessToken }
-      });
+  setStudentProfile: (studentProfile: StudentProfile | null) => set({ studentProfile }),
 
-      set({ studentProfile: response.data.data });
+  getStudentsByIds: async (...studentsIds: string[]) => {
+    const response = await axiosStudentApi.get(`/${studentsIds.join(',')}`, {
+      headers: { Authorization: usePersistStore.getState().accessToken }
+    });
 
-      return response.data;
-    }),
-
-  getStudentsByIds: (studentsIds: string[]) =>
-    asyncHandler(async () => {
-      const response = await axiosStudentApi.get('/all', {
-        data: { studentsIds },
-        headers: { Authorization: usePersistStore.getState().accessToken }
-      });
-
-      set({ studentProfile: response.data.data });
-
-      return response.data;
-    }),
+    return response.data.data;
+  },
 
   updateStudent: (data: Partial<StudentProfile>) =>
     asyncHandler(async () => {

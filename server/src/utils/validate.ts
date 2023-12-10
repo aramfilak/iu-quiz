@@ -91,7 +91,7 @@ class Validate {
     if (!url) return url;
 
     if (urlType === 'linkedin') {
-      const validLinkInUrl = url.startsWith('https://www.linkedin.com/');
+      const validLinkInUrl = url.startsWith('https://www.linkedin.com');
       if (!validLinkInUrl) {
         throw new BadRequestError('Ungültige LinkedIn URL');
       } else {

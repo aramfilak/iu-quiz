@@ -44,6 +44,7 @@ function QuestionForm({
 
     if (actionType === ActionType.CREATE) {
       createQuizQuestion(question)
+        .then(() => toast({ status: 'success', description: 'Frage erstellt' }))
         .catch(() => toast({ status: 'error', description: 'Erstellung fehlgeschlagen' }))
         .finally(() => {
           setIsLoading(false);
@@ -51,6 +52,7 @@ function QuestionForm({
         });
     } else if (actionType === ActionType.UPDATE) {
       updateQuizQuestion(Number(question.id), question)
+        .then(() => toast({ status: 'success', description: 'Frage aktualisiert' }))
         .catch(() =>
           toast({ status: 'error', description: 'Aktualisierung fehlgeschlagen' })
         )

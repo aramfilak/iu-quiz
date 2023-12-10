@@ -2,6 +2,7 @@ import './style.css';
 import PageNotFound404illustration from '../../assets/page-not-found-illustration.svg';
 import { Box, Button, Container, Image, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
+import { FaArrowLeft } from 'react-icons/fa';
 
 function NotFound404() {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ function NotFound404() {
           size={{ base: 'xs', md: 'md' }}
           marginBlock="1.5"
           padding="5"
+          leftIcon={<FaArrowLeft />}
         >
           Zurück
         </Button>

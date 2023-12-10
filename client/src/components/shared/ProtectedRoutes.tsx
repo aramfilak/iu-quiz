@@ -7,17 +7,19 @@ import { Loading } from './Loading';
 function ProtectedRoutes() {
   const [isLoading, setIsLoading] = useState(true);
   const { Authentication } = routes;
-  const { getSignInStudent } = useStudentStore();
+  const { getStudentsByIds, setStudentProfile } = useStudentStore();
   const { signOut } = useAuthStore();
-  const { isAuthenticated } = usePersistStore();
+  const { isAuthenticated, signInStudentId } = usePersistStore();
   const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
-      if (isAuthenticated) {
-        const { success } = await getSignInStudent();
+      if (isAuthenticated && signInStudentId) {
+        const profiles = await getStudentsByIds(signInStudentId);
+        const studentProfile = profiles[0];
 
-        if (success) {
+        if (studentProfile) {
+          setStudentProfile(studentProfile);
           return setIsLoading(false);
         }
       }

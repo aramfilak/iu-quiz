@@ -1,8 +1,8 @@
 import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { FiEye, FiEdit3 } from 'react-icons/fi';
 import { useStudentStore } from '../../../stores';
-import { PageHeader } from '../../../components/shared';
-import { Edit, View } from './layout';
+import { PageHeader, ProfileView } from '../../../components/shared';
+import { Edit } from './layout';
 import { useScreenSize } from '../../../hooks';
 
 function Profile() {
@@ -38,9 +38,7 @@ function Profile() {
         </TabList>
         <TabPanels>
           {/*------------------- Preview Panel --------------------*/}
-          <TabPanel>
-            <View />
-          </TabPanel>
+          <TabPanel>{studentProfile && <ProfileView {...studentProfile} />}</TabPanel>
           {/*------------------- Edit Panel --------------------*/}
           <TabPanel>
             <Edit />
@@ -51,4 +49,4 @@ function Profile() {
   );
 }
 
-export { Profile, View };
+export { Profile };
