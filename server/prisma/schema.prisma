@@ -5,6 +5,10 @@ generator client {
   binaryTargets   = ["native", "darwin-arm64"]
 }
 
+generator dbml {
+  provider = "prisma-dbml-generator"
+}
+
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")

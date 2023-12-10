@@ -53,7 +53,7 @@ async function sendVerificationEmail({
       </p>
       <p>
         Bei Fragen oder Problemen kontaktieren Sie bitte unseren Support unter:
-        <a href="mailto:iu.quiz.app@gmail.com" style="color: #319795; text-decoration: none;">iu.quiz.app@gmail.com</a>
+        <a href="mailto:iu.quiz.team@gmail.com" style="color: #319795; text-decoration: none;">iu.quiz.app@gmail.com</a>
       </p>
       <p>
         Mit freundlichen Grüßen,<br/>
@@ -74,7 +74,7 @@ async function sendContactFormMail({
   description
 }: SendContactFormMail) {
   return sendEmail({
-    to: 'stefan.mair@iu-study.org, aram.filak@iu-study.org',
+    to: 'iu.quiz.team@gmail.com',
     subject: 'Kontaktaufnahme',
     html: `
     <div style="font-family: Arial, sans-serif; color: #333;">

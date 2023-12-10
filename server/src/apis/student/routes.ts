@@ -4,8 +4,8 @@ import { profileImageUploader } from '../../middlewares/multer';
 
 const studentRoutes = Router();
 
-studentRoutes.get('/', studentServices.findStudent);
-studentRoutes.get('/:studentId', studentServices.findStudentById);
+studentRoutes.get('/', studentServices.findSignInStudent);
+studentRoutes.get('/all', studentServices.findStudentsByIds);
 studentRoutes.patch('/', studentServices.updateStudent);
 studentRoutes.delete('/', studentServices.deleteStudent);
 studentRoutes.post('/send-email', studentServices.sendContactEmail);

@@ -1,0 +1,128 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table Student {
+  id String [pk]
+  email String [unique, not null]
+  password String [not null]
+  isVerified Boolean [not null, default: false]
+  emailVerificationToken String [not null]
+  registrationDate DateTime [default: `now()`, not null]
+  studentProfile StudentProfile
+  quizFeedbacks QuizFeedback [not null]
+  quizzes Quiz [not null]
+  followedQuizzes FollowedQuizzes [not null]
+  quizQuestion QuizQuestion [not null]
+  scores QuizScore [not null]
+}
+
+Table StudentProfile {
+  id Int [pk, increment]
+  name String [not null]
+  location String
+  courseOfStudy String
+  xingUrl String
+  linkedinUrl String
+  student Student [not null]
+  studentId String [unique, not null]
+  profileImage ProfileImage
+}
+
+Table ProfileImage {
+  id Int [pk, increment]
+  publicId String [not null]
+  url String [not null]
+  studentProfile StudentProfile [not null]
+  profileId Int [unique, not null]
+}
+
+Table Quiz {
+  id Int [pk, increment]
+  student Student [not null]
+  authorId String [not null]
+  title String [not null]
+  updatedAt DateTime [not null]
+  size Int [not null, default: 0]
+  popularity Int [not null, default: 0]
+  courseOfStudy String [not null]
+  course String [not null]
+  quizQuestions QuizQuestion [not null]
+  followedBy FollowedQuizzes [not null]
+  feedbacks QuizFeedback [not null]
+  scors QuizScore [not null]
+}
+
+Table FollowedQuizzes {
+  student Student [not null]
+  followerId String [not null]
+  quiz Quiz [not null]
+  quizId Int [not null]
+
+  indexes {
+    (followerId, quizId) [unique]
+  }
+}
+
+Table QuizQuestion {
+  id Int [pk, increment]
+  quizId Int [not null]
+  quiz Quiz [not null]
+  question String [not null]
+  quizAnswers QuizAnswer [not null]
+  student Student [not null]
+  authorId String [not null]
+}
+
+Table QuizAnswer {
+  id Int [pk, increment]
+  answer String [not null]
+  answerDescription String
+  isRightAnswer Boolean [not null]
+  quizQuestion QuizQuestion [not null]
+  quizQuestionId Int [not null]
+}
+
+Table QuizFeedback {
+  id Int [pk, increment]
+  feedback String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  author Student [not null]
+  authorId String [not null]
+  quiz Quiz [not null]
+  quizId Int [not null]
+}
+
+Table QuizScore {
+  id Int [pk, increment]
+  answeredQuestion Int [not null]
+  timeTaken Int [not null]
+  quiz Quiz [not null]
+  quizId Int [not null]
+  Student Student
+  playerId String
+}
+
+Ref: StudentProfile.studentId - Student.id [delete: Cascade]
+
+Ref: ProfileImage.profileId - StudentProfile.id [delete: Cascade]
+
+Ref: Quiz.authorId > Student.id [delete: Cascade]
+
+Ref: FollowedQuizzes.followerId > Student.id [delete: Cascade]
+
+Ref: FollowedQuizzes.quizId > Quiz.id [delete: Cascade]
+
+Ref: QuizQuestion.quizId > Quiz.id [delete: Cascade]
+
+Ref: QuizQuestion.authorId > Student.id
+
+Ref: QuizAnswer.quizQuestionId > QuizQuestion.id [delete: Cascade]
+
+Ref: QuizFeedback.authorId > Student.id
+
+Ref: QuizFeedback.quizId > Quiz.id [delete: Cascade]
+
+Ref: QuizScore.quizId > Quiz.id [delete: Cascade]
+
+Ref: QuizScore.playerId > Student.id

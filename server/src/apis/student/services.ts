@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { BadRequestError, NotFoundError } from '../../errors';
+import { BadRequestError, NotFoundError, UnauthorizedError } from '../../errors';
 import { cloudinary, db } from '../../configs';
 import { StatusCodes } from 'http-status-codes';
 import { createApiResponse } from '../../utils/response';
@@ -20,33 +20,12 @@ const studentProfileDataIncludeSchema = {
 
 /**
  * ________________________________________________________________
- * @route api/v1/student/:id
- * @method GET
- * @access protected
- * ________________________________________________________________
- */
-async function findStudentById(req: Request, res: Response) {
-  const studentId = req.params.studentId;
-
-  const studentProfile = await db.studentProfile.findUnique({
-    where: { studentId: studentId },
-    include: studentProfileDataIncludeSchema
-  });
-
-  if (!studentProfile) {
-    throw new NotFoundError('Student nicht gefunden');
-  }
-
-  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, '', studentProfile));
-}
-/**
- * ________________________________________________________________
  * @route api/v1/student
  * @method GET
  * @access protected
  * ________________________________________________________________
  */
-async function findStudent(req: Request, res: Response) {
+async function findSignInStudent(req: Request, res: Response) {
   const studentId = req.auth?.studentId;
 
   const studentProfile = await db.studentProfile.findUnique({
@@ -55,10 +34,43 @@ async function findStudent(req: Request, res: Response) {
   });
 
   if (!studentProfile) {
-    throw new NotFoundError('Student nicht gefunden');
+    throw new UnauthorizedError('Sie sind nicht berechtigt');
   }
 
   res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, '', studentProfile));
+}
+
+/**
+ * ________________________________________________________________
+ * @route api/v1/student/all
+ * @method GET
+ * @access protected
+ * ________________________________________________________________
+ */
+async function findStudentsByIds(req: Request, res: Response) {
+  const studentId = req.auth?.studentId;
+  const studentsIds: string[] = req.body.studentsIds;
+
+  const student = await db.student.findUnique({ where: { id: studentId } });
+
+  if (!student) {
+    throw new UnauthorizedError('Sie sind nicht berechtigt');
+  }
+
+  validate.isEmpty('Students Ids', studentsIds);
+
+  const studentsProfiles = await db.studentProfile.findMany({
+    where: { studentId: { in: studentsIds } },
+    include: studentProfileDataIncludeSchema
+  });
+
+  if (!studentsProfiles) {
+    throw new NotFoundError('Keine Studenten gefunden');
+  }
+
+  res
+    .status(StatusCodes.OK)
+    .json(createApiResponse(StatusCodes.OK, '', studentsProfiles));
 }
 
 /**
@@ -71,6 +83,14 @@ async function findStudent(req: Request, res: Response) {
 async function updateStudent(req: Request, res: Response) {
   const studentId = req.auth?.studentId;
   const { name, courseOfStudy, location, xingUrl, linkedinUrl } = req.body;
+
+  const student = await db.student.findUnique({
+    where: { id: studentId }
+  });
+
+  if (!student) {
+    throw new UnauthorizedError('Sie sind nicht berechtigt');
+  }
 
   const updateData: Partial<StudentProfile> = {};
 
@@ -102,10 +122,6 @@ async function updateStudent(req: Request, res: Response) {
     include: studentProfileDataIncludeSchema
   });
 
-  if (!updatedStudent) {
-    throw new NotFoundError('Student nicht gefunden');
-  }
-
   res
     .status(StatusCodes.OK)
     .json(createApiResponse(StatusCodes.OK, 'Änderungen gespeichert', updatedStudent));
@@ -127,7 +143,7 @@ async function deleteStudent(req: Request, res: Response) {
   });
 
   if (!studentProfile) {
-    throw new NotFoundError('Student nicht gefunden');
+    throw new UnauthorizedError('Sie sind nicht berechtigt');
   }
 
   const profileImagePublicId = studentProfile?.profileImage?.publicId;
@@ -161,17 +177,17 @@ async function uploadStudentProfileImage(req: Request, res: Response) {
   const studentId = req.auth?.studentId;
   const profileImage = req.file;
 
-  if (!profileImage) {
-    throw new BadRequestError('Kein Bild zum Hochladen');
-  }
-
   const studentProfile = await db.studentProfile.findUnique({
     where: { studentId: studentId },
     include: studentProfileDataIncludeSchema
   });
 
   if (!studentProfile) {
-    throw new NotFoundError('Student nicht gefunden');
+    throw new UnauthorizedError('Sie sind nicht berechtigt');
+  }
+
+  if (!profileImage) {
+    throw new BadRequestError('Kein Bild zum Hochladen');
   }
 
   const imageId = studentProfile?.profileImage?.publicId;
@@ -233,6 +249,10 @@ async function deleteStudentProfileImage(req: Request, res: Response) {
     }
   });
 
+  if (!studentProfile) {
+    throw new UnauthorizedError('Sie sind nicht berechtigt');
+  }
+
   const publicId = studentProfile?.profileImage?.publicId;
 
   if (!publicId) {
@@ -277,8 +297,9 @@ async function sendContactEmail(req: Request, res: Response) {
   });
 
   if (!student) {
-    throw new BadRequestError('Student nicht gefunden.');
+    throw new UnauthorizedError('Sie sind nicht berechtigt');
   }
+
   const senderEmail = student.email;
 
   await sendContactFormMail({
@@ -293,8 +314,8 @@ async function sendContactEmail(req: Request, res: Response) {
 }
 
 export {
-  findStudent,
-  findStudentById,
+  findSignInStudent,
+  findStudentsByIds,
   updateStudent,
   deleteStudent,
   uploadStudentProfileImage,

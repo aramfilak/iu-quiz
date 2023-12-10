@@ -6,7 +6,7 @@ import { StudentProfile } from '../utils/types';
 
 interface UseStudentStore {
   studentProfile: StudentProfile | null;
-  getStudent: () => Promise<IuQuizServerResponse<StudentProfile>>;
+  getSignInStudent: () => Promise<IuQuizServerResponse<StudentProfile>>;
   updateStudent: (
     data: Partial<StudentProfile>
   ) => Promise<IuQuizServerResponse<StudentProfile>>;
@@ -14,14 +14,29 @@ interface UseStudentStore {
   uploadImage: (image: FormData) => Promise<void>;
   deleteImage: () => Promise<void>;
   sendContactEmail: (subject: string, description: string) => Promise<void>;
+  getStudentsByIds: (
+    studentsIds: string[]
+  ) => Promise<IuQuizServerResponse<StudentProfile[]>>;
 }
 
 const useStudentStore = create<UseStudentStore>((set) => ({
   studentProfile: null,
 
-  getStudent: () =>
+  getSignInStudent: () =>
     asyncHandler(async () => {
       const response = await axiosStudentApi.get('/', {
+        headers: { Authorization: usePersistStore.getState().accessToken }
+      });
+
+      set({ studentProfile: response.data.data });
+
+      return response.data;
+    }),
+
+  getStudentsByIds: (studentsIds: string[]) =>
+    asyncHandler(async () => {
+      const response = await axiosStudentApi.get('/all', {
+        data: { studentsIds },
         headers: { Authorization: usePersistStore.getState().accessToken }
       });
 

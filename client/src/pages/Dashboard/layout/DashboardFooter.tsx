@@ -9,7 +9,7 @@ import {
   useDisclosure
 } from '@chakra-ui/react';
 import { FaGithub } from 'react-icons/fa';
-import { FiMessageCircle, FiMail } from 'react-icons/fi';
+import { FiMail } from 'react-icons/fi';
 import logo from '../../../assets/logo.png';
 import { ContactFormAlert } from '../../../components/dialogs';
 
@@ -51,6 +51,7 @@ function DashboardFooter({ ml }: SpaceProps) {
         <ButtonGroup variant="tertiary">
           <Tooltip label="GitHub" placement="top">
             <IconButton
+              cursor="pointer"
               as="a"
               href="https://github.com/aramfilak/iu-quiz"
               aria-label="GitHub"
@@ -59,17 +60,10 @@ function DashboardFooter({ ml }: SpaceProps) {
           </Tooltip>
           <Tooltip label="Support" placement="top">
             <IconButton
+              cursor="pointer"
               as="a"
               onClick={contactFormAlert.onOpen}
               aria-label="Support-Kontakt"
-              icon={<FiMessageCircle />}
-            />
-          </Tooltip>
-          <Tooltip label="E-Mail" placement="top">
-            <IconButton
-              as="a"
-              href="mailTo:iu.quiz.app@gmail.com"
-              aria-label="Email"
               icon={<FiMail />}
             />
           </Tooltip>

@@ -7,7 +7,7 @@ import { Loading } from './Loading';
 function ProtectedRoutes() {
   const [isLoading, setIsLoading] = useState(true);
   const { Authentication } = routes;
-  const { getStudent } = useStudentStore();
+  const { getSignInStudent } = useStudentStore();
   const { signOut } = useAuthStore();
   const { isAuthenticated } = usePersistStore();
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ function ProtectedRoutes() {
   useEffect(() => {
     (async () => {
       if (isAuthenticated) {
-        const { success } = await getStudent();
+        const { success } = await getSignInStudent();
 
         if (success) {
           return setIsLoading(false);

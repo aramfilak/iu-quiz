@@ -41,9 +41,7 @@ const useAuthStore = create<UseAuthStore>((_, get) => ({
 
   signOut: () => {
     usePersistStore.getState().setAccessToken(null);
-
     usePersistStore.getState().setIsAuthenticated(false);
-
     usePersistStore.getState().setActiveNaveLinkIndex(0);
   },
 
@@ -60,7 +58,6 @@ const useAuthStore = create<UseAuthStore>((_, get) => ({
       const accessToken = response.data.data?.accessToken || null;
 
       usePersistStore.getState().setAccessToken(accessToken);
-
       usePersistStore.getState().setIsAuthenticated(Boolean(accessToken));
 
       return response.data;
