@@ -17,7 +17,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../../utils/routes';
 import { CustomAlert } from '../../utils/types';
-import { LabelHeading } from '..';
+import { LabelHeading } from '../shared';
 
 function SignInForm(rest: React.HTMLProps<HTMLFormElement>) {
   const emailInputRef = useRef<HTMLInputElement>(null);

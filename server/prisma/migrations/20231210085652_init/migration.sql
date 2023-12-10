@@ -25,9 +25,12 @@ CREATE TABLE "StudentProfile" (
 
 -- CreateTable
 CREATE TABLE "ProfileImage" (
+    "id" SERIAL NOT NULL,
     "publicId" TEXT NOT NULL,
     "url" TEXT NOT NULL,
-    "profileId" INTEGER NOT NULL
+    "profileId" INTEGER NOT NULL,
+
+    CONSTRAINT "ProfileImage_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -55,7 +58,6 @@ CREATE TABLE "QuizQuestion" (
     "id" SERIAL NOT NULL,
     "quizId" INTEGER NOT NULL,
     "question" TEXT NOT NULL,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
     "authorId" TEXT NOT NULL,
 
     CONSTRAINT "QuizQuestion_pkey" PRIMARY KEY ("id")
@@ -72,6 +74,28 @@ CREATE TABLE "QuizAnswer" (
     CONSTRAINT "QuizAnswer_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "QuizFeedback" (
+    "id" SERIAL NOT NULL,
+    "feedback" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "authorId" TEXT NOT NULL,
+    "quizId" INTEGER NOT NULL,
+
+    CONSTRAINT "QuizFeedback_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "QuizScore" (
+    "id" SERIAL NOT NULL,
+    "answeredQuestion" INTEGER NOT NULL,
+    "timeTaken" INTEGER NOT NULL,
+    "quizId" INTEGER NOT NULL,
+    "playerId" TEXT,
+
+    CONSTRAINT "QuizScore_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "Student_id_key" ON "Student"("id");
 
@@ -79,16 +103,13 @@ CREATE UNIQUE INDEX "Student_id_key" ON "Student"("id");
 CREATE UNIQUE INDEX "Student_email_key" ON "Student"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Student_password_key" ON "Student"("password");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Student_emailVerificationToken_key" ON "Student"("emailVerificationToken");
-
--- CreateIndex
 CREATE UNIQUE INDEX "StudentProfile_id_key" ON "StudentProfile"("id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "StudentProfile_studentId_key" ON "StudentProfile"("studentId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "ProfileImage_id_key" ON "ProfileImage"("id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "ProfileImage_profileId_key" ON "ProfileImage"("profileId");
@@ -104,6 +125,12 @@ CREATE UNIQUE INDEX "QuizQuestion_id_key" ON "QuizQuestion"("id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "QuizAnswer_id_key" ON "QuizAnswer"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "QuizFeedback_id_key" ON "QuizFeedback"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "QuizScore_id_key" ON "QuizScore"("id");
 
 -- AddForeignKey
 ALTER TABLE "StudentProfile" ADD CONSTRAINT "StudentProfile_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -128,3 +155,15 @@ ALTER TABLE "QuizQuestion" ADD CONSTRAINT "QuizQuestion_authorId_fkey" FOREIGN K
 
 -- AddForeignKey
 ALTER TABLE "QuizAnswer" ADD CONSTRAINT "QuizAnswer_quizQuestionId_fkey" FOREIGN KEY ("quizQuestionId") REFERENCES "QuizQuestion"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "QuizFeedback" ADD CONSTRAINT "QuizFeedback_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "Student"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "QuizFeedback" ADD CONSTRAINT "QuizFeedback_quizId_fkey" FOREIGN KEY ("quizId") REFERENCES "Quiz"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "QuizScore" ADD CONSTRAINT "QuizScore_quizId_fkey" FOREIGN KEY ("quizId") REFERENCES "Quiz"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "QuizScore" ADD CONSTRAINT "QuizScore_playerId_fkey" FOREIGN KEY ("playerId") REFERENCES "Student"("id") ON DELETE SET NULL ON UPDATE CASCADE;

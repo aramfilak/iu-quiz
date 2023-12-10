@@ -2,16 +2,17 @@ import { useParams } from 'react-router-dom';
 import { useFetch } from '../../../hooks';
 import { Quiz, QuizQuestion } from '../../../utils/types';
 import { usePersistStore, useQuizStore } from '../../../stores';
-import { NoResultFound, PageHeader } from '../../../components';
+import { NoResultFound, PageHeader } from '../../../components/shared';
 import { QuestionForm } from '../../../components/forms';
+import { QuestionEditorSkeleton } from '../../../components/skeletons';
 import { useEffect, useState } from 'react';
 import { ActionType } from '../../../utils/enums';
 import { FaPlus, FaSync } from 'react-icons/fa';
 import {
+  Box,
   InputGroup,
   InputLeftAddon,
   Select,
-  SkeletonText,
   Tab,
   TabList,
   TabPanel,
@@ -55,22 +56,15 @@ function QuestionsEditor() {
   }, [quiz]);
 
   return (
-    <>
+    <Box paddingInline={{ lg: '4rem', xl: '10rem' }}>
       <PageHeader title="Fragen Editor" description="Ganz nach deinem Wunsch gestaltet" />
       {isLoading ? (
-        <SkeletonText
-          marginInline="auto"
-          noOfLines={20}
-          spacing="4"
-          skeletonHeight="4"
-          borderRadius="md"
-        />
+        <QuestionEditorSkeleton />
       ) : (
         <>
           {/*___________________________ Question Edit Form ___________________________*/}
 
           <Tabs
-            paddingInline={{ lg: '4rem', xl: '10rem' }}
             defaultIndex={questionFormsPanelIndex}
             onChange={(index) => setQuestionFormsPanelIndex(index)}
           >
@@ -144,7 +138,7 @@ function QuestionsEditor() {
           </Tabs>
         </>
       )}
-    </>
+    </Box>
   );
 }
 

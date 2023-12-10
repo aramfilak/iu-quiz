@@ -19,7 +19,7 @@ import { FaSearch } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import { useState } from 'react';
 import faqs from '../../../data/faqs.json';
-import { PageHeader } from '../../../components';
+import { PageHeader } from '../../../components/shared';
 
 function FAQs() {
   const [searchTerm, setSearchTerm] = useState<string>('');

@@ -10,8 +10,8 @@ import {
 } from '@chakra-ui/react';
 import { FaGithub } from 'react-icons/fa';
 import { FiMessageCircle, FiMail } from 'react-icons/fi';
-import logo from '../../assets/logo.png';
-import { ContactFormAlert } from '../dialogs';
+import logo from '../../../assets/logo.png';
+import { ContactFormAlert } from '../../../components/dialogs';
 
 function DashboardFooter({ ml }: SpaceProps) {
   const contactFormAlert = useDisclosure();

@@ -10,7 +10,7 @@ import {
   Tooltip,
   Flex
 } from '@chakra-ui/react';
-import { UploadProfileImage, BoxWrapper } from '../../../../components';
+import { UploadProfileImage, BoxWrapper } from '../../../../components/shared';
 import { DeleteStudentAlertDialog } from '../../../../components/dialogs';
 import { useState, useRef } from 'react';
 import { useStudentStore } from '../../../../stores';

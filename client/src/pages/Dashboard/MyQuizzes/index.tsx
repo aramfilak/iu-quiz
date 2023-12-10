@@ -1,7 +1,7 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
-import { PageHeader } from '../../../components';
-import { My } from './My';
-import { Followed } from './Followed';
+import { PageHeader } from '../../../components/shared';
+
+import { Followed, My } from './layout';
 
 function MyQuizzes() {
   return (

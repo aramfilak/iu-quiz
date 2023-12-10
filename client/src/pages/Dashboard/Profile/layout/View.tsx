@@ -1,7 +1,7 @@
 import { Avatar, Flex, Link, Text } from '@chakra-ui/react';
 import { convertToGermanDate } from '../../../../utils/formatters.ts';
-import { useStudentStore } from '../../../../stores';
-import { BoxWrapper } from '../../../../components';
+import { useStudentStore } from '../../../../stores/index.tsx';
+import { BoxWrapper } from '../../../../components/shared/index.ts';
 import { MdEmail } from 'react-icons/md';
 import {
   FaCalendarAlt,

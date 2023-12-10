@@ -13,7 +13,7 @@ import {
   useDisclosure,
   useToast
 } from '@chakra-ui/react';
-import { BoxWrapper } from '..';
+import { BoxWrapper } from '../shared';
 import { CustomAlertDialog } from '../dialogs';
 import { QuestionData } from '../../utils/types';
 import { useQuizStore } from '../../stores';

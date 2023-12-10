@@ -8,10 +8,10 @@ import {
   Tooltip
 } from '@chakra-ui/react';
 import { NavItem } from './NavItem';
-import { routes } from '../../utils/routes';
+import { routes } from '../../../utils/routes';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { usePersistStore } from '../../stores';
-import logo from '../../assets/logo.png';
+import { usePersistStore } from '../../../stores';
+import logo from '../../../assets/logo.png';
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa';
 import { useEffect } from 'react';
 

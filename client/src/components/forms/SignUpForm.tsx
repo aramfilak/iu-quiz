@@ -21,7 +21,7 @@ import { useAuthStore } from '../../stores';
 import { CustomAlert } from '../../utils/types';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../../utils/routes';
-import { LabelHeading } from '..';
+import { LabelHeading } from '../shared';
 
 function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
   const emailInputRef = useRef<HTMLInputElement>(null);

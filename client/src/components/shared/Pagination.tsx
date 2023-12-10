@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Flex, Tooltip, IconButton, Text } from '@chakra-ui/react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import { useQuizStore } from '../stores';
-import { QuizQueryParams } from '../utils/types';
+import { useQuizStore } from '../../stores';
+import { QuizQueryParams } from '../../utils/types';
 
 interface PaginationProps {
   currentPage: number;

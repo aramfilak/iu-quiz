@@ -1,7 +1,7 @@
 import { useDisclosure, useToast } from '@chakra-ui/react';
 import { useQuizStore, useStudentStore } from '../../../../stores';
 import { Quiz } from '../../../../utils/types';
-import { NoResultFound } from '../../../../components';
+import { NoResultFound } from '../../../../components/shared';
 import { QuizCardSkeleton } from '../../../../components/skeletons';
 import { useFetch } from '../../../../hooks';
 import { QuizForm } from '../../../../components/forms/QuizForm';

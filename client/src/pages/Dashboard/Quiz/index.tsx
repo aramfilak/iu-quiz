@@ -5,8 +5,8 @@ import { useQuizStore } from '../../../stores';
 function Quiz() {
   const { quizId } = useParams();
   const { getQuizById } = useQuizStore();
-  const { isLoading } = useFetch(() => getQuizById(Number(quizId)));
-  return <div>{isLoading}</div>;
+  const { data: quizData } = useFetch(() => getQuizById(Number(quizId)));
+  return <div>{quizData?.authorId}</div>;
 }
 
 export { Quiz };

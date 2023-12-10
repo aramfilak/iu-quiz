@@ -10,8 +10,8 @@ import {
   useDisclosure,
   Text
 } from '@chakra-ui/react';
-import { useStudentStore } from '../stores';
-import { CustomAlertDialog } from './dialogs';
+import { useStudentStore } from '../../stores';
+import { CustomAlertDialog } from '../dialogs';
 import { useState } from 'react';
 
 function UploadProfileImage(rest: FlexProps) {

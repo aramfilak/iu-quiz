@@ -1,9 +1,8 @@
 import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { FiEye, FiEdit3 } from 'react-icons/fi';
 import { useStudentStore } from '../../../stores';
-import { PageHeader } from '../../../components';
-import { Edit } from './Edit';
-import { View } from './View';
+import { PageHeader } from '../../../components/shared';
+import { Edit, View } from './layout';
 import { useScreenSize } from '../../../hooks';
 
 function Profile() {
