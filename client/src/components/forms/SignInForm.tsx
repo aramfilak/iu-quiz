@@ -17,7 +17,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../../utils/routes';
 import { CustomAlert } from '../../utils/types';
-import { LabelHeading } from '../shared';
+import { HeadingLabel } from '../shared';
 
 function SignInForm(rest: React.HTMLProps<HTMLFormElement>) {
   const emailInputRef = useRef<HTMLInputElement>(null);
@@ -64,7 +64,7 @@ function SignInForm(rest: React.HTMLProps<HTMLFormElement>) {
         </Alert>
       )}
 
-      <LabelHeading
+      <HeadingLabel
         fontSize={{ base: '4xl', lg: '5xl' }}
         variant="solid"
         description="Anmelden"

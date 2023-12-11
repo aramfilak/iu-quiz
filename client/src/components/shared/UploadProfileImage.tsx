@@ -78,7 +78,8 @@ function UploadProfileImage(rest: FlexProps) {
       <Flex {...rest} gap="0.5rem">
         <Avatar
           src={studentProfile?.profileImage?.url}
-          size={{ base: 'lg', lg: 'xl' }}
+          w={{ base: '5.5rem', md: '6rem', xl: '7rem' }}
+          h={{ base: '5.5rem', md: '6rem', xl: '7rem' }}
           borderRadius="md"
         />
 

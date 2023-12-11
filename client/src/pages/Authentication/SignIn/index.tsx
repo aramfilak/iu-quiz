@@ -1,12 +1,12 @@
 import { Box, Flex, Image } from '@chakra-ui/react';
 import signInIll from '../../../assets/Mobile login-rafiki.svg';
-import { LabelHeading } from '../../../components/shared';
+import { HeadingLabel } from '../../../components/shared';
 import { SignInForm } from '../../../components/forms';
 
 const SignIn = () => {
   return (
     <Box className="fade-out-animation">
-      <LabelHeading
+      <HeadingLabel
         fontSize={{ base: '5xl', lg: '6xl' }}
         variant="colorful"
         textAlign={{ base: 'center', lg: 'start' }}

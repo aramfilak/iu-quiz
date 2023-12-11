@@ -21,7 +21,7 @@ import { useAuthStore } from '../../stores';
 import { CustomAlert } from '../../utils/types';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../../utils/routes';
-import { LabelHeading } from '../shared';
+import { HeadingLabel } from '../shared';
 
 function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
   const emailInputRef = useRef<HTMLInputElement>(null);
@@ -72,7 +72,7 @@ function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
         </Alert>
       )}
 
-      <LabelHeading
+      <HeadingLabel
         fontSize={{ base: '4xl', lg: '5xl' }}
         variant="solid"
         description="Registrieren"

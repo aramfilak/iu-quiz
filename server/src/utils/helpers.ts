@@ -3,9 +3,9 @@ import { cloudinary } from '../configs';
 import { UploadApiResponse } from 'cloudinary';
 import { BadRequestError } from '../errors';
 
-async function uploadImageToCloudinary(buffer: Buffer): Promise<UploadApiResponse> {
+async function uploadImageToCloudinary(image: Buffer): Promise<UploadApiResponse> {
   const bufferStream = new Readable();
-  bufferStream.push(buffer);
+  bufferStream.push(image);
   bufferStream.push(null);
 
   return new Promise((resolve, reject) => {

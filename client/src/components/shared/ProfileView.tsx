@@ -1,10 +1,11 @@
-import { Avatar, Flex, Link, Text, VStack } from '@chakra-ui/react';
+import { Avatar, Flex, Link, VStack } from '@chakra-ui/react';
 import { MdEmail } from 'react-icons/md';
 import {
   FaCalendarAlt,
   FaGraduationCap,
   FaLinkedin,
   FaMapMarkerAlt,
+  FaUser,
   FaXingSquare
 } from 'react-icons/fa';
 import { BoxWrapper, IconBox } from '.';
@@ -26,91 +27,86 @@ function ProfileView(studentProfile: StudentProfile) {
         height: '5px'
       }}
     >
-      <Flex gap="4">
-        {/*---------------- Profile Image -------------*/}
-        <Avatar
-          src={studentProfile.profileImage?.url}
-          size={{ base: 'lg', lg: 'xl' }}
-          borderRadius="md"
-        />
-        <VStack align="start">
-          {/*---------------- Student Name --------------*/}
-          <Text fontWeight="extrabold" fontSize="2xl" color="gray.800">
-            {studentProfile?.name}
-          </Text>
-          {/*---------------- Registration Date --------------*/}
-          <IconBox leftIcon={<FaCalendarAlt />}>
-            <Text>
+      <Flex gap="8" flexWrap="wrap">
+        <Flex gap="4">
+          {/*---------------- Profile Image -------------*/}
+          <Avatar
+            src={studentProfile.profileImage?.url}
+            w={{ base: '5.5rem', md: '6rem' }}
+            h={{ base: '5.5rem', md: '6rem' }}
+            borderRadius="md"
+          />
+          <VStack align="start">
+            {/*---------------- Student Name --------------*/}
+            <IconBox leftIcon={<FaUser />} fontWeight="extrabold" color="gray.800">
+              {studentProfile?.name}
+            </IconBox>
+            {/*---------------- Registration Date --------------*/}
+            <IconBox leftIcon={<FaCalendarAlt />}>
               {typeof studentProfile?.student.registrationDate === 'string' &&
                 convertToGermanDate(studentProfile?.student.registrationDate)}
-            </Text>
+            </IconBox>
+
+            {/*---------------- Email --------------*/}
+            <IconBox leftIcon={<MdEmail />}>
+              <Link
+                display="flex"
+                alignItems="center"
+                gap="2"
+                target="_blank"
+                href={`mailto:${studentProfile?.student.email}`}
+              >
+                {studentProfile?.student.email}
+              </Link>
+            </IconBox>
+          </VStack>
+        </Flex>
+
+        <VStack align="start" flexDir={{ base: 'row', md: 'column' }}>
+          {/*---------------- courseOfStudy --------------*/}
+          <IconBox leftIcon={<FaGraduationCap />}>
+            {studentProfile?.courseOfStudy || '-'}
           </IconBox>
+
+          {/*---------------- Email --------------*/}
+
+          <IconBox leftIcon={<FaMapMarkerAlt />}>
+            {studentProfile?.location || '-'}
+          </IconBox>
+
+          <Flex gap="4">
+            {/*---------------- LinkedIn & Xing Business Links--------------*/}
+            <IconBox leftIcon={<FaLinkedin />}>
+              {(studentProfile?.linkedinUrl && (
+                <Link
+                  display="flex"
+                  alignItems="center"
+                  gap="2"
+                  target="_blank"
+                  href={studentProfile?.linkedinUrl}
+                >
+                  Linkedin
+                </Link>
+              )) ||
+                '-'}
+            </IconBox>
+
+            <IconBox leftIcon={<FaXingSquare />}>
+              {(studentProfile?.xingUrl && (
+                <Link
+                  display="flex"
+                  alignItems="center"
+                  gap="2"
+                  target="_blank"
+                  href={studentProfile?.xingUrl}
+                >
+                  Xing
+                </Link>
+              )) ||
+                '-'}
+            </IconBox>
+          </Flex>
         </VStack>
-      </Flex>
-      <Flex wrap="wrap" gap="4">
-        {/*---------------- Email --------------*/}
-        <IconBox
-          leftIcon={<MdEmail />}
-          color={studentProfile?.student.email ? 'teal.500' : undefined}
-        >
-          <Link
-            display="flex"
-            alignItems="center"
-            gap="2"
-            target="_blank"
-            href={`mailto:${studentProfile?.student.email}`}
-          >
-            {studentProfile?.student.email}
-          </Link>
-        </IconBox>
-        {/*---------------- courseOfStudy --------------*/}
-        <IconBox leftIcon={<FaGraduationCap />}>
-          <Text>{studentProfile?.courseOfStudy || '-'}</Text>
-        </IconBox>
-
-        {/*---------------- Email --------------*/}
-
-        <IconBox leftIcon={<FaMapMarkerAlt />}>
-          <Text>{studentProfile?.location || '-'}</Text>
-        </IconBox>
-
-        {/*---------------- LinkedIn & Xing Business Links--------------*/}
-
-        <IconBox
-          leftIcon={<FaLinkedin />}
-          color={studentProfile?.linkedinUrl ? 'teal.500' : undefined}
-        >
-          {(studentProfile?.linkedinUrl && (
-            <Link
-              display="flex"
-              alignItems="center"
-              gap="2"
-              target="_blank"
-              href={studentProfile?.linkedinUrl}
-            >
-              Linkedin
-            </Link>
-          )) ||
-            '-'}
-        </IconBox>
-
-        <IconBox
-          leftIcon={<FaXingSquare />}
-          color={studentProfile?.xingUrl ? 'teal.500' : undefined}
-        >
-          {(studentProfile?.xingUrl && (
-            <Link
-              display="flex"
-              alignItems="center"
-              gap="2"
-              target="_blank"
-              href={studentProfile?.xingUrl}
-            >
-              Xing
-            </Link>
-          )) ||
-            '-'}
-        </IconBox>
       </Flex>
     </BoxWrapper>
   );

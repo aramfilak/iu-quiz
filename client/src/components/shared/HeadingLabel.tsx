@@ -5,7 +5,7 @@ interface LabelHeaderProps extends HeadingProps {
   variant: 'solid' | 'colorful';
 }
 
-function LabelHeading({ description, variant, ...rest }: LabelHeaderProps) {
+function HeadingLabel({ description, variant, ...rest }: LabelHeaderProps) {
   const isColorful = variant === 'colorful';
   const isSolid = variant === 'solid';
 
@@ -24,4 +24,4 @@ function LabelHeading({ description, variant, ...rest }: LabelHeaderProps) {
   );
 }
 
-export { LabelHeading };
+export { HeadingLabel };
