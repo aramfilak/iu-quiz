@@ -13,14 +13,14 @@ import {
   useDisclosure,
   useToast
 } from '@chakra-ui/react';
-import { BoxWrapper } from '../shared';
-import { CustomAlertDialog } from '../dialogs';
-import { QuestionData } from '../../utils/types';
-import { useQuizStore } from '../../stores';
 import { Field, FieldArray, FieldProps, Form, Formik } from 'formik';
-import { FaPlus, FaRegTrashAlt, FaSave, FaSync, FaTrashAlt } from 'react-icons/fa';
 import { useState } from 'react';
+import { FaPlus, FaRegTrashAlt, FaSave, FaSync, FaTrashAlt } from 'react-icons/fa';
+import { useQuizStore } from '../../stores';
 import { ActionType } from '../../utils/enums';
+import { QuestionData } from '../../utils/types';
+import { CustomAlertDialog } from '../dialogs';
+import { BoxWrapper } from '../shared';
 
 interface QuestionEditBarProps extends BoxProps {
   onSubmit: () => void;

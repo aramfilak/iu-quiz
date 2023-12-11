@@ -1,3 +1,3 @@
-export { DeleteStudentAlertDialog } from './DeleteStudentAlertDialog';
-export { CustomAlertDialog } from './CustomAlertDialog';
 export { ContactFormAlert } from './ContactFormAlert';
+export { CustomAlertDialog } from './CustomAlertDialog';
+export { DeleteStudentAlertDialog } from './DeleteStudentAlertDialog';

@@ -1,26 +1,26 @@
 import {
-  IconButton,
   Avatar,
   Box,
   Flex,
-  HStack,
-  VStack,
-  useColorModeValue,
-  Text,
   FlexProps,
+  HStack,
+  IconButton,
   Menu,
   MenuButton,
   MenuDivider,
   MenuItem,
   MenuList,
-  useDisclosure,
-  useColorMode
+  Text,
+  VStack,
+  useColorMode,
+  useColorModeValue,
+  useDisclosure
 } from '@chakra-ui/react';
-import { FiMenu, FiChevronDown, FiLogOut, FiSun, FiMoon } from 'react-icons/fi';
-import { useAuthStore, useStudentStore } from '../../../stores';
+import { FiChevronDown, FiLogOut, FiMenu, FiMoon, FiSun } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
-import { routes } from '../../../utils/routes';
 import { CustomAlertDialog } from '../../../components/dialogs';
+import { useAuthStore, useStudentStore } from '../../../stores';
+import { routes } from '../../../utils/routes';
 interface MobileProps extends FlexProps {
   onOpen: () => void;
   setCollapsedFalse: () => void;

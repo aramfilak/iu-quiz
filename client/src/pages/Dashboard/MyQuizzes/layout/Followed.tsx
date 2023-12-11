@@ -1,13 +1,13 @@
 import { Button, useToast } from '@chakra-ui/react';
-import { QuizCard, QuizCardsGrid } from '../../../../components/quiz-card';
-import { QuizCardSkeleton } from '../../../../components/skeletons';
-import { NoResultFound } from '../../../../components/shared';
-import { useQuizStore } from '../../../../stores';
-import { Quiz } from '../../../../utils/types';
-import { useFetch } from '../../../../hooks';
-import { useNavigate } from 'react-router-dom';
-import { routes } from '../../../../utils/routes';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { QuizCard, QuizCardsGrid } from '../../../../components/quiz-card';
+import { NoResultFound } from '../../../../components/shared';
+import { QuizCardSkeleton } from '../../../../components/skeletons';
+import { useFetch } from '../../../../hooks';
+import { useQuizStore } from '../../../../stores';
+import { routes } from '../../../../utils/routes';
+import { Quiz } from '../../../../utils/types';
 
 function Followed() {
   const { unfollowQuiz, getAllQuizzes } = useQuizStore();

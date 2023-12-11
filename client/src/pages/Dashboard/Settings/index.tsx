@@ -1,31 +1,36 @@
 import {
   Alert,
   AlertIcon,
-  InputGroup,
-  Input,
   Button,
-  useDisclosure,
-  Select,
+  Flex,
+  HStack,
+  Input,
+  InputGroup,
   InputLeftAddon,
+  Select,
   Tooltip,
-  Flex
+  useColorMode,
+  useDisclosure
 } from '@chakra-ui/react';
-import { UploadProfileImage, BoxWrapper } from '../../../../components/shared';
-import { DeleteStudentAlertDialog } from '../../../../components/dialogs';
-import { useState, useRef } from 'react';
-import { useStudentStore } from '../../../../stores';
-import { CustomAlert } from '../../../../utils/types';
-import courseOfStudy from '../../../../data/courseOfStudy.json';
-import { FiSave, FiUserX } from 'react-icons/fi';
+import { useRef, useState } from 'react';
 import {
-  FaLinkedin,
-  FaXing,
+  FaEye,
   FaGraduationCap,
+  FaLinkedin,
   FaMapMarkerAlt,
-  FaUser
+  FaUser,
+  FaXing
 } from 'react-icons/fa';
+import { FiMoon, FiSave, FiSun, FiUserX } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
+import { DeleteStudentAlertDialog } from '../../../components/dialogs';
+import { BoxWrapper, UploadProfileImage } from '../../../components/shared';
+import courseOfStudy from '../../../data/courseOfStudy.json';
+import { useStudentStore } from '../../../stores';
+import { routes } from '../../../utils/routes';
+import { CustomAlert } from '../../../utils/types';
 
-function Edit() {
+function Settings() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const nameInputRef = useRef<HTMLInputElement>(null);
   const locationInputRef = useRef<HTMLInputElement>(null);
@@ -36,6 +41,8 @@ function Edit() {
   const { studentProfile, updateStudent } = useStudentStore();
   const [alert, setAlert] = useState<CustomAlert | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   const handleInputChange = () => {
     const inputs: boolean[] = [
@@ -100,6 +107,7 @@ function Edit() {
 
           <BoxWrapper w="100%" title="Profil Bild">
             <UploadProfileImage />
+            {/*------------------- Dark Mode Switcher -----------------*/}
           </BoxWrapper>
 
           {/*------------------- General Data --------------------*/}
@@ -209,12 +217,32 @@ function Edit() {
             </BoxWrapper>
           </Flex>
 
-          <BoxWrapper width="100%">
+          {/*------------------- Color Mode --------------------*/}
+          <BoxWrapper flexDir="row" width="full">
+            <HStack align="end">
+              <Button
+                variant="outline"
+                leftIcon={colorMode === 'light' ? <FiMoon /> : <FiSun />}
+                onClick={toggleColorMode}
+              >
+                {colorMode === 'light' ? 'Dunkelmodus' : 'Hellermodus'}
+              </Button>
+            </HStack>
             {/*------------------- Save Button -----------------*/}
-
+            <Button
+              marginLeft="auto"
+              colorScheme="blue"
+              leftIcon={<FaEye />}
+              onClick={() =>
+                navigate(
+                  `../${routes.Dashboard.children.Profile.mainPath}/${studentProfile?.studentId}`
+                )
+              }
+            >
+              Prview Profile
+            </Button>
             <Button
               alignSelf="end"
-              width={{ base: '100%', sm: 'fit-content' }}
               colorScheme="teal"
               type="submit"
               disabled={isSubmitting}
@@ -224,7 +252,6 @@ function Edit() {
               Speichern
             </Button>
           </BoxWrapper>
-
           {/*------------------- Delete Profile -----------------*/}
           <BoxWrapper
             title="Gefahrenzone"
@@ -240,7 +267,7 @@ function Edit() {
               onClick={onOpen}
               leftIcon={<FiUserX />}
             >
-              Profile Löschen
+              Konto Löschen
             </Button>
           </BoxWrapper>
         </Flex>
@@ -249,4 +276,4 @@ function Edit() {
   );
 }
 
-export { Edit };
+export { Settings };

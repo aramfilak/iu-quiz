@@ -1,4 +1,4 @@
-import { Box, BoxProps, Flex, Icon, useColorModeValue, Tooltip } from '@chakra-ui/react';
+import { Box, BoxProps, Flex, Icon, Tooltip, useColorModeValue } from '@chakra-ui/react';
 import { IconType } from 'react-icons';
 
 interface NavItemProps extends BoxProps {

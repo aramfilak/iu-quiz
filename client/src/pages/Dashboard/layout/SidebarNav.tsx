@@ -1,18 +1,18 @@
 import {
-  CloseButton,
   Box,
   BoxProps,
-  Image,
   Center,
+  CloseButton,
   IconButton,
+  Image,
   Tooltip
 } from '@chakra-ui/react';
-import { NavItem } from './NavItem';
-import { routes } from '../../../utils/routes';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { usePersistStore } from '../../../stores';
-import logo from '../../../assets/logo.png';
 import { FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa';
+import { useLocation, useNavigate } from 'react-router-dom';
+import logo from '../../../assets/logo.png';
+import { usePersistStore } from '../../../stores';
+import { routes } from '../../../utils/routes';
+import { NavItem } from './NavItem';
 
 import { useEffect } from 'react';
 

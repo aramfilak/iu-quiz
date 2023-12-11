@@ -6,19 +6,19 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
+  Box,
   Button,
   FormControl,
   FormLabel,
   Input,
-  useToast,
   Text,
-  Box
+  useToast
 } from '@chakra-ui/react';
+import { useRef } from 'react';
 import { FiAlertTriangle } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
-import { useStudentStore, usePersistStore } from '../../stores/index.tsx';
+import { usePersistStore, useStudentStore } from '../../stores/index.tsx';
 import { routes } from '../../utils/routes.tsx';
-import { useRef } from 'react';
 
 interface DeleteStudentAlertProps {
   onClose: () => void;
@@ -84,7 +84,7 @@ function DeleteStudentAlertDialog({ isOpen, onClose }: DeleteStudentAlertProps) 
         <AlertDialogCloseButton />
         <AlertDialogBody textAlign="center">
           <Text fontWeight="bold" mb="4">
-            Möchten Sie Ihr Profil wirklich löschen? Diese Aktion kann nicht rückgängig
+            Möchten Sie Ihr Konto wirklich löschen? Diese Aktion kann nicht rückgängig
             gemacht werden und führt zum Verlust aller Ihrer gespeicherten Daten und
             Einstellungen.
           </Text>

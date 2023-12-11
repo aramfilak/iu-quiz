@@ -1,13 +1,3 @@
-import { useParams } from 'react-router-dom';
-import { useFetch } from '../../../hooks';
-import { Quiz, QuizQuestion } from '../../../utils/types';
-import { usePersistStore, useQuizStore } from '../../../stores';
-import { NoResultFound, PageHeader } from '../../../components/shared';
-import { QuestionForm } from '../../../components/forms';
-import { QuestionEditorSkeleton } from '../../../components/skeletons';
-import { useEffect, useState } from 'react';
-import { ActionType } from '../../../utils/enums';
-import { FaPlus, FaSync } from 'react-icons/fa';
 import {
   Box,
   InputGroup,
@@ -19,6 +9,16 @@ import {
   TabPanels,
   Tabs
 } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import { FaPlus, FaSync } from 'react-icons/fa';
+import { useParams } from 'react-router-dom';
+import { QuestionForm } from '../../../components/forms';
+import { NoResultFound, PageHeader } from '../../../components/shared';
+import { PageSkeleton } from '../../../components/skeletons';
+import { useFetch } from '../../../hooks';
+import { usePersistStore, useQuizStore } from '../../../stores';
+import { ActionType } from '../../../utils/enums';
+import { Quiz, QuizQuestion } from '../../../utils/types';
 
 const emptyQuestion = {
   quizId: 0,
@@ -59,7 +59,7 @@ function QuestionsEditor() {
     <Box paddingInline={{ lg: '4rem', xl: '10rem' }}>
       <PageHeader title="Fragen Editor" description="Ganz nach deinem Wunsch gestaltet" />
       {isLoading ? (
-        <QuestionEditorSkeleton />
+        <PageSkeleton />
       ) : (
         <>
           {/*___________________________ Question Edit Form ___________________________*/}

@@ -1,1 +1,1 @@
-export { Edit } from './Edit';
+export { ProfileHeader } from './ProfileHeader';

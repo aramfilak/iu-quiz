@@ -1,9 +1,8 @@
 import { create } from 'zustand';
-import { axiosQuizApi, axiosQuizQuestionApi } from '../utils/http';
-import { QuestionData, QuizQueryParams } from '../utils/types';
 import { usePersistStore } from '.';
-import { Quiz } from '../utils/types';
 import { ActionType } from '../utils/enums';
+import { axiosQuizApi, axiosQuizQuestionApi } from '../utils/http';
+import { QuestionData, Quiz, QuizQueryParams } from '../utils/types';
 
 interface UseQuizStore {
   editQuiz: Quiz | null;

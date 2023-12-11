@@ -1,9 +1,8 @@
-export { Loading } from './Loading';
-export { ProtectedRoutes } from './ProtectedRoutes';
-export { UploadProfileImage } from './UploadProfileImage';
-export { HeadingLabel } from './HeadingLabel';
 export { BoxWrapper } from './BoxWrapper';
+export { HeadingLabel } from './HeadingLabel';
+export { IconBox } from './IconBox';
+export { Loading } from './Loading';
 export { NoResultFound } from './NoResultFound';
 export { PageHeader } from './PageHeader';
-export { ProfileView } from './ProfileView';
-export { IconBox } from './IconBox';
+export { ProtectedRoutes } from './ProtectedRoutes';
+export { UploadProfileImage } from './UploadProfileImage';

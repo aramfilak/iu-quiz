@@ -1,16 +1,25 @@
-import { FiHome, FiUser, FiHeart, FiEdit, FiSearch, FiCheckSquare } from 'react-icons/fi';
+import {
+  FiCheckSquare,
+  FiEdit,
+  FiHeart,
+  FiHome,
+  FiSearch,
+  FiSettings,
+  FiUser
+} from 'react-icons/fi';
 import { NotFound404 } from '../pages/404';
-import { EmailVerification } from '../pages/EmailVerification';
 import { Authentication, SignIn, SignUp } from '../pages/Authentication';
 import {
   Dashboard,
-  QuestionsEditor,
   FAQs,
-  Profile,
-  MyQuizzes,
   FindQuiz,
-  Quiz
+  MyQuizzes,
+  Profile,
+  QuestionsEditor,
+  Quiz,
+  Settings
 } from '../pages/Dashboard';
+import { EmailVerification } from '../pages/EmailVerification';
 
 const routes = {
   Authentication: {
@@ -52,13 +61,14 @@ const routes = {
     element: <Dashboard />,
     children: {
       Profile: {
-        isSidebarItem: true,
+        isSidebarItem: false,
         icon: FiUser,
-        name: 'Profile',
-        path: 'profile',
+        name: 'Profile ',
+        path: 'profile/:studentId',
         mainPath: 'profile',
         element: <Profile />
       },
+
       FindQuiz: {
         isSidebarItem: true,
         icon: FiSearch,
@@ -74,6 +84,14 @@ const routes = {
         path: 'my-quizzes',
         mainPath: 'my-quizzes',
         element: <MyQuizzes />
+      },
+      Settings: {
+        isSidebarItem: true,
+        icon: FiSettings,
+        name: 'Einstellungen ',
+        path: 'settings',
+        mainPath: 'settings',
+        element: <Settings />
       },
       FAQs: {
         isSidebarItem: true,

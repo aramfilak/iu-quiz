@@ -1,20 +1,20 @@
-import { useRef, useState } from 'react';
-import { RiLockPasswordLine, RiMailLine } from 'react-icons/ri';
-import { BiShow, BiHide } from 'react-icons/bi';
-import { useAuthStore } from '../../stores';
 import {
+  Alert,
+  AlertIcon,
   Button,
-  Text,
   FormLabel,
   Input,
   InputGroup,
   InputLeftElement,
   InputRightElement,
-  Alert,
-  AlertIcon,
+  Text,
   useToast
 } from '@chakra-ui/react';
+import { useRef, useState } from 'react';
+import { BiHide, BiShow } from 'react-icons/bi';
+import { RiLockPasswordLine, RiMailLine } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../../stores';
 import { routes } from '../../utils/routes';
 import { CustomAlert } from '../../utils/types';
 import { HeadingLabel } from '../shared';

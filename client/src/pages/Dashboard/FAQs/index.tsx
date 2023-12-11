@@ -1,25 +1,25 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import {
   Accordion,
-  AccordionItem,
   AccordionButton,
+  AccordionItem,
   AccordionPanel,
   Box,
   Heading,
+  Icon,
   Input,
   InputGroup,
   InputLeftElement,
   InputRightElement,
-  Icon,
-  useColorModeValue,
   Link,
-  Text
+  Text,
+  useColorModeValue
 } from '@chakra-ui/react';
+import { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
-import { useState } from 'react';
-import faqs from '../../../data/faqs.json';
 import { PageHeader } from '../../../components/shared';
+import faqs from '../../../data/faqs.json';
 
 function FAQs() {
   const [searchTerm, setSearchTerm] = useState<string>('');

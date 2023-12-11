@@ -1,7 +1,7 @@
+import { Box, Drawer, DrawerContent, Flex, useDisclosure } from '@chakra-ui/react';
 import { useState } from 'react';
-import { HeaderMenuBar, SidebarNav, DashboardFooter, DashboardContent } from './layout';
-import { Box, Drawer, DrawerContent, useDisclosure, Flex } from '@chakra-ui/react';
 import { useScreenSize } from '../../hooks';
+import { DashboardContent, DashboardFooter, HeaderMenuBar, SidebarNav } from './layout';
 
 function Dashboard() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -40,10 +40,11 @@ function Dashboard() {
   );
 }
 
-export { Dashboard };
 export { FAQs } from './FAQs';
 export { FindQuiz } from './FindQuiz';
 export { MyQuizzes } from './MyQuizzes';
 export { Profile } from './Profile';
 export { QuestionsEditor } from './QuestionsEditor';
 export { Quiz } from './Quiz';
+export { Settings } from './Settings';
+export { Dashboard };

@@ -1,8 +1,8 @@
-import './style.css';
-import PageNotFound404illustration from '../../assets/page-not-found-illustration.svg';
 import { Box, Button, Container, Image, Text } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import PageNotFound404illustration from '../../assets/page-not-found-illustration.svg';
+import './style.css';
 
 function NotFound404() {
   const navigate = useNavigate();

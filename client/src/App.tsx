@@ -1,8 +1,8 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
-import { routes } from './utils/routes';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ProtectedRoutes } from './components/shared';
 import { theme, toastOptions } from './ui/';
+import { routes } from './utils/routes';
 
 const { EmailVerification, Authentication, NotFound404, Dashboard } = routes;
 

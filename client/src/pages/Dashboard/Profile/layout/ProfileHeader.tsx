@@ -1,5 +1,4 @@
 import { Avatar, Flex, Link, VStack } from '@chakra-ui/react';
-import { MdEmail } from 'react-icons/md';
 import {
   FaCalendarAlt,
   FaGraduationCap,
@@ -8,11 +7,12 @@ import {
   FaUser,
   FaXingSquare
 } from 'react-icons/fa';
-import { BoxWrapper, IconBox } from '.';
-import { StudentProfile } from '../../utils/types';
-import { convertToGermanDate } from '../../utils/formatters.ts';
+import { MdEmail } from 'react-icons/md';
+import { BoxWrapper, IconBox } from '../../../../components/shared/index.ts';
+import { convertToGermanDate } from '../../../../utils/formatters.ts';
+import { StudentProfile } from '../../../../utils/types';
 
-function ProfileView(studentProfile: StudentProfile) {
+function ProfileHeader(studentProfile: StudentProfile) {
   return (
     <BoxWrapper
       pos="relative"
@@ -112,4 +112,4 @@ function ProfileView(studentProfile: StudentProfile) {
   );
 }
 
-export { ProfileView };
+export { ProfileHeader };

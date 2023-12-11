@@ -1,37 +1,37 @@
 import {
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  CardProps,
   Flex,
+  IconButton,
   Menu,
   MenuButton,
-  IconButton,
-  MenuList,
   MenuItem,
+  MenuList,
   Text,
-  useDisclosure,
-  Card,
-  CardProps,
-  CardHeader,
-  CardBody,
   Tooltip,
-  CardFooter
+  useDisclosure
 } from '@chakra-ui/react';
 import {
-  FaList,
-  FaTrash,
-  FaRegClone,
-  FaHeart,
-  FaHeartBroken,
   FaClipboardList,
   FaEdit,
-  FaFolderOpen
+  FaFolderOpen,
+  FaHeart,
+  FaHeartBroken,
+  FaList,
+  FaRegClone,
+  FaTrash
 } from 'react-icons/fa';
-import { convertToGermanDate } from '../../utils/formatters.ts';
-import { Quiz } from '../../utils/types';
-import { routes } from '../../utils/routes.tsx';
-import { useNavigate } from 'react-router-dom';
 import { HiMiniArrowPath } from 'react-icons/hi2';
 import { TbUserHeart } from 'react-icons/tb';
+import { useNavigate } from 'react-router-dom';
 import { useQuizStore } from '../../stores/quizStore.tsx';
 import { ActionType } from '../../utils/enums.ts';
+import { convertToGermanDate } from '../../utils/formatters.ts';
+import { routes } from '../../utils/routes.tsx';
+import { Quiz } from '../../utils/types';
 import { CustomAlertDialog } from '../dialogs/CustomAlertDialog.tsx';
 
 interface QuizCardProps extends CardProps {

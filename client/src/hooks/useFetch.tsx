@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
 import { useToast } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 
 function useFetch<T>(fetchFunction: () => Promise<T>) {
   const [data, setData] = useState<T>();

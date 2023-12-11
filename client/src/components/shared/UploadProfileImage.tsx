@@ -1,18 +1,18 @@
-import { FiXCircle, FiRefreshCw, FiPlusCircle, FiInfo } from 'react-icons/fi';
 import {
   Avatar,
-  FlexProps,
-  useToast,
-  FormLabel,
-  Input,
   Button,
   Flex,
+  FlexProps,
+  FormLabel,
+  Input,
+  Text,
   useDisclosure,
-  Text
+  useToast
 } from '@chakra-ui/react';
+import { useState } from 'react';
+import { FiInfo, FiPlusCircle, FiRefreshCw, FiXCircle } from 'react-icons/fi';
 import { useStudentStore } from '../../stores';
 import { CustomAlertDialog } from '../dialogs';
-import { useState } from 'react';
 
 function UploadProfileImage(rest: FlexProps) {
   const toast = useToast();

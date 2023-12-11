@@ -1,10 +1,11 @@
 import {
   ButtonGroup,
-  IconButton,
-  Text,
-  Image,
   Flex,
+  HStack,
+  IconButton,
+  Image,
   SpaceProps,
+  Text,
   Tooltip,
   useDisclosure
 } from '@chakra-ui/react';
@@ -41,12 +42,10 @@ function DashboardFooter({ ml }: SpaceProps) {
         align="center"
         wrap="wrap"
       >
-        <Flex align="center">
-          <Image mb="2" src={logo} alt="iu quiz app logo" maxW="3rem" />
-          <Text fontSize="sm">
-            &copy; {new Date().getFullYear()}. All rights reserved.
-          </Text>
-        </Flex>
+        <HStack gap="0">
+          <Image src={logo} alt="iu quiz app logo" maxW="3rem" />
+          <Text fontSize="sm">copyright &copy; {new Date().getFullYear()}</Text>
+        </HStack>
 
         <ButtonGroup variant="tertiary">
           <Tooltip label="GitHub" placement="top">

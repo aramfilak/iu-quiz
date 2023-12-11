@@ -1,52 +1,16 @@
-import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
-import { FiEye, FiEdit3 } from 'react-icons/fi';
+import { useParams } from 'react-router-dom';
+import { PageSkeleton } from '../../../components/skeletons';
+import { useFetch } from '../../../hooks';
 import { useStudentStore } from '../../../stores';
-import { PageHeader, ProfileView } from '../../../components/shared';
-import { Edit } from './layout';
-import { useScreenSize } from '../../../hooks';
+import { ProfileHeader } from './layout';
 
 function Profile() {
-  const { studentProfile } = useStudentStore();
-  const { isMobileScreen } = useScreenSize();
+  const { studentId } = useParams();
+  const { getStudentsByIds } = useStudentStore();
+  const { data, isLoading } = useFetch(() => getStudentsByIds(studentId as string));
+  const studentData = data && data[0];
 
-  return (
-    <>
-      {/*------------------- Header --------------------*/}
-      <PageHeader
-        title={`${studentProfile?.name} Profil`}
-        description="Dein Profil, deine Geschichte. Gestalte es einzigartig."
-      />
-      <Tabs>
-        <TabList>
-          <Tab>
-            <FiEye />
-            {!isMobileScreen && (
-              <Box as="span" ml="2">
-                Vorschau
-              </Box>
-            )}
-          </Tab>
-
-          <Tab>
-            <FiEdit3 />
-            {!isMobileScreen && (
-              <Box as="span" ml="2">
-                Bearbeiten
-              </Box>
-            )}
-          </Tab>
-        </TabList>
-        <TabPanels>
-          {/*------------------- Preview Panel --------------------*/}
-          <TabPanel>{studentProfile && <ProfileView {...studentProfile} />}</TabPanel>
-          {/*------------------- Edit Panel --------------------*/}
-          <TabPanel>
-            <Edit />
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
-    </>
-  );
+  return isLoading ? <PageSkeleton /> : studentData && <ProfileHeader {...studentData} />;
 }
 
 export { Profile };

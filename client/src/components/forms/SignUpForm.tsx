@@ -1,26 +1,26 @@
-import { useRef, useState } from 'react';
 import {
+  Alert,
+  AlertIcon,
+  Box,
   Button,
-  Text,
   FormLabel,
   Input,
   InputGroup,
   InputLeftElement,
   InputRightElement,
-  Box,
   List,
-  ListItem,
   ListIcon,
-  Alert,
-  AlertIcon,
+  ListItem,
+  Text,
   useColorModeValue
 } from '@chakra-ui/react';
+import { useRef, useState } from 'react';
+import { BiCheckShield, BiHide, BiShow } from 'react-icons/bi';
 import { RiLockPasswordLine, RiMailLine } from 'react-icons/ri';
-import { BiShow, BiHide, BiCheckShield } from 'react-icons/bi';
-import { useAuthStore } from '../../stores';
-import { CustomAlert } from '../../utils/types';
 import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../../stores';
 import { routes } from '../../utils/routes';
+import { CustomAlert } from '../../utils/types';
 import { HeadingLabel } from '../shared';
 
 function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {

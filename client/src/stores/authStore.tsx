@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { axiosAuthApi, asyncHandler } from '../utils/http';
+import { asyncHandler, axiosAuthApi } from '../utils/http';
 import { IuQuizServerResponse } from '../utils/types';
 import { usePersistStore } from './index';
 

@@ -1,2 +1,2 @@
 export { QuizCardSkeleton } from './QuizCardSkeleton';
-export { QuestionEditorSkeleton } from './QuestionEditorSkeleton';
+export { PageSkeleton } from './PageSkeleton';

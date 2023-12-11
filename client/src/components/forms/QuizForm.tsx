@@ -1,26 +1,26 @@
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  InputGroup,
-  Tooltip,
-  InputLeftAddon,
+  Button,
   FormControl,
   Input,
-  Select,
+  InputGroup,
+  InputLeftAddon,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
   ModalFooter,
-  Button,
+  ModalHeader,
+  ModalOverlay,
+  Select,
+  Tooltip,
   UseDisclosureProps,
   useToast
 } from '@chakra-ui/react';
-import { FaBookmark, FaGraduationCap, FaBook } from 'react-icons/fa';
 import { useEffect, useRef, useState } from 'react';
+import { FaBook, FaBookmark, FaGraduationCap } from 'react-icons/fa';
+import courseOfStudies from '../../data/courseOfStudy.json';
 import { useQuizStore, useStudentStore } from '../../stores';
 import { ActionType } from '../../utils/enums';
-import courseOfStudies from '../../data/courseOfStudy.json';
 
 interface Course {
   name: string;

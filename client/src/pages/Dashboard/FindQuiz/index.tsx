@@ -1,33 +1,33 @@
 import {
+  Button,
+  Flex,
+  Heading,
+  Icon,
   Input,
   InputGroup,
-  InputLeftElement,
-  InputRightElement,
-  Icon,
-  Button,
-  Tooltip,
-  Heading,
-  useToast,
   InputLeftAddon,
-  Select,
+  InputLeftElement,
+  InputRightAddon,
+  InputRightElement,
   Radio,
   RadioGroup,
-  InputRightAddon,
-  Flex,
-  VStack
+  Select,
+  Tooltip,
+  VStack,
+  useToast
 } from '@chakra-ui/react';
-import { FaSearch, FaGraduationCap, FaBook, FaSync } from 'react-icons/fa';
-import { IoMdClose } from 'react-icons/io';
-import { PageHeader, BoxWrapper, NoResultFound } from '../../../components/shared';
-import { QuizCardsGrid } from '../../../components/quiz-card';
-import { QuizCardSkeleton } from '../../../components/skeletons';
 import { useState } from 'react';
-import { useQuizStore } from '../../../stores';
-import courseOfStudy from '../../../data/courseOfStudy.json';
+import { FaBook, FaGraduationCap, FaSearch, FaSync } from 'react-icons/fa';
+import { IoMdClose } from 'react-icons/io';
+import { QuizCardsGrid } from '../../../components/quiz-card';
 import { QuizCard } from '../../../components/quiz-card/QuizCard';
-import { useFetch, useScreenSize } from '../../../hooks';
-import { QuizQueryParams } from '../../../utils/types';
+import { BoxWrapper, NoResultFound, PageHeader } from '../../../components/shared';
 import Pagination from '../../../components/shared/Pagination';
+import { QuizCardSkeleton } from '../../../components/skeletons';
+import courseOfStudy from '../../../data/courseOfStudy.json';
+import { useFetch, useScreenSize } from '../../../hooks';
+import { useQuizStore } from '../../../stores';
+import { QuizQueryParams } from '../../../utils/types';
 
 function FindQuiz() {
   const [searchTerm, setSearchTerm] = useState<string>('');

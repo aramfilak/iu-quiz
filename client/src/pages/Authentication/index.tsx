@@ -1,10 +1,10 @@
-import './style.css';
 import { Box, Container } from '@chakra-ui/react';
-import { usePersistStore } from '../../stores';
 import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { routes } from '../../utils/routes';
 import authBg from '../../assets/auth-page-bg.svg';
+import { usePersistStore } from '../../stores';
+import { routes } from '../../utils/routes';
+import './style.css';
 
 function Authentication() {
   const { isAuthenticated } = usePersistStore();
@@ -34,6 +34,6 @@ function Authentication() {
   );
 }
 
-export { Authentication };
 export { SignIn } from './SignIn';
 export { SignUp } from './SignUp';
+export { Authentication };

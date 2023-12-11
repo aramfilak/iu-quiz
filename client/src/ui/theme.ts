@@ -1,12 +1,4 @@
 import {
-  createMultiStyleConfigHelpers,
-  defineStyleConfig,
-  extendTheme,
-  type ThemeConfig
-} from '@chakra-ui/react';
-import { mode } from '@chakra-ui/theme-tools';
-import { Dict } from '@chakra-ui/utils';
-import {
   accordionAnatomy,
   alertAnatomy,
   avatarAnatomy,
@@ -14,6 +6,14 @@ import {
   selectAnatomy,
   tabsAnatomy
 } from '@chakra-ui/anatomy';
+import {
+  createMultiStyleConfigHelpers,
+  defineStyleConfig,
+  extendTheme,
+  type ThemeConfig
+} from '@chakra-ui/react';
+import { mode } from '@chakra-ui/theme-tools';
+import { Dict } from '@chakra-ui/utils';
 
 //________________________________________________________________
 // Accordion
