@@ -6,12 +6,15 @@ import { PageSkeleton } from '../../../components/skeletons';
 import { useFetch } from '../../../hooks';
 import { useQuizStore } from '../../../stores';
 import { QuizHeader } from './layout';
+import { ScoreTable } from '../../../components/shared';
 
 function Quiz() {
   const { quizId } = useParams();
-  const { getQuizById } = useQuizStore();
+  const { getQuizById, getQuizScores } = useQuizStore();
   const { data: quizData, isLoading } = useFetch(() => getQuizById(Number(quizId)));
+  const { data: scoreData } = useFetch(() => getQuizScores(Number(quizId)));
   const navigate = useNavigate();
+
   return (
     <Box w="full">
       <PageHeader
@@ -34,6 +37,11 @@ function Quiz() {
           authorId={quizData?.authorId}
           isLoading={isLoading}
         />
+      )}
+      {!scoreData ? (
+        <PageSkeleton />
+      ) : (
+        <ScoreTable scoreTableData={scoreData} quizData={quizData} />
       )}
     </Box>
   );

@@ -11,5 +11,6 @@ quizRoutes.get('/:quizId', quizService.findQuizById);
 quizRoutes.post('/', quizService.createQuiz);
 quizRoutes.patch('/:quizId', quizService.updateQuiz);
 quizRoutes.delete('/:quizId', quizService.deleteQuizById);
+quizRoutes.get('/scores/:quizId', quizService.findQuizScores);
 
 export { quizRoutes };

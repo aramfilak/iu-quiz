@@ -50,6 +50,7 @@ export interface Quiz {
   course: string;
   quizQuestions: QuizQuestion[];
   followedBy: FollowedQuizzes[];
+  scors: QuizScores[];
 }
 
 export interface FollowedQuizzes {
@@ -74,6 +75,16 @@ export interface QuizAnswer {
   isRightAnswer: boolean;
   quizQuestion: QuizQuestion;
   quizQuestionId: number;
+}
+
+export interface QuizScore {
+  id: number;
+  answeredQuestion: number;
+  timeTaken: number;
+  quiz: Quiz;
+  quizId: number;
+  Student: Student;
+  playerId: string;
 }
 
 export interface QuizQueryParams {
