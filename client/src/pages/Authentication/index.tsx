@@ -13,7 +13,7 @@ function Authentication() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate(Dashboard.children.Profile.path);
+      navigate(Dashboard.children.FindQuiz.path);
     }
     //eslint-disable-next-line
   }, []);
