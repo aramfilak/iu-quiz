@@ -231,7 +231,14 @@ function QuestionForm({
                 </>
               )}
             </FieldArray>
-            <Flex mb="4" borderRadius="md" justifyContent="end" gap="2" mt="10">
+            <Flex
+              mb="4"
+              borderRadius="md"
+              justifyContent="end"
+              gap={{ base: '4', md: '2' }}
+              mt="10"
+              flexDir={{ base: 'column-reverse', md: 'row' }}
+            >
               <Button
                 type="button"
                 onClick={handleReset}
@@ -255,7 +262,12 @@ function QuestionForm({
               )}
               {/*______________________ Delete Answer Button ____________________*/}
 
-              <Button type="submit" isLoading={isLoading} leftIcon={<FaSave />}>
+              <Button
+                type="submit"
+                gap="2"
+                isLoading={isLoading}
+                leftIcon={actionType === ActionType.CREATE ? <FaPlus /> : <FaSave />}
+              >
                 {actionType === ActionType.CREATE ? 'Erstellen' : 'Speichern'}
               </Button>
               {/*______________________ Delete Answer Button ____________________*/}

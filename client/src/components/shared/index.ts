@@ -7,3 +7,4 @@ export { PageHeader } from './PageHeader';
 export { ProtectedRoutes } from './ProtectedRoutes';
 export { UploadProfileImage } from './UploadProfileImage';
 export { ScoreTable } from './ScoreTable';
+export { GoBackButton } from './GoBackButton';

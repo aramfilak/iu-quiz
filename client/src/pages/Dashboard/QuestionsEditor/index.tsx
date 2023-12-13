@@ -1,7 +1,7 @@
 import {
   Box,
+  FormLabel,
   InputGroup,
-  InputLeftAddon,
   Select,
   Tab,
   TabList,
@@ -10,10 +10,15 @@ import {
   Tabs
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { FaPlus, FaSync } from 'react-icons/fa';
+import { FaPlus, FaRegQuestionCircle, FaSync } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
 import { QuestionForm } from '../../../components/forms';
-import { NoResultFound, PageHeader } from '../../../components/shared';
+import {
+  BoxWrapper,
+  GoBackButton,
+  NoResultFound,
+  PageHeader
+} from '../../../components/shared';
 import { PageSkeleton } from '../../../components/skeletons';
 import { useFetch } from '../../../hooks';
 import { usePersistStore, useQuizStore } from '../../../stores';
@@ -58,6 +63,8 @@ function QuestionsEditor() {
   return (
     <Box paddingInline={{ lg: '4rem', xl: '10rem' }}>
       <PageHeader title="Fragen Editor" description="Ganz nach deinem Wunsch gestaltet" />
+      <GoBackButton mb="4" />
+
       {isLoading ? (
         <PageSkeleton />
       ) : (
@@ -68,7 +75,7 @@ function QuestionsEditor() {
             defaultIndex={questionFormsPanelIndex}
             onChange={(index) => setQuestionFormsPanelIndex(index)}
           >
-            <TabList mb="10">
+            <TabList mb="10" flexDir={{ base: 'column', md: 'row' }}>
               <Tab gap="2">
                 Eine Frage aktualisieren <FaSync />
               </Tab>
@@ -81,30 +88,27 @@ function QuestionsEditor() {
             <TabPanels>
               <TabPanel>
                 {/*___________________________ Question Menu___________________________*/}
-                <InputGroup margin="auto">
-                  <InputLeftAddon
-                    border="2px solid"
-                    borderColor="teal.500"
-                    bg="teal.500"
-                    color="white"
-                  >
-                    Zu aktualisierende Frage
-                  </InputLeftAddon>
-                  <Select mb="10" bg="gray.50" cursor="pointer">
-                    {quiz?.quizQuestions && (
-                      <>
-                        {quiz?.quizQuestions.map((question, index) => {
-                          return (
-                            <option
-                              key={question.id}
-                              onClick={() => setSelectedQuestion(question)}
-                            >{`${index + 1} ${question.question}`}</option>
-                          );
-                        })}
-                      </>
-                    )}
-                  </Select>
-                </InputGroup>
+                <BoxWrapper mb="8">
+                  <InputGroup flexDir="column">
+                    <FormLabel gap="2" display="flex" alignItems="center">
+                      <FaRegQuestionCircle /> Zu aktualisierende Frage
+                    </FormLabel>
+                    <Select borderRadius="md" bg="gray.50" cursor="pointer">
+                      {quiz?.quizQuestions && (
+                        <>
+                          {quiz?.quizQuestions.map((question, index) => {
+                            return (
+                              <option
+                                key={question.id}
+                                onClick={() => setSelectedQuestion(question)}
+                              >{`${index + 1} ${question.question}`}</option>
+                            );
+                          })}
+                        </>
+                      )}
+                    </Select>
+                  </InputGroup>
+                </BoxWrapper>
 
                 {selectedQuestion ? (
                   <QuestionForm
