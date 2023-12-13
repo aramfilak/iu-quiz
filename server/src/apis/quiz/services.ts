@@ -130,7 +130,17 @@ async function findQuizById(req: Request, res: Response) {
 
   const quiz = await db.quiz.findUnique({
     where: { id: Number(quizId) },
+
     include: {
+      student: {
+        select: {
+          studentProfile: {
+            select: {
+              name: true
+            }
+          }
+        }
+      },
       quizQuestions: {
         include: {
           quizAnswers: true
@@ -139,13 +149,15 @@ async function findQuizById(req: Request, res: Response) {
       scors: {
         include: {
           Student: {
-            include: {
-              studentProfile: true
+            select: {
+              studentProfile: {
+                select: {
+                  name: true,
+                  profileImage: true
+                }
+              }
             }
           }
-        },
-        orderBy: {
-          answeredQuestion: 'desc'
         }
       }
     }

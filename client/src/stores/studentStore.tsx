@@ -68,6 +68,7 @@ const useStudentStore = create<UseStudentStore>((set) => ({
 
     set({ studentProfile: response.data.data });
   },
+
   sendContactEmail: async (subject: string, description: string) => {
     await axiosStudentApi.post(
       '/send-email',

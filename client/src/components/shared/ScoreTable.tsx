@@ -7,21 +7,15 @@ import {
   Th,
   Tbody,
   Td,
-  TableContainerProps,
   Heading,
   Button
 } from '@chakra-ui/react';
 import { BoxWrapper } from './BoxWrapper.tsx';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../../utils/routes.tsx';
-import { Quiz, QuizScore } from '../../utils/types';
+import { Quiz } from '../../utils/types';
 
-interface ScoreTableProps extends TableContainerProps {
-  scoreTableData: QuizScore[] | undefined;
-  quizData: Quiz | undefined;
-}
-
-function ScoreTable({ scoreTableData, quizData }: ScoreTableProps) {
+function ScoreTable({ scors, size }: Quiz) {
   const navigate = useNavigate();
 
   return (
@@ -48,7 +42,7 @@ function ScoreTable({ scoreTableData, quizData }: ScoreTableProps) {
               </Tr>
             </Thead>
             <Tbody>
-              {scoreTableData?.length === 0 && (
+              {scors.length === 0 && (
                 <Tr
                   borderTopWidth="2px"
                   borderColor="gray.300"
@@ -62,7 +56,7 @@ function ScoreTable({ scoreTableData, quizData }: ScoreTableProps) {
                   <Td textAlign="right">-</Td>
                 </Tr>
               )}
-              {scoreTableData?.map((row, index) => (
+              {scors?.map((row, index) => (
                 <Tr
                   key={index}
                   borderTopWidth="2px"
@@ -85,7 +79,7 @@ function ScoreTable({ scoreTableData, quizData }: ScoreTableProps) {
                     </Button>
                   </Td>
                   <Td textAlign="center">
-                    {row.answeredQuestion}/{quizData?.size}
+                    {row.answeredQuestion}/{size}
                   </Td>
                   <Td textAlign="right" isNumeric>
                     {row.timeTaken} s

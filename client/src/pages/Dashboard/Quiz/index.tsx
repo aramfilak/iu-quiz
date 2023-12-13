@@ -26,21 +26,10 @@ function Quiz() {
       {isLoading || !quizData ? (
         <PageSkeleton />
       ) : (
-        <QuizHeader
-          updatedAt={quizData?.updatedAt}
-          title={quizData?.title}
-          course={quizData?.course}
-          courseOfStudy={quizData?.courseOfStudy}
-          size={quizData?.size}
-          popularity={quizData?.popularity}
-          authorId={quizData?.authorId}
-          isLoading={isLoading}
-        />
-      )}
-      {isLoading || !quizData ? (
-        <PageSkeleton />
-      ) : (
-        <ScoreTable scoreTableData={quizData.scors} quizData={quizData} />
+        <>
+          <QuizHeader {...quizData} />
+          <ScoreTable {...quizData} />
+        </>
       )}
     </Box>
   );

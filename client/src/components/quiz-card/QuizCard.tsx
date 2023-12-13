@@ -18,9 +18,9 @@ import {
   FaClipboardList,
   FaEdit,
   FaFolderOpen,
-  FaHeart,
-  FaHeartBroken,
   FaList,
+  FaMinus,
+  FaPlus,
   FaRegClone,
   FaTrash
 } from 'react-icons/fa';
@@ -156,7 +156,7 @@ function QuizCard({
             <Tooltip label="Folgen">
               <IconButton
                 onClick={displayFollowButton.onFollow}
-                icon={<FaHeart />}
+                icon={<FaPlus />}
                 aria-label="Folgen"
                 ml="2"
                 size="sm"
@@ -171,7 +171,7 @@ function QuizCard({
               <IconButton
                 colorScheme="red"
                 onClick={displayUnFollowButton.onUnFollow}
-                icon={<FaHeartBroken />}
+                icon={<FaMinus />}
                 aria-label="Nicht mehr folgen"
                 ml="2"
                 size="sm"
