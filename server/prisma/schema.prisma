@@ -28,6 +28,7 @@ model Student {
   followedQuizzes        FollowedQuizzes[]
   quizQuestion           QuizQuestion[]
   scores                 QuizScore[]
+  lovedQuizzes           LovedQuiz[]
 }
 
 model StudentProfile {
@@ -64,6 +65,7 @@ model Quiz {
   followedBy    FollowedQuizzes[]
   feedbacks     QuizFeedback[]
   scors         QuizScore[]
+  lovedBy       LovedQuiz[]
 }
 
 model FollowedQuizzes {
@@ -112,4 +114,13 @@ model QuizScore {
   quizId           Int
   Student          Student? @relation(fields: [playerId], references: [id])
   playerId         String?
+}
+
+model LovedQuiz {
+  student   Student @relation(fields: [studentId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  studentId String
+  quiz      Quiz    @relation(fields: [quizId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  quizId    Int
+
+  @@unique([studentId, quizId])
 }

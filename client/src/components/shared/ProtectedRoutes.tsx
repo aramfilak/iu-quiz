@@ -12,22 +12,24 @@ function ProtectedRoutes() {
   const { isAuthenticated, signInStudentId } = usePersistStore();
   const navigate = useNavigate();
 
+  const redirectToSignInPage = () => {
+    signOut();
+    navigate(Authentication.children.SignIn.path);
+  };
+
   useEffect(() => {
-    (async () => {
-      if (isAuthenticated && signInStudentId) {
-        const profiles = await getStudentsByIds(signInStudentId);
-        const studentProfile = profiles[0];
+    if (isAuthenticated && signInStudentId) {
+      getStudentsByIds(signInStudentId)
+        .then((students) => {
+          const studentProfile = students[0];
 
-        if (studentProfile) {
           setStudentProfile(studentProfile);
-          return setIsLoading(false);
-        }
-      }
-
-      signOut();
-      navigate(Authentication.children.SignIn.path);
-      setIsLoading(false);
-    })();
+          setIsLoading(false);
+        })
+        .catch(() => redirectToSignInPage());
+    } else {
+      redirectToSignInPage();
+    }
   }, []);
 
   return isLoading ? (

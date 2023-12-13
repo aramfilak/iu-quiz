@@ -15,6 +15,7 @@ Table Student {
   followedQuizzes FollowedQuizzes [not null]
   quizQuestion QuizQuestion [not null]
   scores QuizScore [not null]
+  lovedQuizzes LovedQuiz [not null]
 }
 
 Table StudentProfile {
@@ -51,6 +52,7 @@ Table Quiz {
   followedBy FollowedQuizzes [not null]
   feedbacks QuizFeedback [not null]
   scors QuizScore [not null]
+  lovedBy LovedQuiz [not null]
 }
 
 Table FollowedQuizzes {
@@ -103,6 +105,17 @@ Table QuizScore {
   playerId String
 }
 
+Table LovedQuiz {
+  student Student [not null]
+  studentId String [not null]
+  quiz Quiz [not null]
+  quizId Int [not null]
+
+  indexes {
+    (studentId, quizId) [unique]
+  }
+}
+
 Ref: StudentProfile.studentId - Student.id [delete: Cascade]
 
 Ref: ProfileImage.profileId - StudentProfile.id [delete: Cascade]
@@ -126,3 +139,7 @@ Ref: QuizFeedback.quizId > Quiz.id [delete: Cascade]
 Ref: QuizScore.quizId > Quiz.id [delete: Cascade]
 
 Ref: QuizScore.playerId > Student.id
+
+Ref: LovedQuiz.studentId > Student.id [delete: Cascade]
+
+Ref: LovedQuiz.quizId > Quiz.id [delete: Cascade]

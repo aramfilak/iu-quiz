@@ -1,5 +1,14 @@
-import { Avatar, Button, Table, TableContainer, Tbody, Td, Tr } from '@chakra-ui/react';
-import { FaPlay } from 'react-icons/fa';
+import {
+  Avatar,
+  Button,
+  HStack,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Tr
+} from '@chakra-ui/react';
+import { FaHeart, FaPlay } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { BoxWrapper } from '../../../../components/shared';
 import { convertToGermanDate } from '../../../../utils/formatters';
@@ -12,13 +21,12 @@ function QuizHeader(quiz: Quiz) {
     quiz;
 
   return (
-    <BoxWrapper>
+    <BoxWrapper title="Allgemeine Infos">
       <TableContainer>
         <Table size="sm">
           <Tbody>
             <Tr>
               <Td fontWeight="bold">
-                {' '}
                 <Avatar
                   borderRadius="md"
                   src={student.studentProfile?.profileImage?.url}
@@ -65,9 +73,20 @@ function QuizHeader(quiz: Quiz) {
           </Tbody>
         </Table>
       </TableContainer>
-      <Button alignSelf="end" colorScheme="blue" leftIcon={<FaPlay />}>
-        Spielen
-      </Button>
+      <HStack w="full" justify="end">
+        <Button
+          alignSelf="end"
+          colorScheme="blue"
+          leftIcon={<FaHeart />}
+          aria-label="„Gefällt mir“-Knopf"
+        >
+          Gefällt mir
+        </Button>
+
+        <Button alignSelf="end" colorScheme="teal" leftIcon={<FaPlay />}>
+          Spielen
+        </Button>
+      </HStack>
     </BoxWrapper>
   );
 }

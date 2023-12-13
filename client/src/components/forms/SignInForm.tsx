@@ -40,7 +40,7 @@ function SignInForm(rest: React.HTMLProps<HTMLFormElement>) {
       const { success, message } = await signIn(email, password);
       if (success) {
         toast({ status: 'success', description: message });
-        navigate(routes.Dashboard.children.Profile.path);
+        navigate(routes.Dashboard.children.FindQuiz.path);
       } else {
         setAlert({ status: 'error', message: message });
       }
