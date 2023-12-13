@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { usePersistStore } from '.';
 import { ActionType } from '../utils/enums';
 import { axiosQuizApi, axiosQuizQuestionApi } from '../utils/http';
-import { QuestionData, Quiz, QuizQueryParams, QuizScore } from '../utils/types';
+import { QuestionData, Quiz, QuizQueryParams } from '../utils/types';
 
 interface UseQuizStore {
   editQuiz: Quiz | null;
@@ -24,7 +24,6 @@ interface UseQuizStore {
   createQuizQuestion: (data: QuestionData) => Promise<Quiz>;
   updateQuizQuestion: (questionId: number, data: QuestionData) => Promise<Quiz>;
   deleteQuizQuestion: (quizId: number, questionId: number) => Promise<void>;
-  getQuizScores: (quizId: number) => Promise<QuizScore[]>;
 }
 
 const useQuizStore = create<UseQuizStore>((set) => ({
@@ -122,13 +121,6 @@ const useQuizStore = create<UseQuizStore>((set) => ({
   deleteQuizQuestion: async (questionId: number, quizId: number) => {
     const response = await axiosQuizQuestionApi.delete(`/`, {
       params: { questionId, quizId },
-      headers: { Authorization: usePersistStore.getState().accessToken }
-    });
-
-    return response.data.data;
-  },
-  getQuizScores: async (quizId: number) => {
-    const response = await axiosQuizApi.get(`/scores/${quizId}`, {
       headers: { Authorization: usePersistStore.getState().accessToken }
     });
 

@@ -10,9 +10,8 @@ import { ScoreTable } from '../../../components/shared';
 
 function Quiz() {
   const { quizId } = useParams();
-  const { getQuizById, getQuizScores } = useQuizStore();
+  const { getQuizById } = useQuizStore();
   const { data: quizData, isLoading } = useFetch(() => getQuizById(Number(quizId)));
-  const { data: scoreData } = useFetch(() => getQuizScores(Number(quizId)));
   const navigate = useNavigate();
 
   return (
@@ -38,10 +37,10 @@ function Quiz() {
           isLoading={isLoading}
         />
       )}
-      {!scoreData ? (
+      {isLoading || !quizData ? (
         <PageSkeleton />
       ) : (
-        <ScoreTable scoreTableData={scoreData} quizData={quizData} />
+        <ScoreTable scoreTableData={quizData.scors} quizData={quizData} />
       )}
     </Box>
   );
