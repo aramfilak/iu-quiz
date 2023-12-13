@@ -1,4 +1,4 @@
-import { Button, Table, TableContainer, Tbody, Td, Tr } from '@chakra-ui/react';
+import { Avatar, Button, Table, TableContainer, Tbody, Td, Tr } from '@chakra-ui/react';
 import { FaPlay } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { BoxWrapper } from '../../../../components/shared';
@@ -17,7 +17,13 @@ function QuizHeader(quiz: Quiz) {
         <Table size="sm">
           <Tbody>
             <Tr>
-              <Td fontWeight="bold">Autor</Td>
+              <Td fontWeight="bold">
+                {' '}
+                <Avatar
+                  borderRadius="md"
+                  src={student.studentProfile?.profileImage?.url}
+                />
+              </Td>
               <Td>
                 <Button
                   variant="link"
