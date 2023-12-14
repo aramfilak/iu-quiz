@@ -4,7 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 import { createApiResponse } from '../../utils/response';
 import { BadRequestError, NotFoundError, UnauthorizedError } from '../../errors';
 import { validate } from '../../utils/validate';
-import { FollowedQuizzes, Quiz } from '@prisma/client';
+import { FollowedQuizzes, Quiz, QuizScore } from '@prisma/client';
 
 /**
  * ________________________________________________________________
@@ -371,6 +371,81 @@ async function unFollowQuiz(req: Request, res: Response) {
   res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, ''));
 }
 
+/**
+ * ________________________________________________________________
+ * @route api/v1/score/:quizId
+ * @method POST
+ * @access protected
+ * ________________________________________________________________
+ */
+async function createUpdateQuizScore(req: Request, res: Response) {
+  const studentId = req.auth?.studentId;
+  const quizId = req.params.quizId;
+  const { answeredQuestion, timeTaken } = req.body;
+
+  const student = await db.student.findUnique({ where: { id: studentId } });
+
+  if (!student) {
+    throw new UnauthorizedError('Sie sind nicht berechtigt');
+  }
+
+  const existingQuiz = await db.quiz.findUnique({
+    where: {
+      id: Number(quizId)
+    }
+  });
+
+  if (!existingQuiz) {
+    throw new BadRequestError('Quiz existiert nicht');
+  }
+
+  const existingScore = await db.quizScore.findFirst({
+    where: {
+      playerId: student.id,
+      quizId: Number(quizId)
+    }
+  });
+
+  const updateData: Partial<QuizScore> = {};
+
+  if (existingScore?.answeredQuestion != answeredQuestion) {
+    updateData.answeredQuestion = answeredQuestion;
+  }
+  if (existingScore?.timeTaken != timeTaken) {
+    updateData.timeTaken = timeTaken;
+  }
+
+  if (!Object.keys(updateData).length) {
+    throw new BadRequestError('Keine Änderungen erforderlich');
+  }
+
+  if (existingScore) {
+    const updatedScore = await db.quizScore.update({
+      where: { id: existingScore.id, playerId: studentId },
+      data: updateData
+    });
+
+    res
+      .status(StatusCodes.OK)
+      .json(createApiResponse(StatusCodes.OK, 'Änderungen gespeichert', updatedScore));
+
+    return;
+  }
+
+  const score = await db.quizScore.create({
+    data: {
+      answeredQuestion: answeredQuestion,
+      timeTaken: timeTaken,
+      quizId: existingQuiz.id,
+      playerId: student.id
+    }
+  });
+
+  res
+    .status(StatusCodes.OK)
+    .json(createApiResponse(StatusCodes.OK, 'Score erstellt', score));
+}
+
 export {
   findAllQuizzes,
   findQuizById,
@@ -378,5 +453,6 @@ export {
   updateQuiz,
   deleteQuizById,
   followQuiz,
-  unFollowQuiz
+  unFollowQuiz,
+  createUpdateQuizScore
 };
