@@ -6,19 +6,52 @@ import {
   TableContainer,
   Tbody,
   Td,
-  Tr
+  Tr,
+  useToast
 } from '@chakra-ui/react';
-import { FaHeart, FaPlay } from 'react-icons/fa';
+import { useState } from 'react';
+import { AiFillDislike, AiFillLike } from 'react-icons/ai';
+import { HiPlay } from 'react-icons/hi2';
 import { useNavigate } from 'react-router-dom';
 import { BoxWrapper } from '../../../../components/shared';
+import { useQuizStore, useStudentStore } from '../../../../stores';
 import { convertToGermanDate } from '../../../../utils/formatters';
 import { routes } from '../../../../utils/routes';
 import { Quiz } from '../../../../utils/types';
 
-function QuizHeader(quiz: Quiz) {
+interface QuizHeaderProps {
+  quiz: Quiz;
+  onChange: () => void;
+}
+
+function QuizHeader({ quiz, onChange }: QuizHeaderProps) {
   const navigate = useNavigate();
-  const { authorId, updatedAt, courseOfStudy, course, popularity, size, title, student } =
-    quiz;
+  const toast = useToast();
+  const { likeQuiz } = useQuizStore();
+  const { studentProfile } = useStudentStore();
+  const [isLoading, setIsLoading] = useState(false);
+  const {
+    authorId,
+    updatedAt,
+    courseOfStudy,
+    course,
+    likes,
+    size,
+    title,
+    student,
+    likedBy
+  } = quiz;
+  const isLiked = likedBy.find((player) => player.playerId === studentProfile?.studentId);
+
+  const handleLikeQuiz = () => {
+    setIsLoading(true);
+    likeQuiz(quiz.id)
+      .catch(() => toast({ status: 'error', description: 'Like fehlgeschlagen' }))
+      .finally(() => {
+        setIsLoading(false);
+        onChange();
+      });
+  };
 
   return (
     <BoxWrapper title="Allgemeine Infos">
@@ -67,23 +100,24 @@ function QuizHeader(quiz: Quiz) {
               <Td>{course}</Td>
             </Tr>
             <Tr>
-              <Td fontWeight="bold">Beliebtheit</Td>
-              <Td>{popularity}</Td>
+              <Td fontWeight="bold">Likes</Td>
+              <Td>{likes}</Td>
             </Tr>
           </Tbody>
         </Table>
       </TableContainer>
-      <HStack w="full" justify="end">
+      <HStack w="full" justify="end" mt="4">
         <Button
-          alignSelf="end"
-          colorScheme="blue"
-          leftIcon={<FaHeart />}
-          aria-label="„Gefällt mir“-Knopf"
+          onClick={handleLikeQuiz}
+          colorScheme={isLiked ? 'red' : 'blue'}
+          aria-label="Like Knopf"
+          leftIcon={isLiked ? <AiFillDislike /> : <AiFillLike />}
+          isLoading={isLoading}
         >
-          Gefällt mir
+          {isLiked ? 'Dislike' : 'Like'}
         </Button>
 
-        <Button alignSelf="end" colorScheme="teal" leftIcon={<FaPlay />}>
+        <Button alignSelf="end" colorScheme="teal" leftIcon={<HiPlay />}>
           Spielen
         </Button>
       </HStack>

@@ -208,11 +208,11 @@ function QuizCard({
           alignItems="center"
           justifyContent="space-between"
         >
-          {/*----------------- Popularity -------------------*/}
-          <Tooltip label="Beliebtheit">
+          {/*----------------- Likes -------------------*/}
+          <Tooltip label="Likes">
             <Flex align="center" gap="1">
               <TbUserHeart />
-              <Text> {quiz.popularity}</Text>
+              <Text> {quiz.likes}</Text>
             </Flex>
           </Tooltip>
           {/*----------------- Update Date -------------------*/}

@@ -9,8 +9,12 @@ import { QuizHeader, ScoreTable } from './layout';
 function Quiz() {
   const { quizId } = useParams();
   const { getQuizById } = useQuizStore();
-  const { data: quizData, isLoading } = useFetch(() => getQuizById(Number(quizId)));
-  console.log(quizData);
+  const {
+    data: quizData,
+    isLoading,
+    refetchData
+  } = useFetch(() => getQuizById(Number(quizId)));
+
   return (
     <Box w="full">
       <PageHeader
@@ -22,8 +26,8 @@ function Quiz() {
         <PageSkeleton />
       ) : (
         <>
-          <QuizHeader {...quizData} />
-          <ScoreTable {...quizData} />
+          <QuizHeader quiz={quizData} onChange={refetchData} />
+          <ScoreTable scores={quizData.scores} />
         </>
       )}
     </Box>

@@ -6,6 +6,7 @@ const quizRoutes = Router();
 quizRoutes.post('/follow/:quizId', quizService.followQuiz);
 quizRoutes.delete('/follow/:quizId', quizService.unFollowQuiz);
 quizRoutes.patch('/score/:quizId', quizService.updateQuizScores);
+quizRoutes.post('/like/:quizId', quizService.likeQuiz);
 
 quizRoutes.get('/', quizService.findAllQuizzes);
 quizRoutes.get('/:quizId', quizService.findQuizById);

@@ -23,7 +23,7 @@ export interface Student {
   followedQuizzes: FollowedQuizzes[];
   quizQuestion: QuizQuestion[];
   scores: QuizScore[];
-  lovedQuizzes: LovedQuiz[];
+  likedQuizzes: LikedQuiz[];
 }
 
 interface StudentProfile {
@@ -53,14 +53,14 @@ interface Quiz {
   title: string;
   updatedAt: Date;
   size: number;
-  popularity: number;
+  likes: number;
   courseOfStudy: string;
   course: string;
   quizQuestions: QuizQuestion[];
   followedBy: FollowedQuizzes[];
   feedbacks: QuizFeedback[];
   scores: QuizScore[];
-  lovedBy: LovedQuiz[];
+  likedBy: LikedQuiz[];
 }
 
 interface FollowedQuizzes {
@@ -110,9 +110,9 @@ interface QuizScore {
   playerId?: string;
 }
 
-interface LovedQuiz {
+interface LikedQuiz {
   student: Student;
-  loverId: string;
+  playerId: string;
   quiz: Quiz;
   quizId: number;
 }
@@ -121,7 +121,7 @@ export interface QuizQueryParams {
   page?: string;
   limit?: string;
   updatedAt?: boolean;
-  popularity?: boolean;
+  likes?: boolean;
   size?: boolean;
   courseOfStudy?: string;
   course?: string;

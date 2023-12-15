@@ -86,7 +86,7 @@ function FindQuiz() {
       courseOfStudy: selCourseOfStudy,
       course: selCourse,
       size: selFilterProperty === 'size',
-      popularity: selFilterProperty === 'popularity',
+      likes: selFilterProperty === 'likes',
       updatedAt: selFilterProperty === 'updateAt',
       sort: selSortOrder
     }));
@@ -189,7 +189,7 @@ function FindQuiz() {
               <Heading as="h3" fontSize="md">
                 Kategorie:
               </Heading>
-              <Radio value="popularity">Beliebtheit</Radio>
+              <Radio value="likes">Likes</Radio>
               <Radio value="size">Anzahl der Fragen</Radio>
               <Radio value="updateAt">Letztes Update</Radio>
             </RadioGroup>

@@ -40,7 +40,7 @@ CREATE TABLE "Quiz" (
     "title" TEXT NOT NULL,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "size" INTEGER NOT NULL DEFAULT 0,
-    "popularity" INTEGER NOT NULL DEFAULT 0,
+    "likes" INTEGER NOT NULL DEFAULT 0,
     "courseOfStudy" TEXT NOT NULL,
     "course" TEXT NOT NULL,
 
@@ -98,8 +98,8 @@ CREATE TABLE "QuizScore" (
 );
 
 -- CreateTable
-CREATE TABLE "LovedQuiz" (
-    "loverId" TEXT NOT NULL,
+CREATE TABLE "LikedQuiz" (
+    "playerId" TEXT NOT NULL,
     "quizId" INTEGER NOT NULL
 );
 
@@ -140,7 +140,7 @@ CREATE UNIQUE INDEX "QuizFeedback_id_key" ON "QuizFeedback"("id");
 CREATE UNIQUE INDEX "QuizScore_id_key" ON "QuizScore"("id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "LovedQuiz_loverId_quizId_key" ON "LovedQuiz"("loverId", "quizId");
+CREATE UNIQUE INDEX "LikedQuiz_playerId_quizId_key" ON "LikedQuiz"("playerId", "quizId");
 
 -- AddForeignKey
 ALTER TABLE "StudentProfile" ADD CONSTRAINT "StudentProfile_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -179,7 +179,7 @@ ALTER TABLE "QuizScore" ADD CONSTRAINT "QuizScore_quizId_fkey" FOREIGN KEY ("qui
 ALTER TABLE "QuizScore" ADD CONSTRAINT "QuizScore_playerId_fkey" FOREIGN KEY ("playerId") REFERENCES "Student"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "LovedQuiz" ADD CONSTRAINT "LovedQuiz_loverId_fkey" FOREIGN KEY ("loverId") REFERENCES "Student"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "LikedQuiz" ADD CONSTRAINT "LikedQuiz_playerId_fkey" FOREIGN KEY ("playerId") REFERENCES "Student"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "LovedQuiz" ADD CONSTRAINT "LovedQuiz_quizId_fkey" FOREIGN KEY ("quizId") REFERENCES "Quiz"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "LikedQuiz" ADD CONSTRAINT "LikedQuiz_quizId_fkey" FOREIGN KEY ("quizId") REFERENCES "Quiz"("id") ON DELETE CASCADE ON UPDATE CASCADE;

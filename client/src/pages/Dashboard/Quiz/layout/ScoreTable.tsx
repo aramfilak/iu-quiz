@@ -14,11 +14,11 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { BoxWrapper } from '../../../../components/shared/BoxWrapper.tsx';
 import { routes } from '../../../../utils/routes.tsx';
-import { Quiz } from '../../../../utils/types';
+import { QuizScore } from '../../../../utils/types';
 import { scorePositionColor } from '../../../../utils/helpers.ts';
 import { convertSecondsToMin } from '../../../../utils/formatters.ts';
 
-function ScoreTable({ scores }: Quiz) {
+function ScoreTable({ scores }: { scores: QuizScore[] }) {
   const navigate = useNavigate();
 
   return (

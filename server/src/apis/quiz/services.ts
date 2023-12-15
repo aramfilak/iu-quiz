@@ -20,7 +20,7 @@ async function findAllQuizzes(req: Request, res: Response) {
     page,
     limit,
     updatedAt,
-    popularity,
+    likes,
     size,
     courseOfStudy,
     course,
@@ -88,8 +88,8 @@ async function findAllQuizzes(req: Request, res: Response) {
     orderBy.push({ size: sortOrder });
   }
 
-  if (popularity === 'true') {
-    orderBy.push({ popularity: sortOrder });
+  if (likes === 'true') {
+    orderBy.push({ likes: sortOrder });
   }
 
   const skip = (Number(page) - 1 || 0) * (Number(limit) || 10);
@@ -160,7 +160,8 @@ async function findQuizById(req: Request, res: Response) {
             }
           }
         }
-      }
+      },
+      likedBy: true
     }
   });
 
@@ -446,6 +447,64 @@ async function updateQuizScores(req: Request, res: Response) {
   res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, ''));
 }
 
+/**
+ * ________________________________________________________________
+ * @route api/v1/quiz/like/:quizId
+ * @method POST
+ * @access protected
+ * ________________________________________________________________
+ */
+async function likeQuiz(req: Request, res: Response) {
+  const studentId = req.auth?.studentId;
+  const { quizId } = req.params;
+
+  const student = await db.student.findUnique({ where: { id: studentId } });
+
+  if (!student) {
+    throw new UnauthorizedError('Sie sind nicht berechtigt');
+  }
+
+  const existingQuiz = await db.quiz.findUnique({
+    where: { id: Number(quizId) }
+  });
+
+  if (!existingQuiz) {
+    throw new BadRequestError('Quiz existiert nicht');
+  }
+
+  const existingLikeId = {
+    playerId_quizId: { quizId: existingQuiz.id, playerId: student.id }
+  };
+
+  const existingLike = await db.likedQuiz.findUnique({
+    where: existingLikeId
+  });
+
+  if (existingLike) {
+    await db.likedQuiz.delete({
+      where: existingLikeId
+    });
+  } else {
+    await db.likedQuiz.create({
+      data: {
+        quizId: existingQuiz.id,
+        playerId: student.id
+      }
+    });
+  }
+
+  const likedByCount = await db.likedQuiz.count({
+    where: { quizId: existingQuiz.id }
+  });
+
+  await db.quiz.update({
+    where: { id: existingQuiz.id },
+    data: { likes: likedByCount }
+  });
+
+  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, ''));
+}
+
 export {
   findAllQuizzes,
   findQuizById,
@@ -454,5 +513,6 @@ export {
   deleteQuizById,
   followQuiz,
   unFollowQuiz,
-  updateQuizScores
+  updateQuizScores,
+  likeQuiz
 };

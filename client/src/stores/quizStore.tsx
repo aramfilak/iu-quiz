@@ -18,6 +18,7 @@ interface UseQuizStore {
     courseOfStudy: string,
     course: string
   ) => Promise<void>;
+  likeQuiz: (quizId: number) => Promise<void>;
   deleteQuizById: (quizId: number) => Promise<void>;
   followQuiz: (quizId: number) => Promise<void>;
   unfollowQuiz: (quizId: number) => Promise<void>;
@@ -100,6 +101,16 @@ const useQuizStore = create<UseQuizStore>((set) => ({
     await axiosQuizApi.delete(`/follow/${quizId}`, {
       headers: { Authorization: usePersistStore.getState().accessToken }
     });
+  },
+
+  likeQuiz: async (quizId: number) => {
+    await axiosQuizApi.post(
+      `/like/${quizId}`,
+      {},
+      {
+        headers: { Authorization: usePersistStore.getState().accessToken }
+      }
+    );
   },
 
   createQuizQuestion: async (data: QuestionData) => {
