@@ -2,6 +2,7 @@ import { Readable } from 'stream';
 import { cloudinary } from '../configs';
 import { UploadApiResponse } from 'cloudinary';
 import { BadRequestError } from '../errors';
+import { QuizScore } from '@prisma/client';
 
 async function uploadImageToCloudinary(image: Buffer): Promise<UploadApiResponse> {
   const bufferStream = new Readable();
@@ -29,4 +30,16 @@ async function uploadImageToCloudinary(image: Buffer): Promise<UploadApiResponse
   });
 }
 
-export { uploadImageToCloudinary };
+function getMinScore(scores: QuizScore[]) {
+  return scores.reduce(
+    (worstScore, currentScore) =>
+      currentScore.score < worstScore.score ? currentScore : worstScore,
+    scores[0]
+  );
+}
+
+function calculateScore(numberOfCorrectAnswers: number, takenTimeInSec: number) {
+  return (numberOfCorrectAnswers / takenTimeInSec) * 100;
+}
+
+export { uploadImageToCloudinary, getMinScore, calculateScore };

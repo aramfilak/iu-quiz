@@ -64,7 +64,7 @@ model Quiz {
   quizQuestions QuizQuestion[]
   followedBy    FollowedQuizzes[]
   feedbacks     QuizFeedback[]
-  scors         QuizScore[]
+  scores        QuizScore[]
   lovedBy       LovedQuiz[]
 }
 
@@ -107,20 +107,21 @@ model QuizFeedback {
 }
 
 model QuizScore {
-  id               Int      @id @unique @default(autoincrement())
-  answeredQuestion Int
-  timeTaken        Int
-  quiz             Quiz     @relation(fields: [quizId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  quizId           Int
-  Student          Student? @relation(fields: [playerId], references: [id])
-  playerId         String?
+  id                     Int      @id @unique @default(autoincrement())
+  numberOfCorrectAnswers Int
+  timeTaken              Int
+  score                  Int
+  quiz                   Quiz     @relation(fields: [quizId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  quizId                 Int
+  student                Student? @relation(fields: [playerId], references: [id])
+  playerId               String?
 }
 
 model LovedQuiz {
-  student   Student @relation(fields: [studentId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  studentId String
-  quiz      Quiz    @relation(fields: [quizId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  quizId    Int
+  student Student @relation(fields: [loverId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  loverId String
+  quiz    Quiz    @relation(fields: [quizId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  quizId  Int
 
-  @@unique([studentId, quizId])
+  @@unique([loverId, quizId])
 }

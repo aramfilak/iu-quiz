@@ -11,34 +11,42 @@ export interface CustomAlert {
 }
 
 export interface Student {
+  id: string;
   email: string;
+  password: string;
+  isVerified: boolean;
   emailVerificationToken: string;
   registrationDate: Date;
   studentProfile?: StudentProfile;
-  Quiz: Quiz[];
+  quizFeedbacks: QuizFeedback[];
+  quizzes: Quiz[];
   followedQuizzes: FollowedQuizzes[];
+  quizQuestion: QuizQuestion[];
+  scores: QuizScore[];
+  lovedQuizzes: LovedQuiz[];
 }
 
-export interface StudentProfile {
+interface StudentProfile {
   id: number;
   name: string;
-  location?: string | null;
-  courseOfStudy?: string | null;
-  xingUrl?: string | null;
-  linkedinUrl?: string | null;
+  location?: string;
+  courseOfStudy?: string;
+  xingUrl?: string;
+  linkedinUrl?: string;
   student: Student;
   studentId: string;
   profileImage?: ProfileImage;
 }
 
-export interface ProfileImage {
+interface ProfileImage {
+  id: number;
   publicId: string;
   url: string;
   studentProfile: StudentProfile;
   profileId: number;
 }
 
-export interface Quiz {
+interface Quiz {
   id: number;
   student: Student;
   authorId: string;
@@ -50,41 +58,63 @@ export interface Quiz {
   course: string;
   quizQuestions: QuizQuestion[];
   followedBy: FollowedQuizzes[];
-  scors: QuizScores[];
+  feedbacks: QuizFeedback[];
+  scores: QuizScore[];
+  lovedBy: LovedQuiz[];
 }
 
-export interface FollowedQuizzes {
+interface FollowedQuizzes {
   student: Student;
   followerId: string;
   quiz: Quiz;
   quizId: number;
 }
 
-export interface QuizQuestion {
+interface QuizQuestion {
   id: number;
-  quiz: Quiz;
   quizId: number;
+  quiz: Quiz;
   question: string;
   quizAnswers: QuizAnswer[];
+  student: Student;
+  authorId: string;
 }
 
-export interface QuizAnswer {
+interface QuizAnswer {
   id: number;
   answer: string;
-  answerDescription?: string | null;
+  answerDescription?: string;
   isRightAnswer: boolean;
   quizQuestion: QuizQuestion;
   quizQuestionId: number;
 }
 
-export interface QuizScore {
+interface QuizFeedback {
   id: number;
-  answeredQuestion: number;
-  timeTaken: number;
+  feedback: string;
+  createdAt: Date;
+  author: Student;
+  authorId: string;
   quiz: Quiz;
   quizId: number;
-  Student: Student;
-  playerId: string;
+}
+
+interface QuizScore {
+  id: number;
+  numberOfCorrectAnswers: number;
+  timeTaken: number;
+  score: number;
+  quiz: Quiz;
+  quizId: number;
+  student?: Student;
+  playerId?: string;
+}
+
+interface LovedQuiz {
+  student: Student;
+  loverId: string;
+  quiz: Quiz;
+  quizId: number;
 }
 
 export interface QuizQueryParams {
