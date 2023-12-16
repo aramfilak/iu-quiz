@@ -18,6 +18,7 @@ async function findAllQuizzes(req: Request, res: Response) {
   const studentId = req.auth?.studentId;
   const {
     page,
+    searchTerm,
     limit,
     updatedAt,
     likes,
@@ -76,6 +77,10 @@ async function findAllQuizzes(req: Request, res: Response) {
 
     where.id = { notIn: followedQuizzesIds };
     where.authorId = { not: studentId };
+  }
+
+  if (searchTerm) {
+    where.title = { contains: String(searchTerm).trim() };
   }
 
   const orderBy: any = [];

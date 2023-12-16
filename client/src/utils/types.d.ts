@@ -118,6 +118,7 @@ interface LikedQuiz {
 }
 
 export interface QuizQueryParams {
+  searchTerm?: string;
   page?: string;
   limit?: string;
   updatedAt?: boolean;

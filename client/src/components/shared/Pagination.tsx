@@ -1,10 +1,10 @@
-import { Flex, IconButton, Text, Tooltip } from '@chakra-ui/react';
+import { Flex, FlexProps, IconButton, Text, Tooltip } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useQuizStore } from '../../stores';
 import { QuizQueryParams } from '../../utils/types';
 
-interface PaginationProps {
+interface PaginationProps extends FlexProps {
   currentPage: number;
   isLoading: boolean;
   handlePreviousPage: () => void;
@@ -17,7 +17,8 @@ function Pagination({
   isLoading,
   handlePreviousPage,
   handleNextPage,
-  params
+  params,
+  ...rest
 }: PaginationProps) {
   const [hasNextPage, setHasNextPage] = useState(false);
   const { getAllQuizzes } = useQuizStore();
@@ -36,7 +37,7 @@ function Pagination({
   }, [currentPage, fetchData]);
 
   return (
-    <Flex justify="center" alignItems={'center'} mt="1rem">
+    <Flex {...rest} justify="center" alignItems={'center'}>
       <Tooltip label="Zurück" placement="left">
         <IconButton
           aria-label="Previous Page"

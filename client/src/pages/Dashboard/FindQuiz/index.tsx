@@ -1,13 +1,13 @@
 import {
   Button,
   Flex,
+  HStack,
   Heading,
   Icon,
   Input,
   InputGroup,
   InputLeftAddon,
   InputLeftElement,
-  InputRightAddon,
   InputRightElement,
   Radio,
   RadioGroup,
@@ -17,7 +17,7 @@ import {
   useToast
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import { FaBook, FaGraduationCap, FaSearch, FaSync } from 'react-icons/fa';
+import { FaBinoculars, FaBook, FaGraduationCap, FaSearch, FaSync } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import { QuizCardsGrid } from '../../../components/quiz-card';
 import { QuizCard } from '../../../components/quiz-card/QuizCard';
@@ -25,7 +25,7 @@ import { BoxWrapper, NoResultFound, PageHeader } from '../../../components/share
 import Pagination from '../../../components/shared/Pagination';
 import { QuizCardSkeleton } from '../../../components/skeletons';
 import courseOfStudy from '../../../data/courseOfStudy.json';
-import { useFetch, useScreenSize } from '../../../hooks';
+import { useFetch } from '../../../hooks';
 import { useQuizStore } from '../../../stores';
 import { QuizQueryParams } from '../../../utils/types';
 
@@ -39,7 +39,6 @@ function FindQuiz() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const toast = useToast();
   const [params, setParams] = useState<QuizQueryParams>({ page: '1', unFollowed: true });
-  const { isMobileScreen } = useScreenSize();
   const [currentPageIndex, setCurrentPageIndex] = useState<number>(1);
   const {
     isLoading,
@@ -62,16 +61,6 @@ function FindQuiz() {
     setSelectedCourse('');
   };
 
-  const handleCourseOfStudyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedCourseOfStudy = e.target.value;
-    setSelectedCourseOfStudy(selectedCourseOfStudy);
-  };
-
-  const handleCourseChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedCourse = e.target.value;
-    setSelectedCourse(selectedCourse);
-  };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setCurrentPageIndex(1);
@@ -88,7 +77,8 @@ function FindQuiz() {
       size: selFilterProperty === 'size',
       likes: selFilterProperty === 'likes',
       updatedAt: selFilterProperty === 'updateAt',
-      sort: selSortOrder
+      sort: selSortOrder,
+      searchTerm: searchTerm
     }));
 
     refetchData();
@@ -124,12 +114,12 @@ function FindQuiz() {
       <BoxWrapper mb="8">
         <form onSubmit={handleSubmit} style={{ width: '100%' }}>
           {/*------------------- Search Bar -----------------*/}
-          <InputGroup mb="4">
+          <InputGroup mb="4" gap="2">
             <Input
               type="search"
               placeholder="Nach Quiz Titel suchen ..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => setSearchTerm(e.target.value.trim())}
               bg="white"
               borderColor="gray.300"
               _dark={{ bg: 'gray.800', borderColor: 'gray.600' }}
@@ -152,31 +142,9 @@ function FindQuiz() {
               pointerEvents="none"
               children={<Icon as={FaSearch} color="gray.300" />}
             />
-
-            <InputRightAddon gap="2" p="0">
-              <Button
-                fontSize="sm"
-                borderInlineStartRadius="0"
-                type="submit"
-                gap="2"
-                isLoading={isSubmitting || isLoading}
-              >
-                <FaSearch /> {isMobileScreen ? '' : 'Suchen'}
-              </Button>
-
-              <Tooltip label="Filter zurücksetzen">
-                <Button
-                  fontSize="sm"
-                  colorScheme="blue"
-                  onClick={handleFilterReset}
-                  gap="2"
-                >
-                  <FaSync /> {isMobileScreen ? '' : 'Zurücksetzen'}
-                </Button>
-              </Tooltip>
-            </InputRightAddon>
           </InputGroup>
-          <Flex flexWrap="wrap" gap="8" justifyContent="space-between">
+
+          <Flex flexWrap="wrap" rowGap="2" justifyContent="space-between">
             {/* _________________ Filter properties radios ______________ */}
 
             <RadioGroup
@@ -222,7 +190,7 @@ function FindQuiz() {
                 <Select
                   value={selectedCourseOfStudy}
                   defaultValue={''}
-                  onChange={handleCourseOfStudyChange}
+                  onChange={(e) => setSelectedCourseOfStudy(e.target.value)}
                 >
                   <option value="" disabled hidden>
                     Studiengang auswählen
@@ -245,7 +213,7 @@ function FindQuiz() {
                   value={selectedCourse}
                   defaultValue={''}
                   isDisabled={!selectedCourseOfStudy}
-                  onChange={handleCourseChange}
+                  onChange={(e) => setSelectedCourse(e.target.value)}
                 >
                   <option value="" disabled hidden>
                     Module auswählen
@@ -261,6 +229,30 @@ function FindQuiz() {
               </InputGroup>
             </VStack>
           </Flex>
+
+          <HStack justify="end" mt="8">
+            {/*------------------- Reset Form Button --------------------*/}
+
+            <Button
+              aria-label="Zurücksetzen"
+              colorScheme="blue"
+              onClick={handleFilterReset}
+              type="button"
+              leftIcon={<FaSync />}
+            >
+              zurücksetzen
+            </Button>
+            {/*------------------- Submit Button --------------------*/}
+
+            <Button
+              aria-label="Anwenden"
+              type="submit"
+              isLoading={isSubmitting || isLoading}
+              leftIcon={<FaBinoculars />}
+            >
+              Anwenden
+            </Button>
+          </HStack>
         </form>
       </BoxWrapper>
 
@@ -287,6 +279,7 @@ function FindQuiz() {
       )}
       {/* Pagination Section */}
       <Pagination
+        mt="20"
         params={params}
         handlePreviousPage={handlePreviousPage}
         handleNextPage={handleNextPage}
