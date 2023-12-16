@@ -31,7 +31,7 @@ import { QuizQueryParams } from '../../../utils/types';
 
 function FindQuiz() {
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const { getAllQuizzes, followQuiz } = useQuizStore();
+  const { getAllQuizzes, toggleFollowQuiz } = useQuizStore();
   const [selectedCourseOfStudy, setSelectedCourseOfStudy] = useState<string>('');
   const [selectedCourse, setSelectedCourse] = useState<string>('');
   const [selectedSortOrder, setSelectedSortOrder] = useState<string>('asc');
@@ -49,7 +49,7 @@ function FindQuiz() {
 
   const handleFlowQuiz = (quizId: number) => {
     setIsSubmitting(true);
-    followQuiz(quizId)
+    toggleFollowQuiz(quizId)
       .then(() => refetchData())
       .catch(() => toast({ status: 'error', description: 'Folgen fehlgeschlagen' }))
       .finally(() => setIsSubmitting(false));

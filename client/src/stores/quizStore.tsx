@@ -18,10 +18,9 @@ interface UseQuizStore {
     courseOfStudy: string,
     course: string
   ) => Promise<void>;
-  likeQuiz: (quizId: number) => Promise<void>;
   deleteQuizById: (quizId: number) => Promise<void>;
-  followQuiz: (quizId: number) => Promise<void>;
-  unfollowQuiz: (quizId: number) => Promise<void>;
+  toggleLikeQuiz: (quizId: number) => Promise<void>;
+  toggleFollowQuiz: (quizId: number) => Promise<void>;
   createQuizQuestion: (data: QuestionData) => Promise<Quiz>;
   updateQuizQuestion: (questionId: number, data: QuestionData) => Promise<Quiz>;
   deleteQuizQuestion: (quizId: number, questionId: number) => Promise<void>;
@@ -87,9 +86,9 @@ const useQuizStore = create<UseQuizStore>((set) => ({
     });
   },
 
-  followQuiz: async (quizId: number) => {
+  toggleFollowQuiz: async (quizId: number) => {
     await axiosQuizApi.post(
-      `/follow/${quizId}`,
+      `/toggle-follow/${quizId}`,
       {},
       {
         headers: { Authorization: usePersistStore.getState().accessToken }
@@ -97,15 +96,9 @@ const useQuizStore = create<UseQuizStore>((set) => ({
     );
   },
 
-  unfollowQuiz: async (quizId: number) => {
-    await axiosQuizApi.delete(`/follow/${quizId}`, {
-      headers: { Authorization: usePersistStore.getState().accessToken }
-    });
-  },
-
-  likeQuiz: async (quizId: number) => {
+  toggleLikeQuiz: async (quizId: number) => {
     await axiosQuizApi.post(
-      `/like/${quizId}`,
+      `/toggle-like/${quizId}`,
       {},
       {
         headers: { Authorization: usePersistStore.getState().accessToken }

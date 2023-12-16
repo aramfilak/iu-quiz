@@ -10,7 +10,7 @@ import { routes } from '../../../../utils/routes';
 import { Quiz } from '../../../../utils/types';
 
 function Followed() {
-  const { unfollowQuiz, getAllQuizzes } = useQuizStore();
+  const { toggleFollowQuiz, getAllQuizzes } = useQuizStore();
   const toast = useToast();
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -23,7 +23,7 @@ function Followed() {
   const handleUnFlowQuiz = (quizId: number) => {
     setIsSubmitting(true);
 
-    unfollowQuiz(quizId)
+    toggleFollowQuiz(quizId)
       .then(() => refetchData())
       .catch(() => toast({ status: 'error', description: 'Entfolgen fehlgeschlagen' }))
       .finally(() => setIsSubmitting(false));

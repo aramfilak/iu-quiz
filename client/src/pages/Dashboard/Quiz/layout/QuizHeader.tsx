@@ -27,7 +27,7 @@ interface QuizHeaderProps {
 function QuizHeader({ quiz, onChange }: QuizHeaderProps) {
   const navigate = useNavigate();
   const toast = useToast();
-  const { likeQuiz } = useQuizStore();
+  const { toggleLikeQuiz } = useQuizStore();
   const { studentProfile } = useStudentStore();
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -45,7 +45,7 @@ function QuizHeader({ quiz, onChange }: QuizHeaderProps) {
 
   const handleLikeQuiz = () => {
     setIsLoading(true);
-    likeQuiz(quiz.id)
+    toggleLikeQuiz(quiz.id)
       .catch(() => toast({ status: 'error', description: 'Like fehlgeschlagen' }))
       .finally(() => {
         setIsLoading(false);

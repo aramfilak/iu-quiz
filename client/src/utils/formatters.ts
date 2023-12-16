@@ -12,7 +12,7 @@ function convertToGermanDate(timestamp: Date): string | null {
 }
 
 function convertSecondsToMin(seconds: number) {
-  if (seconds < 0) {
+  if (seconds <= 0) {
     return '00:00';
   }
 

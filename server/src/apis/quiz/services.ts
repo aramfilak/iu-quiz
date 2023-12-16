@@ -295,12 +295,12 @@ async function deleteQuizById(req: Request, res: Response) {
 
 /**
  * ________________________________________________________________
- * @route api/v1/quiz/follow/:quizId
+ * @route api/v1/quiz/toggle-follow/:quizId
  * @method POST
  * @access protected
  * ________________________________________________________________
  */
-async function followQuiz(req: Request, res: Response) {
+async function toggleFollowQuiz(req: Request, res: Response) {
   const studentId = req.auth?.studentId;
   const quizId = req.params.quizId;
 
@@ -333,44 +333,14 @@ async function followQuiz(req: Request, res: Response) {
   });
 
   if (isFollowed) {
-    throw new BadRequestError('Quiz ist bereits gefolgt');
+    await db.followedQuizzes.delete({
+      where: { followerId_quizId: { followerId: student.id, quizId: Number(quizId) } }
+    });
+  } else {
+    await db.followedQuizzes.create({
+      data: { followerId: student.id, quizId: existingQuiz.id }
+    });
   }
-
-  await db.followedQuizzes.create({
-    data: { followerId: student.id, quizId: existingQuiz.id }
-  });
-
-  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, ''));
-}
-
-/**
- * ________________________________________________________________
- * @route api/v1/quiz/follow/:quizId
- * @method DELETE
- * @access protected
- * ________________________________________________________________
- */
-async function unFollowQuiz(req: Request, res: Response) {
-  const studentId = req.auth?.studentId;
-  const quizId = req.params.quizId;
-
-  const student = await db.student.findUnique({ where: { id: studentId } });
-
-  if (!student) {
-    throw new UnauthorizedError('Sie sind nicht berechtigt');
-  }
-
-  const isFollowed = await db.followedQuizzes.findUnique({
-    where: { followerId_quizId: { followerId: student.id, quizId: Number(quizId) } }
-  });
-
-  if (!isFollowed) {
-    throw new BadRequestError('Quiz ist nicht gefolgt');
-  }
-
-  await db.followedQuizzes.delete({
-    where: { followerId_quizId: { followerId: student.id, quizId: Number(quizId) } }
-  });
 
   res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, ''));
 }
@@ -449,12 +419,12 @@ async function updateQuizScores(req: Request, res: Response) {
 
 /**
  * ________________________________________________________________
- * @route api/v1/quiz/like/:quizId
+ * @route api/v1/quiz/toggle-like/:quizId
  * @method POST
  * @access protected
  * ________________________________________________________________
  */
-async function likeQuiz(req: Request, res: Response) {
+async function toggleLikeQuiz(req: Request, res: Response) {
   const studentId = req.auth?.studentId;
   const { quizId } = req.params;
 
@@ -511,8 +481,7 @@ export {
   createQuiz,
   updateQuiz,
   deleteQuizById,
-  followQuiz,
-  unFollowQuiz,
-  updateQuizScores,
-  likeQuiz
+  toggleFollowQuiz,
+  toggleLikeQuiz,
+  updateQuizScores
 };
