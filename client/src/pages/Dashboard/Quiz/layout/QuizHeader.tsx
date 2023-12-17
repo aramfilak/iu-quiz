@@ -54,7 +54,7 @@ function QuizHeader({ quiz, onChange }: QuizHeaderProps) {
   };
 
   return (
-    <BoxWrapper title="Allgemeine Infos">
+    <BoxWrapper title="Informationen">
       <TableContainer>
         <Table size="sm">
           <Tbody>

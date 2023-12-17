@@ -4,7 +4,7 @@ import { GoBackButton, PageHeader } from '../../../components/shared';
 import { PageSkeleton } from '../../../components/skeletons';
 import { useFetch } from '../../../hooks';
 import { useQuizStore } from '../../../stores';
-import { QuizHeader, ScoreTable } from './layout';
+import { Feedbacks, QuizHeader, ScoreTable } from './layout';
 
 function Quiz() {
   const { quizId } = useParams();
@@ -28,6 +28,7 @@ function Quiz() {
         <>
           <QuizHeader quiz={quizData} onChange={refetchData} />
           <ScoreTable scores={quizData.scores} />
+          <Feedbacks feedBacks={quizData.feedbacks} />
         </>
       )}
     </Box>

@@ -9,7 +9,6 @@ function errorHandler(e: Error, req: Request, res: Response, next: NextFunction)
   if (e instanceof ApiError) {
     return res.status(e.statusCode).json(createErrorResponse(e.statusCode, e.message));
   } else if (e instanceof Prisma.PrismaClientValidationError) {
-    console.log(e);
     const argument = e.message.split('\n').at(-1)?.split(' ')[2];
     return res
       .status(StatusCodes.BAD_REQUEST)

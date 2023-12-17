@@ -166,7 +166,8 @@ async function findQuizById(req: Request, res: Response) {
           }
         }
       },
-      likedBy: true
+      likedBy: true,
+      feedbacks: true
     }
   });
 

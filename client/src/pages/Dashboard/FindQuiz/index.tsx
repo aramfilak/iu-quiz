@@ -78,7 +78,7 @@ function FindQuiz() {
       likes: selFilterProperty === 'likes',
       updatedAt: selFilterProperty === 'updateAt',
       sort: selSortOrder,
-      searchTerm: searchTerm
+      searchTerm: searchTerm.trim()
     }));
 
     refetchData();
@@ -119,7 +119,7 @@ function FindQuiz() {
               type="search"
               placeholder="Nach Quiz Titel suchen ..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value.trim())}
+              onChange={(e) => setSearchTerm(e.target.value)}
               bg="white"
               borderColor="gray.300"
               _dark={{ bg: 'gray.800', borderColor: 'gray.600' }}
