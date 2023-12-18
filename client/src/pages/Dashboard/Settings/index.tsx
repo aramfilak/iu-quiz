@@ -23,8 +23,11 @@ import {
 } from 'react-icons/fa';
 import { FiMoon, FiSave, FiSun, FiUserX } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
-import { DeleteStudentAlertDialog } from '../../../components/dialogs';
-import { BoxWrapper, UploadProfileImage } from '../../../components/shared';
+import {
+  BoxWrapper,
+  DeleteStudentAlertDialog,
+  UploadProfileImage
+} from '../../../components';
 import courseOfStudy from '../../../data/courseOfStudy.json';
 import { useStudentStore } from '../../../stores';
 import { routes } from '../../../utils/routes';

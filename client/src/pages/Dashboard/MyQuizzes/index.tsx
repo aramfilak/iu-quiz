@@ -1,5 +1,5 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
-import { PageHeader } from '../../../components/shared';
+import { PageHeader } from '../../../components';
 
 import { Followed, My } from './layout';
 

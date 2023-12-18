@@ -11,11 +11,11 @@ import {
 } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
 import { FaCommentAlt } from 'react-icons/fa';
-import { BoxWrapper } from '../../../components/shared';
-import { useQuizStore } from '../../../stores';
-import { QuizFeedback } from '../../../utils/types';
+import { BoxWrapper } from '..';
+import { useQuizStore } from '../../stores';
+import { QuizFeedback } from '../../utils/types';
 import { Feedback } from './Feedback';
-import { validateFeedback } from '../../../utils/helpers';
+import { validateFeedback } from '../../utils/helpers';
 
 interface FeedbacksProps extends BoxProps {
   quizId: number;

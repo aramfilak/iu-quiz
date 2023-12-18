@@ -1,6 +1,6 @@
 import { Heading, Image, StackProps, Text, VStack } from '@chakra-ui/react';
 import { ReactNode } from 'react';
-import noResultFoundImage from '../../assets/no-result-found.svg';
+import noResultFoundImage from '../assets/no-result-found.svg';
 
 interface NoResultFoundProps extends StackProps {
   title: string;

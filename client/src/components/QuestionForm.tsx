@@ -16,11 +16,10 @@ import {
 import { Field, FieldArray, FieldProps, Form, Formik } from 'formik';
 import { useState } from 'react';
 import { FaPlus, FaRegTrashAlt, FaSave, FaSync, FaTrashAlt } from 'react-icons/fa';
-import { useQuizStore } from '../../stores';
-import { ActionType } from '../../utils/enums';
-import { QuestionData } from '../../utils/types';
-import { CustomAlertDialog } from '../dialogs';
-import { BoxWrapper } from '../shared';
+import { useQuizStore } from '../stores';
+import { ActionType } from '../utils/enums';
+import { QuestionData } from '../utils/types';
+import { CustomAlertDialog, BoxWrapper } from '.';
 
 interface QuestionEditBarProps extends BoxProps {
   onSubmit: () => void;

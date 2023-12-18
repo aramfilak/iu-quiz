@@ -12,14 +12,14 @@ import {
 import { useEffect, useState } from 'react';
 import { FaPlus, FaRegQuestionCircle, FaSync } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
-import { QuestionForm } from '../../../components/forms';
 import {
   BoxWrapper,
   GoBackButton,
   NoResultFound,
-  PageHeader
-} from '../../../components/shared';
-import { PageSkeleton } from '../../../components/skeletons';
+  PageHeader,
+  PageSkeleton,
+  QuestionForm
+} from '../../../components';
 import { useFetch } from '../../../hooks';
 import { usePersistStore, useQuizStore } from '../../../stores';
 import { ActionType } from '../../../utils/enums';

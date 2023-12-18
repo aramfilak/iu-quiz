@@ -1,12 +1,12 @@
 import { useDisclosure, useToast } from '@chakra-ui/react';
-import { QuizForm } from '../../../../components/forms/QuizForm';
 import {
   CreateNewQuizCard,
+  NoResultFound,
   QuizCard,
+  QuizCardSkeleton,
   QuizCardsGrid
-} from '../../../../components/quiz-card';
-import { NoResultFound } from '../../../../components/shared';
-import { QuizCardSkeleton } from '../../../../components/skeletons';
+} from '../../../../components';
+import { QuizForm } from '../../../../components/QuizForm';
 import { useFetch } from '../../../../hooks';
 import { useQuizStore, useStudentStore } from '../../../../stores';
 import { ActionType } from '../../../../utils/enums';

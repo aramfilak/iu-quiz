@@ -1,9 +1,12 @@
 import { Button, useToast } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { QuizCard, QuizCardsGrid } from '../../../../components/quiz-card';
-import { NoResultFound } from '../../../../components/shared';
-import { QuizCardSkeleton } from '../../../../components/skeletons';
+import {
+  NoResultFound,
+  QuizCard,
+  QuizCardSkeleton,
+  QuizCardsGrid
+} from '../../../../components';
 import { useFetch } from '../../../../hooks';
 import { useQuizStore } from '../../../../stores';
 import { routes } from '../../../../utils/routes';

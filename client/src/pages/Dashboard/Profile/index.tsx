@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { PageSkeleton } from '../../../components/skeletons';
+import { PageSkeleton } from '../../../components';
 import { useFetch } from '../../../hooks';
 import { useStudentStore } from '../../../stores';
 import { ProfileHeader } from './layout';

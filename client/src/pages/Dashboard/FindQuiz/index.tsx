@@ -19,11 +19,15 @@ import {
 import { useState } from 'react';
 import { FaBinoculars, FaBook, FaGraduationCap, FaSearch, FaSync } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
-import { QuizCardsGrid } from '../../../components/quiz-card';
-import { QuizCard } from '../../../components/quiz-card/QuizCard';
-import { BoxWrapper, NoResultFound, PageHeader } from '../../../components/shared';
-import Pagination from '../../../components/shared/Pagination';
-import { QuizCardSkeleton } from '../../../components/skeletons';
+import {
+  BoxWrapper,
+  NoResultFound,
+  PageHeader,
+  QuizCardSkeleton,
+  QuizCardsGrid
+} from '../../../components';
+import Pagination from '../../../components/Pagination';
+import { QuizCard } from '../../../components/QuizCard';
 import courseOfStudy from '../../../data/courseOfStudy.json';
 import { useFetch } from '../../../hooks';
 import { useQuizStore } from '../../../stores';

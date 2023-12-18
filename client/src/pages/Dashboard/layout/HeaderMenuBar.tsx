@@ -18,7 +18,7 @@ import {
 } from '@chakra-ui/react';
 import { FiChevronDown, FiLogOut, FiMenu, FiMoon, FiSun } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
-import { CustomAlertDialog } from '../../../components/dialogs';
+import { CustomAlertDialog } from '../../../components';
 import { useAuthStore, useStudentStore } from '../../../stores';
 import { routes } from '../../../utils/routes';
 interface MobileProps extends FlexProps {

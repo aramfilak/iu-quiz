@@ -15,12 +15,12 @@ import {
 import { useRef, useState } from 'react';
 import { FaSave, FaTimes } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { CustomAlertDialog } from '../../../components/dialogs';
-import { useQuizStore, useStudentStore } from '../../../stores';
-import { convertToGermanDate } from '../../../utils/formatters';
-import { validateFeedback } from '../../../utils/helpers';
-import { routes } from '../../../utils/routes';
-import { QuizFeedback } from '../../../utils/types';
+import { CustomAlertDialog } from '../';
+import { useQuizStore, useStudentStore } from '../../stores';
+import { convertToGermanDate } from '../../utils/formatters';
+import { validateFeedback } from '../../utils/helpers';
+import { routes } from '../../utils/routes';
+import { QuizFeedback } from '../../utils/types';
 
 interface FeedbackProps extends BoxProps {
   feedback: QuizFeedback;

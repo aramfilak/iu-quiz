@@ -1,6 +1,6 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { ProtectedRoutes } from './components/shared';
+import { ProtectedRoutes } from './components';
 import { theme, toastOptions } from './ui/';
 import { routes } from './utils/routes';
 

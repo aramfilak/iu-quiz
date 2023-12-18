@@ -13,7 +13,7 @@ import {
   useToast
 } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
-import { useStudentStore } from '../../stores';
+import { useStudentStore } from '../stores';
 
 interface ContactFormAlertProps {
   onClose: () => void;

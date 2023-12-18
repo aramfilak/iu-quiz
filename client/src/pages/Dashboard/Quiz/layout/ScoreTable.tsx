@@ -12,7 +12,7 @@ import {
   Tr
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
-import { BoxWrapper } from '../../../../components/shared/BoxWrapper.tsx';
+import { BoxWrapper } from '../../../../components/BoxWrapper.tsx';
 import { routes } from '../../../../utils/routes.tsx';
 import { QuizScore } from '../../../../utils/types';
 import { scorePositionColor } from '../../../../utils/helpers.ts';

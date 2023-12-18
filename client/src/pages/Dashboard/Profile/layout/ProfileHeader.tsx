@@ -8,7 +8,7 @@ import {
   FaXingSquare
 } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
-import { BoxWrapper, IconBox } from '../../../../components/shared/index.ts';
+import { BoxWrapper, IconBox } from '../../../../components/';
 import { convertToGermanDate } from '../../../../utils/formatters.ts';
 import { StudentProfile } from '../../../../utils/types';
 

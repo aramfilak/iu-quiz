@@ -14,7 +14,7 @@ import { useState } from 'react';
 import { AiFillDislike, AiFillLike } from 'react-icons/ai';
 import { HiPlay } from 'react-icons/hi2';
 import { useNavigate } from 'react-router-dom';
-import { BoxWrapper } from '../../../../components/shared';
+import { BoxWrapper } from '../../../../components';
 import { useQuizStore, useStudentStore } from '../../../../stores';
 import { convertToGermanDate } from '../../../../utils/formatters';
 import { routes } from '../../../../utils/routes';

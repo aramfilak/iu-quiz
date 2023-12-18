@@ -18,7 +18,7 @@ import {
 import { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
-import { PageHeader } from '../../../components/shared';
+import { PageHeader } from '../../../components';
 import faqs from '../../../data/faqs.json';
 
 function FAQs() {

@@ -1,11 +1,10 @@
 import { Box, Flex } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
-import { GoBackButton, PageHeader } from '../../../components/shared';
-import { PageSkeleton } from '../../../components/skeletons';
+import { GoBackButton, PageHeader, PageSkeleton } from '../../../components';
+import { Feedbacks } from '../../../components/Feedbacks';
 import { useFetch } from '../../../hooks';
 import { useQuizStore } from '../../../stores';
 import { QuizHeader, ScoreTable } from './layout';
-import { Feedbacks } from '../Feedbacks';
 
 function Quiz() {
   const { quizId } = useParams();

@@ -12,7 +12,7 @@ import {
 import { FaGithub } from 'react-icons/fa';
 import { FiMail } from 'react-icons/fi';
 import logo from '../../../assets/logo.png';
-import { ContactFormAlert } from '../../../components/dialogs';
+import { ContactFormAlert } from '../../../components';
 
 function DashboardFooter({ ml }: SpaceProps) {
   const contactFormAlert = useDisclosure();

@@ -17,8 +17,8 @@ import {
 import { useRef } from 'react';
 import { FiAlertTriangle } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
-import { usePersistStore, useStudentStore } from '../../stores/index.tsx';
-import { routes } from '../../utils/routes.tsx';
+import { usePersistStore, useStudentStore } from '../stores/index.tsx';
+import { routes } from '../utils/routes.tsx';
 
 interface DeleteStudentAlertProps {
   onClose: () => void;

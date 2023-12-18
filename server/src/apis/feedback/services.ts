@@ -34,8 +34,7 @@ async function createFeedback(req: Request, res: Response) {
 
   const existingQuiz = await db.quiz.findUnique({
     where: {
-      id: Number(quizId),
-      authorId: studentId
+      id: Number(quizId)
     }
   });
 
