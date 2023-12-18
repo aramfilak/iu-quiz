@@ -1,10 +1,11 @@
-import { Box, Grid, GridItem } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { GoBackButton, PageHeader } from '../../../components/shared';
 import { PageSkeleton } from '../../../components/skeletons';
 import { useFetch } from '../../../hooks';
 import { useQuizStore } from '../../../stores';
-import { Feedbacks, QuizHeader, ScoreTable } from './layout';
+import { QuizHeader, ScoreTable } from './layout';
+import { Feedbacks } from '../Feedbacks';
 
 function Quiz() {
   const { quizId } = useParams();
@@ -26,18 +27,16 @@ function Quiz() {
         <PageSkeleton />
       ) : (
         <>
-          <Grid
-            gap="4"
-            display={{ base: 'block', lg: 'grid' }}
-            gridTemplateColumns="repeat(6,1fr)"
-          >
-            <GridItem colSpan={4}>
-              <QuizHeader quiz={quizData} onChange={refetchData} />
-            </GridItem>
-            <GridItem mt={{ base: '4', lg: '0' }} colSpan={2}>
-              <Feedbacks feedbacks={quizData.feedbacks} h="402.2px" overflow="hidden" />
-            </GridItem>
-          </Grid>
+          <Flex gap="4" flexDir={{ base: 'column', lg: 'row' }}>
+            <QuizHeader quiz={quizData} onChange={refetchData} flex="1" />
+            <Feedbacks
+              w={{ lg: '30rem' }}
+              quizId={quizData.id}
+              feedbacks={quizData.feedbacks}
+              overflow="hidden"
+              onChange={refetchData}
+            />
+          </Flex>
           <ScoreTable scores={quizData.scores} />
         </>
       )}

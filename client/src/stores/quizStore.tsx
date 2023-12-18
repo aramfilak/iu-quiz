@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { usePersistStore } from '.';
 import { ActionType } from '../utils/enums';
-import { axiosQuizApi, axiosQuizQuestionApi } from '../utils/http';
+import { axiosQuizApi, axiosQuizQuestionApi, axiosQuizFeedback } from '../utils/http';
 import { QuestionData, Quiz, QuizQueryParams } from '../utils/types';
 
 interface UseQuizStore {
@@ -21,9 +21,12 @@ interface UseQuizStore {
   deleteQuizById: (quizId: number) => Promise<void>;
   toggleLikeQuiz: (quizId: number) => Promise<void>;
   toggleFollowQuiz: (quizId: number) => Promise<void>;
-  createQuizQuestion: (data: QuestionData) => Promise<Quiz>;
-  updateQuizQuestion: (questionId: number, data: QuestionData) => Promise<Quiz>;
+  createQuizQuestion: (data: QuestionData) => Promise<void>;
+  updateQuizQuestion: (questionId: number, data: QuestionData) => Promise<void>;
   deleteQuizQuestion: (quizId: number, questionId: number) => Promise<void>;
+  createFeedback: (quizId: number, feedback: string) => Promise<void>;
+  updateFeedback: (quizId: number, feedbackId: number, feedback: string) => Promise<void>;
+  deleteFeedback: (quizId: number, feedbackId: number) => Promise<void>;
 }
 
 const useQuizStore = create<UseQuizStore>((set) => ({
@@ -125,6 +128,45 @@ const useQuizStore = create<UseQuizStore>((set) => ({
   deleteQuizQuestion: async (questionId: number, quizId: number) => {
     const response = await axiosQuizQuestionApi.delete(`/`, {
       params: { questionId, quizId },
+      headers: { Authorization: usePersistStore.getState().accessToken }
+    });
+
+    return response.data.data;
+  },
+
+  createFeedback: async (quizId: number, feedback: string) => {
+    const response = await axiosQuizFeedback.post(
+      '/',
+      {
+        quizId,
+        feedback
+      },
+      {
+        headers: { Authorization: usePersistStore.getState().accessToken }
+      }
+    );
+
+    return response.data.data;
+  },
+  updateFeedback: async (quizId: number, feedbackId: number, feedback: string) => {
+    const response = await axiosQuizFeedback.patch(
+      `/`,
+      {
+        quizId,
+        feedbackId,
+        feedback
+      },
+      {
+        headers: { Authorization: usePersistStore.getState().accessToken }
+      }
+    );
+
+    return response.data.data;
+  },
+
+  deleteFeedback: async (quizId: number, feedbackId: number) => {
+    const response = await axiosQuizFeedback.delete(`/`, {
+      params: { quizId, feedbackId },
       headers: { Authorization: usePersistStore.getState().accessToken }
     });
 

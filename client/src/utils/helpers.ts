@@ -1,3 +1,5 @@
+import { createStandaloneToast } from '@chakra-ui/react';
+
 function scorePositionColor(index: number, isDarkMode = false) {
   const positionColorLightMode =
     index === 0
@@ -20,4 +22,28 @@ function scorePositionColor(index: number, isDarkMode = false) {
   return isDarkMode ? positionColorDarkMode : positionColorLightMode;
 }
 
-export { scorePositionColor };
+function validateFeedback(feedback: string) {
+  const toastWarning = (message: string) => {
+    const { toast } = createStandaloneToast();
+
+    toast({
+      status: 'warning',
+      description: message,
+      position: 'top'
+    });
+  };
+
+  feedback = feedback.trim();
+
+  if (!feedback) {
+    return toastWarning('Feedback darf nicht leer sein');
+  } else if (feedback.length < 2) {
+    return toastWarning('Feedback muss mindestens 2 Zeichen lang sein');
+  } else if (feedback.length > 500) {
+    return toastWarning('Feedback darf nicht länger als 500 Zeichen sein');
+  } else {
+    return feedback;
+  }
+}
+
+export { scorePositionColor, validateFeedback };

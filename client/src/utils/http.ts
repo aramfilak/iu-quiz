@@ -19,8 +19,13 @@ const axiosStudentApi = axios.create({
 const axiosQuizApi = axios.create({
   baseURL: `${baseURL}/api/v1/quiz`
 });
+
 const axiosQuizQuestionApi = axios.create({
   baseURL: `${baseURL}/api/v1/quiz-question`
+});
+
+const axiosQuizFeedback = axios.create({
+  baseURL: `${baseURL}/api/v1/quiz-feedback`
 });
 
 /**
@@ -44,6 +49,7 @@ export {
   axiosAuthApi,
   axiosStudentApi,
   axiosQuizApi,
+  axiosQuizFeedback,
   axiosQuizQuestionApi,
   asyncHandler
 };
