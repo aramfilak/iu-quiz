@@ -98,7 +98,7 @@ model QuizAnswer {
 model QuizFeedback {
   id        Int      @id @unique @default(autoincrement())
   feedback  String   @db.Text
-  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
   author    Student  @relation(fields: [authorId], references: [id])
   authorId  String
   quiz      Quiz     @relation(fields: [quizId], references: [id], onUpdate: Cascade, onDelete: Cascade)

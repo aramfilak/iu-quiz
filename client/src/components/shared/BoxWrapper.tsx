@@ -6,7 +6,14 @@ interface WrapperBoxProps extends BoxProps {
   children: ReactNode;
 }
 
-function BoxWrapper({ flexDir, title, children, ...rest }: WrapperBoxProps) {
+function BoxWrapper({
+  flexDir,
+  alignItems,
+  justifyContent,
+  title,
+  children,
+  ...rest
+}: WrapperBoxProps) {
   return (
     <Box
       {...rest}
@@ -15,8 +22,8 @@ function BoxWrapper({ flexDir, title, children, ...rest }: WrapperBoxProps) {
       p="1rem"
       borderRadius="md"
       display="flex"
-      justifyContent="start"
-      alignItems="start"
+      justifyContent={justifyContent || 'start'}
+      alignItems={alignItems || 'start'}
       flexDir={flexDir || 'column'}
       gap="1rem"
       shadow="base"

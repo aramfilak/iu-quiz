@@ -88,7 +88,7 @@ Table QuizAnswer {
 Table QuizFeedback {
   id Int [pk, increment]
   feedback String [not null]
-  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [default: `now()`, not null]
   author Student [not null]
   authorId String [not null]
   quiz Quiz [not null]

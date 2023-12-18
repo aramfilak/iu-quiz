@@ -92,7 +92,7 @@ interface QuizAnswer {
 interface QuizFeedback {
   id: number;
   feedback: string;
-  createdAt: Date;
+  updatedAt: Date;
   author: Student;
   authorId: string;
   quiz: Quiz;

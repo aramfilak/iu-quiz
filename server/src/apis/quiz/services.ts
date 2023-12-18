@@ -167,7 +167,20 @@ async function findQuizById(req: Request, res: Response) {
         }
       },
       likedBy: true,
-      feedbacks: true
+      feedbacks: {
+        include: {
+          author: {
+            select: {
+              studentProfile: {
+                select: {
+                  name: true,
+                  profileImage: true
+                }
+              }
+            }
+          }
+        }
+      }
     }
   });
 
@@ -475,7 +488,7 @@ async function toggleLikeQuiz(req: Request, res: Response) {
 
   await db.quiz.update({
     where: { id: existingQuiz.id },
-    data: { likes: likedByCount }
+    data: { likes: likedByCount, updatedAt: existingQuiz.updatedAt }
   });
 
   res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, ''));

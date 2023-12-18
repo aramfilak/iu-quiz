@@ -1,5 +1,6 @@
 import {
   Avatar,
+  BoxProps,
   Button,
   HStack,
   Table,
@@ -19,12 +20,12 @@ import { convertToGermanDate } from '../../../../utils/formatters';
 import { routes } from '../../../../utils/routes';
 import { Quiz } from '../../../../utils/types';
 
-interface QuizHeaderProps {
+interface QuizHeaderProps extends BoxProps {
   quiz: Quiz;
   onChange: () => void;
 }
 
-function QuizHeader({ quiz, onChange }: QuizHeaderProps) {
+function QuizHeader({ quiz, onChange, ...rest }: QuizHeaderProps) {
   const navigate = useNavigate();
   const toast = useToast();
   const { toggleLikeQuiz } = useQuizStore();
@@ -54,7 +55,7 @@ function QuizHeader({ quiz, onChange }: QuizHeaderProps) {
   };
 
   return (
-    <BoxWrapper title="Informationen">
+    <BoxWrapper title="Informationen" {...rest}>
       <TableContainer>
         <Table size="sm">
           <Tbody>

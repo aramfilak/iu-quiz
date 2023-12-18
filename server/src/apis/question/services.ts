@@ -5,6 +5,7 @@ import { UnauthorizedError, NotFoundError } from '../../errors';
 import { createApiResponse } from '../../utils/response';
 import { validate } from '../../utils/validate';
 import { QuizAnswer } from '@prisma/client';
+import { updateQuiz } from '../quiz/services';
 
 interface QuizQuestionData {
   quizId: string;
@@ -105,7 +106,7 @@ async function updateQuizQuestion(
     throw new UnauthorizedError('Sie sind nicht berechtigt');
   }
 
-  validate.isEmpty('Quiz Id', quizId);
+  quizId = validate.isEmpty('Quiz Id', quizId);
   question = validate.isEmpty('Question', question);
   validate.min('Answers', quizAnswers, 2);
   validate.max('Answers', quizAnswers, 4);
@@ -150,6 +151,15 @@ async function updateQuizQuestion(
     },
     include: {
       quizAnswers: true
+    }
+  });
+
+  await db.quiz.update({
+    where: {
+      id: Number(quizId)
+    },
+    data: {
+      updatedAt: new Date()
     }
   });
 
