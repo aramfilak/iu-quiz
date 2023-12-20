@@ -97,6 +97,12 @@ async function findAllQuizzes(req: Request, res: Response) {
     orderBy.push({ likes: sortOrder });
   }
 
+  const totalQuizzesCount = await db.quiz.count({
+    where: where
+  });
+
+  const totalPages = Math.ceil(totalQuizzesCount / (Number(limit) || 10));
+
   const skip = (Number(page) - 1 || 0) * (Number(limit) || 10);
   const take = Number(limit) || 10;
 
@@ -114,7 +120,12 @@ async function findAllQuizzes(req: Request, res: Response) {
     take
   });
 
-  res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, '', quizzes));
+  res.status(StatusCodes.OK).json(
+    createApiResponse(StatusCodes.OK, '', {
+      quizzes,
+      totalPages
+    })
+  );
 }
 
 /**

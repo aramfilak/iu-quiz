@@ -46,7 +46,7 @@ function FindQuiz() {
   const [currentPageIndex, setCurrentPageIndex] = useState<number>(1);
   const {
     isLoading,
-    data: unFollowedQuizzes,
+    data: { quizzes: unFollowedQuizzes = [], totalPages = 1 } = {},
     refetchData
   } = useFetch(() => getAllQuizzes(params));
 
@@ -107,6 +107,17 @@ function FindQuiz() {
     setParams((prevParams) => ({
       ...prevParams,
       page: (currentPageIndex + 1).toString()
+    }));
+
+    refetchData();
+  };
+
+  const handlePageClick = (pageNumbers: number) => {
+    setCurrentPageIndex(pageNumbers);
+
+    setParams((prevParams) => ({
+      ...prevParams,
+      page: pageNumbers.toString()
     }));
 
     refetchData();
@@ -281,15 +292,19 @@ function FindQuiz() {
           description="Es gibt keine Quizfragen, denen man folgen kann"
         />
       )}
-      {/* Pagination Section */}
-      <Pagination
-        mt="20"
-        params={params}
-        handlePreviousPage={handlePreviousPage}
-        handleNextPage={handleNextPage}
-        isLoading={isLoading}
-        currentPage={currentPageIndex}
-      />
+
+      {totalPages > 0 && (
+        <Pagination
+          mt="20"
+          params={params}
+          handlePreviousPage={handlePreviousPage}
+          handleNextPage={handleNextPage}
+          handlePageClick={handlePageClick}
+          totalPages={totalPages}
+          isLoading={isLoading}
+          currentPage={currentPageIndex}
+        />
+      )}
     </>
   );
 }

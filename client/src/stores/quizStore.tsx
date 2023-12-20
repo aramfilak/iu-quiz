@@ -9,7 +9,9 @@ interface UseQuizStore {
   quizFormActionType: ActionType | null;
   setQuizFormActionType: (type: ActionType | null) => void;
   setEditQuiz: (quiz: Quiz | null) => void;
-  getAllQuizzes: (params: Partial<QuizQueryParams>) => Promise<Quiz[]>;
+  getAllQuizzes: (
+    params: Partial<QuizQueryParams>
+  ) => Promise<{ quizzes: Quiz[]; totalPages: number }>;
   getQuizById: (quizId: number) => Promise<Quiz>;
   createQuiz: (title: string, courseOfStudy: string, courseId: string) => Promise<void>;
   updateQuiz: (
@@ -43,7 +45,10 @@ const useQuizStore = create<UseQuizStore>((set) => ({
       headers: { Authorization: usePersistStore.getState().accessToken }
     });
 
-    return response.data.data;
+    return {
+      quizzes: response.data.data.quizzes,
+      totalPages: response.data.data.totalPages
+    };
   },
 
   getQuizById: async (quizId: number) => {
