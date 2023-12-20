@@ -43,45 +43,35 @@ function QuestionForm({
 
     if (actionType === ActionType.CREATE) {
       createQuizQuestion(question)
-        .then(() => toast({ status: 'success', description: 'Frage erstellt' }))
-        .catch(() => toast({ status: 'error', description: 'Erstellung fehlgeschlagen' }))
-        .finally(() => {
-          setIsLoading(false);
+        .then(() => {
+          toast({ status: 'success', description: 'Frage erstellt' });
           onSubmit();
-        });
+        })
+        .catch(() => toast({ status: 'error', description: 'Erstellung fehlgeschlagen' }))
+        .finally(() => setIsLoading(false));
     } else if (actionType === ActionType.UPDATE) {
       updateQuizQuestion(Number(question.id), question)
-        .then(() => toast({ status: 'success', description: 'Frage aktualisiert' }))
+        .then(() => {
+          toast({ status: 'success', description: 'Frage aktualisiert' });
+          onSubmit();
+        })
         .catch(() =>
           toast({ status: 'error', description: 'Aktualisierung fehlgeschlagen' })
         )
-        .finally(() => {
-          setIsLoading(false);
-          onSubmit();
-        });
+        .finally(() => setIsLoading(false));
     }
   };
 
   const handleDeleteQuestion = () => {
     setIsLoading(true);
 
-    const response = new Promise((resolve, reject) =>
-      deleteQuizQuestion(Number(questionData.id), Number(questionData.quizId))
-        .then(() => {
-          resolve(true);
-        })
-        .catch(() => reject())
-        .finally(() => {
-          setIsLoading(false);
-          onSubmit();
-        })
-    );
-
-    toast.promise(response, {
-      success: { description: 'Frage gelöscht' },
-      error: { description: 'Löschen fehlgeschlagen' },
-      loading: { description: 'Es lädt..' }
-    });
+    deleteQuizQuestion(Number(questionData.id), Number(questionData.quizId))
+      .then(() => {
+        onSubmit();
+        toast({ status: 'success', description: 'Frage gelöscht' });
+      })
+      .catch(() => toast({ status: 'error', description: 'Löschen fehlgeschlagen' }))
+      .finally(() => setIsLoading(false));
   };
 
   return (

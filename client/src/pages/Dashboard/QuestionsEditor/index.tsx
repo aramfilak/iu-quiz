@@ -101,7 +101,7 @@ function QuestionsEditor() {
                               <option
                                 key={question.id}
                                 onClick={() => setSelectedQuestion(question)}
-                              >{`${index + 1} ${question.question}`}</option>
+                              >{`[${index + 1}] ${question.question}`}</option>
                             );
                           })}
                         </>

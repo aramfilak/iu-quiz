@@ -15,7 +15,7 @@ interface QuizQuestionData {
 
 /**
  * ________________________________________________________________
- * @route api/v1/quiz/question
+ * @route api/v1/quiz-question
  * @method POST
  * @access protected
  * ________________________________________________________________
@@ -35,8 +35,8 @@ async function createQuizQuestion(
 
   validate.isEmpty('Quiz Id', quizId);
   question = validate.isEmpty('Question', question);
-  validate.min('Answers', quizAnswers, 2);
-  validate.max('Answers', quizAnswers, 4);
+  validate.min('Quiz Answers', quizAnswers, 2);
+  validate.max('Quiz Answers', quizAnswers, 4);
 
   const existingQuiz = await db.quiz.findUnique({
     where: {
@@ -87,7 +87,7 @@ async function createQuizQuestion(
 
 /**
  * ________________________________________________________________
- * @route api/v1/quiz/question/:questionId
+ * @route api/v1/quiz-question:questionId
  * @method PATCH
  * @access protected
  * ________________________________________________________________
@@ -168,7 +168,7 @@ async function updateQuizQuestion(
 
 /**
  * ________________________________________________________________
- * @route api/v1/quiz/question
+ * @route api/v1/quiz-question
  * @method DELETE
  * @access protected
  * ________________________________________________________________
@@ -201,7 +201,7 @@ async function deleteQuestionById(req: Request, res: Response) {
 
   await db.quizQuestion.delete({
     where: {
-      id: existingQuizAndQuestion.id
+      id: Number(questionId)
     }
   });
 
