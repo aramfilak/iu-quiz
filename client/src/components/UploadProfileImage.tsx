@@ -30,35 +30,20 @@ function UploadProfileImage(rest: FlexProps) {
       const formData = new FormData();
       formData.append('image', image);
 
-      const response = new Promise((resolve, reject) => {
-        uploadImage(formData)
-          .then(() => resolve(true))
-          .catch(() => reject())
-          .finally(() => setIsLoading(false));
-      });
-
-      toast.promise(response, {
-        success: { description: 'Profilebild hochgeladen' },
-        error: { description: 'Hochgeladen fehlgeschlagen' },
-        loading: { description: 'Es lädt..' }
-      });
+      uploadImage(formData)
+        .catch(() =>
+          toast({ status: 'error', description: 'Hochgeladen fehlgeschlagen' })
+        )
+        .finally(() => setIsLoading(false));
     }
   };
 
   const handleDeleteImage = () => {
     setIsLoading(true);
-    const response = new Promise((resolve, reject) => {
-      deleteImage()
-        .then(() => resolve(true))
-        .catch(() => reject())
-        .finally(() => setIsLoading(false));
-    });
 
-    toast.promise(response, {
-      success: { description: 'Profilebild gelöscht' },
-      error: { description: 'Löschen fehlgeschlagen' },
-      loading: { description: 'Es lädt..' }
-    });
+    deleteImage()
+      .catch(() => toast({ status: 'error', description: 'Löschen fehlgeschlagen' }))
+      .finally(() => setIsLoading(false));
   };
 
   return (

@@ -302,6 +302,17 @@ async function deleteQuizById(req: Request, res: Response) {
     throw new UnauthorizedError('Sie sind nicht berechtigt');
   }
 
+  const existingQuiz = await db.quiz.findUnique({
+    where: {
+      id: Number(quizId),
+      authorId: studentId
+    }
+  });
+
+  if (!existingQuiz) {
+    throw new NotFoundError('Quiz nicht gefunden');
+  }
+
   await db.quiz.delete({
     where: {
       id: Number(quizId),

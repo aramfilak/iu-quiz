@@ -41,10 +41,7 @@ const useAuthStore = create<UseAuthStore>((_, get) => ({
   },
 
   signOut: () => {
-    usePersistStore.getState().setAccessToken(null);
-    usePersistStore.getState().setSignInStudentId(null);
-    usePersistStore.getState().setIsAuthenticated(false);
-    usePersistStore.getState().setActiveNaveLinkIndex(0);
+    usePersistStore.getState().reset();
   },
 
   authenticate: (endpoint: string, email: string, password: string) =>

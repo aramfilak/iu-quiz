@@ -8,16 +8,6 @@ import { StudentProfile } from '@prisma/client';
 import { uploadImageToCloudinary } from '../../utils/helpers';
 import { sendContactFormMail } from '../../utils/emails';
 
-const studentProfileDataIncludeSchema = {
-  profileImage: true,
-  student: {
-    select: {
-      email: true,
-      registrationDate: true
-    }
-  }
-};
-
 /**
  * ________________________________________________________________
  * @route api/v1/student/:studentsIds
@@ -40,7 +30,15 @@ async function findStudentsByIds(req: Request, res: Response) {
 
   const studentsProfiles = await db.studentProfile.findMany({
     where: { studentId: { in: studentsIds } },
-    include: studentProfileDataIncludeSchema
+    include: {
+      profileImage: true,
+      student: {
+        select: {
+          email: true,
+          registrationDate: true
+        }
+      }
+    }
   });
 
   if (!studentsProfiles) {
@@ -83,7 +81,15 @@ async function updateStudent(req: Request, res: Response) {
   const updatedStudent = await db.studentProfile.update({
     where: { studentId: studentId },
     data: updateData,
-    include: studentProfileDataIncludeSchema
+    include: {
+      profileImage: true,
+      student: {
+        select: {
+          email: true,
+          registrationDate: true
+        }
+      }
+    }
   });
 
   res
@@ -103,7 +109,9 @@ async function deleteStudent(req: Request, res: Response) {
 
   const studentProfile = await db.studentProfile.findUnique({
     where: { studentId: studentId },
-    include: studentProfileDataIncludeSchema
+    include: {
+      profileImage: true
+    }
   });
 
   if (!studentProfile) {
@@ -143,7 +151,9 @@ async function uploadStudentProfileImage(req: Request, res: Response) {
 
   const studentProfile = await db.studentProfile.findUnique({
     where: { studentId: studentId },
-    include: studentProfileDataIncludeSchema
+    include: {
+      profileImage: true
+    }
   });
 
   if (!studentProfile) {
@@ -182,7 +192,15 @@ async function uploadStudentProfileImage(req: Request, res: Response) {
         }
       }
     },
-    include: studentProfileDataIncludeSchema
+    include: {
+      profileImage: true,
+      student: {
+        select: {
+          email: true,
+          registrationDate: true
+        }
+      }
+    }
   });
 
   res
@@ -235,7 +253,15 @@ async function deleteStudentProfileImage(req: Request, res: Response) {
         }
       }
     },
-    include: studentProfileDataIncludeSchema
+    include: {
+      profileImage: true,
+      student: {
+        select: {
+          email: true,
+          registrationDate: true
+        }
+      }
+    }
   });
 
   res

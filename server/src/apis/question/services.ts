@@ -194,6 +194,7 @@ async function deleteQuestionById(req: Request, res: Response) {
       }
     }
   });
+
   if (!existingQuizAndQuestion) {
     throw new NotFoundError('Frage nicht gefunden');
   }

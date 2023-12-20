@@ -47,10 +47,10 @@ function QuizHeader({ quiz, onChange, ...rest }: QuizHeaderProps) {
   const handleLikeQuiz = () => {
     setIsLoading(true);
     toggleLikeQuiz(quiz.id)
+      .then(() => onChange())
       .catch(() => toast({ status: 'error', description: 'Like fehlgeschlagen' }))
       .finally(() => {
         setIsLoading(false);
-        onChange();
       });
   };
 

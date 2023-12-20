@@ -4,13 +4,6 @@ import { db } from '../../configs';
 import { UnauthorizedError, NotFoundError } from '../../errors';
 import { createApiResponse } from '../../utils/response';
 import { validate } from '../../utils/validate';
-import { QuizAnswer } from '@prisma/client';
-
-interface QuizQuestionData {
-  quizId: string;
-  question: string;
-  quizAnswers: QuizAnswer[];
-}
 
 /**
  * ________________________________________________________________
