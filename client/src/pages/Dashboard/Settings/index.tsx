@@ -3,13 +3,11 @@ import {
   AlertIcon,
   Button,
   Flex,
-  HStack,
   Input,
   InputGroup,
   InputLeftAddon,
   Select,
   Tooltip,
-  useColorMode,
   useDisclosure
 } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
@@ -21,7 +19,7 @@ import {
   FaUser,
   FaXing
 } from 'react-icons/fa';
-import { FiMoon, FiSave, FiSun, FiUserX } from 'react-icons/fi';
+import { FiSave, FiUserX } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import {
   BoxWrapper,
@@ -45,7 +43,6 @@ function Settings() {
   const [alert, setAlert] = useState<CustomAlert | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
-  const { colorMode, toggleColorMode } = useColorMode();
 
   const handleInputChange = () => {
     const inputs: boolean[] = [
@@ -220,18 +217,8 @@ function Settings() {
             </BoxWrapper>
           </Flex>
 
-          {/*------------------- Color Mode --------------------*/}
           <BoxWrapper flexDir="row" width="full">
-            <HStack align="end">
-              <Button
-                variant="outline"
-                leftIcon={colorMode === 'light' ? <FiMoon /> : <FiSun />}
-                onClick={toggleColorMode}
-              >
-                {colorMode === 'light' ? 'Dunkelmodus' : 'Hellermodus'}
-              </Button>
-            </HStack>
-            {/*------------------- Save Button -----------------*/}
+            {/*------------------- Preview Profile -----------------*/}
             <Button
               marginLeft="auto"
               colorScheme="blue"
@@ -244,6 +231,7 @@ function Settings() {
             >
               Prview Profile
             </Button>
+            {/*------------------- Save Button -----------------*/}
             <Button
               alignSelf="end"
               colorScheme="teal"

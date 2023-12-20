@@ -93,19 +93,22 @@ function QuestionsEditor() {
                     <FormLabel gap="2" display="flex" alignItems="center">
                       <FaRegQuestionCircle /> Zu aktualisierende Frage
                     </FormLabel>
-                    <Select borderRadius="md" bg="gray.50" cursor="pointer">
-                      {quiz?.quizQuestions && (
-                        <>
-                          {quiz?.quizQuestions.map((question, index) => {
-                            return (
-                              <option
-                                key={question.id}
-                                onClick={() => setSelectedQuestion(question)}
-                              >{`[${index + 1}] ${question.question}`}</option>
-                            );
-                          })}
-                        </>
-                      )}
+                    <Select
+                      onChange={(e) => {
+                        const index = Number(e.target.value);
+                        quiz?.quizQuestions &&
+                          setSelectedQuestion(quiz?.quizQuestions[index]);
+                      }}
+                      borderRadius="md"
+                      bg="gray.50"
+                      cursor="pointer"
+                    >
+                      {quiz?.quizQuestions &&
+                        quiz?.quizQuestions.map((question, index) => (
+                          <option value={index} key={question.id}>{`[${index + 1}] ${
+                            question.question
+                          }`}</option>
+                        ))}
                     </Select>
                   </InputGroup>
                 </BoxWrapper>
