@@ -17,8 +17,7 @@ import {
   Profile,
   QuestionsEditor,
   Quiz,
-  Settings,
-  PlayQuiz
+  Settings
 } from '../pages/Dashboard';
 import { EmailVerification } from '../pages/EmailVerification';
 
@@ -115,13 +114,6 @@ const routes = {
         path: 'quiz/:quizId',
         mainPath: 'quiz',
         element: <Quiz />
-      },
-      PlayQuiz: {
-        isSidebarItem: false,
-        name: 'Play Quiz',
-        path: 'play-quiz',
-        mainPath: 'play-quiz',
-        element: <PlayQuiz />
       }
     }
   }

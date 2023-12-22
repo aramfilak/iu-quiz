@@ -8,7 +8,7 @@ import { QuizHeader, ScoreTable } from './layout';
 
 function Quiz() {
   const { quizId } = useParams();
-  const { getQuizById } = useQuizStore();
+  const getQuizById = useQuizStore((state) => state.getQuizById);
   const {
     data: quizData,
     isLoading,
