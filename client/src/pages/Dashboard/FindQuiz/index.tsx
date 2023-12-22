@@ -123,7 +123,10 @@ function FindQuiz() {
 
   return (
     <>
-      <PageHeader title="Quiz Finden" description="Finde passende Quiz für dich." />
+      <PageHeader
+        title="Quiz Finden"
+        description="Jedes Thema. Jedes Quiz. Finde das passende für dich."
+      />
       <BoxWrapper mb="8">
         <form onSubmit={handleSubmit} style={{ width: '100%' }}>
           {/*------------------- Search Bar -----------------*/}

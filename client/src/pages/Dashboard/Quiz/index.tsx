@@ -19,7 +19,7 @@ function Quiz() {
     <Box w="full">
       <PageHeader
         title="Quiz"
-        description="Spiel genießen, Feedback geben und Kontakte verknüpfen"
+        description="Spiel genießen. Feedback geben. Kontakte knüpfen."
       />
       <GoBackButton />
       {isLoading || !quizData ? (

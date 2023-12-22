@@ -62,7 +62,7 @@ function SidebarNav({ onClose, isCollapsed, toggleSidebar, ...rest }: SidebarPro
 
       <Box mt="4rem" position="relative">
         {/* ________________ Collapse Button ____________________ */}
-        <Tooltip label={isCollapsed ? 'Öffnen' : 'Schlißen'} placement="right">
+        <Tooltip label={isCollapsed ? 'Öffnen' : 'Schließen'} placement="right">
           <IconButton
             display={{ base: 'none', md: 'flex' }}
             position="absolute"

@@ -30,6 +30,7 @@ import courseOfStudy from '../../../data/courseOfStudy.json';
 import { useStudentStore } from '../../../stores';
 import { routes } from '../../../utils/routes';
 import { CustomAlert } from '../../../utils/types';
+import { PageHeader } from '../../../components';
 
 function Settings() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -90,6 +91,10 @@ function Settings() {
 
   return (
     <>
+      <PageHeader
+        title="Einstellungen"
+        description="Dein Profil. Deine Geschichte. Gestalte es einzigartig."
+      />
       {/*------------------- Alert Dialog --------------------*/}
       <DeleteStudentAlertDialog isOpen={isOpen} onClose={onClose} />
 
@@ -229,7 +234,7 @@ function Settings() {
                 )
               }
             >
-              Prview Profile
+              Preview Profile
             </Button>
             {/*------------------- Save Button -----------------*/}
             <Button
