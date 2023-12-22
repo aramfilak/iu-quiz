@@ -10,7 +10,9 @@ import { QuizForm } from '../../../../components/QuizForm';
 import { useFetch } from '../../../../hooks';
 import { useQuizStore, useStudentStore } from '../../../../stores';
 import { ActionType } from '../../../../utils/enums';
-import { Quiz } from '../../../../utils/types';
+import { QuizQueryParams } from '../../../../utils/types';
+import { useState } from 'react';
+import Pagination from '../../../../components/Pagination';
 
 function My() {
   const { studentProfile } = useStudentStore();
@@ -18,11 +20,16 @@ function My() {
     useQuizStore();
   const { onClose, onOpen, isOpen } = useDisclosure();
   const toast = useToast();
+  const [params, setParams] = useState<QuizQueryParams>({
+    page: '1',
+    authorId: studentProfile?.studentId
+  });
+  const [currentPageIndex, setCurrentPageIndex] = useState<number>(1);
   const {
     isLoading,
-    data: studentQuizzes,
+    data: { quizzes: studentQuizzes = [], totalPages = 1 } = {},
     refetchData
-  } = useFetch<Quiz[]>(() => getAllQuizzes({ authorId: studentProfile?.studentId }));
+  } = useFetch(() => getAllQuizzes(params));
 
   const handleDeleteQuiz = (quizId: number) => {
     const response = new Promise((resolve, reject) =>
@@ -36,6 +43,39 @@ function My() {
       error: { description: 'Löschen fehlgeschlagen' },
       loading: { description: 'Es lädt..' }
     });
+  };
+
+  const handlePreviousPage = () => {
+    setCurrentPageIndex((prevPage) => prevPage - 1);
+
+    setParams((prevParams) => ({
+      ...prevParams,
+      page: (currentPageIndex - 1).toString()
+    }));
+
+    refetchData();
+  };
+
+  const handleNextPage = () => {
+    setCurrentPageIndex((prevPage) => prevPage + 1);
+
+    setParams((prevParams) => ({
+      ...prevParams,
+      page: (currentPageIndex + 1).toString()
+    }));
+
+    refetchData();
+  };
+
+  const handlePageClick = (pageNumbers: number) => {
+    setCurrentPageIndex(pageNumbers);
+
+    setParams((prevParams) => ({
+      ...prevParams,
+      page: pageNumbers.toString()
+    }));
+
+    refetchData();
   };
 
   return (
@@ -69,6 +109,19 @@ function My() {
               );
             })}
           </QuizCardsGrid>
+
+          {totalPages > 0 && (
+            <Pagination
+              mt="20"
+              params={params}
+              handlePreviousPage={handlePreviousPage}
+              handleNextPage={handleNextPage}
+              handlePageClick={handlePageClick}
+              totalPages={totalPages}
+              isLoading={isLoading}
+              currentPage={currentPageIndex}
+            />
+          )}
 
           {!studentQuizzes?.length && (
             <NoResultFound

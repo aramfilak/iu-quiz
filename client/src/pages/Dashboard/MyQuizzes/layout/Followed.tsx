@@ -10,18 +10,24 @@ import {
 import { useFetch } from '../../../../hooks';
 import { useQuizStore } from '../../../../stores';
 import { routes } from '../../../../utils/routes';
-import { Quiz } from '../../../../utils/types';
+import { QuizQueryParams } from '../../../../utils/types';
+import Pagination from '../../../../components/Pagination';
 
 function Followed() {
   const { toggleFollowQuiz, getAllQuizzes } = useQuizStore();
   const toast = useToast();
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [params, setParams] = useState<QuizQueryParams>({
+    page: '1',
+    followed: true
+  });
+  const [currentPageIndex, setCurrentPageIndex] = useState<number>(1);
   const {
     isLoading,
-    data: followedQuizzes,
+    data: { quizzes: followedQuizzes = [], totalPages = 1 } = {},
     refetchData
-  } = useFetch<Quiz[]>(() => getAllQuizzes({ followed: true }));
+  } = useFetch(() => getAllQuizzes(params));
 
   const handleUnFlowQuiz = (quizId: number) => {
     setIsSubmitting(true);
@@ -32,31 +38,83 @@ function Followed() {
       .finally(() => setIsSubmitting(false));
   };
 
-  return isLoading ? (
-    <QuizCardSkeleton />
-  ) : followedQuizzes?.length ? (
-    <QuizCardsGrid>
-      {followedQuizzes?.map((quiz) => (
-        <QuizCard
-          isLoading={isSubmitting}
-          key={quiz.id}
-          quiz={quiz}
-          displayPlayButton
-          displayUnFollowButton={{
-            onUnFollow: () => handleUnFlowQuiz(quiz.id)
-          }}
+  const handlePreviousPage = () => {
+    setCurrentPageIndex((prevPage) => prevPage - 1);
+
+    setParams((prevParams) => ({
+      ...prevParams,
+      page: (currentPageIndex - 1).toString()
+    }));
+
+    refetchData();
+  };
+
+  const handleNextPage = () => {
+    setCurrentPageIndex((prevPage) => prevPage + 1);
+
+    setParams((prevParams) => ({
+      ...prevParams,
+      page: (currentPageIndex + 1).toString()
+    }));
+
+    refetchData();
+  };
+
+  const handlePageClick = (pageNumbers: number) => {
+    setCurrentPageIndex(pageNumbers);
+
+    setParams((prevParams) => ({
+      ...prevParams,
+      page: pageNumbers.toString()
+    }));
+
+    refetchData();
+  };
+
+  return (
+    <>
+      {isLoading ? (
+        <QuizCardSkeleton />
+      ) : followedQuizzes?.length ? (
+        <QuizCardsGrid>
+          {followedQuizzes?.map((quiz) => (
+            <QuizCard
+              isLoading={isSubmitting}
+              key={quiz.id}
+              quiz={quiz}
+              displayPlayButton
+              displayUnFollowButton={{
+                onUnFollow: () => handleUnFlowQuiz(quiz.id)
+              }}
+            />
+          ))}
+        </QuizCardsGrid>
+      ) : (
+        <NoResultFound
+          title="Kein verfolgtes Quiz"
+          description="Sie müssen einem Quiz folgen, um es spielen zu können"
+        >
+          <Button
+            onClick={() => navigate(`../${routes.Dashboard.children.FindQuiz.path}`)}
+          >
+            Jetzt folgen
+          </Button>
+        </NoResultFound>
+      )}
+
+      {totalPages > 0 && (
+        <Pagination
+          mt="20"
+          params={params}
+          handlePreviousPage={handlePreviousPage}
+          handleNextPage={handleNextPage}
+          handlePageClick={handlePageClick}
+          totalPages={totalPages}
+          isLoading={isLoading}
+          currentPage={currentPageIndex}
         />
-      ))}
-    </QuizCardsGrid>
-  ) : (
-    <NoResultFound
-      title="Kein verfolgtes Quiz"
-      description="Sie müssen einem Quiz folgen, um es spielen zu können"
-    >
-      <Button onClick={() => navigate(`../${routes.Dashboard.children.FindQuiz.path}`)}>
-        Jetzt folgen
-      </Button>
-    </NoResultFound>
+      )}
+    </>
   );
 }
 
