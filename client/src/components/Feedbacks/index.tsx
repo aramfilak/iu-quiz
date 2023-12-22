@@ -66,7 +66,7 @@ function Feedbacks({ quizId, feedbacks, onChange, ...rest }: FeedbacksProps) {
           ref={feedbackInputRef}
         />
         <InputRightElement>
-          <Tooltip label="feedback posten">
+          <Tooltip label="Feedback posten">
             <IconButton
               isLoading={isLoading}
               onClick={handleCreateFeedback}

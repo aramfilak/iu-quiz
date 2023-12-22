@@ -61,7 +61,10 @@ function FAQs() {
   return (
     <>
       <Box mx="auto" maxW="600px" mb="4">
-        <PageHeader title={'FAQs'} description="Finde schnell deine Antwort" />
+        <PageHeader
+          title={'FAQs'}
+          description="Fragen. Antworten. Alles was du wissen musst."
+        />
         <InputGroup>
           <Input
             variant="outline"

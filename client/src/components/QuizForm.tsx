@@ -120,7 +120,7 @@ function QuizForm({ isOpen, onClose, onFinal }: QuizFormProps) {
           <ModalBody pb="6" display="flex" flexDir="column" gap="4">
             {/*____________________ Quiz Title ____________________*/}
             <InputGroup>
-              <Tooltip label="Title">
+              <Tooltip label="Titel">
                 <InputLeftAddon>
                   <FaBookmark />
                 </InputLeftAddon>
