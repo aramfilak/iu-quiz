@@ -44,11 +44,9 @@ function FindQuiz() {
   const toast = useToast();
   const [params, setParams] = useState<QuizQueryParams>({ page: '1', unFollowed: true });
   const [currentPageIndex, setCurrentPageIndex] = useState<number>(1);
-  const {
-    isLoading,
-    data: { quizzes: unFollowedQuizzes = [], totalPages = 1 } = {},
-    refetchData
-  } = useFetch(() => getAllQuizzes(params));
+  const { isLoading, data, refetchData } = useFetch(() => getAllQuizzes(params));
+  const unFollowedQuizzes = data?.quizzes;
+  const totalPages = data?.totalPages;
 
   const handleFlowQuiz = (quizId: number) => {
     setIsSubmitting(true);
@@ -293,7 +291,7 @@ function FindQuiz() {
         />
       )}
 
-      {totalPages > 0 && (
+      {totalPages && totalPages > 0 && (
         <Pagination
           mt="20"
           params={params}

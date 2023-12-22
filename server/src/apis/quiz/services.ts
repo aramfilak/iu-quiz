@@ -101,10 +101,10 @@ async function findAllQuizzes(req: Request, res: Response) {
     where: where
   });
 
-  const totalPages = Math.ceil(totalQuizzesCount / (Number(limit) || 10));
-
-  const skip = (Number(page) - 1 || 0) * (Number(limit) || 10);
-  const take = Number(limit) || 10;
+  const MAX_ITEMS_PER_PAGE = 20;
+  const totalPages = Math.ceil(totalQuizzesCount / (Number(limit) || MAX_ITEMS_PER_PAGE));
+  const skip = (Number(page) - 1 || 0) * (Number(limit) || MAX_ITEMS_PER_PAGE);
+  const take = Number(limit) || MAX_ITEMS_PER_PAGE;
 
   const quizzes = await db.quiz.findMany({
     where: where,
@@ -120,12 +120,9 @@ async function findAllQuizzes(req: Request, res: Response) {
     take
   });
 
-  res.status(StatusCodes.OK).json(
-    createApiResponse(StatusCodes.OK, '', {
-      quizzes,
-      totalPages
-    })
-  );
+  res
+    .status(StatusCodes.OK)
+    .json(createApiResponse(StatusCodes.OK, '', { quizzes, totalPages }));
 }
 
 /**

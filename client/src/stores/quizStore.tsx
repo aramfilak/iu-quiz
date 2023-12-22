@@ -11,7 +11,7 @@ interface UseQuizStore {
   setEditQuiz: (quiz: Quiz | null) => void;
   getAllQuizzes: (
     params: Partial<QuizQueryParams>
-  ) => Promise<{ quizzes: Quiz[]; totalPages: number }>;
+  ) => Promise<{ totalPages: number; quizzes: Quiz[] }>;
   getQuizById: (quizId: number) => Promise<Quiz>;
   createQuiz: (title: string, courseOfStudy: string, courseId: string) => Promise<void>;
   updateQuiz: (
@@ -45,10 +45,7 @@ const useQuizStore = create<UseQuizStore>((set) => ({
       headers: { Authorization: usePersistStore.getState().accessToken }
     });
 
-    return {
-      quizzes: response.data.data.quizzes,
-      totalPages: response.data.data.totalPages
-    };
+    return response.data.data;
   },
 
   getQuizById: async (quizId: number) => {

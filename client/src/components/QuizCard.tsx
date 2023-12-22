@@ -197,7 +197,7 @@ function QuizCard({
         </CardHeader>
         <CardBody minW="full">
           {/*----------------- Title -------------------*/}
-          <Text fontWeight="bold" textAlign="center">
+          <Text fontWeight="bold" textAlign="center" maxH="40px" overflow="auto">
             {quiz.title}
           </Text>
         </CardBody>
