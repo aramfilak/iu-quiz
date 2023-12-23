@@ -297,7 +297,6 @@ function FindQuiz() {
       {totalPages && totalPages > 0 && (
         <Pagination
           mt="20"
-          params={params}
           handlePreviousPage={handlePreviousPage}
           handleNextPage={handleNextPage}
           handlePageClick={handlePageClick}

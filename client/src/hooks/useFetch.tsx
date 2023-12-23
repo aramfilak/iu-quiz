@@ -4,21 +4,24 @@ import { useEffect, useState } from 'react';
 function useFetch<T>(fetchFunction: () => Promise<T>) {
   const [data, setData] = useState<T>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [shouldFetch, setShouldFetch] = useState<boolean>(true);
   const toast = useToast();
 
-  useEffect(() => {
+  const refetchData = async () => {
     setIsLoading(true);
 
-    fetchFunction()
-      .then((data) => setData(data))
-      .catch(() => toast({ status: 'error', description: 'Datenabruf fehlgeschlagen' }))
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, [shouldFetch]);
+    try {
+      const data = await fetchFunction();
+      setData(data);
+    } catch (error) {
+      toast({ status: 'error', description: 'Datenabruf fehlgeschlagen' });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-  const refetchData = () => setShouldFetch(!shouldFetch);
+  useEffect(() => {
+    refetchData();
+  }, []);
 
   return { data, isLoading, refetchData };
 }

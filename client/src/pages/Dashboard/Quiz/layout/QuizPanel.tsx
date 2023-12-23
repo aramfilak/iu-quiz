@@ -23,35 +23,26 @@ import { Quiz } from '../../../../utils/types';
 
 interface QuizPanelProps extends BoxProps {
   quiz: Quiz;
-  onChange: () => void;
+  onChange: () => Promise<void>;
 }
 
-function QuizHeader({ quiz, onChange, ...rest }: QuizPanelProps) {
+function QuizPanel({ quiz, onChange, ...rest }: QuizPanelProps) {
   const navigate = useNavigate();
   const toast = useToast();
   const { toggleLikeQuiz } = useQuizStore();
   const { studentProfile } = useStudentStore();
   const [isLoading, setIsLoading] = useState(false);
-  const {
-    authorId,
-    updatedAt,
-    courseOfStudy,
-    course,
-    likes,
-    size,
-    title,
-    student,
-    likedBy
-  } = quiz;
-  const isLiked = likedBy.find((player) => player.playerId === studentProfile?.studentId);
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const isLiked = quiz.likedBy.find(
+    (player) => player.playerId === studentProfile?.studentId
+  );
 
   const handleLikeQuiz = () => {
     setIsLoading(true);
     toggleLikeQuiz(quiz.id)
-      .then(() => onChange())
-      .catch(() => toast({ status: 'error', description: 'Like fehlgeschlagen' }))
-      .finally(() => {
+      .then(() => onChange().finally(() => setIsLoading(false)))
+      .catch(() => {
+        toast({ status: 'error', description: 'Like fehlgeschlagen' });
         setIsLoading(false);
       });
   };
@@ -67,7 +58,7 @@ function QuizHeader({ quiz, onChange, ...rest }: QuizPanelProps) {
                 <Td fontWeight="bold">
                   <Avatar
                     borderRadius="md"
-                    src={student.studentProfile?.profileImage?.url}
+                    src={quiz.student.studentProfile?.profileImage?.url}
                   />
                 </Td>
                 <Td>
@@ -76,37 +67,37 @@ function QuizHeader({ quiz, onChange, ...rest }: QuizPanelProps) {
                     fontWeight="bold"
                     onClick={() =>
                       navigate(
-                        `../${routes.Dashboard.children.Profile.mainPath}/${authorId}`
+                        `../${routes.Dashboard.children.Profile.mainPath}/${quiz.authorId}`
                       )
                     }
                   >
-                    {student.studentProfile?.name}
+                    {quiz.student.studentProfile?.name}
                   </Button>
                 </Td>
               </Tr>
               <Tr>
                 <Td fontWeight="bold">Title</Td>
-                <Td>{title}</Td>
+                <Td>{quiz.title}</Td>
               </Tr>
               <Tr>
                 <Td fontWeight="bold">Anzahl</Td>
-                <Td>{size}</Td>
+                <Td>{quiz.size}</Td>
               </Tr>
               <Tr>
                 <Td fontWeight="bold">Letztes Update</Td>
-                <Td>{convertToGermanDate(updatedAt)}</Td>
+                <Td>{convertToGermanDate(quiz.updatedAt)}</Td>
               </Tr>
               <Tr>
                 <Td fontWeight="bold">Studiengang</Td>
-                <Td>{courseOfStudy}</Td>
+                <Td>{quiz.courseOfStudy}</Td>
               </Tr>
               <Tr>
                 <Td fontWeight="bold">Module</Td>
-                <Td>{course}</Td>
+                <Td>{quiz.course}</Td>
               </Tr>
               <Tr>
                 <Td fontWeight="bold">Likes</Td>
-                <Td>{likes}</Td>
+                <Td>{quiz.likes}</Td>
               </Tr>
             </Tbody>
           </Table>
@@ -136,4 +127,4 @@ function QuizHeader({ quiz, onChange, ...rest }: QuizPanelProps) {
   );
 }
 
-export { QuizHeader };
+export { QuizPanel };

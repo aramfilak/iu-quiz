@@ -1,6 +1,5 @@
 import { Button, Flex, FlexProps, IconButton, Text, Tooltip } from '@chakra-ui/react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import { QuizQueryParams } from '../utils/types';
 
 interface PaginationProps extends FlexProps {
   currentPage: number;
@@ -9,7 +8,6 @@ interface PaginationProps extends FlexProps {
   handleNextPage: () => void;
   handlePageClick: (pageNumbers: number) => void;
   totalPages: number;
-  params: QuizQueryParams;
 }
 
 function Pagination({
@@ -19,7 +17,6 @@ function Pagination({
   handleNextPage,
   handlePageClick,
   totalPages,
-  params,
   ...rest
 }: PaginationProps) {
   const renderPageNumbers = () => {

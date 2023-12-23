@@ -1,2 +1,2 @@
-export { QuizHeader } from './QuizPanel';
+export { QuizPanel } from './QuizPanel';
 export { ScoreTable } from './ScoreTable';

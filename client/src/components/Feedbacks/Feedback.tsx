@@ -24,7 +24,7 @@ import { QuizFeedback } from '../../utils/types';
 
 interface FeedbackProps extends BoxProps {
   feedback: QuizFeedback;
-  onChange: () => void;
+  onChange: () => Promise<void>;
 }
 
 function Feedback({ feedback, onChange }: FeedbackProps) {
@@ -43,18 +43,29 @@ function Feedback({ feedback, onChange }: FeedbackProps) {
     if (updatedFeedback) {
       setIsLoading(true);
       updateFeedback(feedback.quizId, feedback.id, updatedFeedback!)
-        .then(() => onChange())
-        .catch(() => toast({ status: 'error', description: 'Erstellung fehlgeschlagen' }))
-        .finally(() => setIsLoading(false));
+        .then(() => onChange().finally(() => setIsLoading(false)))
+        .catch(() => {
+          toast({ status: 'error', description: 'Erstellung fehlgeschlagen' });
+          setIsLoading(false);
+        })
+        .finally(() => {
+          setIsEditing(false);
+        });
     }
   };
 
   const handleDeleteFeedback = () => {
-    setIsLoading(true);
-    deleteFeedback(feedback.quizId, feedback.id)
-      .then(() => onChange())
-      .catch(() => toast({ status: 'error', description: 'Erstellung fehlgeschlagen' }))
-      .finally(() => setIsLoading(false));
+    const deleteFeedbackPromise = new Promise((resolve, reject) => {
+      deleteFeedback(feedback.quizId, feedback.id)
+        .then(() => onChange().finally(() => resolve(true)))
+        .catch(() => reject());
+    });
+
+    toast.promise(deleteFeedbackPromise, {
+      loading: { description: 'Es lädt...' },
+      success: { description: 'Feedback erfolgreich gelöscht' },
+      error: { description: 'Feedback konnte nicht gelöscht werden' }
+    });
   };
 
   return (
@@ -73,7 +84,6 @@ function Feedback({ feedback, onChange }: FeedbackProps) {
         description="Möchten Sie Ihr Feedback wirklich löschen?"
         onSubmit={() => {
           onClose();
-          onChange();
           handleDeleteFeedback();
         }}
         submitButtonLabel="Löschen"
@@ -130,7 +140,7 @@ function Feedback({ feedback, onChange }: FeedbackProps) {
           {/*___________________ Cancel Edit  ________________ */}
           <Tooltip label="Abbrechen">
             <IconButton
-              onClick={() => setIsEditing((prv) => !prv)}
+              onClick={() => setIsEditing(false)}
               variant="outline"
               type="button"
               aria-label="Bearbeiten Abbrechen"

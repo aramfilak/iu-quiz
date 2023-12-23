@@ -20,7 +20,7 @@ import { validateFeedback } from '../../utils/helpers';
 interface FeedbacksProps extends BoxProps {
   quizId: number;
   feedbacks: QuizFeedback[];
-  onChange: () => void;
+  onChange: () => Promise<void>;
 }
 
 function Feedbacks({ quizId, feedbacks, onChange, ...rest }: FeedbacksProps) {

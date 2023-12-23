@@ -4,16 +4,12 @@ import { GoBackButton, PageHeader, PageSkeleton } from '../../../components';
 import { Feedbacks } from '../../../components/Feedbacks';
 import { useFetch } from '../../../hooks';
 import { useQuizStore } from '../../../stores';
-import { QuizHeader, ScoreTable } from './layout';
+import { QuizPanel, ScoreTable } from './layout';
 
 function Quiz() {
   const { quizId } = useParams();
   const getQuizById = useQuizStore((state) => state.getQuizById);
-  const {
-    data: quizData,
-    isLoading,
-    refetchData
-  } = useFetch(() => getQuizById(Number(quizId)));
+  const { data: quizData, refetchData } = useFetch(() => getQuizById(Number(quizId)));
 
   return (
     <Box w="full">
@@ -22,12 +18,12 @@ function Quiz() {
         description="Spiel genießen. Feedback geben. Kontakte knüpfen."
       />
       <GoBackButton />
-      {isLoading || !quizData ? (
+      {!quizData ? (
         <PageSkeleton />
       ) : (
         <>
           <Flex gap="4" flexDir={{ base: 'column', lg: 'row' }}>
-            <QuizHeader quiz={quizData} onChange={refetchData} flex="1" />
+            <QuizPanel quiz={quizData} onChange={refetchData} flex="1" />
             <Feedbacks
               w={{ lg: '30rem' }}
               quizId={quizData.id}

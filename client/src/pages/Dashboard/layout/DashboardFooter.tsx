@@ -54,6 +54,7 @@ function DashboardFooter({ ml }: SpaceProps) {
               as="a"
               href="https://github.com/aramfilak/iu-quiz"
               aria-label="GitHub"
+              target="_blank"
               icon={<FaGithub />}
             />
           </Tooltip>

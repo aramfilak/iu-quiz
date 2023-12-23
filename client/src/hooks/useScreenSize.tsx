@@ -2,13 +2,11 @@ import { useEffect, useState } from 'react';
 
 function useScreenSize(): { isMobileScreen: boolean; isTabletScreen: boolean } {
   const [isMobileScreen, setIsMobileScreen] = useState<boolean>(
-    // ~480px
-    window.matchMedia('(max-width: 30em)').matches
+    window.matchMedia('(max-width: 48em)').matches
   );
 
   const [isTabletScreen, setIsTabletScreen] = useState<boolean>(
-    // ~768px
-    window.matchMedia('(max-width: 48em)').matches
+    window.matchMedia('(max-width: 62em)').matches
   );
 
   useEffect(() => {
@@ -17,7 +15,6 @@ function useScreenSize(): { isMobileScreen: boolean; isTabletScreen: boolean } {
       setIsTabletScreen(window.matchMedia('(max-width: 62em)').matches);
     };
 
-    // Initial setup for both states
     handleResize();
 
     window.addEventListener('resize', handleResize);
