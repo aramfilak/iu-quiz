@@ -23,7 +23,7 @@ interface ContactFormAlertProps {
 function ContactFormAlert({ onClose, isOpen }: ContactFormAlertProps) {
   const cancelRef = useRef<HTMLButtonElement>(null);
   const toast = useToast();
-  const { sendContactEmail } = useStudentStore();
+  const sendContactEmail = useStudentStore((state) => state.sendContactEmail);
   const [isLoading, setIsLoading] = useState<boolean>();
 
   const [formData, setFormData] = useState({

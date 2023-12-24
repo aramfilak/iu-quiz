@@ -24,7 +24,8 @@ interface SidebarProps extends BoxProps {
 
 function SidebarNav({ onClose, isCollapsed, toggleSidebar, ...rest }: SidebarProps) {
   const navigate = useNavigate();
-  const { activeNaveLinkIndex, setActiveNaveLinkIndex } = usePersistStore();
+  const activeNaveLinkIndex = usePersistStore((state) => state.activeNaveLinkIndex);
+  const setActiveNaveLinkIndex = usePersistStore((state) => state.setActiveNaveLinkIndex);
   const location = useLocation();
   const boxShadowDark = isCollapsed ? '' : '1px solid #4a5568';
 

@@ -6,7 +6,7 @@ import { ProfileHeader } from './layout';
 
 function Profile() {
   const { studentId } = useParams();
-  const { getStudentsByIds } = useStudentStore();
+  const getStudentsByIds = useStudentStore((state) => state.getStudentsByIds);
   const { data, isLoading } = useFetch(() => getStudentsByIds(studentId as string));
   const studentData = data && data[0];
 

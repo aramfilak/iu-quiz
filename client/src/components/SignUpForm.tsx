@@ -14,7 +14,7 @@ import {
   Text,
   useColorModeValue
 } from '@chakra-ui/react';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { BiCheckShield, BiHide, BiShow } from 'react-icons/bi';
 import { RiLockPasswordLine, RiMailLine } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
@@ -22,15 +22,19 @@ import { useAuthStore } from '../stores';
 import { routes } from '../utils/routes';
 import { CustomAlert } from '../utils/types';
 import { HeadingLabel } from '.';
+import { parseJsonDataFromFormData } from '../utils/helpers';
+
+interface FormType {
+  email: string;
+  password: string;
+  passwordConfirm: string;
+}
 
 function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
-  const emailInputRef = useRef<HTMLInputElement>(null);
-  const passwordInputRef = useRef<HTMLInputElement>(null);
-  const passwordConfirmInputRef = useRef<HTMLInputElement>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [alert, setAlert] = useState<CustomAlert | null>(null);
-  const { singUp } = useAuthStore();
+  const singUp = useAuthStore((state) => state.singUp);
   const placeHolderColor = useColorModeValue('gray.800', 'gray.200');
   const navigate = useNavigate();
 
@@ -38,9 +42,8 @@ function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
     e.preventDefault();
     setIsSubmitting(true);
     setAlert({ status: 'loading', message: 'Es lädt...' });
-    const email = emailInputRef.current?.value;
-    const password = passwordInputRef.current?.value;
-    const passwordConfirm = passwordConfirmInputRef.current?.value;
+
+    const { email, password, passwordConfirm } = parseJsonDataFromFormData<FormType>(e);
     const passwordMatch = password === passwordConfirm;
 
     if (!passwordMatch) {
@@ -83,7 +86,7 @@ function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
       </FormLabel>
       <InputGroup>
         <Input
-          ref={emailInputRef}
+          name="email"
           autoComplete="on"
           id="email"
           placeholder="max.muster@iu-study.org"
@@ -100,7 +103,7 @@ function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
       </FormLabel>
       <InputGroup>
         <Input
-          ref={passwordInputRef}
+          name="password"
           autoComplete="on"
           id="password"
           type={showPassword ? 'text' : 'password'}
@@ -142,7 +145,7 @@ function SignUpForm(rest: React.HTMLProps<HTMLFormElement>) {
       </FormLabel>
       <InputGroup>
         <Input
-          ref={passwordConfirmInputRef}
+          name="passwordConfirm"
           id="passwordConfirm"
           autoComplete="on"
           type={showPassword ? 'text' : 'password'}

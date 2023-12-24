@@ -7,9 +7,11 @@ import { Loading } from './Loading';
 function ProtectedRoutes() {
   const [isLoading, setIsLoading] = useState(true);
   const { Authentication } = routes;
-  const { getStudentsByIds, setStudentProfile } = useStudentStore();
-  const { signOut } = useAuthStore();
-  const { isAuthenticated, signInStudentId } = usePersistStore();
+  const setStudentProfile = useStudentStore((state) => state.setStudentProfile);
+  const getStudentsByIds = useStudentStore((state) => state.getStudentsByIds);
+  const isAuthenticated = usePersistStore((state) => state.isAuthenticated);
+  const signInStudentId = usePersistStore((state) => state.signInStudentId);
+  const signOut = useAuthStore((state) => state.signOut);
   const navigate = useNavigate();
 
   const redirectToSignInPage = () => {

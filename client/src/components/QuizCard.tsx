@@ -60,7 +60,8 @@ function QuizCard({
   ...rest
 }: QuizCardProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { setEditQuiz, setQuizFormActionType } = useQuizStore();
+  const setEditQuiz = useQuizStore((state) => state.setEditQuiz);
+  const setQuizFormActionType = useQuizStore((state) => state.setQuizFormActionType);
   const navigate = useNavigate();
 
   return (

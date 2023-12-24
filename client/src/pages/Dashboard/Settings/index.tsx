@@ -10,7 +10,7 @@ import {
   Tooltip,
   useDisclosure
 } from '@chakra-ui/react';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import {
   FaEye,
   FaGraduationCap,
@@ -31,40 +31,28 @@ import { useStudentStore } from '../../../stores';
 import { routes } from '../../../utils/routes';
 import { CustomAlert } from '../../../utils/types';
 import { PageHeader } from '../../../components';
+import { parseJsonDataFromFormData } from '../../../utils/helpers';
+
+interface FormType {
+  name: string;
+  location: string;
+  linkedinUrl: string;
+  xingUrl: string;
+  courseOfStudy: string;
+}
 
 function Settings() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const nameInputRef = useRef<HTMLInputElement>(null);
-  const locationInputRef = useRef<HTMLInputElement>(null);
-  const linkedInInputRef = useRef<HTMLInputElement>(null);
-  const xingInputRef = useRef<HTMLInputElement>(null);
-  const courseOfStudySelectRef = useRef<HTMLSelectElement>(null);
-  const [isChanged, setIsChanged] = useState<boolean>(false);
-  const { studentProfile, updateStudent } = useStudentStore();
+  const updateStudent = useStudentStore((state) => state.updateStudent);
+  const studentProfile = useStudentStore((state) => state.studentProfile);
   const [alert, setAlert] = useState<CustomAlert | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
 
-  const handleInputChange = () => {
-    const inputs: boolean[] = [
-      nameInputRef.current?.value.trim() !== (studentProfile?.name || ''),
-      locationInputRef.current?.value.trim() !== (studentProfile?.location || ''),
-      linkedInInputRef.current?.value.trim() !== (studentProfile?.linkedinUrl || ''),
-      xingInputRef.current?.value.trim() !== (studentProfile?.xingUrl || ''),
-      courseOfStudySelectRef.current?.value.trim() !==
-        (studentProfile?.courseOfStudy || '')
-    ];
-
-    setIsChanged(inputs.some((input) => input));
-  };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const name = nameInputRef.current?.value;
-    const location = locationInputRef.current?.value;
-    const linkedinUrl = linkedInInputRef.current?.value;
-    const xingUrl = xingInputRef.current?.value;
-    const courseOfStudy = courseOfStudySelectRef.current?.value;
+    const { name, location, linkedinUrl, xingUrl, courseOfStudy } =
+      parseJsonDataFromFormData<FormType>(e);
 
     if (!name) {
       return setAlert({ status: 'warning', message: 'Name ist ein Pflichtfeld' });
@@ -81,10 +69,6 @@ function Settings() {
     });
 
     setAlert({ status: success ? 'success' : 'error', message: message });
-
-    if (success) {
-      setIsChanged(false);
-    }
 
     setIsSubmitting(false);
   };
@@ -126,10 +110,9 @@ function Settings() {
                   </InputLeftAddon>
                 </Tooltip>
                 <Input
+                  name="name"
                   borderTopLeftRadius="0"
                   borderBottomLeftRadius="0"
-                  onChange={handleInputChange}
-                  ref={nameInputRef}
                   borderColor="teal.500"
                   autoComplete="on"
                   placeholder="Name"
@@ -146,10 +129,9 @@ function Settings() {
                   </InputLeftAddon>
                 </Tooltip>
                 <Input
+                  name="location"
                   borderTopLeftRadius="0"
                   borderBottomLeftRadius="0"
-                  onChange={handleInputChange}
-                  ref={locationInputRef}
                   borderColor="teal.500"
                   autoComplete="on"
                   placeholder="Wohnort"
@@ -165,8 +147,7 @@ function Settings() {
                   </InputLeftAddon>
                 </Tooltip>
                 <Select
-                  onChange={handleInputChange}
-                  ref={courseOfStudySelectRef}
+                  name="courseOfStudy"
                   placeholder="Studiengang nicht anzeigen"
                   defaultValue={studentProfile?.courseOfStudy || ''}
                 >
@@ -190,11 +171,10 @@ function Settings() {
                   </InputLeftAddon>
                 </Tooltip>
                 <Input
+                  name="linkedinUrl"
                   borderTopLeftRadius="0"
                   borderBottomLeftRadius="0"
                   borderColor="teal.500"
-                  onChange={handleInputChange}
-                  ref={linkedInInputRef}
                   autoComplete="on"
                   placeholder="https://www.linkedin.com/profil"
                   defaultValue={studentProfile?.linkedinUrl || ''}
@@ -209,11 +189,10 @@ function Settings() {
                   </InputLeftAddon>
                 </Tooltip>
                 <Input
+                  name="xingUrl"
                   borderTopLeftRadius="0"
                   borderBottomLeftRadius="0"
                   borderColor="teal.500"
-                  onChange={handleInputChange}
-                  ref={xingInputRef}
                   autoComplete="on"
                   placeholder="https://www.xing.com/profile"
                   defaultValue={studentProfile?.xingUrl || ''}
@@ -242,7 +221,6 @@ function Settings() {
               colorScheme="teal"
               type="submit"
               disabled={isSubmitting}
-              isDisabled={!isChanged}
               leftIcon={<FiSave />}
             >
               Speichern

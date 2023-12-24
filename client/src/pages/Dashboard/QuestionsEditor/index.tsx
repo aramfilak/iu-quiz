@@ -44,14 +44,19 @@ const emptyQuestion = {
 
 function QuestionsEditor() {
   const { quizId } = useParams();
-  const { getQuizById } = useQuizStore();
+  const getQuizById = useQuizStore((state) => state.getQuizById);
   const {
     isLoading,
     data: quiz,
     refetchData
   } = useFetch<Quiz>(() => getQuizById(Number(quizId)));
   const [selectedQuestion, setSelectedQuestion] = useState<QuizQuestion | null>(null);
-  const { questionFormsPanelIndex, setQuestionFormsPanelIndex } = usePersistStore();
+  const questionFormsPanelIndex = usePersistStore(
+    (state) => state.questionFormsPanelIndex
+  );
+  const setQuestionFormsPanelIndex = usePersistStore(
+    (state) => state.setQuestionFormsPanelIndex
+  );
 
   useEffect(() => {
     if (quiz) {

@@ -30,7 +30,8 @@ interface FeedbackProps extends BoxProps {
 function Feedback({ feedback, onChange }: FeedbackProps) {
   const studentId = useStudentStore((state) => state.studentProfile?.studentId);
   const editFeedbackInputRef = useRef<HTMLTextAreaElement>(null);
-  const { updateFeedback, deleteFeedback } = useQuizStore();
+  const updateFeedback = useQuizStore((state) => state.updateFeedback);
+  const deleteFeedback = useQuizStore((state) => state.deleteFeedback);
   const { onClose, onOpen, isOpen } = useDisclosure();
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);

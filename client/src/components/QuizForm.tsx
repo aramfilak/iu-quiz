@@ -40,8 +40,11 @@ interface QuizFormProps extends UseDisclosureProps {
 }
 
 function QuizForm({ isOpen, onClose, onFinal }: QuizFormProps) {
-  const { editQuiz, quizFormActionType, createQuiz, updateQuiz } = useQuizStore();
-  const { studentProfile } = useStudentStore();
+  const studentProfile = useStudentStore((state) => state.studentProfile);
+  const editQuiz = useQuizStore((state) => state.editQuiz);
+  const quizFormActionType = useQuizStore((state) => state.quizFormActionType);
+  const createQuiz = useQuizStore((state) => state.createQuiz);
+  const updateQuiz = useQuizStore((state) => state.updateQuiz);
   const [isLoading, setIsLoading] = useState(false);
   const isUpdating = quizFormActionType === ActionType.UPDATE;
   const isCreating = quizFormActionType === ActionType.CREATE;

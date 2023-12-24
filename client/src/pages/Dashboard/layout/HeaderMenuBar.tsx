@@ -27,8 +27,8 @@ interface MobileProps extends FlexProps {
 }
 
 function HeaderMenuBar({ onOpen: handleOpen, setCollapsedFalse, ...rest }: MobileProps) {
-  const { signOut } = useAuthStore();
-  const { studentProfile } = useStudentStore();
+  const signOut = useAuthStore((state) => state.signOut);
+  const studentProfile = useStudentStore((state) => state.studentProfile);
   const navigate = useNavigate();
   const signOutAlert = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();

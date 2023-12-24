@@ -13,7 +13,7 @@ import { routes } from '../../utils/routes';
 import { CustomAlert } from '../../utils/types';
 
 function EmailVerification() {
-  const { verifyEmail } = useAuthStore();
+  const verifyEmail = useAuthStore((state) => state.verifyEmail);
   const [alert, setAlert] = useState<CustomAlert | null>(null);
   const [searchParams] = useSearchParams();
   const email = searchParams.get('email');

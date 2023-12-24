@@ -28,9 +28,9 @@ interface DeleteStudentAlertProps {
 function DeleteStudentAlertDialog({ isOpen, onClose }: DeleteStudentAlertProps) {
   const cancelRef = useRef<HTMLButtonElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const { deleteStudent } = useStudentStore();
-  const { setAccessToken, setIsAuthenticated } = usePersistStore();
+  const deleteStudent = useStudentStore((state) => state.deleteStudent);
+  const setAccessToken = usePersistStore((state) => state.setAccessToken);
+  const setIsAuthenticated = usePersistStore((state) => state.setIsAuthenticated);
   const toast = useToast();
   const navigate = useNavigate();
 

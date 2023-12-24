@@ -12,9 +12,11 @@ import { useQuizStore, useStudentStore } from '../../../../stores';
 import { ActionType } from '../../../../utils/enums';
 
 function My() {
-  const { studentProfile } = useStudentStore();
-  const { setEditQuiz, setQuizFormActionType, deleteQuizById, getAllQuizzes } =
-    useQuizStore();
+  const studentProfile = useStudentStore((state) => state.studentProfile);
+  const setEditQuiz = useQuizStore((state) => state.setEditQuiz);
+  const setQuizFormActionType = useQuizStore((state) => state.setQuizFormActionType);
+  const deleteQuizById = useQuizStore((state) => state.deleteQuizById);
+  const getAllQuizzes = useQuizStore((state) => state.getAllQuizzes);
   const { onClose, onOpen, isOpen } = useDisclosure();
   const toast = useToast();
   const { isLoading, data, refetchData } = useFetch(() =>

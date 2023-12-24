@@ -35,7 +35,8 @@ import { QuizQueryParams } from '../../../utils/types';
 
 function FindQuiz() {
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const { getAllQuizzes, toggleFollowQuiz } = useQuizStore();
+  const getAllQuizzes = useQuizStore((state) => state.getAllQuizzes);
+  const toggleFollowQuiz = useQuizStore((state) => state.toggleFollowQuiz);
   const [selectedCourseOfStudy, setSelectedCourseOfStudy] = useState<string>('');
   const [selectedCourse, setSelectedCourse] = useState<string>('');
   const [selectedSortOrder, setSelectedSortOrder] = useState<string>('asc');

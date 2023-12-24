@@ -29,8 +29,8 @@ interface QuizPanelProps extends BoxProps {
 function QuizPanel({ quiz, onChange, ...rest }: QuizPanelProps) {
   const navigate = useNavigate();
   const toast = useToast();
-  const { toggleLikeQuiz } = useQuizStore();
-  const { studentProfile } = useStudentStore();
+  const toggleLikeQuiz = useQuizStore((state) => state.toggleLikeQuiz);
+  const studentProfile = useStudentStore((state) => state.studentProfile);
   const [isLoading, setIsLoading] = useState(false);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const isLiked = quiz.likedBy.find(

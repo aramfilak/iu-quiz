@@ -7,7 +7,7 @@ import { routes } from '../../utils/routes';
 import './style.css';
 
 function Authentication() {
-  const { isAuthenticated } = usePersistStore();
+  const isAuthenticated = usePersistStore((state) => state.isAuthenticated);
   const navigate = useNavigate();
   const { Dashboard } = routes;
 

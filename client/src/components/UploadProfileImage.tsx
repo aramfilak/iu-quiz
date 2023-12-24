@@ -16,7 +16,9 @@ import { CustomAlertDialog } from '.';
 
 function UploadProfileImage(rest: FlexProps) {
   const toast = useToast();
-  const { studentProfile, uploadImage, deleteImage } = useStudentStore();
+  const studentProfile = useStudentStore((state) => state.studentProfile);
+  const uploadImage = useStudentStore((state) => state.uploadImage);
+  const deleteImage = useStudentStore((state) => state.deleteImage);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLoading, setIsLoading] = useState(false);
 

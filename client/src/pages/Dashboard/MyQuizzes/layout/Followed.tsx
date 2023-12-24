@@ -12,7 +12,8 @@ import { useQuizStore } from '../../../../stores';
 import { routes } from '../../../../utils/routes';
 
 function Followed() {
-  const { toggleFollowQuiz, getAllQuizzes } = useQuizStore();
+  const toggleFollowQuiz = useQuizStore((state) => state.toggleFollowQuiz);
+  const getAllQuizzes = useQuizStore((state) => state.getAllQuizzes);
   const toast = useToast();
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);

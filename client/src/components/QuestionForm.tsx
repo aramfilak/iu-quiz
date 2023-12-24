@@ -33,7 +33,9 @@ function QuestionForm({
   onSubmit,
   ...rest
 }: QuestionEditBarProps) {
-  const { createQuizQuestion, updateQuizQuestion, deleteQuizQuestion } = useQuizStore();
+  const createQuizQuestion = useQuizStore((state) => state.createQuizQuestion);
+  const updateQuizQuestion = useQuizStore((state) => state.updateQuizQuestion);
+  const deleteQuizQuestion = useQuizStore((state) => state.deleteQuizQuestion);
   const toast = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();

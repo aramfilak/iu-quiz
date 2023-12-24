@@ -10,7 +10,7 @@ import {
   Text,
   useToast
 } from '@chakra-ui/react';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { BiHide, BiShow } from 'react-icons/bi';
 import { RiLockPasswordLine, RiMailLine } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
@@ -18,14 +18,18 @@ import { useAuthStore } from '../stores';
 import { routes } from '../utils/routes';
 import { CustomAlert } from '../utils/types';
 import { HeadingLabel } from '.';
+import { parseJsonDataFromFormData } from '../utils/helpers';
+
+interface FormType {
+  email: string;
+  password: string;
+}
 
 function SignInForm(rest: React.HTMLProps<HTMLFormElement>) {
-  const emailInputRef = useRef<HTMLInputElement>(null);
-  const passwordInputRef = useRef<HTMLInputElement>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [alert, setAlert] = useState<CustomAlert | null>(null);
-  const { signIn } = useAuthStore();
+  const signIn = useAuthStore((state) => state.signIn);
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -33,8 +37,8 @@ function SignInForm(rest: React.HTMLProps<HTMLFormElement>) {
     e.preventDefault();
     setIsSubmitting(true);
     setAlert({ status: 'loading', message: 'Es lädt...' });
-    const email = emailInputRef.current?.value;
-    const password = passwordInputRef.current?.value;
+
+    const { email, password } = parseJsonDataFromFormData<FormType>(e);
 
     if (email && password) {
       const { success, message } = await signIn(email, password);
@@ -76,9 +80,9 @@ function SignInForm(rest: React.HTMLProps<HTMLFormElement>) {
       <InputGroup>
         <Input
           borderColor="teal.500"
-          ref={emailInputRef}
           autoComplete="on"
           id="email"
+          name="email"
           placeholder="max.muster@iu-study.org"
         />
         <InputLeftElement>
@@ -93,9 +97,9 @@ function SignInForm(rest: React.HTMLProps<HTMLFormElement>) {
       <InputGroup>
         <Input
           borderColor="teal.500"
-          ref={passwordInputRef}
           autoComplete="on"
           id="password"
+          name="password"
           type={showPassword ? 'text' : 'password'}
           placeholder="Passwort eingeben"
         />
