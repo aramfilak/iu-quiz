@@ -46,4 +46,11 @@ function validateFeedback(feedback: string) {
   }
 }
 
-export { scorePositionColor, validateFeedback };
+function parseJsonDataFromFormData<T>(e: React.FormEvent<HTMLFormElement>) {
+  const formData = new FormData(e.target as HTMLFormElement);
+  const formJson = Object.fromEntries(formData.entries()) as T;
+
+  return formJson;
+}
+
+export { scorePositionColor, validateFeedback, parseJsonDataFromFormData };
