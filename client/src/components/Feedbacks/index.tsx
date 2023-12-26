@@ -1,26 +1,21 @@
-import {
-  BoxProps,
-  IconButton,
-  InputGroup,
-  InputRightElement,
-  Text,
-  Textarea,
-  Tooltip,
-  VStack,
-  useToast
-} from '@chakra-ui/react';
+import { BoxProps, Button, Text, Textarea, VStack, useToast } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
-import { FaCommentAlt } from 'react-icons/fa';
+import { FaCommentDots } from 'react-icons/fa';
 import { BoxWrapper } from '..';
 import { useQuizStore } from '../../stores';
+import { parseJsonDataFromFormData, validateFeedback } from '../../utils/helpers';
 import { QuizFeedback } from '../../utils/types';
 import { Feedback } from './Feedback';
-import { validateFeedback } from '../../utils/helpers';
+import { FeedbacksSkeleton } from './FeedbacksSkeleton';
 
 interface FeedbacksProps extends BoxProps {
   quizId: number;
   feedbacks: QuizFeedback[];
   onChange: () => Promise<void>;
+}
+
+interface FormType {
+  feedback: string;
 }
 
 function Feedbacks({ quizId, feedbacks, onChange, ...rest }: FeedbacksProps) {
@@ -29,57 +24,74 @@ function Feedbacks({ quizId, feedbacks, onChange, ...rest }: FeedbacksProps) {
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
 
-  const handleCreateFeedback = () => {
-    const feedback = validateFeedback(feedbackInputRef.current?.value || '');
+  const handleCreateFeedback = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    let { feedback } = parseJsonDataFromFormData<FormType>(e);
+
+    feedback = validateFeedback(feedback) || '';
 
     if (feedback) {
       setIsLoading(true);
       createFeedback(quizId, feedback!)
-        .then(() => onChange())
-        .catch(() => toast({ status: 'error', description: 'Änderung fehlgeschlagen' }))
-        .finally(() => setIsLoading(false));
+        .then(() => onChange().finally(() => setIsLoading(false)))
+        .catch(() => {
+          toast({ status: 'error', description: 'Änderung fehlgeschlagen' });
+          setIsLoading(false);
+        });
     }
   };
 
   return (
     <BoxWrapper {...rest} justifyContent="space-between">
       {/*________________________ Feedbacks  ____________________*/}
-
       <VStack w="full" maxH="300px" gap="2" overflow="auto">
-        {feedbacks.length === 0 ? (
+        {isLoading ? (
+          <FeedbacksSkeleton />
+        ) : feedbacks.length === 0 ? (
           <Text textAlign="center" fontWeight="600">
             Teilen Sie Ihr Feedback mit, um die Qualität des Quiz zu steigern
           </Text>
         ) : (
           feedbacks.map((feedback) => {
-            return <Feedback onChange={onChange} feedback={feedback} />;
+            return (
+              <Feedback
+                key={feedback.id}
+                onChange={onChange}
+                feedback={feedback}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
+              />
+            );
           })
         )}
       </VStack>
-      {/*________________________ Feedback Input ____________________*/}
-      <InputGroup gap="2" shadow="base">
+      <form
+        onSubmit={handleCreateFeedback}
+        ref={(e) => e?.reset()}
+        style={{ width: '100%' }}
+      >
+        {/*________________________ Feedback Input ____________________*/}
         <Textarea
           rows={1}
           resize="none"
           variant="filled"
+          name="feedback"
           placeholder="Feedback"
+          mb="2"
           ref={feedbackInputRef}
         />
-        <InputRightElement>
-          <Tooltip label="Feedback posten">
-            <IconButton
-              isLoading={isLoading}
-              onClick={handleCreateFeedback}
-              variant="link"
-              transform={'translate(-10px,9px)'}
-              h="56px"
-              type="button"
-              aria-label="feedback posten"
-              icon={<FaCommentAlt />}
-            />
-          </Tooltip>
-        </InputRightElement>
-      </InputGroup>
+
+        {/*________________________ Submit Button  ____________________*/}
+        <Button
+          ml="100%"
+          transform="translateX(-100%)"
+          isLoading={isLoading}
+          type="submit"
+          leftIcon={<FaCommentDots />}
+        >
+          Posten
+        </Button>
+      </form>
     </BoxWrapper>
   );
 }

@@ -25,16 +25,17 @@ import { QuizFeedback } from '../../utils/types';
 interface FeedbackProps extends BoxProps {
   feedback: QuizFeedback;
   onChange: () => Promise<void>;
+  isLoading?: boolean;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function Feedback({ feedback, onChange }: FeedbackProps) {
+function Feedback({ feedback, onChange, setIsLoading, isLoading }: FeedbackProps) {
   const studentId = useStudentStore((state) => state.studentProfile?.studentId);
   const editFeedbackInputRef = useRef<HTMLTextAreaElement>(null);
   const updateFeedback = useQuizStore((state) => state.updateFeedback);
   const deleteFeedback = useQuizStore((state) => state.deleteFeedback);
   const { onClose, onOpen, isOpen } = useDisclosure();
   const [isEditing, setIsEditing] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -49,24 +50,20 @@ function Feedback({ feedback, onChange }: FeedbackProps) {
           toast({ status: 'error', description: 'Erstellung fehlgeschlagen' });
           setIsLoading(false);
         })
-        .finally(() => {
-          setIsEditing(false);
-        });
+        .finally(() => setIsEditing(false));
     }
   };
 
   const handleDeleteFeedback = () => {
-    const deleteFeedbackPromise = new Promise((resolve, reject) => {
-      deleteFeedback(feedback.quizId, feedback.id)
-        .then(() => onChange().finally(() => resolve(true)))
-        .catch(() => reject());
-    });
-
-    toast.promise(deleteFeedbackPromise, {
-      loading: { description: 'Es lädt...' },
-      success: { description: 'Feedback erfolgreich gelöscht' },
-      error: { description: 'Feedback konnte nicht gelöscht werden' }
-    });
+    setIsLoading(true);
+    deleteFeedback(feedback.quizId, feedback.id).then(() =>
+      onChange()
+        .finally(() => setIsLoading(false))
+        .catch(() => {
+          toast({ status: 'error', description: 'Löschen fehlgeschlagen' });
+          setIsLoading(false);
+        })
+    );
   };
 
   return (

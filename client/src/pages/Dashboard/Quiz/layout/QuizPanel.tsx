@@ -50,17 +50,12 @@ function QuizPanel({ quiz, onChange, ...rest }: QuizPanelProps) {
   return (
     <>
       <PlayQuiz isOpen={isOpen} onClose={onClose} quiz={quiz} />
-      <BoxWrapper title="Informationen" {...rest}>
+      <BoxWrapper title="Informationen" {...rest} justifyContent="space-between">
         <TableContainer>
           <Table size="sm">
             <Tbody>
               <Tr>
-                <Td fontWeight="bold">
-                  <Avatar
-                    borderRadius="md"
-                    src={quiz.student.studentProfile?.profileImage?.url}
-                  />
-                </Td>
+                <Td fontWeight="bold">Gestalter</Td>
                 <Td>
                   <Button
                     variant="link"
@@ -71,6 +66,11 @@ function QuizPanel({ quiz, onChange, ...rest }: QuizPanelProps) {
                       )
                     }
                   >
+                    <Avatar
+                      borderRadius="md"
+                      src={quiz.student.studentProfile?.profileImage?.url}
+                      mr="2"
+                    />
                     {quiz.student.studentProfile?.name}
                   </Button>
                 </Td>
