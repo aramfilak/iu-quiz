@@ -112,7 +112,7 @@ function Pagination({
         <IconButton
           aria-label="Previous Page"
           h="0"
-          mt={0.5}
+          mt="0.5"
           color="teal"
           _dark={{
             color: 'teal.300'
@@ -127,7 +127,7 @@ function Pagination({
         <IconButton
           aria-label="Next Page"
           h="0"
-          mt={0.5}
+          mt="0.5"
           color="teal"
           _dark={{
             color: 'teal.300'
@@ -141,4 +141,4 @@ function Pagination({
   );
 }
 
-export default Pagination;
+export { Pagination };

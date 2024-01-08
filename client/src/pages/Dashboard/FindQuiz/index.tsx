@@ -16,7 +16,7 @@ import {
   VStack,
   useToast
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaBinoculars, FaBook, FaGraduationCap, FaSearch, FaSync } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import {
@@ -26,28 +26,38 @@ import {
   QuizCardSkeleton,
   QuizCardsGrid
 } from '../../../components';
-import Pagination from '../../../components/Pagination';
+import { Pagination } from '../../../components/Pagination';
 import { QuizCard } from '../../../components/QuizCard';
 import courseOfStudy from '../../../data/courseOfStudy.json';
 import { useFetch } from '../../../hooks';
-import { useQuizStore } from '../../../stores';
+import { useQuizStore, usesSearchFilterStore } from '../../../stores';
 import { QuizQueryParams } from '../../../utils/types';
 
 function FindQuiz() {
-  const [searchTerm, setSearchTerm] = useState<string>('');
   const getAllQuizzes = useQuizStore((state) => state.getAllQuizzes);
   const toggleFollowQuiz = useQuizStore((state) => state.toggleFollowQuiz);
-  const [selectedCourseOfStudy, setSelectedCourseOfStudy] = useState<string>('');
-  const [selectedCourse, setSelectedCourse] = useState<string>('');
-  const [selectedSortOrder, setSelectedSortOrder] = useState<string>('asc');
-  const [selectedFilterProperty, setSelectedFilterProperty] = useState<string>('');
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const toast = useToast();
   const [params, setParams] = useState<QuizQueryParams>({ page: '1', unFollowed: true });
-  const [currentPageIndex, setCurrentPageIndex] = useState<number>(1);
   const { isLoading, data, refetchData } = useFetch(() => getAllQuizzes(params));
   const unFollowedQuizzes = data?.quizzes;
   const totalPages = data?.totalPages;
+  const {
+    selectedCourseOfStudy,
+    selectedCourse,
+    selectedSortOrder,
+    selectedFilterProperty,
+    isSubmitting,
+    currentPageIndex,
+    setSelectedSortOrder,
+    setSelectedCourseOfStudy,
+    setSelectedCourse,
+    setSelectedFilterProperty,
+    setIsSubmitting,
+    setCurrentPageIndex,
+    searchTerm,
+    setSearchTerm,
+    resetInitialState: handleFilterReset
+  } = usesSearchFilterStore();
 
   const handleFlowQuiz = (quizId: number) => {
     setIsSubmitting(true);
@@ -57,58 +67,45 @@ function FindQuiz() {
       .finally(() => setIsSubmitting(false));
   };
 
-  const handleFilterReset = () => {
-    setSelectedFilterProperty('');
-    setSelectedSortOrder('asc');
-    setSelectedCourseOfStudy('');
-    setSelectedCourse('');
-  };
+  useEffect(() => {
+    refetchData();
+  }, [params, setParams]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setCurrentPageIndex(1);
-    const selCourseOfStudy = selectedCourseOfStudy;
-    const selCourse = selectedCourse;
-    const selSortOrder = selectedSortOrder;
-    const selFilterProperty = selectedFilterProperty;
 
     setParams((prevParams) => ({
       ...prevParams,
-      page: currentPageIndex.toString(),
-      courseOfStudy: selCourseOfStudy,
-      course: selCourse,
-      size: selFilterProperty === 'size',
-      likes: selFilterProperty === 'likes',
-      updatedAt: selFilterProperty === 'updateAt',
-      sort: selSortOrder,
+      page: String(currentPageIndex),
+      courseOfStudy: selectedCourseOfStudy,
+      course: selectedCourse,
+      size: selectedFilterProperty === 'size',
+      likes: selectedFilterProperty === 'likes',
+      updatedAt: selectedFilterProperty === 'updateAt',
+      sort: selectedSortOrder,
       searchTerm: searchTerm.trim()
     }));
-
-    refetchData();
 
     setIsSubmitting(false);
   };
 
   const handlePreviousPage = () => {
-    setCurrentPageIndex((prevPage) => prevPage - 1);
+    setCurrentPageIndex(currentPageIndex - 1);
 
     setParams((prevParams) => ({
       ...prevParams,
-      page: (currentPageIndex - 1).toString()
+      page: String(currentPageIndex - 1)
     }));
-
-    refetchData();
   };
 
   const handleNextPage = () => {
-    setCurrentPageIndex((prevPage) => prevPage + 1);
+    setCurrentPageIndex(currentPageIndex + 1);
 
     setParams((prevParams) => ({
       ...prevParams,
-      page: (currentPageIndex + 1).toString()
+      page: String(currentPageIndex + 1)
     }));
-
-    refetchData();
   };
 
   const handlePageClick = (pageNumbers: number) => {
@@ -116,10 +113,8 @@ function FindQuiz() {
 
     setParams((prevParams) => ({
       ...prevParams,
-      page: pageNumbers.toString()
+      page: String(pageNumbers)
     }));
-
-    refetchData();
   };
 
   return (
@@ -206,8 +201,10 @@ function FindQuiz() {
                 </Tooltip>
                 <Select
                   value={selectedCourseOfStudy}
-                  defaultValue={''}
-                  onChange={(e) => setSelectedCourseOfStudy(e.target.value)}
+                  onChange={(e) => {
+                    console.log(e.currentTarget.value);
+                    setSelectedCourseOfStudy(e.currentTarget.value);
+                  }}
                 >
                   <option value="" disabled hidden>
                     Studiengang auswählen
@@ -228,9 +225,8 @@ function FindQuiz() {
                 </Tooltip>
                 <Select
                   value={selectedCourse}
-                  defaultValue={''}
                   isDisabled={!selectedCourseOfStudy}
-                  onChange={(e) => setSelectedCourse(e.target.value)}
+                  onChange={(e) => setSelectedCourse(e.currentTarget.value)}
                 >
                   <option value="" disabled hidden>
                     Module auswählen
