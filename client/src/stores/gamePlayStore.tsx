@@ -1,17 +1,26 @@
 import { create } from 'zustand';
+import { QuizQuestion } from '../utils/types';
+import { useQuizStore } from '.';
+import { shuffleArray } from '../utils/helpers';
 
 interface UseGamePlayStore {
+  currentQuestion: QuizQuestion | null;
   currentQuestionIndex: number;
+  numberOfCorrectAnswers: number;
   duration: number;
   intervalId: null | number;
-  handleNavigation: (direction: 'previous' | 'next', quizSize: number) => void;
+  setCurrentQuestion: (question: QuizQuestion) => void;
+  handleNavigation: (quizSize: number) => void;
+  incrementNumberOfCorrectAnswers: () => void;
   startTimeout: () => void;
   stopTimeout: () => void;
   resetStore: () => void;
 }
 
 const initialState = {
+  currentQuestion: null,
   currentQuestionIndex: 0,
+  numberOfCorrectAnswers: 0,
   duration: 0,
   intervalId: null
 };
@@ -19,15 +28,29 @@ const initialState = {
 const useGamePlayStore = create<UseGamePlayStore>((set, get) => ({
   ...initialState,
 
-  handleNavigation: (direction: 'previous' | 'next', quizSize) => {
+  handleNavigation: (quizSize: number) => {
     set((state) => {
-      if (direction === 'previous' && state.currentQuestionIndex > 0) {
-        return { currentQuestionIndex: state.currentQuestionIndex - 1 };
-      } else if (direction === 'next' && state.currentQuestionIndex < quizSize - 1) {
-        return { currentQuestionIndex: state.currentQuestionIndex + 1 };
-      } else return {};
+      if (state.currentQuestionIndex < quizSize - 1) {
+        const newIndex = state.currentQuestionIndex + 1;
+        const question = useQuizStore.getState().activeQuiz?.quizQuestions[newIndex];
+        if (question) {
+          get().setCurrentQuestion(question);
+        }
+        return {
+          currentQuestionIndex: newIndex
+        };
+      }
+
+      return {};
     });
   },
+  setCurrentQuestion: (question: QuizQuestion) => {
+    question.quizAnswers = shuffleArray(question.quizAnswers);
+    set({ currentQuestion: question });
+  },
+
+  incrementNumberOfCorrectAnswers: () =>
+    set((state) => ({ numberOfCorrectAnswers: state.numberOfCorrectAnswers + 1 })),
 
   startTimeout: () => {
     get().stopTimeout();

@@ -1,9 +1,9 @@
 import { Button, Heading, useDisclosure } from '@chakra-ui/react';
-import { useGamePlayStore, useQuizStore } from '../../../stores';
-import { convertSecondsToMin } from '../../../utils/formatters';
-import { BoxWrapper, CustomAlertDialog, IconBox } from '../../../components';
+import { FaClock, FaSignOutAlt, FaThList } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { FaSignOutAlt, FaClock, FaThList } from 'react-icons/fa';
+import { BoxWrapper, CustomAlertDialog, IconBox } from '../../../../components';
+import { useGamePlayStore, useQuizStore } from '../../../../stores';
+import { convertSecondsToMin } from '../../../../utils/formatters';
 
 function PlayQuizHeader() {
   const currentQuestionIndex = useGamePlayStore((state) => state.currentQuestionIndex);

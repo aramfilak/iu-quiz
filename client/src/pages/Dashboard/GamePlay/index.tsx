@@ -1,25 +1,28 @@
 import { VStack } from '@chakra-ui/react';
-import { PlayQuizBody } from './PlayQuizBody';
 import { useGamePlayStore, useQuizStore } from '../../../stores';
-
+import { PlayQuizBody } from './layout/PlayQuizBody';
 import { Navigate } from 'react-router-dom';
-import { PlayQuizHeader } from './PlayQuizHeader';
-import { PlayQuizFooter } from './PlayQuizFooter';
+import { PlayQuizHeader } from './layout/PlayQuizHeader';
+import { useEffect } from 'react';
 
 function GamePlay() {
-  const currentQuestionIndex = useGamePlayStore((state) => state.currentQuestionIndex);
-
   const activeQuiz = useQuizStore((state) => state.activeQuiz);
+  const setCurrentQuestion = useGamePlayStore((state) => state.setCurrentQuestion);
+
+  useEffect(() => {
+    if (activeQuiz) {
+      setCurrentQuestion(activeQuiz.quizQuestions[0]);
+    }
+  }, []);
 
   if (!activeQuiz) {
     return <Navigate to=".." />;
   }
 
   return (
-    <VStack gap="4">
+    <VStack gap="8">
       <PlayQuizHeader />
-      <PlayQuizBody quizQuestions={activeQuiz.quizQuestions[currentQuestionIndex]} />
-      <PlayQuizFooter />
+      <PlayQuizBody />
     </VStack>
   );
 }
