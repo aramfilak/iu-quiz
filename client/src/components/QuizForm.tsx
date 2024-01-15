@@ -41,7 +41,8 @@ interface QuizFormProps extends UseDisclosureProps {
 
 function QuizForm({ isOpen, onClose, onFinal }: QuizFormProps) {
   const studentProfile = useStudentStore((state) => state.studentProfile);
-  const editQuiz = useQuizStore((state) => state.editQuiz);
+  const activeQuiz = useQuizStore((state) => state.activeQuiz);
+  const setActiveQuiz = useQuizStore((state) => state.setActiveQuiz);
   const quizFormActionType = useQuizStore((state) => state.quizFormActionType);
   const createQuiz = useQuizStore((state) => state.createQuiz);
   const updateQuiz = useQuizStore((state) => state.updateQuiz);
@@ -49,7 +50,7 @@ function QuizForm({ isOpen, onClose, onFinal }: QuizFormProps) {
   const isUpdating = quizFormActionType === ActionType.UPDATE;
   const isCreating = quizFormActionType === ActionType.CREATE;
   const defaultCourseOfStudy = isUpdating
-    ? editQuiz?.courseOfStudy
+    ? activeQuiz?.courseOfStudy
     : studentProfile?.courseOfStudy || courseOfStudies[0].name;
   const [courses, setCourses] = useState<Course[]>([]);
   const toast = useToast();
@@ -60,8 +61,8 @@ function QuizForm({ isOpen, onClose, onFinal }: QuizFormProps) {
   };
 
   useEffect(() => {
-    if (isUpdating && editQuiz) {
-      handleUpdateCourses(editQuiz?.courseOfStudy);
+    if (isUpdating && activeQuiz) {
+      handleUpdateCourses(activeQuiz?.courseOfStudy);
     } else {
       handleUpdateCourses(studentProfile?.courseOfStudy || courseOfStudies[0].name);
     }
@@ -98,11 +99,14 @@ function QuizForm({ isOpen, onClose, onFinal }: QuizFormProps) {
           onFinal();
           setIsLoading(false);
         });
-    } else if (isUpdating && editQuiz) {
+    } else if (isUpdating && activeQuiz) {
       setIsLoading(true);
 
-      updateQuiz(editQuiz?.id, title, courseOfStudy, course)
-        .then(() => onClose())
+      updateQuiz(activeQuiz?.id, title, courseOfStudy, course)
+        .then(() => {
+          setActiveQuiz(null);
+          onClose();
+        })
         .catch(() =>
           toast({
             status: 'error',
@@ -134,7 +138,7 @@ function QuizForm({ isOpen, onClose, onFinal }: QuizFormProps) {
               <FormControl>
                 <Input
                   name="title"
-                  defaultValue={isUpdating ? editQuiz?.title : undefined}
+                  defaultValue={isUpdating ? activeQuiz?.title : undefined}
                   borderTopLeftRadius="0"
                   borderBottomLeftRadius="0"
                   borderColor="teal.500"
@@ -173,7 +177,7 @@ function QuizForm({ isOpen, onClose, onFinal }: QuizFormProps) {
               </Tooltip>
               <Select
                 name="course"
-                defaultValue={isUpdating ? editQuiz?.course : undefined}
+                defaultValue={isUpdating ? activeQuiz?.course : undefined}
               >
                 {courses.map(({ name }) => (
                   <option key={name} value={name}>

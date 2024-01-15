@@ -56,7 +56,7 @@ function FindQuiz() {
     setCurrentPageIndex,
     searchTerm,
     setSearchTerm,
-    resetInitialState: handleFilterReset
+    resetStore: handleFilterReset
   } = usesSearchFilterStore();
 
   const handleFlowQuiz = (quizId: number) => {

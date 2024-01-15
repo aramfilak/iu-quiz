@@ -60,7 +60,7 @@ function QuizCard({
   ...rest
 }: QuizCardProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const setEditQuiz = useQuizStore((state) => state.setEditQuiz);
+  const setActiveQuiz = useQuizStore((state) => state.setActiveQuiz);
   const setQuizFormActionType = useQuizStore((state) => state.setQuizFormActionType);
   const navigate = useNavigate();
 
@@ -116,7 +116,7 @@ function QuizCard({
                 <MenuItem
                   _dark={{ textColor: 'white' }}
                   onClick={() => {
-                    setEditQuiz(quiz);
+                    setActiveQuiz(quiz);
                     setQuizFormActionType(ActionType.UPDATE);
                     displayOptionMenu.onEdit();
                   }}

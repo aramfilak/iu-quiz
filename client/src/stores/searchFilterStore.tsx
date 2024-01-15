@@ -17,7 +17,7 @@ interface UsesSearchFilterStore {
   setCurrentPageIndex: (pageIndex: number) => void;
   setSelectedSortOrder: (sortOrder: SortOrder) => void;
   setSearchTerm: (searchTerm: string) => void;
-  resetInitialState: () => void;
+  resetStore: () => void;
 }
 
 const initialState = {
@@ -50,7 +50,7 @@ const usesSearchFilterStore = create<UsesSearchFilterStore>((set) => ({
 
   setCurrentPageIndex: (currentPageIndex: number) => set({ currentPageIndex }),
 
-  resetInitialState: () => set(initialState)
+  resetStore: () => set(initialState)
 }));
 
 export { usesSearchFilterStore };

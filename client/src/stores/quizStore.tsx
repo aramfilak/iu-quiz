@@ -5,10 +5,10 @@ import { axiosQuizApi, axiosQuizQuestionApi, axiosQuizFeedback } from '../utils/
 import { QuestionData, Quiz, QuizQueryParams } from '../utils/types';
 
 interface UseQuizStore {
-  editQuiz: Quiz | null;
+  activeQuiz: Quiz | null;
   quizFormActionType: ActionType | null;
   setQuizFormActionType: (type: ActionType | null) => void;
-  setEditQuiz: (quiz: Quiz | null) => void;
+  setActiveQuiz: (quiz: Quiz | null) => void;
   getAllQuizzes: (
     params: Partial<QuizQueryParams>
   ) => Promise<{ totalPages: number; quizzes: Quiz[] }>;
@@ -32,10 +32,11 @@ interface UseQuizStore {
 }
 
 const useQuizStore = create<UseQuizStore>((set) => ({
-  editQuiz: null,
+  activeQuiz: null,
+
   quizFormActionType: null,
 
-  setEditQuiz: (quiz: Quiz | null) => set({ editQuiz: quiz }),
+  setActiveQuiz: (quiz: Quiz | null) => set({ activeQuiz: quiz }),
 
   setQuizFormActionType: (type: ActionType | null) => set({ quizFormActionType: type }),
 

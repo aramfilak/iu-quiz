@@ -13,7 +13,7 @@ import { ActionType } from '../../../../utils/enums';
 
 function My() {
   const studentProfile = useStudentStore((state) => state.studentProfile);
-  const setEditQuiz = useQuizStore((state) => state.setEditQuiz);
+  const setActiveQuiz = useQuizStore((state) => state.setActiveQuiz);
   const setQuizFormActionType = useQuizStore((state) => state.setQuizFormActionType);
   const deleteQuizById = useQuizStore((state) => state.deleteQuizById);
   const getAllQuizzes = useQuizStore((state) => state.getAllQuizzes);
@@ -51,7 +51,7 @@ function My() {
               minH="12rem"
               onClick={() => {
                 setQuizFormActionType(ActionType.CREATE);
-                setEditQuiz(null);
+                setActiveQuiz(null);
                 onOpen();
               }}
             />

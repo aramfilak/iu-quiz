@@ -8,38 +8,37 @@ import {
   Tbody,
   Td,
   Tr,
-  useDisclosure,
   useToast
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { AiFillDislike, AiFillLike } from 'react-icons/ai';
 import { HiPlay } from 'react-icons/hi2';
 import { useNavigate } from 'react-router-dom';
-import { BoxWrapper, PlayQuiz } from '../../../../components';
+import { BoxWrapper } from '../../../../components';
 import { useQuizStore, useStudentStore } from '../../../../stores';
 import { convertToGermanDate } from '../../../../utils/formatters';
 import { routes } from '../../../../utils/routes';
-import { Quiz } from '../../../../utils/types';
 
 interface QuizPanelProps extends BoxProps {
-  quiz: Quiz;
   onChange: () => Promise<void>;
 }
 
-function QuizPanel({ quiz, onChange, ...rest }: QuizPanelProps) {
+function QuizPanel({ onChange, ...rest }: QuizPanelProps) {
   const navigate = useNavigate();
   const toast = useToast();
   const toggleLikeQuiz = useQuizStore((state) => state.toggleLikeQuiz);
+  const activeQuiz = useQuizStore((state) => state.activeQuiz);
   const studentProfile = useStudentStore((state) => state.studentProfile);
   const [isLoading, setIsLoading] = useState(false);
-  const { isOpen, onClose, onOpen } = useDisclosure();
-  const isLiked = quiz.likedBy.find(
-    (player) => player.playerId === studentProfile?.studentId
-  );
+  const isLiked =
+    activeQuiz &&
+    activeQuiz.likedBy.find((player) => player.playerId === studentProfile?.studentId);
+
+  if (!activeQuiz) return null;
 
   const handleLikeQuiz = () => {
     setIsLoading(true);
-    toggleLikeQuiz(quiz.id)
+    toggleLikeQuiz(activeQuiz.id)
       .then(() => onChange().finally(() => setIsLoading(false)))
       .catch(() => {
         toast({ status: 'error', description: 'Like fehlgeschlagen' });
@@ -49,7 +48,6 @@ function QuizPanel({ quiz, onChange, ...rest }: QuizPanelProps) {
 
   return (
     <>
-      <PlayQuiz isOpen={isOpen} onClose={onClose} quiz={quiz} />
       <BoxWrapper title="Informationen" {...rest} justifyContent="space-between">
         <TableContainer>
           <Table size="sm">
@@ -62,42 +60,42 @@ function QuizPanel({ quiz, onChange, ...rest }: QuizPanelProps) {
                     fontWeight="bold"
                     onClick={() =>
                       navigate(
-                        `../${routes.Dashboard.children.Profile.mainPath}/${quiz.authorId}`
+                        `../${routes.Dashboard.children.Profile.mainPath}/${activeQuiz.authorId}`
                       )
                     }
                   >
                     <Avatar
                       borderRadius="md"
-                      src={quiz.student.studentProfile?.profileImage?.url}
+                      src={activeQuiz.student.studentProfile?.profileImage?.url}
                       mr="2"
                     />
-                    {quiz.student.studentProfile?.name}
+                    {activeQuiz.student.studentProfile?.name}
                   </Button>
                 </Td>
               </Tr>
               <Tr>
                 <Td fontWeight="bold">Title</Td>
-                <Td>{quiz.title}</Td>
+                <Td>{activeQuiz.title}</Td>
               </Tr>
               <Tr>
                 <Td fontWeight="bold">Anzahl</Td>
-                <Td>{quiz.size}</Td>
+                <Td>{activeQuiz.size}</Td>
               </Tr>
               <Tr>
                 <Td fontWeight="bold">Letztes Update</Td>
-                <Td>{convertToGermanDate(quiz.updatedAt)}</Td>
+                <Td>{convertToGermanDate(activeQuiz.updatedAt)}</Td>
               </Tr>
               <Tr>
                 <Td fontWeight="bold">Studiengang</Td>
-                <Td>{quiz.courseOfStudy}</Td>
+                <Td>{activeQuiz.courseOfStudy}</Td>
               </Tr>
               <Tr>
                 <Td fontWeight="bold">Module</Td>
-                <Td>{quiz.course}</Td>
+                <Td>{activeQuiz.course}</Td>
               </Tr>
               <Tr>
                 <Td fontWeight="bold">Likes</Td>
-                <Td>{quiz.likes}</Td>
+                <Td>{activeQuiz.likes}</Td>
               </Tr>
             </Tbody>
           </Table>
@@ -117,7 +115,7 @@ function QuizPanel({ quiz, onChange, ...rest }: QuizPanelProps) {
             alignSelf="end"
             colorScheme="teal"
             leftIcon={<HiPlay />}
-            onClick={onOpen}
+            onClick={() => navigate(`../${routes.Dashboard.children.GamePlay.path}`)}
           >
             Spielen
           </Button>

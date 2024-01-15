@@ -47,4 +47,5 @@ export { Profile } from './Profile';
 export { QuestionsEditor } from './QuestionsEditor';
 export { Quiz } from './Quiz';
 export { Settings } from './Settings';
+export { GamePlay } from './GamePlay';
 export { Dashboard };

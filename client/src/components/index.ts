@@ -20,4 +20,3 @@ export { SignUpForm } from './SignUpForm';
 export { CreateNewQuizCard } from './CreateNewQuizCard';
 export { QuizCard } from './QuizCard';
 export { QuizCardsGrid } from './QuizCardsGrid';
-export { PlayQuiz } from './PlayQuiz';

@@ -154,7 +154,7 @@ function Feedback({ feedback, onChange, setIsLoading, isLoading }: FeedbackProps
       {/*___________________ Action Buttons ________________ */}
       {feedback.authorId === studentId && !isEditing && (
         <HStack mt="2" justify="end">
-          <Button variant="link" size="sm" onClick={() => setIsEditing((prv) => !prv)}>
+          <Button variant="link" size="sm" onClick={() => setIsEditing(true)}>
             Bearbeiten
           </Button>
           <Button variant="link" size="sm" colorScheme="red" onClick={onOpen}>

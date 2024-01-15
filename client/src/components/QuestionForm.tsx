@@ -2,13 +2,13 @@ import {
   Box,
   BoxProps,
   Button,
-  Checkbox,
   Flex,
   FormControl,
   FormLabel,
   IconButton,
   Input,
   InputGroup,
+  Radio,
   Tooltip,
   useDisclosure,
   useToast
@@ -119,7 +119,7 @@ function QuestionForm({
             </BoxWrapper>
             {/*______________________   Answers ____________________*/}
             <FieldArray name="quizAnswers">
-              {({ remove, push }) => (
+              {({ remove, push, form }) => (
                 <>
                   {values.quizAnswers.map((answer, index) => (
                     <BoxWrapper mb="4" shadow="base" key={answer.id}>
@@ -204,14 +204,27 @@ function QuestionForm({
                               >
                                 Ist Richtige Antwort?
                               </FormLabel>
-                              <Checkbox
+                              <Radio
                                 size="lg"
                                 borderColor="teal"
                                 colorScheme="teal"
                                 {...field}
-                                defaultChecked={answer.isRightAnswer}
+                                isChecked={field.value}
                                 name={`quizAnswers.${index}.isRightAnswer`}
                                 id={`quizAnswers.${index}.isRightAnswer`}
+                                onChange={(e) => {
+                                  form.setFieldValue(
+                                    'quizAnswers',
+                                    values.quizAnswers.map((answer, i) => {
+                                      e.target.checked = i == index;
+
+                                      return {
+                                        ...answer,
+                                        isRightAnswer: i === index
+                                      };
+                                    })
+                                  );
+                                }}
                               />
                             </InputGroup>
                           </FormControl>
