@@ -419,16 +419,21 @@ async function updateQuizScores(req: Request, res: Response) {
 
   const scores = existingQuiz.scores;
   const newScore = calculateScore(correctAnswers, totalQuestions, takenTime);
+  const worstScore = getMinScore(scores);
 
-  if (scores.length > 10) {
-    const worstScore = getMinScore(scores);
-
-    if (newScore >= worstScore.score && studentId !== worstScore.playerId) {
+  if (scores.length >= 10) {
+    if (newScore >= worstScore.score) {
       await db.quizScore.delete({ where: { id: worstScore.id } });
-    } else if (newScore >= worstScore.score && studentId === worstScore.playerId) {
-      await db.quizScore.update({
-        where: { id: worstScore.id },
-        data: { takenTime, correctAnswers }
+
+      await db.quizScore.create({
+        data: {
+          quizId: existingQuiz.id,
+          playerId: studentId,
+          score: newScore,
+          takenTime,
+          correctAnswers,
+          totalQuestions
+        }
       });
     }
   } else {

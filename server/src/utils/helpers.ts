@@ -43,7 +43,7 @@ function calculateScore(
   totalQuestions: number,
   takenTime: number
 ) {
-  const accuracyWeight = 0.7;
+  const accuracyWeight = 1;
   const timeWeight = 0.3;
 
   const accuracy = (correctAnswers / totalQuestions) * 1000;

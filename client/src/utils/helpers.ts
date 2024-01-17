@@ -67,17 +67,18 @@ function parseJsonDataFromFormData<T>(e: React.FormEvent<HTMLFormElement>) {
   return formJson;
 }
 
-function generateRandomInt(min: number, max: number): number {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min) + min);
-}
-
 function shuffleArray<T>(array: Array<T>): Array<T> {
-  for (let i = 0; i < array.length; i++) {
-    const rand = generateRandomInt(0, array.length - 1);
+  let currentIndex = array.length,
+    temporaryValue,
+    randomIndex;
 
-    [array[i], array[rand]] = [array[rand], array[i]];
+  while (0 !== currentIndex) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
   }
 
   return array;
@@ -87,6 +88,6 @@ export {
   scorePositionColor,
   validateFeedback,
   parseJsonDataFromFormData,
-  shuffleArray,
-  resultShades
+  resultShades,
+  shuffleArray
 };

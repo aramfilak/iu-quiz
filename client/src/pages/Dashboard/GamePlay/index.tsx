@@ -4,6 +4,7 @@ import { PlayQuizBody } from './layout/PlayQuizBody';
 import { Navigate } from 'react-router-dom';
 import { PlayQuizHeader } from './layout/PlayQuizHeader';
 import { useEffect } from 'react';
+import { shuffleArray } from '../../../utils/helpers';
 
 function GamePlay() {
   const activeQuiz = useQuizStore((state) => state.activeQuiz);
@@ -12,7 +13,9 @@ function GamePlay() {
 
   useEffect(() => {
     if (activeQuiz) {
-      setCurrentQuestion(activeQuiz.quizQuestions[0]);
+      const question = activeQuiz.quizQuestions[0];
+      question.quizAnswers = shuffleArray(question.quizAnswers);
+      setCurrentQuestion(question);
       startTimeout();
     }
   }, []);

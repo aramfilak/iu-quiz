@@ -36,7 +36,9 @@ const useGamePlayStore = create<UseGamePlayStore>((set, get) => ({
       if (state.currentQuestionIndex < quizSize - 1) {
         const newIndex = state.currentQuestionIndex + 1;
         const question = useQuizStore.getState().activeQuiz?.quizQuestions[newIndex];
+
         if (question) {
+          question.quizAnswers = shuffleArray(question.quizAnswers);
           get().setCurrentQuestion(question);
         }
         return {
@@ -50,10 +52,7 @@ const useGamePlayStore = create<UseGamePlayStore>((set, get) => ({
 
   setGameIsFinished: (val: boolean) => set({ gameIsFinished: val }),
 
-  setCurrentQuestion: (question: QuizQuestion) => {
-    question.quizAnswers = shuffleArray(question.quizAnswers);
-    set({ currentQuestion: question });
-  },
+  setCurrentQuestion: (question: QuizQuestion) => set({ currentQuestion: question }),
 
   incrementNumberOfCorrectAnswers: () =>
     set((state) => ({ correctAnswers: state.correctAnswers + 1 })),
