@@ -1,14 +1,12 @@
 import { Button, Heading, useDisclosure } from '@chakra-ui/react';
-import { FaClock, FaSignOutAlt, FaThList } from 'react-icons/fa';
+import { FaSignOutAlt, FaThList } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { BoxWrapper, CustomAlertDialog, IconBox } from '../../../../components';
 import { useGamePlayStore, useQuizStore } from '../../../../stores';
-import { convertSecondsToMin } from '../../../../utils/formatters';
 
 function PlayQuizHeader() {
   const currentQuestionIndex = useGamePlayStore((state) => state.currentQuestionIndex);
   const resetStore = useGamePlayStore((state) => state.resetStore);
-  const duration = useGamePlayStore((state) => state.duration);
   const activeQuiz = useQuizStore((state) => state.activeQuiz);
   const { onClose, isOpen, onOpen } = useDisclosure();
   const navigate = useNavigate();
@@ -40,10 +38,6 @@ function PlayQuizHeader() {
         <IconBox leftIcon={<FaThList />}>
           {`Frage ${currentQuestionIndex + 1} von ${activeQuiz.size}`}
         </IconBox>
-      </Heading>
-
-      <Heading color="teal" as="h3" size="md">
-        <IconBox leftIcon={<FaClock />}>{`${convertSecondsToMin(duration)}`}</IconBox>
       </Heading>
 
       <Button

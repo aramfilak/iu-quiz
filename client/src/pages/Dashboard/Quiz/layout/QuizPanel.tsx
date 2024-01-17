@@ -115,7 +115,13 @@ function QuizPanel({ onChange, ...rest }: QuizPanelProps) {
             alignSelf="end"
             colorScheme="teal"
             leftIcon={<HiPlay />}
-            onClick={() => navigate(`../${routes.Dashboard.children.GamePlay.path}`)}
+            onClick={() => {
+              if (activeQuiz.size > 0) {
+                navigate(`../${routes.Dashboard.children.GamePlay.path}`);
+              } else {
+                toast({ status: 'warning', description: 'Quiz hat keine Fragen' });
+              }
+            }}
           >
             Spielen
           </Button>

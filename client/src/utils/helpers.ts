@@ -22,6 +22,20 @@ function scorePositionColor(index: number, isDarkMode = false) {
   return isDarkMode ? positionColorDarkMode : positionColorLightMode;
 }
 
+function resultShades(progress: number) {
+  if (progress <= 50) {
+    return 'red.400';
+  } else if (progress < 61) {
+    return 'red.200';
+  } else if (progress < 76) {
+    return 'yellow.400';
+  } else if (progress < 81) {
+    return 'green.200';
+  } else {
+    return 'green.400';
+  }
+}
+
 function validateFeedback(feedback: string) {
   const toastWarning = (message: string) => {
     const { toast } = createStandaloneToast();
@@ -69,4 +83,10 @@ function shuffleArray<T>(array: Array<T>): Array<T> {
   return array;
 }
 
-export { scorePositionColor, validateFeedback, parseJsonDataFromFormData, shuffleArray };
+export {
+  scorePositionColor,
+  validateFeedback,
+  parseJsonDataFromFormData,
+  shuffleArray,
+  resultShades
+};

@@ -101,8 +101,9 @@ interface QuizFeedback {
 
 interface QuizScore {
   id: number;
-  numberOfCorrectAnswers: number;
-  timeTaken: number;
+  correctAnswers: number;
+  totalQuestions: number;
+  takenTime: number;
   score: number;
   quiz: Quiz;
   quizId: number;

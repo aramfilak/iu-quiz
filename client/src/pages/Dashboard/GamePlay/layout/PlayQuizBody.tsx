@@ -1,44 +1,78 @@
-import { Button, Flex, Text } from '@chakra-ui/react';
-import { useState } from 'react';
+import { Alert, AlertIcon, Button, Flex, Text } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 import { BoxWrapper } from '../../../../components';
 import { useGamePlayStore, useQuizStore } from '../../../../stores';
 import { Answer } from './Answer';
 import './style.css';
 import { FaArrowRight } from 'react-icons/fa';
+import { ResultPanel } from './ResultPanel';
+import { useNavigate } from 'react-router-dom';
 
 function PlayQuizBody() {
   const activeQuiz = useQuizStore((state) => state.activeQuiz);
-  const currentQuestion = useGamePlayStore((state) => state.currentQuestion);
-  const intervalId = useGamePlayStore((state) => state.intervalId);
-  const handleNavigation = useGamePlayStore((state) => state.handleNavigation);
-  const startTimeout = useGamePlayStore((state) => state.startTimeout);
+  const updateQuizScores = useQuizStore((state) => state.updateQuizScores);
   const [checkedAnswerIndex, setCheckedAnswerIndex] = useState(-1);
   const [isAnswered, setIsAnswered] = useState(false);
+  const {
+    currentQuestion,
+    currentQuestionIndex,
+    gameIsFinished,
+    handleNavigation,
+    setGameIsFinished,
+    stopTimeout,
+    correctAnswers,
+    takenTime,
+    resetStore
+  } = useGamePlayStore();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (activeQuiz && currentQuestionIndex === activeQuiz?.size - 1 && isAnswered) {
+      stopTimeout();
+      setGameIsFinished(true);
+    }
+  }, [isAnswered]);
+
+  useEffect(() => {
+    if (activeQuiz && gameIsFinished) {
+      updateQuizScores(activeQuiz.id, takenTime, correctAnswers, activeQuiz.size).finally(
+        () => {
+          resetStore();
+          navigate(-1);
+        }
+      );
+    }
+  }, [gameIsFinished]);
 
   if (!activeQuiz || !currentQuestion) return null;
 
   return (
     <BoxWrapper w="full" pos="relative">
-      {/*_______________ Overlay __________________*/}
-      <Flex
-        justify="center"
-        align="center"
-        w="full"
-        h="full"
-        top="0"
-        left="0"
-        pos="absolute"
-        className={intervalId ? 'remove-blur' : 'add-blur'}
-      >
-        <Button onClick={() => startTimeout()}>Spiel starten</Button>
-      </Flex>
+      {/*_______________ Result Panel __________________*/}
+      <ResultPanel />
 
       {/*_______________ Question __________________*/}
       <Text fontWeight="bold" fontSize="xl" mb="10">
         {currentQuestion.question}
       </Text>
 
-      <Flex flexWrap="wrap" w="full" gap="0.8rem">
+      {isAnswered &&
+        currentQuestion.quizAnswers[checkedAnswerIndex].answerDescription && (
+          <Alert
+            maxW="98.8%"
+            className="answer-description"
+            status={
+              currentQuestion.quizAnswers[checkedAnswerIndex].isRightAnswer
+                ? 'success'
+                : 'error'
+            }
+          >
+            <AlertIcon />
+            {`Bschreibung: ${currentQuestion.quizAnswers[checkedAnswerIndex].answerDescription}`}
+          </Alert>
+        )}
+
+      <Flex flexWrap="wrap" w="100%" gap="0.8rem">
         {/*_______________ Answers __________________*/}
         {currentQuestion.quizAnswers.map((answer, index) => {
           return (
@@ -66,7 +100,7 @@ function PlayQuizBody() {
         mt="4"
         leftIcon={<FaArrowRight />}
         colorScheme="blue"
-        isDisabled={!isAnswered}
+        isDisabled={!isAnswered || gameIsFinished}
         onClick={() => {
           if (isAnswered) {
             handleNavigation(activeQuiz.size);

@@ -97,8 +97,9 @@ Table QuizFeedback {
 
 Table QuizScore {
   id Int [pk, increment]
-  numberOfCorrectAnswers Int [not null]
-  timeTaken Int [not null]
+  correctAnswers Int [not null]
+  totalQuestions Int [not null, default: 0]
+  takenTime Int [not null]
   score Int [not null]
   quiz Quiz [not null]
   quizId Int [not null]

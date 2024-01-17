@@ -38,8 +38,19 @@ function getMinScore(scores: QuizScore[]) {
   );
 }
 
-function calculateScore(numberOfCorrectAnswers: number, takenTimeInSec: number) {
-  return (numberOfCorrectAnswers / takenTimeInSec) * 100;
+function calculateScore(
+  correctAnswers: number,
+  totalQuestions: number,
+  takenTime: number
+) {
+  const accuracyWeight = 0.7;
+  const timeWeight = 0.3;
+
+  const accuracy = (correctAnswers / totalQuestions) * 1000;
+
+  const finalScore = accuracy * accuracyWeight - takenTime * timeWeight;
+
+  return Math.round(Math.max(0, finalScore));
 }
 
 export { uploadImageToCloudinary, getMinScore, calculateScore };

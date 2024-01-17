@@ -6,6 +6,20 @@
   animation: add-blur 0.3s ease forwards;
 }
 
+.answer-description {
+  animation: fade-out 0.3s ease forwards;
+}
+@keyframes fade-out {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(-0);
+    opacity: 1;
+  }
+}
+
 @keyframes remove-blur {
   to {
     backdrop-filter: blur(0px);

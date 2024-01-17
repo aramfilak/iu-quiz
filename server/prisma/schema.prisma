@@ -106,14 +106,15 @@ model QuizFeedback {
 }
 
 model QuizScore {
-  id                     Int      @id @unique @default(autoincrement())
-  numberOfCorrectAnswers Int
-  timeTaken              Int
-  score                  Int
-  quiz                   Quiz     @relation(fields: [quizId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  quizId                 Int
-  student                Student? @relation(fields: [playerId], references: [id])
-  playerId               String?
+  id             Int      @id @unique @default(autoincrement())
+  correctAnswers Int
+  totalQuestions Int      @default(0)
+  takenTime      Int
+  score          Int
+  quiz           Quiz     @relation(fields: [quizId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  quizId         Int
+  student        Student? @relation(fields: [playerId], references: [id])
+  playerId       String?
 }
 
 model LikedQuiz {

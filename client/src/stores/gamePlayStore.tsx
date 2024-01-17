@@ -6,8 +6,9 @@ import { shuffleArray } from '../utils/helpers';
 interface UseGamePlayStore {
   currentQuestion: QuizQuestion | null;
   currentQuestionIndex: number;
-  numberOfCorrectAnswers: number;
-  duration: number;
+  correctAnswers: number;
+  gameIsFinished: boolean;
+  takenTime: number;
   intervalId: null | number;
   setCurrentQuestion: (question: QuizQuestion) => void;
   handleNavigation: (quizSize: number) => void;
@@ -15,13 +16,15 @@ interface UseGamePlayStore {
   startTimeout: () => void;
   stopTimeout: () => void;
   resetStore: () => void;
+  setGameIsFinished: (val: boolean) => void;
 }
 
 const initialState = {
   currentQuestion: null,
+  gameIsFinished: false,
   currentQuestionIndex: 0,
-  numberOfCorrectAnswers: 0,
-  duration: 0,
+  correctAnswers: 0,
+  takenTime: 0,
   intervalId: null
 };
 
@@ -44,19 +47,22 @@ const useGamePlayStore = create<UseGamePlayStore>((set, get) => ({
       return {};
     });
   },
+
+  setGameIsFinished: (val: boolean) => set({ gameIsFinished: val }),
+
   setCurrentQuestion: (question: QuizQuestion) => {
     question.quizAnswers = shuffleArray(question.quizAnswers);
     set({ currentQuestion: question });
   },
 
   incrementNumberOfCorrectAnswers: () =>
-    set((state) => ({ numberOfCorrectAnswers: state.numberOfCorrectAnswers + 1 })),
+    set((state) => ({ correctAnswers: state.correctAnswers + 1 })),
 
   startTimeout: () => {
     get().stopTimeout();
 
     const intervalId = window.setInterval(() => {
-      set((state) => ({ duration: state.duration + 1 }));
+      set((state) => ({ takenTime: state.takenTime + 1 }));
     }, 1000);
 
     set({ intervalId: intervalId });

@@ -1,6 +1,5 @@
-import { Box, BoxProps, Text } from '@chakra-ui/react';
-import { IconBox } from '../../../../components';
-import { FaCheckCircle } from 'react-icons/fa';
+import { Box, BoxProps, Flex, Text } from '@chakra-ui/react';
+import { FaCheck, FaTimes } from 'react-icons/fa';
 import { useEffect } from 'react';
 import { useGamePlayStore } from '../../../../stores';
 
@@ -15,12 +14,13 @@ function Answer({ answer, isAnswered, isRightAnswer, isSelected, ...rest }: Answ
   const incrementNumberOfCorrectAnswers = useGamePlayStore(
     (state) => state.incrementNumberOfCorrectAnswers
   );
+  const isCorrectAnswer = isSelected && isRightAnswer;
 
   useEffect(() => {
-    if (isSelected) {
+    if (isSelected && isRightAnswer) {
       incrementNumberOfCorrectAnswers();
     }
-  }, []);
+  }, [isSelected, isRightAnswer]);
 
   return (
     <Box
@@ -28,19 +28,23 @@ function Answer({ answer, isAnswered, isRightAnswer, isSelected, ...rest }: Answ
       paddingInline="4"
       paddingBlock="8"
       borderRadius="md"
-      cursor="pointer"
+      cursor={isAnswered ? 'not-allowed' : 'pointer'}
       transition="all 0.2s ease-in-out"
       border="2px solid"
       borderColor={isAnswered ? (isRightAnswer ? 'green.500' : 'red.500') : 'gray.300'}
-      backgroundColor={isAnswered ? (isRightAnswer ? 'green.100' : 'red.100') : 'white'}
-      _hover={{
-        borderColor: 'teal.500'
-      }}
+      _hover={{ borderColor: isAnswered ? ' ' : 'teal.500' }}
     >
       {isSelected ? (
-        <IconBox rightIcon={<FaCheckCircle />}>{answer}</IconBox>
+        <Flex
+          justify="space-between"
+          fontSize="2xl"
+          color={isCorrectAnswer ? 'green.500' : 'red.500'}
+        >
+          <Text>{answer}</Text>
+          {isCorrectAnswer ? <FaCheck /> : <FaTimes />}
+        </Flex>
       ) : (
-        <Text>{answer} </Text>
+        <Text>{answer}</Text>
       )}
     </Box>
   );

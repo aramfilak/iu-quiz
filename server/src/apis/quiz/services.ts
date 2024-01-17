@@ -196,7 +196,7 @@ async function findQuizById(req: Request, res: Response) {
     throw new BadRequestError('Quiz nicht gefunden');
   }
 
-  quiz.scores.sort((a, b) => a.score - b.score);
+  quiz.scores.sort((a, b) => b.score - a.score);
 
   res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, '', quiz));
 }
@@ -386,17 +386,17 @@ async function toggleFollowQuiz(req: Request, res: Response) {
 /**
  * ________________________________________________________________
  * @route api/v1/quiz/score/:quizId
- * @method POST
+ * @method PATCH
  * @access protected
  * ________________________________________________________________
  */
 async function updateQuizScores(req: Request, res: Response) {
   const studentId = req.auth?.studentId;
   const quizId = req.params.quizId;
-  const { numberOfCorrectAnswers, timeTaken } = req.body;
+  const { correctAnswers, takenTime, totalQuestions } = req.body;
 
-  validate.isEmpty('Number Of Correct Answers', numberOfCorrectAnswers);
-  validate.isEmpty('Time taken', timeTaken);
+  validate.isEmpty('Number Of Correct Answers', correctAnswers);
+  validate.isEmpty('Time taken', takenTime);
 
   const student = await db.student.findUnique({ where: { id: studentId } });
 
@@ -418,7 +418,7 @@ async function updateQuizScores(req: Request, res: Response) {
   }
 
   const scores = existingQuiz.scores;
-  const newScore = calculateScore(numberOfCorrectAnswers, timeTaken);
+  const newScore = calculateScore(correctAnswers, totalQuestions, takenTime);
 
   if (scores.length > 10) {
     const worstScore = getMinScore(scores);
@@ -428,28 +428,20 @@ async function updateQuizScores(req: Request, res: Response) {
     } else if (newScore >= worstScore.score && studentId === worstScore.playerId) {
       await db.quizScore.update({
         where: { id: worstScore.id },
-        data: { timeTaken, numberOfCorrectAnswers }
+        data: { takenTime, correctAnswers }
       });
     }
   } else {
-    const playerHasScore = scores.find((score) => score.playerId === studentId);
-
-    if (playerHasScore) {
-      await db.quizScore.update({
-        where: { id: playerHasScore.id },
-        data: { timeTaken, numberOfCorrectAnswers, score: newScore }
-      });
-    } else {
-      await db.quizScore.create({
-        data: {
-          quizId: existingQuiz.id,
-          playerId: studentId,
-          score: newScore,
-          timeTaken,
-          numberOfCorrectAnswers
-        }
-      });
-    }
+    await db.quizScore.create({
+      data: {
+        quizId: existingQuiz.id,
+        playerId: studentId,
+        score: newScore,
+        takenTime,
+        correctAnswers,
+        totalQuestions
+      }
+    });
   }
 
   res.status(StatusCodes.OK).json(createApiResponse(StatusCodes.OK, ''));

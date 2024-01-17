@@ -26,7 +26,7 @@ function ScoreTable({ scores }: { scores: QuizScore[] }) {
       <Box w="full">
         <TableContainer mt="1rem" mb="1rem">
           <Heading as="h3" fontSize="md" mb={4}>
-            Punktetabelle:
+            Top 10 Scores Table
           </Heading>
           <Table width={'full'} variant="striped">
             <Thead>
@@ -105,10 +105,12 @@ function ScoreTable({ scores }: { scores: QuizScore[] }) {
                       </Button>
                     </Td>
                     {/*____________________ Number of Correct Answers  ________________*/}
-                    <Td textAlign="center">{score.numberOfCorrectAnswers}</Td>
+                    <Td textAlign="center">
+                      {`${score.correctAnswers} von ${score.totalQuestions}`}
+                    </Td>
 
                     {/*____________________ Taken Time   ________________*/}
-                    <Td textAlign="center">{convertSecondsToMin(score.timeTaken)}</Td>
+                    <Td textAlign="center">{convertSecondsToMin(score.takenTime)}</Td>
                     {/*____________________ Score  ________________*/}
                     <Td textAlign="right" isNumeric>
                       {score.score}

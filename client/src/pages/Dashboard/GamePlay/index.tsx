@@ -8,10 +8,12 @@ import { useEffect } from 'react';
 function GamePlay() {
   const activeQuiz = useQuizStore((state) => state.activeQuiz);
   const setCurrentQuestion = useGamePlayStore((state) => state.setCurrentQuestion);
+  const startTimeout = useGamePlayStore((state) => state.startTimeout);
 
   useEffect(() => {
     if (activeQuiz) {
       setCurrentQuestion(activeQuiz.quizQuestions[0]);
+      startTimeout();
     }
   }, []);
 

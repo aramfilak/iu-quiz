@@ -29,12 +29,39 @@ interface UseQuizStore {
   createFeedback: (quizId: number, feedback: string) => Promise<void>;
   updateFeedback: (quizId: number, feedbackId: number, feedback: string) => Promise<void>;
   deleteFeedback: (quizId: number, feedbackId: number) => Promise<void>;
+  updateQuizScores: (
+    quizId: number,
+    takenTime: number,
+    correctAnswers: number,
+    totalQuestions: number
+  ) => Promise<void>;
 }
 
 const useQuizStore = create<UseQuizStore>((set) => ({
   activeQuiz: null,
 
   quizFormActionType: null,
+
+  updateQuizScores: async (
+    quizId: number,
+    takenTime: number,
+    correctAnswers: number,
+    totalQuestions: number
+  ) => {
+    const response = await axiosQuizApi.patch(
+      `/score/${quizId}`,
+      {
+        takenTime,
+        correctAnswers,
+        totalQuestions
+      },
+      {
+        headers: { Authorization: usePersistStore.getState().accessToken }
+      }
+    );
+
+    return response.data.data;
+  },
 
   setActiveQuiz: (quiz: Quiz | null) => set({ activeQuiz: quiz }),
 
