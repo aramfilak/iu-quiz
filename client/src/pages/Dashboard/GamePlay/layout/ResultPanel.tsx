@@ -50,7 +50,6 @@ function ResultPanel() {
           size="100px"
         >
           <CircularProgressLabel fontSize="xl">
-            {' '}
             {accuracy.toFixed(2)}%
           </CircularProgressLabel>
         </CircularProgress>
