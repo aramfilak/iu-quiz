@@ -117,6 +117,8 @@ function FindQuiz() {
     }));
   };
 
+  console.log(totalPages);
+
   return (
     <>
       <PageHeader

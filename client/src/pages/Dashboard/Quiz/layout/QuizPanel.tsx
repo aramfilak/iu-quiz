@@ -74,7 +74,7 @@ function QuizPanel({ onChange, ...rest }: QuizPanelProps) {
                 </Td>
               </Tr>
               <Tr>
-                <Td fontWeight="bold">Title</Td>
+                <Td fontWeight="bold">Titel</Td>
                 <Td>{activeQuiz.title}</Td>
               </Tr>
               <Tr>

@@ -158,7 +158,7 @@ function Feedback({ feedback, onChange, setIsLoading, isLoading }: FeedbackProps
             Bearbeiten
           </Button>
           <Button variant="link" size="sm" colorScheme="red" onClick={onOpen}>
-            Löscchen
+            Löschen
           </Button>
         </HStack>
       )}

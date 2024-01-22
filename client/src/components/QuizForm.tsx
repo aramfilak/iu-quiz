@@ -142,7 +142,7 @@ function QuizForm({ isOpen, onClose, onFinal }: QuizFormProps) {
                   borderTopLeftRadius="0"
                   borderBottomLeftRadius="0"
                   borderColor="teal.500"
-                  placeholder="Quiz Title"
+                  placeholder="Quiz Titel"
                   variant="filled"
                 />
               </FormControl>
