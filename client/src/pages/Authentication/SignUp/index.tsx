@@ -9,7 +9,7 @@ function SignUp() {
         fontSize={{ base: '5xl', lg: '6xl' }}
         variant="colorful"
         textAlign={{ base: 'center', lg: 'start' }}
-        description="Willkommen! Wir werden uns freuen, Sie dabei zu haben!"
+        description="Willkommen! Wir werden uns freuen, dich dabei zu haben!"
         mb="10rem"
       />
       <Flex

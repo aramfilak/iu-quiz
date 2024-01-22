@@ -31,7 +31,7 @@ function QuizPanel({ onChange, ...rest }: QuizPanelProps) {
   const studentProfile = useStudentStore((state) => state.studentProfile);
   const [isLoading, setIsLoading] = useState(false);
   const isLiked =
-    activeQuiz &&
+    activeQuiz?.likedBy &&
     activeQuiz.likedBy.find((player) => player.playerId === studentProfile?.studentId);
 
   if (!activeQuiz) return null;

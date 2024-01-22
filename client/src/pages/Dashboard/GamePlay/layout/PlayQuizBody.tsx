@@ -68,7 +68,7 @@ function PlayQuizBody() {
             }
           >
             <AlertIcon />
-            {`Bschreibung: ${currentQuestion.quizAnswers[checkedAnswerIndex].answerDescription}`}
+            {`Beschreibung: ${currentQuestion.quizAnswers[checkedAnswerIndex].answerDescription}`}
           </Alert>
         )}
 

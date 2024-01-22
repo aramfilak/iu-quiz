@@ -9,9 +9,10 @@ const SignIn = () => {
         fontSize={{ base: '5xl', lg: '6xl' }}
         variant="colorful"
         textAlign={{ base: 'center', lg: 'start' }}
-        description="Schön, Sie wiederzusehen! Wir freuen uns, dass Sie zurück sind."
+        description="Schön, dich wiederzusehen! Wir freuen uns, dass du zurück bist."
         mb="10rem"
       />
+
       <Flex
         justify={{ base: 'center', lg: 'space-between' }}
         alignItems="center"

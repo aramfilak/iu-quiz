@@ -54,6 +54,22 @@ function SignInForm(rest: React.HTMLProps<HTMLFormElement>) {
     setIsSubmitting(false);
   };
 
+  const signInDemo = async () => {
+    setIsSubmitting(true);
+    setAlert({ status: 'loading', message: 'Es lädt...' });
+
+    const { success, message } = await signIn('tester@iu-study.org', 'test1234');
+
+    if (success) {
+      toast({ status: 'success', description: message });
+      navigate(routes.Dashboard.children.FindQuiz.path);
+    } else {
+      setAlert({ status: 'error', message: message });
+    }
+
+    setIsSubmitting(false);
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -123,6 +139,19 @@ function SignInForm(rest: React.HTMLProps<HTMLFormElement>) {
         width="full"
       >
         Anmelden
+      </Button>
+
+      {/*------------------- Demo Account -----------------*/}
+      <Button
+        disabled={isSubmitting}
+        type="button"
+        mt="6"
+        mb="2"
+        width="full"
+        variant="outline"
+        onClick={signInDemo}
+      >
+        Demo
       </Button>
 
       <Text>

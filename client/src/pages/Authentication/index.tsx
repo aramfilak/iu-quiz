@@ -1,4 +1,4 @@
-import { Box, Container } from '@chakra-ui/react';
+import { Box, Container, Image } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import authBg from '../../assets/auth-page-bg.svg';
@@ -19,14 +19,25 @@ function Authentication() {
   }, []);
 
   return (
-    <Box backgroundImage={authBg} backgroundSize="cover" backgroundRepeat="no-repeat">
+    <Box>
+      <Image
+        src={authBg}
+        alt="Authentication background image"
+        pos="absolute"
+        minW="full"
+        minH="full"
+        className="auth-bg"
+        objectFit="cover"
+        zIndex="-1"
+      />
+
       <Container
         maxW="container.lg"
+        paddingBlock="2rem"
         minH="100vh"
         display="flex"
         flexDir="column"
         justifyContent="center"
-        pt="20"
       >
         <Outlet />
       </Container>

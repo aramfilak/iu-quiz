@@ -109,11 +109,13 @@ function QuestionsEditor() {
                       cursor="pointer"
                     >
                       {quiz?.quizQuestions &&
-                        quiz?.quizQuestions.map((question, index) => (
-                          <option value={index} key={question.id}>{`[${index + 1}] ${
-                            question.question
-                          }`}</option>
-                        ))}
+                        quiz?.quizQuestions
+                          .sort((a, b) => a.id - b.id)
+                          .map((question, index) => (
+                            <option value={index} key={question.id}>{`${index + 1} ⚡️ ${
+                              question.question
+                            }`}</option>
+                          ))}
                     </Select>
                   </InputGroup>
                 </BoxWrapper>
