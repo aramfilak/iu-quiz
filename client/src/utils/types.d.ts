@@ -131,6 +131,7 @@ export interface QuizQueryParams {
   authorId?: string;
   followed?: boolean;
   unFollowed?: boolean;
+  all?: boolean;
 }
 export interface QuestionData extends Partial<QuizQuestion> {
   quizAnswers: Partial<QuizAnswer>[];

@@ -28,7 +28,8 @@ async function findAllQuizzes(req: Request, res: Response) {
     sort,
     authorId,
     followed,
-    unFollowed
+    unFollowed,
+    all
   } = req.query;
 
   const student = await db.student.findUnique({ where: { id: studentId } });
@@ -102,9 +103,17 @@ async function findAllQuizzes(req: Request, res: Response) {
   });
 
   const MAX_ITEMS_PER_PAGE = 20;
-  const totalPages = Math.ceil(totalQuizzesCount / (Number(limit) || MAX_ITEMS_PER_PAGE));
-  const skip = (Number(page) - 1 || 0) * (Number(limit) || MAX_ITEMS_PER_PAGE);
-  const take = Number(limit) || MAX_ITEMS_PER_PAGE;
+  let totalPages, skip, take;
+
+  if (all === 'false') {
+    totalPages = Math.ceil(totalQuizzesCount / (Number(limit) || MAX_ITEMS_PER_PAGE));
+    skip = (Number(page) - 1 || 0) * (Number(limit) || MAX_ITEMS_PER_PAGE);
+    take = Number(limit) || MAX_ITEMS_PER_PAGE;
+  } else {
+    totalPages = 0;
+    skip = 0;
+    take = undefined;
+  }
 
   const quizzes = await db.quiz.findMany({
     where: where,

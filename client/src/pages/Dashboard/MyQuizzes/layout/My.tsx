@@ -20,7 +20,7 @@ function My() {
   const { onClose, onOpen, isOpen } = useDisclosure();
   const toast = useToast();
   const { isLoading, data, refetchData } = useFetch(() =>
-    getAllQuizzes({ authorId: studentProfile?.studentId })
+    getAllQuizzes({ authorId: studentProfile?.studentId, all: true })
   );
   const studentQuizzes = data?.quizzes;
 

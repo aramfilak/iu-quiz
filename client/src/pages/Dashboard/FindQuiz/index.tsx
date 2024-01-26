@@ -37,7 +37,11 @@ function FindQuiz() {
   const getAllQuizzes = useQuizStore((state) => state.getAllQuizzes);
   const toggleFollowQuiz = useQuizStore((state) => state.toggleFollowQuiz);
   const toast = useToast();
-  const [params, setParams] = useState<QuizQueryParams>({ page: '1', unFollowed: true });
+  const [params, setParams] = useState<QuizQueryParams>({
+    page: '1',
+    unFollowed: true,
+    all: false
+  });
   const { isLoading, data, refetchData } = useFetch(() => getAllQuizzes(params));
   const unFollowedQuizzes = data?.quizzes;
   const totalPages = data?.totalPages;
@@ -293,7 +297,7 @@ function FindQuiz() {
         />
       )}
 
-      {totalPages && totalPages > 0 && (
+      {totalPages != undefined && totalPages > 0 && (
         <Pagination
           mt="20"
           handlePreviousPage={handlePreviousPage}

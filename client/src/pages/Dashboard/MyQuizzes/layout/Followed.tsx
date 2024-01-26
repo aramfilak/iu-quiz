@@ -18,7 +18,7 @@ function Followed() {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const { isLoading, data, refetchData } = useFetch(() =>
-    getAllQuizzes({ followed: true })
+    getAllQuizzes({ followed: true, all: true })
   );
   const followedQuizzes = data?.quizzes;
 
