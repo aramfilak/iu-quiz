@@ -1,62 +1,266 @@
 [
   {
     "category": "Konto",
-    "question": "Wie kann ich mich abmelden?",
-    "answer": "Um sich abzumelden, klicken Sie auf Ihr Profilbild und wählen Sie die Option 'Abmelden'.",
+    "question": "Was mache ich bei Problemen mit der Anmeldung?",
+    "answer": "Kontaktieren Sie unseren Support unter iu.quiz.app@gmail.com. Teilen Sie Ihre Anmeldeinformationen niemals mit anderen.",
     "isOpen": false
   },
   {
     "category": "Konto",
-    "question": "Wie kann ich meine Profildaten ändern?",
-    "answer": "Navigieren sie zu den Einstellungen, um ihre Daten zu ändern.",
+    "question": "Welche Bedeutung hat die Sicherheit meines Kontos?",
+    "answer": "Die Sicherheit ist entscheidend. Bitte teilen Sie Ihre Anmeldeinformationen niemals mit anderen. Bei Problemen kontaktieren Sie unseren Support: iu.quiz.app@gmail.com.",
     "isOpen": false
   },
   {
-    "category": "Konto",
-    "question": "Wie kann ich den Dunkelmodus aktivieren?",
-    "answer": "Um das Theme zu wechseln, klicken Sie auf Ihr Profilbild und wählen Sie die Option 'Dunkelmodus'.",
+    "category": "Plattformnutzung",
+    "question": "Wie navigiere ich auf der Webseite?",
+    "answer": "Nutzen Sie die Menüleiste auf der linken Seite der Webseite. Wichtige Navigationspunkte wie \"Quiz Finden\", \"Meine Quiz\", \"Einstellungen\" und \"FAQs\" sind dort aufgeführt. Sie können die Menüleiste mit dem Button auf der rechten Seite schließen oder öffnen.",
     "isOpen": false
   },
   {
-    "category": "Quiz",
-    "question": "Wie viele Fragen kann ich pro Quiz erstellen?",
-    "answer": "Sie können maximal 20 Fragen pro Quiz erstellen.",
+    "category": "Plattformnutzung",
+    "question": "Wie wechsle ich zwischen dem Dunkel- und Hellmodus?",
+    "answer": "Klicken Sie auf Ihr Profilbild, Ihren Nicknamen oder Ihre E-Mail-Adresse in der rechten oberen Ecke. Dort können Sie im Dropdown-Menü den Dunkel- oder Hellmodus aktivieren. Der Dunkelmodus reduziert die Augenbelastung.",
     "isOpen": false
   },
   {
-    "category": "Quiz",
-    "question": "Kann ich eine Frage nachträglich ändern?",
-    "answer": "Ja, Sie können Fragen nachträglich ändern. Gehe einfach zum Bearbeiten-Bereich des Quiz und aktualisiere die gewünschte Frage.",
+    "category": "Plattformnutzung",
+    "question": "Wie melde ich mich von meinem Konto ab?",
+    "answer": "Klicken Sie ebenfalls auf Ihr Profilbild, Ihren Nicknamen oder Ihre E-Mail-Adresse. Im Dropdown-Menü finden Sie die Option \"Abmelden\". Klicken Sie darauf, um sich sicher von Ihrem Konto abzumelden.",
     "isOpen": false
   },
   {
-    "category": "Quiz",
-    "question": "Kann ich Begründungen für falsche Antworten hinzufügen?",
-    "answer": "Ja, Sie können Begründungen für falsche Antworten hinzufügen. Wenn ein Spieler eine falsche Antwort wählt, wird die Begründung angezeigt, um das Feedback zu erklären.",
+    "category": "Plattformnutzung",
+    "question": "Was bietet die Fußzeile der Webseite?",
+    "answer": "Scrollen Sie nach unten, um die Fußzeile zu erreichen. Dort finden Sie Links zu wichtigen Seiten wie dem GitHub-Repository für Entwicklungen und Updates. Der \"Support\"-Button öffnet ein Formular für Fragen, Anliegen oder Probleme, um direkten Kontakt mit dem Kundensupport aufzunehmen.",
     "isOpen": false
   },
   {
-    "category": "Quiz",
+    "category": "Plattformnutzung",
+    "question": "Wie gelange ich zum GitHub-Repository?",
+    "answer": "In der Fußzeile finden Sie einen Button mit der Aufschrift \"GitHub\". Klicken Sie darauf, um zum GitHub-Repository zu gelangen und weitere Informationen zu erhalten.",
+    "isOpen": false
+  },
+  {
+    "category": "Plattformnutzung",
+    "question": "Wie kontaktiere ich den Kundensupport?",
+    "answer": "Neben dem GitHub-Button in der Fußzeile befindet sich ein \"Support\"-Button. Klicken Sie darauf, um ein Support-Formular direkt auf der Seite zu öffnen. Beschreiben Sie Ihre Fragen oder Probleme, füllen Sie das Formular aus und senden Sie es ab, um direkten Kontakt mit dem Kundensupport aufzunehmen.",
+    "isOpen": false
+  },
+  {
+    "category": "Quiz Finden",
+    "question": "Wie suche ich gezielt nach einem bestimmten Quiz?",
+    "answer": "Verwenden Sie die Suchleiste ganz oben auf der Seite und geben Sie den gewünschten Quiz-Titel ein, um die Suche zu verfeinern.",
+    "isOpen": false
+  },
+  {
+    "category": "Quiz Finden",
+    "question": "Welche Filteroptionen stehen zur Verfügung?",
+    "answer": "Unterhalb der Suchleiste können Sie Filter wie Likes, Anzahl der Fragen und Letztes Update einstellen. Diese können auf- oder absteigend sortiert werden.",
+    "isOpen": false
+  },
+  {
+    "category": "Quiz Finden",
+    "question": "Wie filtere ich nach Studiengang und Modul?",
+    "answer": "Rechts von den Filteroptionen können Sie nach Studiengang und Modul filtern. Wählen Sie die gewünschten Optionen aus und klicken Sie auf \"Anwenden\".",
+    "isOpen": false
+  },
+  {
+    "category": "Quiz Finden",
+    "question": "Wie wende ich die Filter an?",
+    "answer": "Klicken Sie auf die Schaltfläche \"Anwenden\", um die Suchergebnisse entsprechend Ihrer Einstellungen anzuzeigen. Um die Filter zurückzusetzen, klicken Sie auf \"zurücksetzen\".",
+    "isOpen": false
+  },
+  {
+    "category": "Quiz Finden",
+    "question": "Wie erkenne ich die Komplexität eines Quizinhalts?",
+    "answer": "In der linken oberen Ecke der Quizkarte wird die Anzahl der Fragen angezeigt, was einen schnellen Überblick über die Komplexität oder Umfang des Quizinhalts gibt.",
+    "isOpen": false
+  },
+  {
+    "category": "Quiz Finden",
+    "question": "Wie finde ich heraus, wie oft ein Quiz positiv bewertet wurde?",
+    "answer": "In der linken unteren Ecke der Quizkarte wird die Anzahl der Likes für dieses Quiz angezeigt. Dies gibt an, wie oft das Quiz von anderen Nutzern positiv bewertet wurde.",
+    "isOpen": false
+  },
+  {
+    "category": "Quiz Finden",
+    "question": "Wie erkenne ich die Aktualität eines Quizinhalts?",
+    "answer": "In der rechten unteren Ecke der Quizkarte wird das Datum des letzten Updates für dieses Quiz angezeigt. Dies ermöglicht es den Nutzern, zu erkennen, wie aktuell und möglicherweise relevant der Quizinhalt ist.",
+    "isOpen": false
+  },
+  {
+    "category": "Quiz Finden",
+    "question": "Was bedeutet der \"Folgen\"-Button auf der Quizkarte?",
+    "answer": "In der rechten oberen Ecke der Quizkarte befindet sich ein Button, der es Nutzern ermöglicht, das Quiz zu \"folgen\". Durch Klicken auf diesen Button wird das Quiz in der Sektion \"Gefolgt\" unter dem Reiter \"Meine Quiz\" gespeichert, um leichter darauf zugreifen zu können.",
+    "isOpen": false
+  },
+  {
+    "category": "Meine Quiz",
+    "question": "Wie erstelle ich ein neues Quiz?",
+    "answer": "Klicken Sie auf die Schaltfläche \"Neues Quiz\", geben Sie einen aussagekräftigen Titel, wählen Sie Studiengang und Modul aus, und klicken Sie dann auf \"Erstellen\".",
+    "isOpen": false
+  },
+  {
+    "category": "Meine Quiz",
+    "question": "Wie bearbeite ich ein erstelltes Quiz?",
+    "answer": "Unter \"Meine\" finden Sie Ihr erstelltes Quiz. Klicken Sie auf \"Optionen\" und wählen Sie \"Daten aktualisieren\" für grundlegende Änderungen oder \"Fragen bearbeiten\" für detailliertere Anpassungen.",
+    "isOpen": false
+  },
+  {
+    "category": "Meine Quiz",
+    "question": "Wie aktualisiere ich die Quizdaten?",
+    "answer": "Wählen Sie unter \"Optionen\" die Funktion \"Daten aktualisieren\". Im Dialogfenster können Sie den Quiz-Titel, Studiengang und Modul ändern und auf \"Aktualisieren\" klicken.",
+    "isOpen": false
+  },
+  {
+    "category": "Meine Quiz",
+    "question": "Wie lösche ich ein Quiz?",
+    "answer": "Unter \"Optionen\" wählen Sie \"Löschen\". Bestätigen Sie im Dialogfenster den Löschvorgang. Achten Sie darauf, dass dieser Schritt nicht rückgängig gemacht werden kann.",
+    "isOpen": false
+  },
+  {
+    "category": "Meine Quiz",
+    "question": "Wie füge ich Fragen hinzu oder bearbeite sie?",
+    "answer": "Wählen Sie unter \"Optionen\" die Funktion \"Fragen bearbeiten\". Hier können Sie neue Fragen erstellen oder bestehende Fragen aktualisieren.",
+    "isOpen": false
+  },
+  {
+    "category": "Meine Quiz",
+    "question": "Gibt es eine Begrenzung für die Anzahl der Fragen, die ich meinem Quiz hinzufügen kann?",
+    "answer": "Es gibt keine festgelegte Obergrenze, aber stellen Sie sicher, dass Ihr Quiz eine angemessene Anzahl von Fragen hat, um die Benutzerfreundlichkeit zu gewährleisten.",
+    "isOpen": false
+  },
+  {
+    "category": "Meine Quiz",
+    "question": "Was passiert, wenn ich aus Versehen mein Quiz lösche?",
+    "answer": "Das Löschen eines Quiz ist endgültig und kann nicht rückgängig gemacht werden. Seien Sie daher vorsichtig und überprüfen Sie Ihre Auswahl sorgfältig.",
+    "isOpen": false
+  },
+  {
+    "category": "Meine Quiz",
+    "question": "Wie entfolge ich einem Quiz?",
+    "answer": "Unter dem Reiter \"Gefolgt\" suchen Sie das gewünschte Quiz und klicken Sie auf \"Entfolgen\".",
+    "isOpen": false
+  },
+  {
+    "category": "Meine Quiz",
+    "question": "Warum sollte ich ein Quiz entfolgen?",
+    "answer": "Das Entfolgen eines Quiz ist nützlich, wenn das Quiz für Sie nicht mehr relevant ist oder Sie Ihre gefolgten Quiz verwalten möchten.",
+    "isOpen": false
+  },
+  {
+    "category": "Meine Quiz",
+    "question": "Kann ich ein Quiz wieder folgen, nachdem ich es entfolgt habe?",
+    "answer": "Ja, Sie können ein Quiz erneut folgen.",
+    "isOpen": false
+  },
+  {
+    "category": "Meine Quiz",
+    "question": "Wie öffne ich ein Quiz?",
+    "answer": "Unter \"Meine\" oder \"Gefolgt\" suchen Sie das gewünschte Quiz und klicken Sie auf \"Öffnen\". Hier erhalten Sie umfassende Informationen zum Quiz.",
+    "isOpen": false
+  },
+  {
+    "category": "Meine Quiz",
+    "question": "Welche Informationen werden auf der Seite angezeigt, wenn ich ein Quiz öffne?",
+    "answer": "Nach dem Öffnen eines Quiz werden Informationen wie der Quiz-Titel, Studiengang, Modul und weitere relevante Details präsentiert.",
+    "isOpen": false
+  },
+  {
+    "category": "Meine Quiz",
+    "question": "Kann ich die Bewertungen und Kommentare anderer Nutzer zu einem Quiz sehen?",
+    "answer": "Ja, auf der Seite des geöffneten Quiz befindet sich eine Feedback-Sektion, in der Sie Bewertungen und Kommentare einsehen können.",
+    "isOpen": false
+  },
+  {
+    "category": "Meine Quiz",
+    "question": "Warum sollte ich ein Quiz öffnen, das ich erstellt habe?",
+    "answer": "Das Öffnen eines eigenen Quiz ermöglicht es Ihnen, Feedback von anderen Nutzern zu erhalten, die Bewertungen zu sehen und Ihre Quizleistung zu überprüfen.",
+    "isOpen": false
+  },
+  {
+    "category": "Meine Quiz",
+    "question": "Welche Optionen stehen mir auf der Seite des geöffneten Quiz zur Verfügung?",
+    "answer": "Auf der Seite des geöffneten Quiz können Sie Feedback hinterlassen, das Quiz \"liken\", es spielen und die Top 10 Scores einsehen.",
+    "isOpen": false
+  },
+  {
+    "category": "Meine Quiz",
+    "question": "Wie starte ich ein Quiz?",
+    "answer": "Klicken Sie auf \"Spielen\". Der Spielmodus zeigt Ihnen die aktuellen Spielinformationen, Fragen, Antworten und gibt sofortiges Feedback zu Ihren Antworten.",
+    "isOpen": false
+  },
+  {
+    "category": "Meine Quiz",
+    "question": "Wie beende ich ein laufendes Quiz?",
+    "answer": "Klicken Sie während des Spiels auf \"Beenden\". Bestätigen Sie im Dialogfenster mit \"Beenden\", wenn Sie das Quiz vorzeitig beenden möchten. Achten Sie darauf, dass unbeendete Spiele nicht gespeichert werden.",
+    "isOpen": false
+  },
+  {
+    "category": "Meine Quiz",
+    "question": "Kann ich ein begonnenes Quiz später fortsetzen?",
+    "answer": "Nein, das Spiel muss in einer Sitzung abgeschlossen werden. Unbeendete Spiele werden nicht gespeichert.",
+    "isOpen": false
+  },
+  {
+    "category": "Meine Quiz",
     "question": "Wie viele Antwortmöglichkeiten kann ich pro Frage haben?",
     "answer": "Sie können zwischen 2 und 4 Antwortmöglichkeiten pro Frage haben.",
     "isOpen": false
   },
   {
-    "category": "Quiz",
-    "question": "Kann ich den Quiz-Erstellungsprozess teilen?",
-    "answer": "Nein, der Quiz-Erstellungsprozess ist nur für den Ersteller zugänglich. Die Quizinhalte können jedoch geteilt werden, damit andere sie spielen können.",
+    "category": "Meine Quiz",
+    "question": "Wie funktioniert die \"Top 10 Scores\"-Tabelle?",
+    "answer": "Unterhalb des Quiz finden Sie die besten Spielergebnisse. Hier können Sie sehen, wie gut Sie im Vergleich zu anderen Teilnehmern abgeschnitten haben.",
     "isOpen": false
   },
   {
-    "category": "Quiz",
-    "question": "Wie erfahre ich das Ergebnis meines Quiz?",
-    "answer": "Am Ende des Quiz wird das Ergebnis automatisch angezeigt. Du siehst, wie viele Fragen du richtig beantwortet hast und erhältst möglicherweise zusätzliche Informationen zu deiner Leistung.",
+    "category": "Meine Quiz",
+    "question": "Kann ich meinen Spielstand während des Quizspiels sehen?",
+    "answer": "Ja, während des Spiels werden die aktuelle Dauer und die Genauigkeit Ihrer Antworten angezeigt.",
     "isOpen": false
   },
   {
-    "category": "Quiz",
-    "question": "Kann ich die richtige Antwort für jede Frage festlegen?",
-    "answer": "Ja, Sie müssen für jede Frage eine richtige Antwort festlegen. Die Spieler erhalten Punkte nur für die Auswahl der richtigen Antwort.",
+    "category": "Meine Quiz",
+    "question": "Wie kann ich die Reihenfolge meiner Fragen ändern?",
+    "answer": "Derzeit gibt es keine Funktion zur direkten Änderung der Reihenfolge. Sie können jedoch Fragen löschen und neu anordnen, um die gewünschte Reihenfolge zu erreichen.",
+    "isOpen": false
+  },
+  {
+    "category": "Einstellungen",
+    "question": "Wie füge ich ein Profilbild hinzu?",
+    "answer": "Klicken Sie auf \"Hinzufügen\", wählen Sie Ihr gewünschtes Bild im Dateiexplorer aus und bestätigen Sie die Auswahl. Nach dem erfolgreichen Hochladen wird Ihr Profilbild angezeigt.",
+    "isOpen": false
+  },
+  {
+    "category": "Einstellungen",
+    "question": "Wie aktualisiere oder lösche ich mein Profilbild?",
+    "answer": "Sie können Ihr Profilbild aktualisieren, indem Sie auf \"Aktualisieren\" klicken. Zum Löschen klicken Sie auf \"Löschen\".",
+    "isOpen": false
+  },
+  {
+    "category": "Einstellungen",
+    "question": "Wie bearbeite ich allgemeine Informationen?",
+    "answer": "Unter \"Allgemein\" können Sie Name, Wohnort und eingeschriebenen Studiengang bearbeiten. Beachten Sie, dass nur der Name ein verpflichtendes Feld ist.",
+    "isOpen": false
+  },
+  {
+    "category": "Einstellungen",
+    "question": "Wie füge ich Links zu sozialen Netzwerken hinzu?",
+    "answer": "Unter \"Verbindungslinks\" können Sie Links zu LinkedIn und Xing hinzufügen oder entfernen. Die Angabe ist jedoch nicht zwingend erforderlich.",
+    "isOpen": false
+  },
+  {
+    "category": "Einstellungen",
+    "question": "Wie speichere ich meine Einstellungen?",
+    "answer": "Klicken Sie auf \"Speichern\", um Ihre eingegebenen Daten zu sichern. Für eine Profilvorschau klicken Sie auf \"Preview Profile\".",
+    "isOpen": false
+  },
+  {
+    "category": "Einstellungen",
+    "question": "Wie lösche ich mein Konto?",
+    "answer": "Klicken Sie auf \"Konto Löschen\", geben Sie \"Mein Konto löschen\" ein und bestätigen Sie mit \"Löschen\". Die Löschung kann durch \"Abbrechen\" abgebrochen werden.",
     "isOpen": false
   }
 ]
